@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Top</string>
+    <string name="log_sample1">2021 09/13 23:22:12 A301向後荷物受取　事務当A302福永</string>
+    <string name="log_sample2">2021 09/13 23:22:17 A302緒方荷物受取　事務当A302福永</string>
+    <string name="log_sample3">2021 09/13 23:24:10 A303稲葉荷物登録　事務当A302福永</string>
+    <string name="log_sample4">2021 09/13 23:26:53 A301向後荷物受取　事務当A302福永</string>
+    <string name="log_sample5">2021 09/13 23:29:50 A301向後荷物登録　事務当A302福永</string>
+    <string name="log_sample6">2021 09/13 23:32:16 A303木戸荷物受取　事務当A310原口</string>
+    <string name="log_sample7">2021 09/13 23:55:23 A310橋本荷物登録　事務当A310原口</string>
+
+
+    <string name="dialog_title">荷物登録確認</string>
+    <string name="dialog_msg">この寮生に荷物を登録しますか？</string>
+    <string name="dialog_btn_ok">登録</string>
+    <string name="dialog_btn_ng">キャンセル</string>
+    <string name="dialog_ok_toast">登録しました</string>
+    <string name="dialog_ng_toast">キャンセルしました</string>
+    <string name="title_activity_tabbed_touroku">Tabbed_Touroku</string>
+    <string name="tab_block_1">A1</string>
+    <string name="tab_block_2">A2</string>
+    <string name="tab_block_3">A3</string>
+    <string name="tab_block_4">A4</string>
+    <string name="tab_block_5">B12</string>
+    <string name="tab_block_6">B3</string>
+    <string name="tab_block_7">B4</string>
+    <string name="tab_block_8">C12</string>
+    <string name="tab_block_9">C34</string>
+    <string name="tab_block_10">臨キャ</string>
+
+    <string name="title">タイトル</string>
+    <string name="contents">内容</string>
+    <string name="reg">登録</string>
+    <string name="del">削除</string>
+    <string name="cancel">キャンセル</string>
+
+</resources>

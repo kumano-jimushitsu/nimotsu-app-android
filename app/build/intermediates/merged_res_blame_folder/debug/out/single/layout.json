@@ -1,0 +1,38 @@
+[
+    {
+        "merged": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/buttoned_touroku_layout.xml",
+        "source": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/src/main/res/layout/buttoned_touroku_layout.xml"
+    },
+    {
+        "merged": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_touroku_kari.xml",
+        "source": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/src/main/res/layout/activity_touroku_kari.xml"
+    },
+    {
+        "merged": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_main.xml",
+        "source": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/src/main/res/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_nimotsu_show.xml",
+        "source": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/src/main/res/layout/activity_nimotsu_show.xml"
+    },
+    {
+        "merged": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_text.xml",
+        "source": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/src/main/res/layout/activity_text.xml"
+    },
+    {
+        "merged": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/row_main.xml",
+        "source": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/src/main/res/layout/row_main.xml"
+    },
+    {
+        "merged": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_tabbed__touroku.xml",
+        "source": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/src/main/res/layout/fragment_tabbed__touroku.xml"
+    },
+    {
+        "merged": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/buttoned_uketori_layout.xml",
+        "source": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/src/main/res/layout/buttoned_uketori_layout.xml"
+    },
+    {
+        "merged": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/jimuto_change_layout.xml",
+        "source": "/Users/t_kogo/AndroidStudioProjects/Kumano_nimotsu_android/app/src/main/res/layout/jimuto_change_layout.xml"
+    }
+]

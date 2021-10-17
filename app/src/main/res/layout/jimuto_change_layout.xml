@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="110dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/change_a1_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="A1" />
+
+        <Button
+            android:id="@+id/change_a2_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="A2" />
+
+        <Button
+            android:id="@+id/change_a3_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="A3" />
+
+        <Button
+            android:id="@+id/change_a4_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="A4" />
+
+        <Button
+            android:id="@+id/change_b12_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="B12" />
+
+
+    </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/jimutou_ryousei_list_show"
+        android:layout_width="750dp"
+        android:layout_height="660dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="56dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+
+    </ListView>
+
+    <Button
+        android:id="@+id/jimuto_go_back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="341dp"
+        android:layout_marginTop="136dp"
+        android:text="戻る"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jimutou_ryousei_list_show" />
+
+    <TextView
+        android:id="@+id/jimutou_name_show"
+        android:layout_width="259dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="41dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jimutou_ryousei_list_show" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="231dp"
+        android:layout_marginTop="65dp"
+        android:text="事務当番を交代します。"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
