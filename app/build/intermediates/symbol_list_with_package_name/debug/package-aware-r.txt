@@ -1944,6 +1944,7 @@ id btn_cancel
 id btn_reg
 id buttonPanel
 id button_delete
+id button_select
 id cache_measures
 id cancel_button
 id carryVelocity
@@ -2293,6 +2294,7 @@ id textView11
 id textView2
 id textView3
 id textView4
+id textView5
 id text_input_end_icon
 id text_input_error_icon
 id text_input_start_icon

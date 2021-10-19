@@ -64,7 +64,9 @@ public class MainActivity extends AppCompatActivity {
         ListView eventLogshower = findViewById(R.id.event_show);
         eventLogshower.setOnItemClickListener(new EventShowListener());
 
-
+        Button bSelectDB = findViewById(R.id.button_select);
+        DBselect_Listener listener6 = new DBselect_Listener();
+        bSelectDB.setOnClickListener(listener6);
     }
 
 
@@ -274,6 +276,17 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
+        }
+    }
+    private class DBselect_Listener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+
+            _helper = new com.example.top.DatabaseHelper(MainActivity.this);
+            SQLiteDatabase db = _helper.getWritableDatabase();
+            String test=_helper.select_ryosei_show_json(db);
+            TextView test_txtbox = findViewById(R.id.textView5);
+            test_txtbox.setText(test);
         }
     }
 

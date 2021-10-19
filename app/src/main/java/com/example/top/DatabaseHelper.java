@@ -108,26 +108,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String sql_parcel_event = sb_parcel_event.toString();
         db.execSQL(sql_parcel_event);
 
-        //DBの作成時に、ついでにテスト用の寮生データも登録してしまいたいが
-        //(insert_text_ryosei関数を呼び出すことで登録できる）
-        //DBにテーブルが既に作成されていれば無視され、なければこのonCreate関数が呼ばれてテーブルを作成してくれるという話を読んだが
-        //テーブルがないときにだけこのonCreateの分岐に入るのか、それともテーブルがあろうとなかろうとこのonCreateの分岐に入るが既にテーブルがあるためcreate文が無効なだけなのかが判別できなかった
-        //そのため、テーブルにデータが登録されているかどうか、で分岐したのちにinsert_text_ryosei関数を呼び出す
-        //そうでないと、アプリを開くたびDBのデータが増える気がする
-        /*
-        int judge=-1;
-        Cursor cursor = db.rawQuery("SELECT count(*) FROM ryosei", new String[]{});
-        try {
-            if (cursor.moveToNext()) {
-                judge=cursor.getInt(cursor.getColumnIndex("ryosei"));
-            }
-        } finally {
-            cursor.close();
-        }
-        if(judge==0){
-            insert_test_ryosei(db);
-        }
-        */
         insert_test_ryosei(db);
 
 
@@ -504,6 +484,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
     }
 
+
+    public String select_ryosei_show_json(SQLiteDatabase db){
+        //owner_idの寮生を取得
+        String sql = "SELECT *  FROM ryosei limit 4";
+        // SQLの実行。
+        Cursor cursor = db.rawQuery(sql, null);
+        String ryosei="[\n";
+
+        while(cursor.moveToNext()) {
+            ryosei += "{\n";
+            for(enum_ryosei column:enum_ryosei.values()){
+                String col = column.toString();
+                String val = cursor.getString(cursor.getColumnIndex(col));
+                ryosei+=col;
+                ryosei+=": ";
+                if(column.getCode()==1&&val!=null)ryosei+="\"";
+                ryosei+=val;
+                if(column.getCode()==1&&val!=null)ryosei+="\"";
+                ryosei+=",\n";
+
+            }
+            //末尾からカンマを削除
+            ryosei=ryosei.substring(0,ryosei.length()-2);
+            ryosei+="\n";
+            ryosei+="},\n";
+
+        }
+        ryosei=ryosei.substring(0,ryosei.length()-2);
+        ryosei+="\n";
+        ryosei+="]";
+        return ryosei;
+    }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
