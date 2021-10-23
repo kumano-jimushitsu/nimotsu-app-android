@@ -16,6 +16,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 import org.w3c.dom.Text;
 
@@ -62,11 +64,20 @@ public class MainActivity extends AppCompatActivity {
 
         eventLogshow();
         ListView eventLogshower = findViewById(R.id.event_show);
-        eventLogshower.setOnItemClickListener(new EventShowListener());
+        EventShowListener showListener=new EventShowListener();
+        eventLogshower.setOnItemClickListener(showListener);
 
-        Button bSelectDB = findViewById(R.id.button_select);
-        DBselect_Listener listener6 = new DBselect_Listener();
-        bSelectDB.setOnClickListener(listener6);
+        Button b_ryosei = findViewById(R.id.button_select);
+        DBselect_Listener_ryosei ryosei_listener = new DBselect_Listener_ryosei();
+        b_ryosei.setOnClickListener(ryosei_listener);
+
+        Button b_parcels = findViewById(R.id.button_select2);
+        DBselect_Listener_parcels parcels_listener = new DBselect_Listener_parcels();
+        b_parcels.setOnClickListener(parcels_listener);
+
+        Button b_event = findViewById(R.id.button_select3);
+        DBselect_Listener_event event_listener = new DBselect_Listener_event();
+        b_event.setOnClickListener(event_listener);
     }
 
 
@@ -74,13 +85,13 @@ public class MainActivity extends AppCompatActivity {
         List<Map<String, String>> show_eventlist = new ArrayList<>();
         _helper = new com.example.top.DatabaseHelper(MainActivity.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
-        String sql = "SELECT uid, created_at, event_type, parcel_uid, room_name, ryosei_name, target_event_uid FROM parcel_event" ;
+        String sql = "SELECT _id, created_at, event_type, parcel_uid, room_name, ryosei_name, target_event_uid FROM parcel_event order by _id desc limit 100" ;
         Cursor cursor = db.rawQuery(sql,null);
         show_eventlist.clear();
         while(cursor.moveToNext()) {
             Map<String, String> event_raw = new HashMap<>();
             String text = "";
-            int index = cursor.getColumnIndex("uid");
+            int index = cursor.getColumnIndex("_id");
             String event_id = String.valueOf(cursor.getInt(index));
             index = cursor.getColumnIndex("created_at");
             text += cursor.getString(index);
@@ -194,11 +205,11 @@ public class MainActivity extends AppCompatActivity {
             item.get("id");
             _helper = new com.example.top.DatabaseHelper(MainActivity.this);
             SQLiteDatabase db = _helper.getWritableDatabase();
-            String sql = "SELECT uid, created_at, event_type, parcel_uid, room_name, ryosei_name, target_event_uid FROM parcel_event WHERE uid = "+
+            String sql = "SELECT _id, created_at, event_type, parcel_uid, room_name, ryosei_name, target_event_uid FROM parcel_event WHERE _id = "+
                     item.get("id");
             Cursor cursor = db.rawQuery(sql,null);
             while(cursor.moveToNext()) {
-                int index = cursor.getColumnIndex("uid");
+                int index = cursor.getColumnIndex("_id");
                 event_id = String.valueOf(cursor.getInt(index));
                 index = cursor.getColumnIndex("created_at");
                 created_at = cursor.getString(index);
@@ -215,8 +226,17 @@ public class MainActivity extends AppCompatActivity {
             }
             switch (event_type){
                 case "1":
-
-                    break;
+                    /**
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage(“情報+このイベントを削除しますか？”)
+                            .setPositiveButton(“起動”, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+// ボタンをクリックしたときの動作
+                                }
+                            });
+                    builder.show();
+                    */
+                     break;
                 case "2":
 
                     break;
@@ -225,6 +245,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+
 
     }
 
@@ -278,17 +299,44 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    private class DBselect_Listener implements View.OnClickListener {
+    private class DBselect_Listener_ryosei implements View.OnClickListener {
         @Override
         public void onClick(View view) {
 
             _helper = new com.example.top.DatabaseHelper(MainActivity.this);
             SQLiteDatabase db = _helper.getWritableDatabase();
-            String test=_helper.select_ryosei_show_json(db);
+            String test;
+            test=_helper.select_ryosei_show_json(db);
             TextView test_txtbox = findViewById(R.id.textView5);
             test_txtbox.setText(test);
         }
     }
+    private class DBselect_Listener_parcels implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+
+            _helper = new com.example.top.DatabaseHelper(MainActivity.this);
+            SQLiteDatabase db = _helper.getWritableDatabase();
+            String test;
+            test=_helper.select_parcels_show_json(db);
+            TextView test_txtbox = findViewById(R.id.textView5);
+            test_txtbox.setText(test);
+        }
+    }
+
+    private class DBselect_Listener_event implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+
+            _helper = new com.example.top.DatabaseHelper(MainActivity.this);
+            SQLiteDatabase db = _helper.getWritableDatabase();
+            String test;
+            test=_helper.select_event_show_json(db);
+            TextView test_txtbox = findViewById(R.id.textView5);
+            test_txtbox.setText(test);
+        }
+    }
+
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {

@@ -1945,6 +1945,8 @@ id btn_reg
 id buttonPanel
 id button_delete
 id button_select
+id button_select2
+id button_select3
 id cache_measures
 id cancel_button
 id carryVelocity

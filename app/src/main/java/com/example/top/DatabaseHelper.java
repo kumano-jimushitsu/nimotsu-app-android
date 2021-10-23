@@ -92,7 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //eventテーブルの登録
         StringBuilder sb_parcel_event = new StringBuilder();
         sb_parcel_event.append("CREATE TABLE parcel_event(");
-        sb_parcel_event.append(" uid INTEGER PRIMARY KEY,");
+        sb_parcel_event.append(" _id INTEGER PRIMARY KEY,");
         sb_parcel_event.append(" created_at TEXT,");
         sb_parcel_event.append(" event_type INTEGER,");
         sb_parcel_event.append(" parcel_uid INTEGER,");
@@ -490,32 +490,98 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String sql = "SELECT *  FROM ryosei limit 4";
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
-        String ryosei="[\n";
+        if(cursor.getCount()==0)return "";
+
+        String json_str="[\n";
 
         while(cursor.moveToNext()) {
-            ryosei += "{\n";
+            json_str += "{\n";
             for(enum_ryosei column:enum_ryosei.values()){
                 String col = column.toString();
                 String val = cursor.getString(cursor.getColumnIndex(col));
-                ryosei+=col;
-                ryosei+=": ";
-                if(column.getCode()==1&&val!=null)ryosei+="\"";
-                ryosei+=val;
-                if(column.getCode()==1&&val!=null)ryosei+="\"";
-                ryosei+=",\n";
-
+                json_str+=col;
+                json_str+=": ";
+                if(column.getCode()==1&&val!=null)json_str+="\"";
+                json_str+=val;
+                if(column.getCode()==1&&val!=null)json_str+="\"";
+                json_str+=",\n";
             }
             //末尾からカンマを削除
-            ryosei=ryosei.substring(0,ryosei.length()-2);
-            ryosei+="\n";
-            ryosei+="},\n";
+            json_str=json_str.substring(0,json_str.length()-2);
+            json_str+="\n";
+            json_str+="},\n";
 
         }
-        ryosei=ryosei.substring(0,ryosei.length()-2);
-        ryosei+="\n";
-        ryosei+="]";
-        return ryosei;
+        json_str=json_str.substring(0,json_str.length()-2);
+        json_str+="\n";
+        json_str+="]";
+        return json_str;
     }
+
+    public String select_parcels_show_json(SQLiteDatabase db){
+        //owner_idの寮生を取得
+        String sql = "SELECT *  FROM parcels order by _id limit 4";
+        // SQLの実行。
+        Cursor cursor = db.rawQuery(sql, null);
+        if(cursor.getCount()==0)return "";
+
+        String json_str="[\n";
+
+        while(cursor.moveToNext()) {
+            json_str += "{\n";
+            for(enum_parcels column:enum_parcels.values()){
+                String col = column.toString();
+                String val = cursor.getString(cursor.getColumnIndex(col));
+                json_str+=col;
+                json_str+=": ";
+                if(column.getCode()==1&&val!=null)json_str+="\"";
+                json_str+=val;
+                if(column.getCode()==1&&val!=null)json_str+="\"";
+                json_str+=",\n";
+            }
+            //末尾からカンマを削除
+            json_str=json_str.substring(0,json_str.length()-2);
+            json_str+="\n";
+            json_str+="},\n";
+
+        }
+        json_str=json_str.substring(0,json_str.length()-2);
+        json_str+="\n";
+        json_str+="]";
+        return json_str;
+    }
+    public String select_event_show_json(SQLiteDatabase db){
+        //owner_idの寮生を取得
+        String sql = "SELECT *  FROM parcel_event order by _id limit 4";
+        // SQLの実行。
+        Cursor cursor = db.rawQuery(sql, null);
+        if(cursor.getCount()==0)return "";
+        String json_str="[\n";
+
+        while(cursor.moveToNext()) {
+            json_str += "{\n";
+            for(enum_event column:enum_event.values()){
+                String col = column.toString();
+                String val = cursor.getString(cursor.getColumnIndex(col));
+                json_str+=col;
+                json_str+=": ";
+                if(column.getCode()==1&&val!=null)json_str+="\"";
+                json_str+=val;
+                if(column.getCode()==1&&val!=null)json_str+="\"";
+                json_str+=",\n";
+            }
+            //末尾からカンマを削除
+            json_str=json_str.substring(0,json_str.length()-2);
+            json_str+="\n";
+            json_str+="},\n";
+
+        }
+        json_str=json_str.substring(0,json_str.length()-2);
+        json_str+="\n";
+        json_str+="]";
+        return json_str;
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }

@@ -26,6 +26,12 @@ public final class ActivityMainBinding implements ViewBinding {
   public final Button buttonSelect;
 
   @NonNull
+  public final Button buttonSelect2;
+
+  @NonNull
+  public final Button buttonSelect3;
+
+  @NonNull
   public final ListView eventShow;
 
   @NonNull
@@ -56,12 +62,15 @@ public final class ActivityMainBinding implements ViewBinding {
   public final TextView textView5;
 
   private ActivityMainBinding(@NonNull ConstraintLayout rootView, @NonNull Button buttonSelect,
-      @NonNull ListView eventShow, @NonNull ImageButton imageButtonTouroku,
-      @NonNull ImageButton imageButtonUketori, @NonNull Button jimutoChangeButton,
-      @NonNull TextView mainJimutouShow, @NonNull TextView showText, @NonNull TextView textView,
-      @NonNull TextView textView2, @NonNull TextView textView4, @NonNull TextView textView5) {
+      @NonNull Button buttonSelect2, @NonNull Button buttonSelect3, @NonNull ListView eventShow,
+      @NonNull ImageButton imageButtonTouroku, @NonNull ImageButton imageButtonUketori,
+      @NonNull Button jimutoChangeButton, @NonNull TextView mainJimutouShow,
+      @NonNull TextView showText, @NonNull TextView textView, @NonNull TextView textView2,
+      @NonNull TextView textView4, @NonNull TextView textView5) {
     this.rootView = rootView;
     this.buttonSelect = buttonSelect;
+    this.buttonSelect2 = buttonSelect2;
+    this.buttonSelect3 = buttonSelect3;
     this.eventShow = eventShow;
     this.imageButtonTouroku = imageButtonTouroku;
     this.imageButtonUketori = imageButtonUketori;
@@ -104,6 +113,18 @@ public final class ActivityMainBinding implements ViewBinding {
       id = R.id.button_select;
       Button buttonSelect = ViewBindings.findChildViewById(rootView, id);
       if (buttonSelect == null) {
+        break missingId;
+      }
+
+      id = R.id.button_select2;
+      Button buttonSelect2 = ViewBindings.findChildViewById(rootView, id);
+      if (buttonSelect2 == null) {
+        break missingId;
+      }
+
+      id = R.id.button_select3;
+      Button buttonSelect3 = ViewBindings.findChildViewById(rootView, id);
+      if (buttonSelect3 == null) {
         break missingId;
       }
 
@@ -167,9 +188,9 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityMainBinding((ConstraintLayout) rootView, buttonSelect, eventShow,
-          imageButtonTouroku, imageButtonUketori, jimutoChangeButton, mainJimutouShow, showText,
-          textView, textView2, textView4, textView5);
+      return new ActivityMainBinding((ConstraintLayout) rootView, buttonSelect, buttonSelect2,
+          buttonSelect3, eventShow, imageButtonTouroku, imageButtonUketori, jimutoChangeButton,
+          mainJimutouShow, showText, textView, textView2, textView4, textView5);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
