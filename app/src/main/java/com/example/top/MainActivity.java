@@ -10,25 +10,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 
-import org.w3c.dom.Text;
-
+import androidx.fragment.app.DialogFragment;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-
 
 
 public class MainActivity extends AppCompatActivity {
@@ -85,10 +79,13 @@ public class MainActivity extends AppCompatActivity {
         List<Map<String, String>> show_eventlist = new ArrayList<>();
         _helper = new com.example.top.DatabaseHelper(MainActivity.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
-        String sql = "SELECT _id, created_at, event_type, parcel_uid, room_name, ryosei_name, target_event_uid FROM parcel_event order by _id desc limit 100" ;
+        String sql = "SELECT _id, created_at, event_type, parcel_uid, room_name, ryosei_name, target_event_uid,is_deleted FROM parcel_event order by _id desc limit 100" ;
         Cursor cursor = db.rawQuery(sql,null);
         show_eventlist.clear();
         while(cursor.moveToNext()) {
+            if(cursor.getString(cursor.getColumnIndex("is_deleted")).equals("1")){
+                continue;
+            }
             Map<String, String> event_raw = new HashMap<>();
             String text = "";
             int index = cursor.getColumnIndex("_id");
@@ -109,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
                     text += cursor.getString(index);
                     index = cursor.getColumnIndex("ryosei_name");
                     text += cursor.getString(index) + " が荷物受取";
+                    break;
+                case 3://イベント削除：表示しなくてもいいかもね
+                    text+="イベントが削除されました";
                     break;
             }
             event_raw.put("id", event_id);
@@ -191,21 +191,22 @@ public class MainActivity extends AppCompatActivity {
 
     private class EventShowListener implements AdapterView.OnItemClickListener{
         public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-            String event_id;
-            String created_at;
+            String event_id="";
+            String ryosei_uid="";
+            String created_at="";
             String event_type = null;
-            String parcel_uid;
-            String room_name;
-            String ryosei_name;
-            String target_event_uid;
-            String is_finished;
+            String parcel_uid="";
+            String room_name="";
+            String ryosei_name="";
+            String target_event_uid="";
+            String is_finished="";
             Map<String ,String> item = (Map)parent.getItemAtPosition(position);
             //TextView configshow = findViewById(R.id.showText);
             //configshow.setText(item.get("id"));
             item.get("id");
             _helper = new com.example.top.DatabaseHelper(MainActivity.this);
             SQLiteDatabase db = _helper.getWritableDatabase();
-            String sql = "SELECT _id, created_at, event_type, parcel_uid, room_name, ryosei_name, target_event_uid FROM parcel_event WHERE _id = "+
+            String sql = "SELECT _id, created_at, event_type,ryosei_uid, parcel_uid, room_name, ryosei_name, target_event_uid FROM parcel_event WHERE _id = "+
                     item.get("id");
             Cursor cursor = db.rawQuery(sql,null);
             while(cursor.moveToNext()) {
@@ -223,29 +224,23 @@ public class MainActivity extends AppCompatActivity {
                 ryosei_name = cursor.getString(index);
                 index = cursor.getColumnIndex("target_event_uid");
                 target_event_uid = String.valueOf(cursor.getInt(index));
-            }
-            switch (event_type){
-                case "1":
-                    /**
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setMessage(“情報+このイベントを削除しますか？”)
-                            .setPositiveButton(“起動”, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-// ボタンをクリックしたときの動作
-                                }
-                            });
-                    builder.show();
-                    */
-                     break;
-                case "2":
-
-                    break;
-                default:
+                index = cursor.getColumnIndex("ryosei_uid");
+                ryosei_uid = String.valueOf(cursor.getInt(index));
             }
 
+            if(event_id==""){
+                return;
+            }
 
+            DialogFragment dialogFragment = new Delete_Event_Dialog();
+            Bundle args = new Bundle();
+            args.putString("event_id",event_id);
+            args.putString("parcel_id",parcel_uid);
+            args.putString("ryosei_id",ryosei_uid);
+            args.putString("event_type",event_type);
+            dialogFragment.setArguments(args);
+            dialogFragment.show(getSupportFragmentManager(), "Delete_Event_Dialog");
         }
-
 
     }
 

@@ -220,7 +220,9 @@ public class Buttoned_Touroku extends AppCompatActivity {
         return true;
     }
 
+
     public void onBackButtonClick(View view){
+
         finish();
     }
 

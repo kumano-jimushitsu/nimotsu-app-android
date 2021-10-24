@@ -52,6 +52,7 @@ public class Nimotsu_Touroku_Dialog extends DialogFragment {
                         String show = "事務当番" + register_staff_room + register_staff_name + "が"+owner_ryosei_room+" "+
                                 owner_ryosei_name+ "に荷物を登録しました。";
                         Toast.makeText(getActivity(), show ,Toast.LENGTH_LONG).show();
+                        //((MainActivity) getContext()).eventLogshow();
 
                     }
                 })

@@ -485,12 +485,77 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+
+    public void delete_event( SQLiteDatabase db,String event_id, String ryosei_id,String parcel_id,String event_type){
+        //event idは1 or 2が入る　1が登録のイベントを消し込むとき、2が受取のイベントを消し込むとき
+
+        //room_name, ryosei_name, total_parcels_count, current_parcels_countを取得する
+        String sql = "SELECT room_name, ryosei_name, parcels_total_count, parcels_current_count  FROM ryosei where _id="+ryosei_id;
+        // SQLの実行。
+        Cursor cursor = db.rawQuery(sql, null);
+        cursor.moveToNext();
+        String room_name = cursor.getString(cursor.getColumnIndex("room_name"));
+        String ryosei_name = cursor.getString(cursor.getColumnIndex("ryosei_name"));
+        String parcels_total_count = cursor.getString(cursor.getColumnIndex("parcels_total_count"));
+        String parcels_current_count = cursor.getString(cursor.getColumnIndex("parcels_current_count"));
+        int parcels_TC=Integer.parseInt(parcels_total_count),parcels_CC=Integer.parseInt(parcels_current_count) ;
+        if(event_type.equals("1")){
+            parcels_TC--;
+            parcels_CC--;
+        }else{
+            parcels_TC++;
+            parcels_CC++;
+        }
+        parcels_total_count=String.valueOf(parcels_TC);
+        parcels_current_count=String.valueOf(parcels_CC);
+
+        //created_atを取得する
+        // 現在日時情報で初期化されたインスタンスの生成
+        Date dateObj = new Date();
+        SimpleDateFormat format = new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" );
+        // 日時情報を指定フォーマットの文字列で取得
+        String created_at = format.format( dateObj );
+
+
+                //event tableのupdate、insert
+        //ryosei tableのupdate（荷物数カウント）
+        //parcelstableのupdate（論理削除）
+        //が必要
+
+        //event
+        sql = "update parcel_event set is_deleted=1 where _id="+event_id;
+        db.execSQL(sql);
+        sql="insert into parcel_event(created_at,event_type,parcel_uid,ryosei_uid,room_name,ryosei_name,target_event_uid,is_finished)";
+        sql+="values('";
+        sql+=created_at+"',3,"+parcel_id+","+ryosei_id+",";
+        sql+="'"+room_name +"',";
+        sql+="'"+ryosei_name+"',";
+        sql+=event_id+",1);";
+        db.execSQL(sql);
+
+        //ryosei
+        sql="update ryosei set parcels_total_count="+
+                    parcels_total_count+
+                    ",parcels_current_count="+
+                    parcels_current_count
+                +" where _id="+ryosei_id;
+        db.execSQL(sql);
+
+        //parcels
+        sql="update parcels set is_deleted=1 where _id ="+ parcel_id;
+        db.execSQL(sql);
+    }
+
+
+
+
     public String select_ryosei_show_json(SQLiteDatabase db){
         //owner_idの寮生を取得
         String sql = "SELECT *  FROM ryosei limit 4";
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         if(cursor.getCount()==0)return "";
+
 
         String json_str="[\n";
 
@@ -520,7 +585,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public String select_parcels_show_json(SQLiteDatabase db){
         //owner_idの寮生を取得
-        String sql = "SELECT *  FROM parcels order by _id limit 4";
+        String sql = "SELECT *  FROM parcels order by _id";
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         if(cursor.getCount()==0)return "";
