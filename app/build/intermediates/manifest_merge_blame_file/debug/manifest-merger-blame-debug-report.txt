@@ -6,83 +6,83 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="23"
-8-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml
+8-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="30" />
-9-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml
+9-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml
 10
 11    <application
-11-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:5:5-40:19
+11-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:5:5-40:19
 12        android:allowBackup="true"
-12-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:6:9-35
+12-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:6:9-35
 13        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-13-->[androidx.core:core:1.5.0] /Users/t_kogo/.gradle/caches/transforms-3/e759884e8e1539e68246ec4d8729cc98/transformed/core-1.5.0/AndroidManifest.xml:24:18-86
+13-->[androidx.core:core:1.5.0] C:\Users\clipp\.gradle\caches\transforms-3\e759884e8e1539e68246ec4d8729cc98\transformed\core-1.5.0\AndroidManifest.xml:24:18-86
 14        android:debuggable="true"
 15        android:extractNativeLibs="false"
 16        android:icon="@mipmap/ic_launcher"
-16-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:7:9-43
+16-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:7:9-43
 17        android:label="@string/app_name"
-17-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:8:9-41
+17-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:8:9-41
 18        android:roundIcon="@mipmap/ic_launcher_round"
-18-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:9:9-54
+18-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:9:9-54
 19        android:supportsRtl="true"
-19-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:10:9-35
+19-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:10:9-35
 20        android:testOnly="true"
 21        android:theme="@style/Theme.Top" >
-21-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:11:9-41
+21-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:11:9-41
 22        <activity
-22-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:12:9-14:39
+22-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:12:9-14:39
 23            android:name="com.example.top.Nimotsu_show"
-23-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:13:13-41
+23-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:13:13-41
 24            android:exported="true" />
-24-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:14:13-36
+24-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:14:13-36
 25        <activity
-25-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:15:9-17:39
+25-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:15:9-17:39
 26            android:name="com.example.top.Double_Buttoned_Touroku"
-26-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:16:13-52
+26-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:16:13-52
 27            android:exported="true" />
-27-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:17:13-36
+27-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:17:13-36
 28        <activity
-28-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:18:9-20:39
+28-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:18:9-20:39
 29            android:name="com.example.top.Duty_Night"
-29-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:19:13-39
+29-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:19:13-39
 30            android:exported="true" />
-30-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:20:13-36
+30-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:20:13-36
 31        <activity
-31-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:21:9-23:39
+31-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:21:9-23:39
 32            android:name="com.example.top.Buttoned_Uketori"
-32-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:22:13-45
+32-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:22:13-45
 33            android:exported="true" />
-33-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:23:13-36
+33-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:23:13-36
 34        <activity
-34-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:24:9-26:39
+34-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:24:9-26:39
 35            android:name="com.example.top.Jimuto_Change"
-35-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:25:13-42
+35-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:25:13-42
 36            android:exported="true" />
-36-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:26:13-36
+36-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:26:13-36
 37        <activity
-37-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:27:9-29:39
+37-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:27:9-29:39
 38            android:name="com.example.top.Buttoned_Touroku"
-38-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:28:13-45
+38-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:28:13-45
 39            android:exported="true" />
-39-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:29:13-36
+39-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:29:13-36
 40        <activity android:name="com.example.top.TextActivity" />
-40-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:30:9-50
-40-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:30:19-47
+40-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:30:9-50
+40-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:30:19-47
 41        <activity
-41-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:31:9-39:20
+41-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:31:9-39:20
 42            android:name="com.example.top.MainActivity"
-42-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:32:13-41
+42-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:32:13-41
 43            android:exported="true" >
-43-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:33:13-36
+43-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:33:13-36
 44            <intent-filter>
-44-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:34:13-38:29
+44-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:34:13-38:29
 45                <action android:name="android.intent.action.MAIN" />
-45-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:35:17-69
-45-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:35:25-66
+45-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:35:17-69
+45-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:35:25-66
 46
 47                <category android:name="android.intent.category.LAUNCHER" />
-47-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:37:17-77
-47-->/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/src/main/AndroidManifest.xml:37:27-74
+47-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:37:17-77
+47-->C:\Users\clipp\kumano\android\kumano_nimotsu\app\src\main\AndroidManifest.xml:37:27-74
 48            </intent-filter>
 49        </activity>
 50    </application>

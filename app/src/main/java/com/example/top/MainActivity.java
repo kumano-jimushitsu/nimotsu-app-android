@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         List<Map<String, String>> show_eventlist = new ArrayList<>();
         _helper = new com.example.top.DatabaseHelper(MainActivity.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
-        String sql = "SELECT _id, created_at, event_type, parcel_uid, room_name, ryosei_name, target_event_uid,is_deleted FROM parcel_event order by _id desc limit 100" ;
+        String sql = "SELECT _id, created_at, event_type, parcel_uid, room_name, ryosei_name, target_event_uid,is_deleted FROM parcel_event where is_deleted = 0 order by _id desc limit 100" ;
         Cursor cursor = db.rawQuery(sql,null);
         show_eventlist.clear();
         while(cursor.moveToNext()) {
