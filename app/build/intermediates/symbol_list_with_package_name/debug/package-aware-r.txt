@@ -1942,6 +1942,7 @@ id bounceEnd
 id bounceStart
 id btn_cancel
 id btn_reg
+id button
 id buttonPanel
 id button_delete
 id button_select
@@ -1962,6 +1963,10 @@ id change_a4_tab
 id change_b12_tab
 id checkbox
 id checked
+id checkedTextView
+id checkedTextView2
+id checkedTextView3
+id checkedTextView4
 id chip
 id chip1
 id chip2
@@ -2010,6 +2015,12 @@ id disableIntraAutoTransition
 id disablePostScroll
 id disableScroll
 id disjoint
+id double_buttoned_touroku_block_list
+id double_buttoned_touroku_room_list
+id double_buttoned_touroku_ryosei_list
+id double_buttoned_touroku_titile
+id double_jimutou_name_show
+id double_touroku_go_back_button
 id dragAnticlockwise
 id dragClockwise
 id dragDown
@@ -2019,6 +2030,8 @@ id dragRight
 id dragStart
 id dragUp
 id dropdown_menu
+id duty_checkBox
+id duty_night_button
 id easeIn
 id easeInOut
 id easeOut
@@ -2094,6 +2107,7 @@ id line3
 id linear
 id linearLayout2
 id listMode
+id list_fragment
 id list_item
 id lvMenu
 id main_jimutou_show
@@ -2297,6 +2311,8 @@ id textView2
 id textView3
 id textView4
 id textView5
+id textView6
+id textView7
 id text_input_end_icon
 id text_input_error_icon
 id text_input_start_icon
@@ -2441,6 +2457,9 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
+layout double_buttoned_touroku_layout
+layout duty_night_layout
+layout duty_night_list_item
 layout fragment_tabbed__touroku
 layout jimuto_change_layout
 layout material_chip_input_combo

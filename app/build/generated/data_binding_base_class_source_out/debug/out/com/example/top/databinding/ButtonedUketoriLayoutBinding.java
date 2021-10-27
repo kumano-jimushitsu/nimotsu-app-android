@@ -41,6 +41,9 @@ public final class ButtonedUketoriLayoutBinding implements ViewBinding {
   public final ListView UketoriRyouseiListShow;
 
   @NonNull
+  public final Button button;
+
+  @NonNull
   public final LinearLayout linearLayout2;
 
   @NonNull
@@ -52,8 +55,9 @@ public final class ButtonedUketoriLayoutBinding implements ViewBinding {
   private ButtonedUketoriLayoutBinding(@NonNull ConstraintLayout rootView,
       @NonNull Button UketoriA1Tab, @NonNull Button UketoriA2Tab, @NonNull Button UketoriA3Tab,
       @NonNull Button UketoriA4Tab, @NonNull Button UketoriB12Tab,
-      @NonNull ListView UketoriRyouseiListShow, @NonNull LinearLayout linearLayout2,
-      @NonNull Button uketoriGoBackButton, @NonNull TextView uketoriJimutouNameShow) {
+      @NonNull ListView UketoriRyouseiListShow, @NonNull Button button,
+      @NonNull LinearLayout linearLayout2, @NonNull Button uketoriGoBackButton,
+      @NonNull TextView uketoriJimutouNameShow) {
     this.rootView = rootView;
     this.UketoriA1Tab = UketoriA1Tab;
     this.UketoriA2Tab = UketoriA2Tab;
@@ -61,6 +65,7 @@ public final class ButtonedUketoriLayoutBinding implements ViewBinding {
     this.UketoriA4Tab = UketoriA4Tab;
     this.UketoriB12Tab = UketoriB12Tab;
     this.UketoriRyouseiListShow = UketoriRyouseiListShow;
+    this.button = button;
     this.linearLayout2 = linearLayout2;
     this.uketoriGoBackButton = uketoriGoBackButton;
     this.uketoriJimutouNameShow = uketoriJimutouNameShow;
@@ -129,6 +134,12 @@ public final class ButtonedUketoriLayoutBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.button;
+      Button button = ViewBindings.findChildViewById(rootView, id);
+      if (button == null) {
+        break missingId;
+      }
+
       id = R.id.linearLayout2;
       LinearLayout linearLayout2 = ViewBindings.findChildViewById(rootView, id);
       if (linearLayout2 == null) {
@@ -148,7 +159,7 @@ public final class ButtonedUketoriLayoutBinding implements ViewBinding {
       }
 
       return new ButtonedUketoriLayoutBinding((ConstraintLayout) rootView, UketoriA1Tab,
-          UketoriA2Tab, UketoriA3Tab, UketoriA4Tab, UketoriB12Tab, UketoriRyouseiListShow,
+          UketoriA2Tab, UketoriA3Tab, UketoriA4Tab, UketoriB12Tab, UketoriRyouseiListShow, button,
           linearLayout2, uketoriGoBackButton, uketoriJimutouNameShow);
     }
     String missingId = rootView.getResources().getResourceName(id);

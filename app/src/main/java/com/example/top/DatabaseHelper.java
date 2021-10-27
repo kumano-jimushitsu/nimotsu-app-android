@@ -465,23 +465,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Map<String,String>> nightdutylist (SQLiteDatabase db){
         //荷物IDとラベル(日時、受け取り事務当、場所）を返す。
         List<Map<String,String>> show_owners_parcels = new ArrayList<>();
-        String sql = "SELECT _id, placement, register_datetime," +
-                "register_staff_room_name, register_staff_parcels_name " +
+        String sql = "SELECT _id, placement, register_datetime,lost_datetime," +
+                "register_staff_room_name, register_staff_parcels_name,owner_room_name,owner_parcels_name " +
                 "FROM parcels WHERE is_released = 0 ";
         Cursor cursor = db.rawQuery(sql, null);
         while(cursor.moveToNext()){
             Map<String, String> parcels_raw = new HashMap<>();
             int index_id = cursor.getColumnIndex("_id");
             int index_placement = cursor.getColumnIndex("placement");
-            int index_register_datetime = cursor.getColumnIndex("register_datetime");
-            int index_register_staff_room_name = cursor.getColumnIndex("register_staff_room_name");
-            int index_register_staff_parcels_name = cursor.getColumnIndex("register_staff_parcels_name");
+            int index_lost_datetime = cursor.getColumnIndex("lost_datetime");
+            int index_owner_room_name = cursor.getColumnIndex("owner_room_name");
+            int index_register_staff_parcels_name = cursor.getColumnIndex("owner_parcels_name");
             String rabel = "";
             String parcels_id = "";
             parcels_id = String.valueOf(cursor.getInt(index_id));
-            rabel += "登録日時　" + cursor.getString(index_register_datetime);
-            rabel += " ";
-            rabel += "受取事務当　" + cursor.getString(index_register_staff_room_name);
+            rabel += "持ち主　" + cursor.getString(index_owner_room_name);
             rabel += " ";
             rabel += cursor.getString(index_register_staff_parcels_name);
             rabel += " ";
@@ -505,6 +503,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     rabel += "その他";
                     break;
             }
+            rabel += " ";
+            rabel += "登録日時　" + cursor.getString(index_lost_datetime);
             parcels_raw.put("rabel",rabel);
             parcels_raw.put("parcels_id",parcels_id);
             show_owners_parcels.add(parcels_raw);

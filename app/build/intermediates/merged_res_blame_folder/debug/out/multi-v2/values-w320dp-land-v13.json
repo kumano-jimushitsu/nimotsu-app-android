@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\clipp\\kumano\\android\\kumano_nimotsu\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w320dp-land-v13\\values-w320dp-land-v13.xml",
+            "outputFile": "/Users/t_kogo/AndroidStudioProjects/GitHub/kumano_nimotsu/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w320dp-land-v13/values-w320dp-land-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\clipp\\.gradle\\caches\\transforms-3\\e44905d88435b8a284dfc0fee1bf9165\\transformed\\material-1.4.0\\res\\values-w320dp-land-v13\\values-w320dp-land-v13.xml",
+                    "source": "/Users/t_kogo/.gradle/caches/transforms-3/e44905d88435b8a284dfc0fee1bf9165/transformed/material-1.4.0/res/values-w320dp-land-v13/values-w320dp-land-v13.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",

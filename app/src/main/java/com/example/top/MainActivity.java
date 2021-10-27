@@ -1,29 +1,38 @@
 package com.example.top;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
-import androidx.fragment.app.DialogFragment;
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         ImageButton image_button_touroku = findViewById(R.id.image_button_touroku);
-        TourokuListener listener3 = new TourokuListener();
+        DoubleTourokuListener listener3 = new DoubleTourokuListener();
         image_button_touroku.setOnClickListener(listener3);
 
 
@@ -72,6 +81,13 @@ public class MainActivity extends AppCompatActivity {
         Button b_event = findViewById(R.id.button_select3);
         DBselect_Listener_event event_listener = new DBselect_Listener_event();
         b_event.setOnClickListener(event_listener);
+
+        Button duty_night = findViewById(R.id.duty_night_button);
+        duty_night_listener listener6 = new duty_night_listener();
+        duty_night.setOnClickListener(listener6);
+
+        refleshEventLog reflasher = new refleshEventLog();
+        reflasher.onAppStart();
     }
 
 
@@ -140,7 +156,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    private class DoubleTourokuListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            if (jimuto_id == null) {
+                String show = "先に事務当番を設定してください。";
+                Toast.makeText(MainActivity.this, show ,Toast.LENGTH_LONG).show();
+            } else{
+                Intent intent = new Intent(MainActivity.this, Double_Buttoned_Touroku.class);
+                intent.putExtra("Jimuto_id", jimuto_id);
+                intent.putExtra("Jimuto_room", jimuto_room);
+                intent.putExtra("Jimuto_name", jimuto_name);
+                startActivity(intent);
+            }
+        }
+    }
 
 
     private class TourokuListener implements View.OnClickListener {
@@ -188,6 +218,28 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(jimuto_intent,JIMUTOCHANGE_ACTIVITY);
         }
     }
+
+
+    private class duty_night_listener implements View.OnClickListener{
+        @Override
+        public void onClick(View view){
+            if (jimuto_id == null) {
+                String show = "先に事務当番を設定してください。";
+                Toast.makeText(MainActivity.this, show ,Toast.LENGTH_LONG).show();
+            } else {
+
+                DialogFragment dialogFragment = new Duty_Night_Dialog();
+                Bundle args = new Bundle();
+                args.putString("register_staff_room",jimuto_room);
+                args.putString("register_staff_name",jimuto_name);
+                args.putString("register_staff_id",jimuto_id);
+
+                dialogFragment.setArguments(args);
+                dialogFragment.show(getSupportFragmentManager(), "Duty_Night_Dialog");
+            }
+        }
+    }
+
 
     private class EventShowListener implements AdapterView.OnItemClickListener{
         public void onItemClick(AdapterView<?> parent, View view, int position, long id){
@@ -347,5 +399,32 @@ public class MainActivity extends AppCompatActivity {
                 default:
             }
         }
+    public class refleshEventLog implements LifecycleObserver {
+
+        private final Handler handler = new Handler();
+        private Runnable runnable;
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_START)
+        public void onAppStart() {
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    // do something.
+                    eventLogshow();
+                    // 1秒ごとに実行
+                    handler.postDelayed(this, 1000);
+                }
+            };
+            handler.post(runnable);
+
+        }
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+        public void onAppStop() {
+            handler.removeCallbacks(runnable);
+        }
+    }
+
+
     }
 

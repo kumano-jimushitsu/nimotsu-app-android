@@ -23,6 +23,12 @@
             android:name="com.example.top.Nimotsu_show"
             android:exported="true" />
         <activity
+            android:name="com.example.top.Double_Buttoned_Touroku"
+            android:exported="true" />
+        <activity
+            android:name="com.example.top.Duty_Night"
+            android:exported="true" />
+        <activity
             android:name="com.example.top.Buttoned_Uketori"
             android:exported="true" />
         <activity
