@@ -115,6 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     void insert_test_ryosei(SQLiteDatabase db){
         StringBuilder sb_insert_test_ryosei = new StringBuilder();
         sb_insert_test_ryosei.append("insert into ryosei (ryosei_name,block_id,room_name) values ");
+        sb_insert_test_ryosei.append("('テスト100',1,'A100'),");
         sb_insert_test_ryosei.append("('テスト101',1,'A101'),");
         sb_insert_test_ryosei.append("('テスト102',1,'A101'),");
         sb_insert_test_ryosei.append("('テスト103',1,'A101'),");
@@ -163,90 +164,117 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_insert_test_ryosei.append("('テスト146',2,'A201'),");
         sb_insert_test_ryosei.append("('テスト147',2,'A201'),");
         sb_insert_test_ryosei.append("('テスト148',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト149',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト150',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト151',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト152',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト153',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト154',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト155',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト156',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト157',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト158',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト159',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト160',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト161',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト162',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト163',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト164',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト165',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト166',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト167',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト168',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト169',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト170',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト171',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト172',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト173',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト174',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト175',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト176',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト177',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト178',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト179',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト180',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト181',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト182',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト183',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト184',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト185',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト186',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト187',2,'A201'),");
-        sb_insert_test_ryosei.append("('テスト188',2,'A201'),");
+        sb_insert_test_ryosei.append("('テスト149',2,'A202'),");
+        sb_insert_test_ryosei.append("('テスト150',2,'A202'),");
+        sb_insert_test_ryosei.append("('テスト151',2,'A202'),");
+        sb_insert_test_ryosei.append("('テスト152',2,'A202'),");
+        sb_insert_test_ryosei.append("('テスト153',2,'A203'),");
+        sb_insert_test_ryosei.append("('テスト154',2,'A203'),");
+        sb_insert_test_ryosei.append("('テスト155',2,'A203'),");
+        sb_insert_test_ryosei.append("('テスト156',2,'A203'),");
+        sb_insert_test_ryosei.append("('テスト157',2,'A204'),");
+        sb_insert_test_ryosei.append("('テスト158',2,'A204'),");
+        sb_insert_test_ryosei.append("('テスト159',2,'A204'),");
+        sb_insert_test_ryosei.append("('テスト160',2,'A204'),");
+        sb_insert_test_ryosei.append("('テスト161',2,'A205'),");
+        sb_insert_test_ryosei.append("('テスト162',2,'A205'),");
+        sb_insert_test_ryosei.append("('テスト163',2,'A205'),");
+        sb_insert_test_ryosei.append("('テスト164',2,'A205'),");
+        sb_insert_test_ryosei.append("('テスト165',2,'A206'),");
+        sb_insert_test_ryosei.append("('テスト166',2,'A206'),");
+        sb_insert_test_ryosei.append("('テスト167',2,'A206'),");
+        sb_insert_test_ryosei.append("('テスト168',2,'A206'),");
+        sb_insert_test_ryosei.append("('テスト169',2,'A207'),");
+        sb_insert_test_ryosei.append("('テスト170',2,'A207'),");
+        sb_insert_test_ryosei.append("('テスト171',2,'A207'),");
+        sb_insert_test_ryosei.append("('テスト172',2,'A207'),");
+        sb_insert_test_ryosei.append("('テスト173',2,'A208'),");
+        sb_insert_test_ryosei.append("('テスト174',2,'A208'),");
+        sb_insert_test_ryosei.append("('テスト175',2,'A208'),");
+        sb_insert_test_ryosei.append("('テスト176',2,'A208'),");
+        sb_insert_test_ryosei.append("('テスト177',2,'A209'),");
+        sb_insert_test_ryosei.append("('テスト178',2,'A209'),");
+        sb_insert_test_ryosei.append("('テスト179',2,'A209'),");
+        sb_insert_test_ryosei.append("('テスト180',2,'A209'),");
+        sb_insert_test_ryosei.append("('テスト181',2,'A210'),");
+        sb_insert_test_ryosei.append("('テスト182',2,'A210'),");
+        sb_insert_test_ryosei.append("('テスト183',2,'A210'),");
+        sb_insert_test_ryosei.append("('テスト184',2,'A210'),");
+        sb_insert_test_ryosei.append("('テスト185',2,'A211'),");
+        sb_insert_test_ryosei.append("('テスト186',2,'A211'),");
+        sb_insert_test_ryosei.append("('テスト187',2,'A211'),");
+        sb_insert_test_ryosei.append("('テスト188',2,'A211'),");
         sb_insert_test_ryosei.append("('テスト189',3,'A301'),");
         sb_insert_test_ryosei.append("('テスト190',3,'A301'),");
         sb_insert_test_ryosei.append("('テスト191',3,'A301'),");
         sb_insert_test_ryosei.append("('テスト192',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト193',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト194',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト195',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト196',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト197',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト198',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト199',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト200',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト201',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト202',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト203',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト204',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト205',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト206',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト207',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト208',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト209',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト210',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト211',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト212',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト213',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト214',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト215',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト216',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト217',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト218',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト219',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト220',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト221',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト222',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト223',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト224',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト225',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト226',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト227',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト228',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト229',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト230',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト231',3,'A301'),");
-        sb_insert_test_ryosei.append("('テスト232',3,'A301');");
+        sb_insert_test_ryosei.append("('テスト193',3,'A302'),");
+        sb_insert_test_ryosei.append("('テスト194',3,'A302'),");
+        sb_insert_test_ryosei.append("('テスト195',3,'A302'),");
+        sb_insert_test_ryosei.append("('テスト196',3,'A302'),");
+        sb_insert_test_ryosei.append("('テスト197',3,'A303'),");
+        sb_insert_test_ryosei.append("('テスト198',3,'A303'),");
+        sb_insert_test_ryosei.append("('テスト199',3,'A303'),");
+        sb_insert_test_ryosei.append("('テスト200',3,'A303'),");
+        sb_insert_test_ryosei.append("('テスト201',3,'A304'),");
+        sb_insert_test_ryosei.append("('テスト202',3,'A304'),");
+        sb_insert_test_ryosei.append("('テスト203',3,'A304'),");
+        sb_insert_test_ryosei.append("('テスト204',3,'A304'),");
+        sb_insert_test_ryosei.append("('テスト205',3,'A305'),");
+        sb_insert_test_ryosei.append("('テスト206',3,'A305'),");
+        sb_insert_test_ryosei.append("('テスト207',3,'A305'),");
+        sb_insert_test_ryosei.append("('テスト208',3,'A305'),");
+        sb_insert_test_ryosei.append("('テスト209',3,'A306'),");
+        sb_insert_test_ryosei.append("('テスト210',3,'A306'),");
+        sb_insert_test_ryosei.append("('テスト211',3,'A306'),");
+        sb_insert_test_ryosei.append("('テスト212',3,'A306'),");
+        sb_insert_test_ryosei.append("('テスト213',3,'A307'),");
+        sb_insert_test_ryosei.append("('テスト214',3,'A307'),");
+        sb_insert_test_ryosei.append("('テスト215',3,'A307'),");
+        sb_insert_test_ryosei.append("('テスト216',3,'A307'),");
+        sb_insert_test_ryosei.append("('テスト217',3,'A308'),");
+        sb_insert_test_ryosei.append("('テスト218',3,'A308'),");
+        sb_insert_test_ryosei.append("('テスト219',3,'A308'),");
+        sb_insert_test_ryosei.append("('テスト220',3,'A308'),");
+        sb_insert_test_ryosei.append("('テスト221',3,'A309'),");
+        sb_insert_test_ryosei.append("('テスト222',3,'A309'),");
+        sb_insert_test_ryosei.append("('テスト223',3,'A309'),");
+        sb_insert_test_ryosei.append("('テスト224',3,'A309'),");
+        sb_insert_test_ryosei.append("('テスト225',3,'A310'),");
+        sb_insert_test_ryosei.append("('テスト226',3,'A310'),");
+        sb_insert_test_ryosei.append("('テスト227',3,'A310'),");
+        sb_insert_test_ryosei.append("('テスト228',3,'A310'),");
+        sb_insert_test_ryosei.append("('テスト229',3,'A311'),");
+        sb_insert_test_ryosei.append("('テスト230',3,'A311'),");
+        sb_insert_test_ryosei.append("('テスト231',3,'A311'),");
+        sb_insert_test_ryosei.append("('テスト232',3,'A311'),");
+        sb_insert_test_ryosei.append("('テスト231',4,'A401'),");
+        sb_insert_test_ryosei.append("('テスト232',4,'A401'),");
+        sb_insert_test_ryosei.append("('テスト233',4,'A401'),");
+        sb_insert_test_ryosei.append("('テスト234',4,'A401'),");
+        sb_insert_test_ryosei.append("('テスト235',4,'A402'),");
+        sb_insert_test_ryosei.append("('テスト236',4,'A402'),");
+        sb_insert_test_ryosei.append("('テスト237',4,'A402'),");
+        sb_insert_test_ryosei.append("('テスト238',4,'A402'),");
+        sb_insert_test_ryosei.append("('テスト239',4,'A403'),");
+        sb_insert_test_ryosei.append("('テスト240',4,'A403'),");
+        sb_insert_test_ryosei.append("('テスト241',4,'A403'),");
+        sb_insert_test_ryosei.append("('テスト242',4,'A403'),");
+        sb_insert_test_ryosei.append("('テスト245',10,'図書室'),");
+        sb_insert_test_ryosei.append("('テスト246',10,'図書室'),");
+        sb_insert_test_ryosei.append("('テスト247',10,'図書室'),");
+        sb_insert_test_ryosei.append("('テスト248',10,'図書室'),");
+        sb_insert_test_ryosei.append("('テスト249',10,'図書室'),");
+        sb_insert_test_ryosei.append("('テスト250',10,'図書室'),");
+        sb_insert_test_ryosei.append("('テスト251',10,'旧印刷室'),");
+        sb_insert_test_ryosei.append("('テスト252',10,'旧印刷室'),");
+        sb_insert_test_ryosei.append("('テスト253',10,'旧印刷室'),");
+        sb_insert_test_ryosei.append("('テスト254',10,'旧印刷室'),");
+        sb_insert_test_ryosei.append("('テスト255',10,'旧会議室'),");
+        sb_insert_test_ryosei.append("('テスト256',10,'旧会議室'),");
+        sb_insert_test_ryosei.append("('テスト257',10,'旧会議室'),");
+        sb_insert_test_ryosei.append("('テスト258',10,'旧会議室'),");
+        sb_insert_test_ryosei.append("('テスト259',10,'旧会議室');");
         String sql_insert_test_ryosei = sb_insert_test_ryosei.toString();
         db.execSQL(sql_insert_test_ryosei);
     }
@@ -383,6 +411,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+
     public List<Map<String,String>> nimotsuCountOfRyosei (SQLiteDatabase db, String owner_id){
         //荷物IDとラベル(日時、受け取り事務当、場所）を返す。
         List<Map<String,String>> show_owners_parcels = new ArrayList<>();
@@ -433,6 +462,57 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return show_owners_parcels;
     }
 
+    public List<Map<String,String>> nightdutylist (SQLiteDatabase db){
+        //荷物IDとラベル(日時、受け取り事務当、場所）を返す。
+        List<Map<String,String>> show_owners_parcels = new ArrayList<>();
+        String sql = "SELECT _id, placement, register_datetime," +
+                "register_staff_room_name, register_staff_parcels_name " +
+                "FROM parcels WHERE is_released = 0 ";
+        Cursor cursor = db.rawQuery(sql, null);
+        while(cursor.moveToNext()){
+            Map<String, String> parcels_raw = new HashMap<>();
+            int index_id = cursor.getColumnIndex("_id");
+            int index_placement = cursor.getColumnIndex("placement");
+            int index_register_datetime = cursor.getColumnIndex("register_datetime");
+            int index_register_staff_room_name = cursor.getColumnIndex("register_staff_room_name");
+            int index_register_staff_parcels_name = cursor.getColumnIndex("register_staff_parcels_name");
+            String rabel = "";
+            String parcels_id = "";
+            parcels_id = String.valueOf(cursor.getInt(index_id));
+            rabel += "登録日時　" + cursor.getString(index_register_datetime);
+            rabel += " ";
+            rabel += "受取事務当　" + cursor.getString(index_register_staff_room_name);
+            rabel += " ";
+            rabel += cursor.getString(index_register_staff_parcels_name);
+            rabel += " ";
+            switch (cursor.getInt(index_placement)){
+                case 0 :
+                    rabel += "普通";
+                    break;
+                case 1 :
+                    rabel += "冷蔵";
+                    break;
+                case 2 :
+                    rabel += "冷凍";
+                    break;
+                case 3 :
+                    rabel += "大型";
+                    break;
+                case 4 :
+                    rabel += "不在票";
+                    break;
+                case 5 :
+                    rabel += "その他";
+                    break;
+            }
+            parcels_raw.put("rabel",rabel);
+            parcels_raw.put("parcels_id",parcels_id);
+            show_owners_parcels.add(parcels_raw);
+        }
+        return show_owners_parcels;
+    }
+
+
     public void nimotsuCountAdder( SQLiteDatabase db,String owner_id){
         int parcels_current_count = 0;
         int parcels_total_count = 0;
@@ -482,6 +562,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sql = "UPDATE ryosei SET parcels_current_count ="+ String.valueOf(parcels_current_count)
                 + " WHERE _id =" + owner_id;
         db.execSQL(sql);
+    }
+
+    public void night_check_updater(SQLiteDatabase db, String parcels_uid){
+        // 現在日時情報で初期化されたインスタンスの生成
+        Date dateObj = new Date();
+        SimpleDateFormat format = new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" );
+        String string_register_time = format.format( dateObj );
+        String sql = "UPDATE parcels SET "+
+                " lost_datetime =" + " \"" + string_register_time +"\"" +
+                " WHERE _id =" + parcels_uid;
+        db.execSQL(sql);
+    }
+
+    public void event_add_night_duty(SQLiteDatabase db, String staffid, String staffroom, String staffname){
+
     }
 
 
@@ -646,6 +741,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         json_str+="]";
         return json_str;
     }
+
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
