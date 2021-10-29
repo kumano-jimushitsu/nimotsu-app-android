@@ -64,6 +64,11 @@ public class MainActivity extends AppCompatActivity {
         ListView eventLogshower = findViewById(R.id.event_show);
         eventLogshower.setOnItemClickListener(new EventShowListener());
 
+        Button post_button = findViewById(R.id.post_button);
+        postListener listener6 = new postListener();
+        post_button.setOnClickListener(listener6);
+
+
 
     }
 
@@ -113,6 +118,16 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         ListView listListener = findViewById(R.id.event_show);
         listListener.setOnItemClickListener(new EventShowListener());
+    }
+
+    private class postListener implements View.OnClickListener{
+        @Override
+        public void onClick(View view){
+            TextView posttext  = findViewById((R.id.textView5));
+            posttext.setText("POSTされました。");
+            OkHttpPost postTask = new OkHttpPost();
+            postTask.execute();
+        }
     }
 
 
