@@ -22,10 +22,9 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
 
         OkHttpClient client = new OkHttpClient();
 
-        String url = "http://httpbin.org/post";
-        //String url = "http://192.168.100.120";
-        //String url = "http://127.0.0.1:8000/items/";
-
+//        String url = "http://httpbin.org/post";
+        String url = "http://192.168.100.120:8080/ryosei/create";
+//        String url = "http://127.0.0.1:8000/items/";
         RequestBody body = RequestBody.create(JSON, json);
 
         Request request = new Request.Builder()
