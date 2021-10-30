@@ -354,8 +354,9 @@ public class MainActivity extends AppCompatActivity {
             SQLiteDatabase db = _helper.getWritableDatabase();
             String test;
             test=_helper.select_ryosei_show_json(db);
-            TextView test_txtbox = findViewById(R.id.textView5);
-            test_txtbox.setText(test);
+            OkHttpPost postTask = new OkHttpPost();
+            postTask.json = test;
+            postTask.execute();
         }
     }
     private class DBselect_Listener_parcels implements View.OnClickListener {
@@ -366,8 +367,9 @@ public class MainActivity extends AppCompatActivity {
             SQLiteDatabase db = _helper.getWritableDatabase();
             String test;
             test=_helper.select_parcels_show_json(db);
-            TextView test_txtbox = findViewById(R.id.textView5);
-            test_txtbox.setText(test);
+            OkHttpPost postTask = new OkHttpPost();
+            postTask.json = test;
+            postTask.execute();
         }
     }
 
@@ -379,8 +381,9 @@ public class MainActivity extends AppCompatActivity {
             SQLiteDatabase db = _helper.getWritableDatabase();
             String test;
             test=_helper.select_event_show_json(db);
-            TextView test_txtbox = findViewById(R.id.textView5);
-            test_txtbox.setText(test);
+            OkHttpPost postTask = new OkHttpPost();
+            postTask.json = test;
+            postTask.execute();
         }
     }
 
