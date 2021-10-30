@@ -106,27 +106,31 @@ public class MainActivity extends AppCompatActivity {
             String text = "";
             int index = cursor.getColumnIndex("_id");
             String event_id = String.valueOf(cursor.getInt(index));
-            index = cursor.getColumnIndex("created_at");
-            text += cursor.getString(index);
             index = cursor.getColumnIndex("event_type");
             int event_type_int = cursor.getInt(index);
             switch (event_type_int) {
                 case 1://荷物登録
+                    text =  "登録   ";
                     index = cursor.getColumnIndex("room_name");
                     text += cursor.getString(index);
                     index = cursor.getColumnIndex("ryosei_name");
-                    text += cursor.getString(index) + " に荷物登録";
+                    text +="    ";
+                    text += cursor.getString(index);
                     break;
                 case 2://荷物受取
+                    text =  "受渡   ";
                     index = cursor.getColumnIndex("room_name");
                     text += cursor.getString(index);
                     index = cursor.getColumnIndex("ryosei_name");
-                    text += cursor.getString(index) + " が荷物受取";
+                    text +="    ";
+                    text += cursor.getString(index);
                     break;
                 case 3://イベント削除：表示しなくてもいいかもね
-                    text+="イベントが削除されました";
+                    text="イベントが削除されました";
                     break;
             }
+            index = cursor.getColumnIndex("created_at");
+            text +="  " +  cursor.getString(index);
             event_raw.put("id", event_id);
             event_raw.put("text", text);
             show_eventlist.add(event_raw);
