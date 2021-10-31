@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private int[] to = {android.R.id.text2,android.R.id.text1};
 
     private TouchSound touchsound;
+    final Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -428,8 +429,12 @@ public class MainActivity extends AppCompatActivity {
             SQLiteDatabase db = _helper.getWritableDatabase();
             String test;
             test=_helper.select_ryosei_show_json(db);
+<<<<<<< HEAD
             /*
             OkHttpPost postTask = new OkHttpPost();
+=======
+            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler);
+>>>>>>> d29840c (PCから送られてきたデータをToastで表示できるようにした)
             postTask.json = test;
             postTask.execute();
              */
@@ -448,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
             SQLiteDatabase db = _helper.getWritableDatabase();
             String test;
             test=_helper.select_parcels_show_json(db);
-            OkHttpPost postTask = new OkHttpPost();
+            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler);
             postTask.json = test;
             touchsound.playsoundOne();
             postTask.execute();
@@ -463,7 +468,7 @@ public class MainActivity extends AppCompatActivity {
             SQLiteDatabase db = _helper.getWritableDatabase();
             String test;
             test=_helper.select_event_show_json(db);
-            OkHttpPost postTask = new OkHttpPost();
+            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler);
             postTask.json = test;
             touchsound.playsoundOne();
             postTask.execute();

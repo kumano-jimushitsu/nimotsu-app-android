@@ -1,9 +1,16 @@
 package com.example.top;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -13,6 +20,14 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class OkHttpPost extends AsyncTask<String,String,String> {
+
+    Context context;
+    Handler handler;
+
+    public OkHttpPost(Context context, Handler handler) {
+        this.context = context;
+        this.handler = handler;
+    }
 
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
     String json = "{\"name\":\"名前\", \"taxis\":\"分類\"}";
@@ -36,9 +51,18 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
                 .post(formBody)
                 .build();
 
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
         try {
             Response response = client.newCall(request).execute();
-            return response.body().string();
+            // PCからのメッセージをポップアップで表示する
+            String popup_msg = response.body().string();
+            executor.execute(() -> {
+                handler.post(() -> {
+                    Toast.makeText(context, popup_msg, Toast.LENGTH_SHORT).show();
+                });
+            });
+            return "Success";
         } catch (IOException e) {
             e.printStackTrace();
         }
