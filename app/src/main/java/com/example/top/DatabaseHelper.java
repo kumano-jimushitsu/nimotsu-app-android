@@ -685,8 +685,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             for(enum_ryosei column:enum_ryosei.values()){
                 String col = column.toString();
                 String val = cursor.getString(cursor.getColumnIndex(col));
+                json_str+="\"";
                 json_str+=col;
-                json_str+=": ";
+                json_str+="\": ";
                 if(column.getCode()==1&&val!=null)json_str+="\"";
                 json_str+=val;
                 if(column.getCode()==1&&val!=null)json_str+="\"";
