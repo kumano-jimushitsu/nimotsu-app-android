@@ -13,42 +13,42 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginTop="36dp"
-        android:text="荷物受け取りアプリ トップ"
+        android:text="荷物受け取りアプリ"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/image_button_touroku"
-        android:layout_width="383dp"
-        android:layout_height="230dp"
-        android:layout_margin="50dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="71dp"
-        android:background="@drawable/touroku"
+        android:layout_width="600dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="140dp"
+        android:background="@drawable/uketori"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageButton
         android:id="@+id/image_button_uketori"
-        android:layout_width="393dp"
-        android:layout_height="203dp"
-        android:layout_margin="50dp"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="38dp"
-        android:background="@drawable/uketori"
+        android:layout_width="600dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="388dp"
+        android:background="@drawable/hikiwatashi"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_button_touroku"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <ListView
         android:id="@+id/event_show"
-        android:layout_width="507dp"
-        android:layout_height="329dp"
-        android:layout_marginStart="144dp"
-        android:layout_marginTop="34dp"
-        app:layout_constraintStart_toEndOf="@+id/image_button_uketori"
-        app:layout_constraintTop_toBottomOf="@+id/textView4">
+        android:layout_width="428dp"
+        android:layout_height="550dp"
+        android:layout_marginStart="772dp"
+        android:layout_marginTop="172dp"
+        android:background="#F1F1F1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     </ListView>
 
@@ -56,10 +56,10 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="164dp"
-        android:layout_marginTop="192dp"
+        android:layout_marginStart="800dp"
+        android:layout_marginTop="148dp"
         android:text="履歴"
-        app:layout_constraintStart_toEndOf="@+id/image_button_touroku"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -103,28 +103,30 @@
 
     <Button
         android:id="@+id/duty_night_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="536dp"
-        android:layout_marginTop="84dp"
-        android:text="Night_Duty"
-        app:layout_constraintStart_toEndOf="@+id/button_select3"
-        app:layout_constraintTop_toBottomOf="@+id/event_show" />
+        android:layout_width="208dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="456dp"
+        android:layout_marginTop="656dp"
+        android:background="#E0EF4A"
+        android:text="荷物一覧\n泊まり事務当"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="484dp"
-        android:layout_marginTop="64dp"
+        android:layout_width="400dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="780dp"
+        android:layout_marginTop="52dp"
         android:background="@drawable/jimutoboder"
         android:orientation="horizontal"
-        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/main_jimutou_show"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:text="設定されていません。"
             android:textSize="20sp"
@@ -133,13 +135,15 @@
 
         <Button
             android:id="@+id/jimuto_change_button"
-            android:layout_width="wrap_content"
+            android:layout_width="144dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
             android:layout_marginTop="5dp"
-            android:text="jimutou_change"
+
+            android:text="事務当番設定"
             app:layout_constraintTop_toTopOf="parent"
             app:rippleColor="@color/teal_200"
-            tools:layout_editor_absoluteX="1009dp" />
+            tools:layout_editor_absoluteX="1020dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,7 +32,7 @@ public class Delete_Event_Dialog extends DialogFragment {
                 .setMessage("工事中");
 
         if(event_type.equals("1")||event_type.equals("2")){
-            builder.setMessage("工事中です。")
+            builder.setMessage("最低限動作しますが作成中です")
                     .setPositiveButton("イベント削除", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     _helper = new com.example.top.DatabaseHelper(requireContext());

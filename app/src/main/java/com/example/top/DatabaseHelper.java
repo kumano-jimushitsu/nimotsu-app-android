@@ -469,7 +469,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Map<String,String>> show_owners_parcels = new ArrayList<>();
         String sql = "SELECT _id, placement, register_datetime,lost_datetime," +
                 "register_staff_room_name, register_staff_parcels_name,owner_room_name,owner_parcels_name " +
-                "FROM parcels WHERE is_released = 0 ";
+                "FROM parcels WHERE is_released = 0 and is_deleted=0";
         Cursor cursor = db.rawQuery(sql, null);
         while(cursor.moveToNext()){
             Map<String, String> parcels_raw = new HashMap<>();
