@@ -13,6 +13,12 @@
             android:name=".Nimotsu_show"
             android:exported="true" />
         <activity
+            android:name=".Double_Buttoned_Uketori"
+            android:exported="true" />
+        <activity
+            android:name=".Double_Jimuto_Change"
+            android:exported="true" />
+        <activity
             android:name=".Double_Buttoned_Touroku"
             android:exported="true" />
         <activity

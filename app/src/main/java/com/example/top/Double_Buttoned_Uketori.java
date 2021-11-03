@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -24,13 +25,13 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Double_Buttoned_Touroku extends AppCompatActivity {
-
+public class Double_Buttoned_Uketori extends AppCompatActivity {
 
     private DatabaseHelper _helper;
     Cursor cursor;
 
     //ArrayListを用意
+    private ArrayList<String > ryosei_block = new ArrayList<>();
     private String jimuto_name_Str= "";
     private String jimuto_id_Str= "";
     private String jimuto_room_Str= "";
@@ -38,10 +39,12 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
     private String selectedRoom="";//選択された部屋
     private ArrayList<String> blocks_roomname_name = new ArrayList<>();
     private ArrayList<String> blocks_ryosei_id = new ArrayList<>();
+    private ArrayList<Integer> ryosei_parcels_count = new ArrayList<>();
+    private List<Map<String,String>> show_list = new ArrayList<>();
     private List<Map<String,String>> show_ryosei = new ArrayList<>();//表示する寮生
     private List<String> show_block = new ArrayList<>();//全てのブロック
     private List<String> show_room = new ArrayList<>();//全ての部屋or選択されたブロックの部屋
-    private String[] from={"id","room_name"};
+    private String[] from={"parcels_current_count","room_name"};
     private int[] to = {android.R.id.text2,android.R.id.text1};
 
 
@@ -49,7 +52,7 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.double_buttoned_touroku_layout);
+        setContentView(R.layout.double_buttoned_uketori_layout);
 
         //事務当番の名前を受け取る
         Intent intent = getIntent();
@@ -57,91 +60,32 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
         jimuto_id_Str = intent.getStringExtra("Jimuto_id");
         jimuto_room_Str = intent.getStringExtra("Jimuto_room");
         //事務当番の名前を表示する
-        TextView jimuto_name =findViewById(R.id.double_jimutou_name_show);
+        TextView jimuto_name =findViewById(R.id.  double_jimutou_name_show);
         jimuto_name.setText("ただいまの事務当番は " + jimuto_room_Str +" "+jimuto_name_Str+" です。");
-
-        selectedBlock = null;
-
-        Button backbutton =(Button)findViewById(R.id.double_touroku_go_back_button);
+        Button backbutton =(Button)findViewById(R.id.double_uketori_go_back_button);
         backbutton.setOnClickListener(this::onBackButtonClick);
-
-
-
+        selectedBlock = null;
         // DBヘルパーオブジェクトを生成。
-        _helper = new DatabaseHelper(Double_Buttoned_Touroku.this);
-
+        _helper = new DatabaseHelper(Double_Buttoned_Uketori.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
-
-        this.show_block_ryosei("");//""を渡すと全寮生を表示
-        ListView ryoseilistListener = findViewById(R.id.double_buttoned_touroku_ryosei_list);
-        ryoseilistListener.setOnItemClickListener(new ListRyoseiClickListener());
         get_block();
         show_block();
         get_room(" ");
         Collections.sort(show_room);
         show_room();
-        ListView blocklistListener = findViewById(R.id.double_buttoned_touroku_block_list);
-        blocklistListener.setOnItemClickListener(new ListBlockClickListener());
-        ListView roomlistListener = findViewById(R.id.double_buttoned_touroku_room_list);
-        roomlistListener.setOnItemClickListener(new ListRoomClickListener());
+        this.show_block_ryosei(null);//nullを渡すと全寮生を表示
+        ListView blocklistListener = findViewById(R.id.double_buttoned_uketori_block_list);
+        blocklistListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListBlockClickListener());
+        ListView roomlistListener = findViewById(R.id.double_buttoned_uketori_room_list);
+        roomlistListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListRoomClickListener());
 
     }
-    public void show_block_ryosei (String block){
-        show_ryosei.clear();
-        // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
-        SQLiteDatabase db = _helper.getWritableDatabase();
-        String sql;
-        // 主キーによる検索SQL文字列の用意。
-        if (block == ""){
-            sql = "SELECT _id, room_name, ryosei_name FROM ryosei;";
-        }else {
-            sql = "SELECT _id, room_name, ryosei_name FROM ryosei WHERE block_id = '" + block_to_id(block) + "';";
-        }// SQLの実行。
-        Cursor cursor = db.rawQuery(sql, null);
-        //ブロックの寮生を検索しArrayListに追加
-        while(cursor.moveToNext()) {
-            Map<String,String> ryosei_raw = new HashMap<>();
-            // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
-            String note = "";
-            String ryosei_id = "";
-            // カラムのインデックス値を取得。
-            int idNote = cursor.getColumnIndex("_id");
-            // カラムのインデックス値を元に実際のデータを取得。
-            ryosei_id = String.valueOf(cursor.getInt(idNote));
-            ryosei_raw.put("id",String.valueOf(cursor.getInt(idNote)));
-            // カラムのインデックス値を取得。
-            int roomNameNote = cursor.getColumnIndex("room_name");
-            // カラムのインデックス値を元に実際のデータを取得。
-            note += cursor.getString(roomNameNote);
-            note += " ";
-            int ryouseiNote = cursor.getColumnIndex("ryosei_name");
-            note += cursor.getString(ryouseiNote);
-            ryosei_raw.put("room_name",note);
-            blocks_roomname_name.add(note);
-            blocks_ryosei_id.add(ryosei_id);
-            show_ryosei.add(ryosei_raw);
-
-        }
-        // リスト項目とListViewを対応付けるArrayAdapterを用意する
-        SimpleAdapter blocktoryoseiadapter = new SimpleAdapter
-                (this,
-                        show_ryosei,
-                        android.R.layout.simple_list_item_1,
-                        from,
-                        to);
-        // ListViewにArrayAdapterを設定する
-        ListView listView = (ListView)findViewById(R.id.double_buttoned_touroku_ryosei_list);
-        listView.setAdapter(blocktoryoseiadapter);
-        ListView listListener = findViewById(R.id.double_buttoned_touroku_ryosei_list);
-        listListener.setOnItemClickListener(new ListRyoseiClickListener());
-        _helper.close();
-    }
-    public void show_room_ryosei (String room){
-        show_ryosei.clear();
+    public void show_ryosei (int block){
+        show_list.clear();
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         SQLiteDatabase db = _helper.getWritableDatabase();
         // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT _id, room_name, ryosei_name FROM ryosei WHERE room_name = '"+ room +"';" ;
+        String sql = "SELECT _id, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE block_id = '"+ String.valueOf(block) +"';" ;
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -163,23 +107,132 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
             int ryouseiNote = cursor.getColumnIndex("ryosei_name");
             note += cursor.getString(ryouseiNote);
             ryosei_raw.put("room_name",note);
+            int index_parcels_current_count = cursor.getColumnIndex("parcels_current_count");
+            int parcels_count = cursor.getInt(index_parcels_current_count);
+            ryosei_raw.put("parcels_current_count",String.valueOf(parcels_count));
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
-            show_ryosei.add(ryosei_raw);
+            ryosei_parcels_count.add(parcels_count);
+            show_list.add(ryosei_raw);
 
         }
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter adapter = new SimpleAdapter
                 (this,
-                        show_ryosei,
-                        android.R.layout.simple_list_item_1,
+                        show_list,
+                        android.R.layout.simple_list_item_2,
+                        from,
+                        to);
+
+        // ListViewにArrayAdapterを設定する
+        ListView listView = (ListView)findViewById(R.id.double_buttoned_uketori_ryosei_list);
+        listView.setAdapter(adapter);
+        ListView listListener = findViewById(R.id.double_buttoned_uketori_ryosei_list);
+        listListener.setOnItemClickListener(new ListItemClickListener());
+        _helper.close();
+    }
+    public void show_block_ryosei (String block){
+        show_list.clear();
+        // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
+        SQLiteDatabase db = _helper.getWritableDatabase();
+        String sql;
+        // 主キーによる検索SQL文字列の用意。
+        if (block == null){
+            sql = "SELECT _id, room_name, ryosei_name,parcels_current_count FROM ryosei;";
+        }else {
+            sql = "SELECT _id, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE block_id = '" + block_to_id(block) + "';";
+        }// SQLの実行。
+        Cursor cursor = db.rawQuery(sql, null);
+        //ブロックの寮生を検索しArrayListに追加
+        while(cursor.moveToNext()) {
+            Map<String,String> ryosei_raw = new HashMap<>();
+            // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
+            String note = "";
+            String ryosei_id = "";
+            // カラムのインデックス値を取得。
+            int idNote = cursor.getColumnIndex("_id");
+            // カラムのインデックス値を元に実際のデータを取得。
+            ryosei_id = String.valueOf(cursor.getInt(idNote));
+            ryosei_raw.put("id",String.valueOf(cursor.getInt(idNote)));
+            // カラムのインデックス値を取得。
+            int roomNameNote = cursor.getColumnIndex("room_name");
+            // カラムのインデックス値を元に実際のデータを取得。
+            note += cursor.getString(roomNameNote);
+            note += " ";
+            int ryouseiNote = cursor.getColumnIndex("ryosei_name");
+            note += cursor.getString(ryouseiNote);
+            ryosei_raw.put("room_name",note);
+            int index_parcels_current_count = cursor.getColumnIndex("parcels_current_count");
+            int parcels_count = cursor.getInt(index_parcels_current_count);
+            ryosei_raw.put("parcels_current_count",String.valueOf(parcels_count));
+            blocks_roomname_name.add(note);
+            blocks_ryosei_id.add(ryosei_id);
+            ryosei_parcels_count.add(parcels_count);
+            show_list.add(ryosei_raw);
+
+        }
+        // リスト項目とListViewを対応付けるArrayAdapterを用意する
+        SimpleAdapter blocktoryoseiadapter = new SimpleAdapter
+                (this,
+                        show_list,
+                        android.R.layout.simple_list_item_2,
                         from,
                         to);
         // ListViewにArrayAdapterを設定する
-        ListView listView = (ListView)findViewById(R.id.double_buttoned_touroku_ryosei_list);
-        listView.setAdapter(adapter);
-        ListView listListener = findViewById(R.id.double_buttoned_touroku_ryosei_list);
-        listListener.setOnItemClickListener(new ListRyoseiClickListener());
+        ListView listView = (ListView)findViewById(R.id.double_buttoned_uketori_ryosei_list);
+        listView.setAdapter(blocktoryoseiadapter);
+        ListView listListener = findViewById(R.id.double_buttoned_uketori_ryosei_list);
+        listListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListRyoseiClickListener());
+        _helper.close();
+    }
+    public void show_room_ryosei (String room){
+        show_list.clear();
+        // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
+        SQLiteDatabase db = _helper.getWritableDatabase();
+        // 主キーによる検索SQL文字列の用意。
+        String sql = "SELECT _id, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE room_name = '"+ room +"';" ;
+        // SQLの実行。
+        Cursor cursor = db.rawQuery(sql, null);
+        //ブロックの寮生を検索しArrayListに追加
+        while(cursor.moveToNext()) {
+            Map<String,String> ryosei_raw = new HashMap<>();
+            // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
+            String note = "";
+            String ryosei_id = "";
+            // カラムのインデックス値を取得。
+            int idNote = cursor.getColumnIndex("_id");
+            // カラムのインデックス値を元に実際のデータを取得。
+            ryosei_id = String.valueOf(cursor.getInt(idNote));
+            ryosei_raw.put("id",String.valueOf(cursor.getInt(idNote)));
+            // カラムのインデックス値を取得。
+            int roomNameNote = cursor.getColumnIndex("room_name");
+            // カラムのインデックス値を元に実際のデータを取得。
+            note += cursor.getString(roomNameNote);
+            note += " ";
+            int ryouseiNote = cursor.getColumnIndex("ryosei_name");
+            note += cursor.getString(ryouseiNote);
+            ryosei_raw.put("room_name",note);
+            int index_parcels_current_count = cursor.getColumnIndex("parcels_current_count");
+            int parcels_count = cursor.getInt(index_parcels_current_count);
+            ryosei_raw.put("parcels_current_count",String.valueOf(parcels_count));
+            blocks_roomname_name.add(note);
+            blocks_ryosei_id.add(ryosei_id);
+            ryosei_parcels_count.add(parcels_count);
+            show_list.add(ryosei_raw);
+        }
+        // リスト項目とListViewを対応付けるArrayAdapterを用意する
+        SimpleAdapter roomtoryoseiadapter = new SimpleAdapter
+                (this,
+                        show_list,
+                        android.R.layout.simple_list_item_2,
+                        from,
+                        to);
+        // ListViewにArrayAdapterを設定する
+        // ListViewにArrayAdapterを設定する
+        ListView listView = (ListView)findViewById(R.id.double_buttoned_uketori_ryosei_list);
+        listView.setAdapter(roomtoryoseiadapter);
+        ListView listListener = findViewById(R.id.double_buttoned_uketori_ryosei_list);
+        listListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListRyoseiClickListener());
         _helper.close();
     }
     public void show_block(){
@@ -187,10 +240,10 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
         ArrayAdapter blockadapter = new ArrayAdapter
                 (this,android.R.layout.simple_list_item_1, show_block);
         // ListViewにArrayAdapterを設定する
-        ListView blocklistView = (ListView)findViewById(R.id.double_buttoned_touroku_block_list);
+        ListView blocklistView = (ListView)findViewById(R.id.double_buttoned_uketori_block_list);
         blocklistView.setAdapter(blockadapter);
-        ListView blocklistListener = findViewById(R.id.double_buttoned_touroku_block_list);
-        blocklistListener.setOnItemClickListener(new ListRyoseiClickListener());
+        ListView blocklistListener = findViewById(R.id.double_buttoned_uketori_block_list);
+        blocklistListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListRyoseiClickListener());
         _helper.close();
     }
     public void get_block() {
@@ -211,10 +264,11 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
         ArrayAdapter blockadapter = new ArrayAdapter
                 (this,android.R.layout.simple_list_item_1, show_room);
         // ListViewにArrayAdapterを設定する
-        ListView roomlistView = (ListView)findViewById(R.id.double_buttoned_touroku_room_list);
+        ListView roomlistView = (ListView)findViewById(R.id.double_buttoned_uketori_room_list);
         roomlistView.setAdapter(blockadapter);
-        ListView roomlistListener = findViewById(R.id.double_buttoned_touroku_room_list);
-        roomlistListener.setOnItemClickListener(new ListRoomClickListener());
+        ListView roomlistListener = findViewById(R.id.double_buttoned_uketori_room_list);
+        roomlistListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListRoomClickListener());
+
         _helper.close();
     }
     public void get_room(String block) {
@@ -240,6 +294,7 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
             show_room.add(cursor.getString(roomNameNote));
             room_raw.clear();
         }
+
         _helper.close();
     }
     public int block_to_id(String block){
@@ -303,24 +358,34 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
             show_room_ryosei(selectedRoom);
         }
     }
-    private class ListRyoseiClickListener implements AdapterView.OnItemClickListener{
+    public class ListRyoseiClickListener implements AdapterView.OnItemClickListener{
 
         public void onItemClick(AdapterView<?> parent, View view, int position, long id){
             Map<String ,String> item = (Map)parent.getItemAtPosition(position);
-            this.showDialog(view,item.get("room_name"),item.get("id"));
+            if(Integer.parseInt(item.get("parcels_current_count"))==0){
+                String show = item.get("room_name") + "には現在荷物が一つも登録されていません。";
+                Toast.makeText(Double_Buttoned_Uketori.this, show ,Toast.LENGTH_LONG).show();
+            }else {
+                this.showDialog(view, item.get("room_name"), item.get("id"));
+
+
+            }
         }
         public void showDialog(View view,String owner_room_name,String owner_id) {
-            DialogFragment dialogFragment = new Nimotsu_Touroku_Dialog();
+            DialogFragment dialogFragment = new Nimotsu_Uketori_Dialog();
             String[] newStr = owner_room_name.split("\\s+");
             Bundle args = new Bundle();
             args.putString("owner_room",newStr[0]);
             args.putString("owner_name",newStr[1]);
             args.putString("owner_id",owner_id);
-            args.putString("register_staff_room",jimuto_room_Str);
-            args.putString("register_staff_name",jimuto_name_Str);
-            args.putString("register_staff_id",jimuto_id_Str);
+            args.putString("release_staff_room",jimuto_room_Str);
+            args.putString("release_staff_name",jimuto_name_Str);
+            args.putString("release_staff_id",jimuto_id_Str);
+
             dialogFragment.setArguments(args);
-            dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Touroku_Dialog");
+            dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Uketori_Dialog");
+
+
         }
 
     }
@@ -339,10 +404,12 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
         stmt.executeInsert();
     }
 
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK) {
             // 戻るボタンの処理
+            _helper.close();
             finish();
         }
 
@@ -350,8 +417,41 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
     }
 
     public void onBackButtonClick(View view){
+        _helper.close();
         finish();
     }
 
+
+    private class ListItemClickListener implements AdapterView.OnItemClickListener{
+
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+            Map<String ,String> item = (Map)parent.getItemAtPosition(position);
+            if(Integer.parseInt(item.get("parcels_current_count"))==0){
+                String show = item.get("room_name") + "には現在荷物が一つも登録されていません。";
+                Toast.makeText(Double_Buttoned_Uketori.this, show ,Toast.LENGTH_LONG).show();
+            }else {
+                this.showDialog(view, item.get("room_name"), item.get("id"));
+
+
+            }
+        }
+        public void showDialog(View view,String owner_room_name,String owner_id) {
+            DialogFragment dialogFragment = new Nimotsu_Uketori_Dialog();
+            String[] newStr = owner_room_name.split("\\s+");
+            Bundle args = new Bundle();
+            args.putString("owner_room",newStr[0]);
+            args.putString("owner_name",newStr[1]);
+            args.putString("owner_id",owner_id);
+            args.putString("release_staff_room",jimuto_room_Str);
+            args.putString("release_staff_name",jimuto_name_Str);
+            args.putString("release_staff_id",jimuto_id_Str);
+
+            dialogFragment.setArguments(args);
+            dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Uketori_Dialog");
+
+
+        }
+
+    }
 }
 

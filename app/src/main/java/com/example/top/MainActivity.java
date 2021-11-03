@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
+import java.util.*;
 public class MainActivity extends AppCompatActivity {
 
     private static final int JIMUTOCHANGE_ACTIVITY = 1001;
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String [] from ={"id","text"};
     private int[] to = {android.R.id.text2,android.R.id.text1};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +59,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         Button jimutou_change = findViewById(R.id.jimuto_change_button);
-        JimutoChangeListener listener4 = new JimutoChangeListener();
+        DoubleJimutoChangeListener listener4 = new DoubleJimutoChangeListener();
         jimutou_change.setOnClickListener(listener4);
 
         ImageButton image_button_uketori = findViewById(R.id.image_button_uketori);
-        UketoriListener listener5 = new UketoriListener();
+        DoubleUketoriListener listener5 = new DoubleUketoriListener();
         image_button_uketori.setOnClickListener(listener5);
 
         eventLogshow();
@@ -218,11 +219,36 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private class DoubleUketoriListener implements  View.OnClickListener {
+        @Override
+        public void onClick(View view){
+            if (jimuto_id == null) {
+                String show = "先に事務当番を設定してください。";
+                Toast.makeText(MainActivity.this, show ,Toast.LENGTH_LONG).show();
+            } else {
+                Intent intent = new Intent(MainActivity.this, Double_Buttoned_Uketori.class);
+                intent.putExtra("Jimuto_id", jimuto_id);
+                intent.putExtra("Jimuto_room", jimuto_room);
+                intent.putExtra("Jimuto_name", jimuto_name);
+                startActivity(intent);
+            }
+        }
+
+    }
 
     private class JimutoChangeListener implements AdapterView.OnClickListener {
         @Override
         public void onClick(View view) {
             Intent jimuto_intent = new Intent(MainActivity.this, Jimuto_Change.class);
+            jimuto_intent.putExtra("Jimuto_name",jimuto_room + " " + jimuto_name);
+            jimuto_intent.putExtra("Jimuto_id",jimuto_id);
+            startActivityForResult(jimuto_intent,JIMUTOCHANGE_ACTIVITY);
+        }
+    }
+    private class DoubleJimutoChangeListener implements AdapterView.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            Intent jimuto_intent = new Intent(MainActivity.this, Double_Jimuto_Change.class);
             jimuto_intent.putExtra("Jimuto_name",jimuto_room + " " + jimuto_name);
             jimuto_intent.putExtra("Jimuto_id",jimuto_id);
             startActivityForResult(jimuto_intent,JIMUTOCHANGE_ACTIVITY);
@@ -255,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id){
             String event_id="";
             String ryosei_uid="";
-            String created_at="";
+            String created_at=null;
             String event_type = null;
             String parcel_uid="";
             String room_name="";
@@ -276,6 +302,10 @@ public class MainActivity extends AppCompatActivity {
                 event_id = String.valueOf(cursor.getInt(index));
                 index = cursor.getColumnIndex("created_at");
                 created_at = cursor.getString(index);
+                created_at= Objects.toString(created_at);
+                if(created_at == null){
+                    created_at = "未チェック";
+                }
                 index = cursor.getColumnIndex("event_type");
                 event_type = String.valueOf(cursor.getInt(index));
                 index = cursor.getColumnIndex("parcel_uid");
@@ -302,6 +332,8 @@ public class MainActivity extends AppCompatActivity {
             args.putString("event_type",event_type);
             dialogFragment.setArguments(args);
             dialogFragment.show(getSupportFragmentManager(), "Delete_Event_Dialog");
+
+            _helper.close();
         }
 
     }

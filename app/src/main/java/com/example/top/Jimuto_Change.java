@@ -164,6 +164,7 @@ public class Jimuto_Change extends AppCompatActivity {
             jimuto_intent.putExtra("Jimuto_room_name", jimuto_room_name);
             jimuto_intent.putExtra("Jimuto_id", jimuto_id);
             setResult(RESULT_OK,jimuto_intent);
+            _helper.close();
             finish();
         }
 
@@ -176,6 +177,7 @@ public class Jimuto_Change extends AppCompatActivity {
         jimuto_intent.putExtra("Jimuto_room_name", jimuto_room_name);
         jimuto_intent.putExtra("Jimuto_id", jimuto_id);
         setResult(RESULT_OK,jimuto_intent);
+        _helper.close();
         finish();
     }
 

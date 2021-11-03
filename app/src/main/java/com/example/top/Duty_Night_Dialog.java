@@ -1,14 +1,22 @@
 package com.example.top;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDialog;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.List;
@@ -45,7 +53,7 @@ public class Duty_Night_Dialog extends DialogFragment {
             isCheckedList[i] = false;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("確認できた荷物にチェックを入れてください。")
+        builder.setTitle("泊まり事務当用の画面です。確認できた荷物にチェックを入れてください。")
                 .setPositiveButton("確認", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // このボタンを押した時の処理を書きます。
@@ -68,6 +76,14 @@ public class Duty_Night_Dialog extends DialogFragment {
 
                     }
                 });
+        /*
+        Dialog d = builder.setView(new View(getActivity())).create();
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(d.getWindow().getAttributes());
+        lp.width = (int)(getResources().getDisplayMetrics().widthPixels*0.60);
+        lp.height = (int)(getResources().getDisplayMetrics().heightPixels*0.70);
+        d.show();
+        d.getWindow().setAttributes(lp); */
         return builder.create();
     }
 }
