@@ -114,7 +114,7 @@ public class Jimuto_Change extends AppCompatActivity {
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         SQLiteDatabase db = _helper.getWritableDatabase();
         // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT _id, room_name, ryosei_name FROM ryosei WHERE block_id = "+ String.valueOf(block) +";" ;
+        String sql = "SELECT uid, room_name, ryosei_name FROM ryosei WHERE block_id = "+ String.valueOf(block) +";" ;
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -124,7 +124,7 @@ public class Jimuto_Change extends AppCompatActivity {
             String note = "";
             String ryosei_id = "";
             // カラムのインデックス値を取得。
-            int idNote = cursor.getColumnIndex("_id");
+            int idNote = cursor.getColumnIndex("uid");
             // カラムのインデックス値を元に実際のデータを取得。
             ryosei_id = String.valueOf(cursor.getInt(idNote));
             ryosei_raw.put("id",String.valueOf(cursor.getInt(idNote)));

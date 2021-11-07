@@ -1,14 +1,14 @@
 package com.example.top;
 
 public enum enum_event {
-    _id(100),
+    uid(1),
     created_at(1),
     event_type(100),
-    parcel_uid(100),
-    ryosei_uid(100),
+    parcel_uid(1),
+    ryosei_uid(1),
     room_name(1),
     ryosei_name(1),
-    target_event_uid(100),
+    target_event_uid(1),
     note(1),
     is_finished(100),
     is_deleted(100),

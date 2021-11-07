@@ -44,12 +44,12 @@ public class Duty_Night_Dialog extends DialogFragment {
 
         List<Map<String,String>> choices = _helper.nightdutylist(db);
         String[] rabellist = new String[choices.size()];
-        int[] idlist = new int[choices.size()];
+        String[] idlist = new String[choices.size()];
         boolean[] isCheckedList = new boolean[choices.size()];
         nimotsu_count_sametime = 0;
         for(int i =0;i < choices.size();i++){
             rabellist[i] = choices.get(i).get("rabel");
-            idlist[i] = Integer.parseInt(choices.get(i).get("parcels_id"));
+            idlist[i] = choices.get(i).get("parcels_id");
             isCheckedList[i] = false;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -59,7 +59,7 @@ public class Duty_Night_Dialog extends DialogFragment {
                         // このボタンを押した時の処理を書きます。
                         for(int i = 0; i < choices.size(); i++){
                             if(isCheckedList[i]){
-                                _helper.night_check_updater(db,String.valueOf(idlist[i]));
+                                _helper.night_check_updater(db,idlist[i]);
                             }
                         }
                         if(nimotsu_count_sametime != 0){

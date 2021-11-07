@@ -88,10 +88,10 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         SQLiteDatabase db = _helper.getWritableDatabase();
         String sql;
         if(block==null){
-            sql = "SELECT _id, room_name, ryosei_name, parcels_current_count FROM ryosei ;";
+            sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei ;";
         }else {
             // 主キーによる検索SQL文字列の用意。
-            sql = "SELECT _id, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE block_id = '" + block + "';";
+            sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE block_id = '" + block + "';";
         }
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
@@ -102,10 +102,10 @@ public class Double_Jimuto_Change extends AppCompatActivity {
             String note = "";
             String ryosei_id = "";
             // カラムのインデックス値を取得。
-            int idNote = cursor.getColumnIndex("_id");
+            int idNote = cursor.getColumnIndex("uid");
             // カラムのインデックス値を元に実際のデータを取得。
-            ryosei_id = String.valueOf(cursor.getInt(idNote));
-            ryosei_raw.put("id",String.valueOf(cursor.getInt(idNote)));
+            ryosei_id = cursor.getString(idNote);
+            ryosei_raw.put("id",cursor.getString(idNote));
             // カラムのインデックス値を取得。
             int roomNameNote = cursor.getColumnIndex("room_name");
             // カラムのインデックス値を元に実際のデータを取得。
@@ -144,9 +144,9 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         String sql;
         // 主キーによる検索SQL文字列の用意。
         if (block == null){
-            sql = "SELECT _id, room_name, ryosei_name,parcels_current_count FROM ryosei;";
+            sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei;";
         }else {
-            sql = "SELECT _id, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE block_id = '" + block_to_id(block) + "';";
+            sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE block_id = '" + block_to_id(block) + "';";
         }// SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -156,10 +156,10 @@ public class Double_Jimuto_Change extends AppCompatActivity {
             String note = "";
             String ryosei_id = "";
             // カラムのインデックス値を取得。
-            int idNote = cursor.getColumnIndex("_id");
+            int idNote = cursor.getColumnIndex("uid");
             // カラムのインデックス値を元に実際のデータを取得。
-            ryosei_id = String.valueOf(cursor.getInt(idNote));
-            ryosei_raw.put("id",String.valueOf(cursor.getInt(idNote)));
+            ryosei_id = cursor.getString(idNote);
+            ryosei_raw.put("id",cursor.getString(idNote));
             // カラムのインデックス値を取得。
             int roomNameNote = cursor.getColumnIndex("room_name");
             // カラムのインデックス値を元に実際のデータを取得。
@@ -196,7 +196,7 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         SQLiteDatabase db = _helper.getWritableDatabase();
         // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT _id, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE room_name = '"+ room +"';" ;
+        String sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE room_name = '"+ room +"';" ;
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -206,10 +206,10 @@ public class Double_Jimuto_Change extends AppCompatActivity {
             String note = "";
             String ryosei_id = "";
             // カラムのインデックス値を取得。
-            int idNote = cursor.getColumnIndex("_id");
+            int idNote = cursor.getColumnIndex("uid");
             // カラムのインデックス値を元に実際のデータを取得。
-            ryosei_id = String.valueOf(cursor.getInt(idNote));
-            ryosei_raw.put("id",String.valueOf(cursor.getInt(idNote)));
+            ryosei_id = cursor.getString(idNote);
+            ryosei_raw.put("id",cursor.getString(idNote));
             // カラムのインデックス値を取得。
             int roomNameNote = cursor.getColumnIndex("room_name");
             // カラムのインデックス値を元に実際のデータを取得。
@@ -358,52 +358,6 @@ public class Double_Jimuto_Change extends AppCompatActivity {
             show_room_ryosei(selectedRoom);
         }
     }
-
-    public void show_ryosei (int block){
-        show_list.clear();
-        // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
-        SQLiteDatabase db = _helper.getWritableDatabase();
-        // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT _id, room_name, ryosei_name FROM ryosei WHERE block_id = "+ block +";" ;
-        // SQLの実行。
-        Cursor cursor = db.rawQuery(sql, null);
-        //ブロックの寮生を検索しArrayListに追加
-        while(cursor.moveToNext()) {
-            Map<String,String> ryosei_raw = new HashMap<>();
-            // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
-            String note = "";
-            String ryosei_id = "";
-            // カラムのインデックス値を取得。
-            int idNote = cursor.getColumnIndex("_id");
-            // カラムのインデックス値を元に実際のデータを取得。
-            ryosei_id = String.valueOf(cursor.getInt(idNote));
-            ryosei_raw.put("id",String.valueOf(cursor.getInt(idNote)));
-            // カラムのインデックス値を取得。
-            int roomNameNote = cursor.getColumnIndex("room_name");
-            // カラムのインデックス値を元に実際のデータを取得。
-            note += cursor.getString(roomNameNote);
-            note += " ";
-            int ryouseiNote = cursor.getColumnIndex("ryosei_name");
-            note += cursor.getString(ryouseiNote);
-            ryosei_raw.put("room_name",note);
-            blocks_roomname_name.add(note);
-            blocks_ryosei_id.add(ryosei_id);
-            show_list.add(ryosei_raw);
-
-        }
-        // リスト項目とListViewを対応付けるArrayAdapterを用意する
-        SimpleAdapter adapter = new SimpleAdapter
-                (this,
-                   show_list,
-                   android.R.layout.simple_list_item_1,
-                  from,
-                   to);
-
-        // ListViewにArrayAdapterを設定する
-        ListView listView = (ListView)findViewById(R.id.double_jimuto_change_ryosei_list);
-        listView.setAdapter(adapter);
-    }
-
 
 
     @Override

@@ -37,6 +37,7 @@ import java.util.*;
 public class MainActivity extends AppCompatActivity {
 
     private static final int JIMUTOCHANGE_ACTIVITY = 1001;
+    private static final int EVENT_REFRESH_ACTIVITY = 1002;
     String jimuto_room = "";
     String jimuto_name = "";
     String jimuto_id = null;
@@ -87,8 +88,6 @@ public class MainActivity extends AppCompatActivity {
         duty_night_listener listener6 = new duty_night_listener();
         duty_night.setOnClickListener(listener6);
 
-        refleshEventLog reflasher = new refleshEventLog();
-        reflasher.onAppStart();
     }
 
 
@@ -96,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         List<Map<String, String>> show_eventlist = new ArrayList<>();
         _helper = new com.example.top.DatabaseHelper(MainActivity.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
-        String sql = "SELECT _id, created_at, event_type, parcel_uid, room_name, ryosei_name, target_event_uid,is_deleted FROM parcel_event where is_deleted = 0 order by _id desc limit 100" ;
+        String sql = "SELECT uid, created_at, event_type, parcel_uid, room_name, ryosei_name, target_event_uid,is_deleted FROM parcel_event where is_deleted = 0 order by uid desc limit 100" ;
         Cursor cursor = db.rawQuery(sql,null);
         show_eventlist.clear();
         while(cursor.moveToNext()) {
@@ -105,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             }
             Map<String, String> event_raw = new HashMap<>();
             String text = "";
-            int index = cursor.getColumnIndex("_id");
+            int index = cursor.getColumnIndex("uid");
             String event_id = String.valueOf(cursor.getInt(index));
             index = cursor.getColumnIndex("event_type");
             int event_type_int = cursor.getInt(index);
@@ -178,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 intent.putExtra("Jimuto_name", jimuto_name);
-                startActivity(intent);
+                startActivityForResult(intent,EVENT_REFRESH_ACTIVITY);
             }
         }
     }
@@ -230,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 intent.putExtra("Jimuto_name", jimuto_name);
-                startActivity(intent);
+                startActivityForResult(intent,EVENT_REFRESH_ACTIVITY);
             }
         }
 
@@ -294,11 +293,11 @@ public class MainActivity extends AppCompatActivity {
             item.get("id");
             _helper = new com.example.top.DatabaseHelper(MainActivity.this);
             SQLiteDatabase db = _helper.getWritableDatabase();
-            String sql = "SELECT _id, created_at, event_type,ryosei_uid, parcel_uid, room_name, ryosei_name, target_event_uid FROM parcel_event WHERE _id = "+
+            String sql = "SELECT uid, created_at, event_type,ryosei_uid, parcel_uid, room_name, ryosei_name, target_event_uid FROM parcel_event WHERE uid = "+
                     item.get("id");
             Cursor cursor = db.rawQuery(sql,null);
             while(cursor.moveToNext()) {
-                int index = cursor.getColumnIndex("_id");
+                int index = cursor.getColumnIndex("uid");
                 event_id = String.valueOf(cursor.getInt(index));
                 index = cursor.getColumnIndex("created_at");
                 created_at = cursor.getString(index);
@@ -396,9 +395,15 @@ public class MainActivity extends AppCompatActivity {
             SQLiteDatabase db = _helper.getWritableDatabase();
             String test;
             test=_helper.select_ryosei_show_json(db);
+            /*
             OkHttpPost postTask = new OkHttpPost();
             postTask.json = test;
             postTask.execute();
+             */
+            UUID uuid = UUID.randomUUID();
+            String ryosei_uuid = uuid.toString();
+            System.out.println(ryosei_uuid);
+
         }
     }
     private class DBselect_Listener_parcels implements View.OnClickListener {
@@ -441,35 +446,17 @@ public class MainActivity extends AppCompatActivity {
                     jimuto_name = newStr[1];
                     TextView jimuto_show = findViewById(R.id.main_jimutou_show);
                     jimuto_show.setText(jimuto_room + " " + jimuto_name);
+                case EVENT_REFRESH_ACTIVITY:
+                    boolean event_update = intent.getBooleanExtra("EventRefresh",false);
+                    eventLogshow();
                 default:
             }
         }
-    public class refleshEventLog implements LifecycleObserver {
 
-        private final Handler handler = new Handler();
-        private Runnable runnable;
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_START)
-        public void onAppStart() {
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    // do something.
-                    eventLogshow();
-                    // 1秒ごとに実行
-                    handler.postDelayed(this, 1000);
-                }
-            };
-            handler.post(runnable);
-
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-        public void onAppStop() {
-            handler.removeCallbacks(runnable);
-        }
-    }
 
 
     }
+
+
+
 

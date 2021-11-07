@@ -50,8 +50,8 @@ public class Nimotsu_Uketori_Dialog extends DialogFragment {
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(owner_ryosei_room+" "+
-                owner_ryosei_name+" の荷物を受け取ります。")
-                .setPositiveButton("受取", new DialogInterface.OnClickListener() {
+                owner_ryosei_name+" の荷物を引き渡します。")
+                .setPositiveButton("引き渡し", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // このボタンを押した時の処理を書きます。
                         for(int i = 0; i < choices.size(); i++){
@@ -63,7 +63,11 @@ public class Nimotsu_Uketori_Dialog extends DialogFragment {
                         }
                         if(nimotsu_count_sametime != 0){
                             Toast.makeText(getActivity(), owner_ryosei_room+ " " + owner_ryosei_name+
-                                    "の荷物を"+ String.valueOf(nimotsu_count_sametime) +"個、受け取りました", Toast.LENGTH_SHORT).show();
+                                    "の荷物を"+ String.valueOf(nimotsu_count_sametime) +"個、引き渡しました", Toast.LENGTH_SHORT).show();
+                            //荷物引き渡しページを閉じさせる。
+                            //呼び出し元のフラグメントに結果を返す
+                            Double_Buttoned_Uketori callingActivity = (Double_Buttoned_Uketori) getActivity();
+                            callingActivity.closeActivity();
                         }
                     }
                 })

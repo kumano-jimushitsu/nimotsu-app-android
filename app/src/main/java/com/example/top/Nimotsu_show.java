@@ -35,7 +35,7 @@ public class Nimotsu_show extends AppCompatActivity {
         nimotsu_list.clear();
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT _id, owner_uid,owner_room_name,owner_parcels_name,register_datetime,register_staff_uid,register_staff_room_name,register_staff_parcels_name FROM parcels ;" ;
+        String sql = "SELECT uid, owner_uid,owner_room_name,owner_parcels_name,register_datetime,register_staff_uid,register_staff_room_name,register_staff_parcels_name FROM parcels ;" ;
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -43,7 +43,7 @@ public class Nimotsu_show extends AppCompatActivity {
             // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
             String note = "荷物ID：";
             String putter = "";
-            row = cursor.getColumnIndex("_id");
+            row = cursor.getColumnIndex("uid");
             putter = String.valueOf(cursor.getInt(row));
             note += putter + " ";
 

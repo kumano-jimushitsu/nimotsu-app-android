@@ -1,8 +1,8 @@
 package com.example.top;
 
 public enum enum_parcels {
-    _id(100),
-    owner_uid(100),
+    uid(1),
+    owner_uid(1),
     owner_room_name(1),
     owner_parcels_name(1),
     register_datetime(1),
@@ -13,7 +13,7 @@ public enum enum_parcels {
     fragile(100),
     is_released(100),
     release_datetime(1),
-    release_staff_uid(100),
+    release_staff_uid(1),
     release_staff_room_name(1),
     release_staff_parcels_name(1),
     checked_count(100),

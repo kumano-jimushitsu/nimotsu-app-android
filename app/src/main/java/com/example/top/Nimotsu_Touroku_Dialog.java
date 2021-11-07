@@ -38,8 +38,8 @@ public class Nimotsu_Touroku_Dialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(owner_ryosei_room+" "+
-                owner_ryosei_name+" に荷物登録します。")
-                .setPositiveButton("登録", new DialogInterface.OnClickListener() {
+                owner_ryosei_name+" に荷物受け取りします。")
+                .setPositiveButton("受け取り", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // このボタンを押した時の処理を書きます。
 
@@ -50,7 +50,7 @@ public class Nimotsu_Touroku_Dialog extends DialogFragment {
                         );
 
                         String show = "事務当番" + register_staff_room + register_staff_name + "が"+owner_ryosei_room+" "+
-                                owner_ryosei_name+ "に荷物を登録しました。";
+                                owner_ryosei_name+ "に荷物を受け取りしました。";
                         Toast.makeText(getActivity(), show ,Toast.LENGTH_LONG).show();
                         //((MainActivity) getContext()).eventLogshow();
 

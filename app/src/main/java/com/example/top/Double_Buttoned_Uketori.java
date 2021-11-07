@@ -85,7 +85,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         SQLiteDatabase db = _helper.getWritableDatabase();
         // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT _id, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE block_id = '"+ String.valueOf(block) +"';" ;
+        String sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE block_id = '"+ String.valueOf(block) +"';" ;
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -95,10 +95,10 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
             String note = "";
             String ryosei_id = "";
             // カラムのインデックス値を取得。
-            int idNote = cursor.getColumnIndex("_id");
+            int idNote = cursor.getColumnIndex("uid");
             // カラムのインデックス値を元に実際のデータを取得。
-            ryosei_id = String.valueOf(cursor.getInt(idNote));
-            ryosei_raw.put("id",String.valueOf(cursor.getInt(idNote)));
+            ryosei_id = cursor.getString(idNote);
+            ryosei_raw.put("id",cursor.getString(idNote));
             // カラムのインデックス値を取得。
             int roomNameNote = cursor.getColumnIndex("room_name");
             // カラムのインデックス値を元に実際のデータを取得。
@@ -138,9 +138,9 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         String sql;
         // 主キーによる検索SQL文字列の用意。
         if (block == null){
-            sql = "SELECT _id, room_name, ryosei_name,parcels_current_count FROM ryosei;";
+            sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei;";
         }else {
-            sql = "SELECT _id, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE block_id = '" + block_to_id(block) + "';";
+            sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE block_id = '" + block_to_id(block) + "';";
         }// SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -150,10 +150,10 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
             String note = "";
             String ryosei_id = "";
             // カラムのインデックス値を取得。
-            int idNote = cursor.getColumnIndex("_id");
+            int idNote = cursor.getColumnIndex("uid");
             // カラムのインデックス値を元に実際のデータを取得。
-            ryosei_id = String.valueOf(cursor.getInt(idNote));
-            ryosei_raw.put("id",String.valueOf(cursor.getInt(idNote)));
+            ryosei_id = cursor.getString(idNote);
+            ryosei_raw.put("id",cursor.getString(idNote));
             // カラムのインデックス値を取得。
             int roomNameNote = cursor.getColumnIndex("room_name");
             // カラムのインデックス値を元に実際のデータを取得。
@@ -190,7 +190,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         SQLiteDatabase db = _helper.getWritableDatabase();
         // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT _id, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE room_name = '"+ room +"';" ;
+        String sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE room_name = '"+ room +"';" ;
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -200,10 +200,10 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
             String note = "";
             String ryosei_id = "";
             // カラムのインデックス値を取得。
-            int idNote = cursor.getColumnIndex("_id");
+            int idNote = cursor.getColumnIndex("uid");
             // カラムのインデックス値を元に実際のデータを取得。
-            ryosei_id = String.valueOf(cursor.getInt(idNote));
-            ryosei_raw.put("id",String.valueOf(cursor.getInt(idNote)));
+            ryosei_id = cursor.getString(idNote);
+            ryosei_raw.put("id",cursor.getString(idNote));
             // カラムのインデックス値を取得。
             int roomNameNote = cursor.getColumnIndex("room_name");
             // カラムのインデックス値を元に実際のデータを取得。
@@ -410,6 +410,10 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         if(keyCode == KeyEvent.KEYCODE_BACK) {
             // 戻るボタンの処理
             _helper.close();
+
+            Intent event_refresh_intent = new Intent();
+            event_refresh_intent.putExtra("EventRefresh",true);
+            setResult(RESULT_OK,event_refresh_intent);
             finish();
         }
 
@@ -418,9 +422,20 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
 
     public void onBackButtonClick(View view){
         _helper.close();
+
+        Intent event_refresh_intent = new Intent();
+        event_refresh_intent.putExtra("EventRefresh",true);
+        setResult(RESULT_OK,event_refresh_intent);
         finish();
     }
 
+    public  void closeActivity() {
+        _helper.close();
+        Intent event_refresh_intent = new Intent();
+        event_refresh_intent.putExtra("EventRefresh",true);
+        setResult(RESULT_OK,event_refresh_intent);
+        finish();
+    }
 
     private class ListItemClickListener implements AdapterView.OnItemClickListener{
 
