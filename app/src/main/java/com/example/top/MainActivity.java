@@ -41,17 +41,21 @@ public class MainActivity extends AppCompatActivity {
     String jimuto_room = "";
     String jimuto_name = "";
     String jimuto_id = null;
+    TouchSound soundinstance;
 
     private DatabaseHelper _helper;
 
     private String [] from ={"id","text"};
     private int[] to = {android.R.id.text2,android.R.id.text1};
 
+    private TouchSound touchsound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        touchsound = new TouchSound(this);
 
 
         ImageButton image_button_touroku = findViewById(R.id.image_button_touroku);
@@ -172,12 +176,14 @@ public class MainActivity extends AppCompatActivity {
             if (jimuto_id == null) {
                 String show = "先に事務当番を設定してください。";
                 Toast.makeText(MainActivity.this, show ,Toast.LENGTH_LONG).show();
+                touchsound.playsoundOne();
             } else{
                 Intent intent = new Intent(MainActivity.this, Double_Buttoned_Touroku.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 intent.putExtra("Jimuto_name", jimuto_name);
                 startActivityForResult(intent,EVENT_REFRESH_ACTIVITY);
+                touchsound.playsoundOne();
             }
         }
     }
@@ -224,13 +230,16 @@ public class MainActivity extends AppCompatActivity {
             if (jimuto_id == null) {
                 String show = "先に事務当番を設定してください。";
                 Toast.makeText(MainActivity.this, show ,Toast.LENGTH_LONG).show();
+                touchsound.playsoundOne();
             } else {
                 Intent intent = new Intent(MainActivity.this, Double_Buttoned_Uketori.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 intent.putExtra("Jimuto_name", jimuto_name);
                 startActivityForResult(intent,EVENT_REFRESH_ACTIVITY);
+                touchsound.playsoundOne();
             }
+
         }
 
     }
@@ -251,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
             jimuto_intent.putExtra("Jimuto_name",jimuto_room + " " + jimuto_name);
             jimuto_intent.putExtra("Jimuto_id",jimuto_id);
             startActivityForResult(jimuto_intent,JIMUTOCHANGE_ACTIVITY);
+            touchsound.playsoundOne();
         }
     }
 
@@ -261,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
             if (jimuto_id == null) {
                 String show = "先に事務当番を設定してください。";
                 Toast.makeText(MainActivity.this, show ,Toast.LENGTH_LONG).show();
+                touchsound.playsoundOne();
             } else {
 
                 DialogFragment dialogFragment = new Duty_Night_Dialog();
@@ -271,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
 
                 dialogFragment.setArguments(args);
                 dialogFragment.show(getSupportFragmentManager(), "Duty_Night_Dialog");
+                touchsound.playsoundOne();
             }
         }
     }
@@ -331,6 +343,7 @@ public class MainActivity extends AppCompatActivity {
             args.putString("event_type",event_type);
             dialogFragment.setArguments(args);
             dialogFragment.show(getSupportFragmentManager(), "Delete_Event_Dialog");
+            touchsound.playsoundOne();
 
             _helper.close();
         }
@@ -383,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
                 note += cursor.getString(ryouseiStatus);
                 note += "\n";
 
-
+                touchsound.playsoundOne();
             }
         }
     }
@@ -403,6 +416,7 @@ public class MainActivity extends AppCompatActivity {
             UUID uuid = UUID.randomUUID();
             String ryosei_uuid = uuid.toString();
             System.out.println(ryosei_uuid);
+            touchsound.playsoundOne();
 
         }
     }
@@ -416,6 +430,7 @@ public class MainActivity extends AppCompatActivity {
             test=_helper.select_parcels_show_json(db);
             OkHttpPost postTask = new OkHttpPost();
             postTask.json = test;
+            touchsound.playsoundOne();
             postTask.execute();
         }
     }
@@ -430,6 +445,7 @@ public class MainActivity extends AppCompatActivity {
             test=_helper.select_event_show_json(db);
             OkHttpPost postTask = new OkHttpPost();
             postTask.json = test;
+            touchsound.playsoundOne();
             postTask.execute();
         }
     }

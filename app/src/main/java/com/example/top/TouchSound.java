@@ -1,0 +1,30 @@
+package com.example.top;
+import android.content.DialogInterface;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
+import android.media.AudioManager;
+import android.content.Context;
+
+public class TouchSound {
+    public SoundPool pool;
+    public int soundOne;
+
+    public TouchSound (Context context) {
+        AudioAttributes attr = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+        pool = new SoundPool.Builder()
+                .setAudioAttributes(attr)
+                .setMaxStreams(1)
+                .build();
+
+        soundOne = pool.load(context, R.raw.sound1, 1);
+
+    }
+
+    public void playsoundOne() {
+        pool.play(soundOne, 1.0f, 1.0f, 1, 0, 1.0f);
+    }
+
+}
