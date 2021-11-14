@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.View.OnClickListener;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
@@ -92,6 +93,25 @@ public class MainActivity extends AppCompatActivity {
         duty_night_listener listener6 = new duty_night_listener();
         duty_night.setOnClickListener(listener6);
 
+
+
+
+    }
+
+    class buttonClick implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            if(view.getId() == R.id.jimuto_change_button || view.getId() == R.id.image_button_touroku || view.getId() == R.id.image_button_uketori || view.getId() == R.id.event_show || view.getId() == R.id.button_select || view.getId() == R.id.button_select2 || view.getId() == R.id.button_select3 || view.getId() == R.id.duty_night_button) {
+                final Button button = (Button)findViewById(view.getId());
+                button.setEnabled(false);
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        button.setEnabled(true);
+                    }
+                }, 3000L);
+            }
+
+        }
     }
 
 
