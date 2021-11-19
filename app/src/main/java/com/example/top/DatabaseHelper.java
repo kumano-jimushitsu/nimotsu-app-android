@@ -64,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_parcels.append(" operation_error_type INTEGER,");
         sb_parcels.append(" note TEXT,");
         sb_parcels.append(" is_deleted INTEGER DEFAULT 0,");
-        sb_parcels.append(" sharing_status INTEGER default 0");
+        sb_parcels.append(" sharing_status TEXT");
         sb_parcels.append(");");
         String sql_parcels = sb_parcels.toString();
         db.execSQL(sql_parcels);
@@ -87,7 +87,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_ryosei.append(" last_event_datetime TEXT,");
         sb_ryosei.append("created_at TEXT,");
         sb_ryosei.append("updated_at TEXT,");
-        sb_ryosei.append(" sharing_status INTEGER default 0");
+        sb_ryosei.append(" sharing_status TEXT");
         sb_ryosei.append("); ");
         String sql_ryosei = sb_ryosei.toString();
         db.execSQL(sql_ryosei);
@@ -106,7 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_parcel_event.append(" note TEXT,");
         sb_parcel_event.append(" is_finished INTEGER DEFAULT 0,");
         sb_parcel_event.append(" is_deleted INTEGER DEFAULT 0,");
-        sb_parcel_event.append(" sharing_status INTEGER default 0");
+        sb_parcel_event.append(" sharing_status TEXT");
         sb_parcel_event.append(");");
         String sql_parcel_event = sb_parcel_event.toString();
         db.execSQL(sql_parcel_event);
@@ -117,22 +117,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     void insert_test_ryosei(SQLiteDatabase db){
         StringBuilder sb_insert_test_ryosei = new StringBuilder();
-        sb_insert_test_ryosei.append("insert into ryosei (uid, ryosei_name,block_id,room_name) values ");
+        sb_insert_test_ryosei.append("insert into ryosei (uid, ryosei_name,block_id,room_name,sharing_status) values ");
         sb_insert_test_ryosei.append("('");
         sb_insert_test_ryosei.append(UUID.randomUUID().toString());
-        sb_insert_test_ryosei.append("','松元優香 ',1,'A100'),");
+        sb_insert_test_ryosei.append("','松元優香 ',1,'A100','10'),");
         sb_insert_test_ryosei.append("('");
         sb_insert_test_ryosei.append(UUID.randomUUID().toString());
-        sb_insert_test_ryosei.append("','藤谷秀加	',1,'A101'),");
+        sb_insert_test_ryosei.append("','藤谷秀加	',1,'A101','10'),");
         sb_insert_test_ryosei.append("('");
         sb_insert_test_ryosei.append(UUID.randomUUID().toString());
-        sb_insert_test_ryosei.append("','三好宏美	',1,'A101'),");
+        sb_insert_test_ryosei.append("','三好宏美	',1,'A101','10'),");
         sb_insert_test_ryosei.append("('");
         sb_insert_test_ryosei.append(UUID.randomUUID().toString());
-        sb_insert_test_ryosei.append("','長瀬菜子	',1,'A101'),");
+        sb_insert_test_ryosei.append("','長瀬菜子	',1,'A101','10'),");
         sb_insert_test_ryosei.append("('");
         sb_insert_test_ryosei.append(UUID.randomUUID().toString());
-        sb_insert_test_ryosei.append("','大嶋代子	',1,'A101');");
+        sb_insert_test_ryosei.append("','大嶋代子	',1,'A101','10');");
         /*
         sb_insert_test_ryosei.append("('日比真紗　',1,'A102'),");
         sb_insert_test_ryosei.append("('松川鼓斗	',1,'A102'),");
@@ -308,7 +308,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_insert_Parcel.append("insert into parcels (" +
                 "uid,owner_uid,owner_room_name,owner_parcels_name," +
                 "register_datetime," +
-                "register_staff_uid,register_staff_room_name,register_staff_parcels_name,placement" +
+                "register_staff_uid,register_staff_room_name,register_staff_parcels_name,placement,sharing_status" +
                 ") values ('");
         sb_insert_Parcel.append( UUID.randomUUID().toString() +"','");
         sb_insert_Parcel.append( owner_uid +"',");
@@ -323,7 +323,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_insert_Parcel.append( register_staff_uid +"',");
         sb_insert_Parcel.append( " \"" + register_staff_room_name +"\",");
         sb_insert_Parcel.append( " \"" + register_staff_ryosei_name +"\",");
-        sb_insert_Parcel.append( " \"" + placement +"\")");
+        sb_insert_Parcel.append( " \"" + placement +"\",'10')");
 
         String sql_insert_test_parcel = sb_insert_Parcel.toString();
         db.execSQL(sql_insert_test_parcel);
@@ -344,7 +344,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "parcel_uid," +
                 "ryosei_uid," +
                 "room_name," +
-                "ryosei_name" +
+                "ryosei_name," +
+                "sharing_status" +
                 ") values (");
 
         // 現在日時情報で初期化されたインスタンスの生成
@@ -360,7 +361,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_insert_Parcel.append( " \"" + uid_str +" \",'");
         sb_insert_Parcel.append( ryosei_id +"',");
         sb_insert_Parcel.append( " \"" + room_name +" \",");
-        sb_insert_Parcel.append( " \"" + ryosei_name +"\")");
+        sb_insert_Parcel.append( " \"" + ryosei_name +"\",'10')");
         String sql_insert_event = sb_insert_Parcel.toString();
         db.execSQL(sql_insert_event);
 
@@ -378,7 +379,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "parcel_uid," +
                 "ryosei_uid," +
                 "room_name," +
-                "ryosei_name" +
+                "ryosei_name," +
+                "sharing_status" +
                 ") values (");
 
         // 現在日時情報で初期化されたインスタンスの生成
@@ -394,7 +396,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_insert_Parcel.append( " \"" + uid_str +" \",'");
         sb_insert_Parcel.append( ryosei_id +"',");
         sb_insert_Parcel.append( " \"" + room_name +" \",");
-        sb_insert_Parcel.append( " \"" + ryosei_name +"\")");
+        sb_insert_Parcel.append( " \"" + ryosei_name +"\",'10')");
         String sql_insert_event = sb_insert_Parcel.toString();
         db.execSQL(sql_insert_event);
 
@@ -419,7 +421,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " release_staff_room_name = '" + release_staff_room_name + "' ," +
                 " release_staff_parcels_name = '" + release_staff_ryosei_name +"' ," +
                 " is_released = " + "1" +" ," +
-                " release_datetime =" + " \"" + string_register_time +"\"" +
+                " release_datetime =" + " \"" + string_register_time +"\"," +
+                " sharing_status =" + "'10'" +
                 " WHERE uid =" + parcels_uid;
         db.execSQL(sql);
         nimotsuCountSubber(db, owner_id);
@@ -555,7 +558,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // カラムのインデックス値を元に実際のデータを取得。
         }
         sql = "UPDATE ryosei SET parcels_current_count ="+ String.valueOf(parcels_current_count+1)
-                +", parcels_total_count =" + String.valueOf(parcels_total_count+1) + " WHERE uid ='" + owner_id + "'";
+                +", parcels_total_count =" + String.valueOf(parcels_total_count+1) + ", sharing_status =" + "'10'" + " WHERE uid ='" + owner_id + "'";
         db.execSQL(sql);
     }
 
@@ -580,7 +583,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // カラムのインデックス値を元に実際のデータを取得。
             parcels_current_count --;
         }
-        sql = "UPDATE ryosei SET parcels_current_count ="+ String.valueOf(parcels_current_count)
+        sql = "UPDATE ryosei SET parcels_current_count ="+ String.valueOf(parcels_current_count) + ", sharing_status =" + "'10'"
                 + " WHERE uid ='" + owner_id + "'";
         db.execSQL(sql);
     }
@@ -591,7 +594,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SimpleDateFormat format = new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" );
         String string_register_time = format.format( dateObj );
         String sql = "UPDATE parcels SET "+
-                " lost_datetime =" + " \"" + string_register_time +"\"" +
+                " lost_datetime =" + " \"" + string_register_time +"\"" + ", sharing_status =" + "'10'" +
                 " WHERE uid ='" + parcels_uid + "'";
         db.execSQL(sql);
     }
@@ -639,26 +642,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //が必要
 
         //event
-        sql = "update parcel_event set is_deleted=1 where uid='"+ event_id + "'";
+        sql = "update parcel_event set is_deleted=1, sharing_status=10 where uid='"+ event_id + "'";
         db.execSQL(sql);
-        sql="insert into parcel_event(created_at,event_type,parcel_uid,ryosei_uid,room_name,ryosei_name,target_event_uid,is_finished)";
+        sql="insert into parcel_event(created_at,event_type,parcel_uid,ryosei_uid,room_name,ryosei_name,target_event_uid,is_finished,sharing_status)";
         sql+="values('";
         sql+=created_at+"',3,'"+parcel_id+"','"+ryosei_id+"',";
         sql+="'"+room_name +"',";
         sql+="'"+ryosei_name+"','";
-        sql+=event_id+"',1);";
+        sql+=event_id+"',1,'10');";
         db.execSQL(sql);
 
         //ryosei
         sql="update ryosei set parcels_total_count="+
                     parcels_total_count+
                     ",parcels_current_count="+
-                    parcels_current_count
+                    parcels_current_count +
+                ",sharing_status="+
+                "10"
                 +" where uid='"+ryosei_id+"'";
         db.execSQL(sql);
 
         //parcels
-        sql="update parcels set is_deleted=1 where uid ='"+ parcel_id + "'";
+        sql="update parcels set is_deleted=1, sharing_status='10' where uid ='"+ parcel_id + "'";
         db.execSQL(sql);
     }
 
