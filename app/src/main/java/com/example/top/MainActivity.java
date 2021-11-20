@@ -429,12 +429,9 @@ public class MainActivity extends AppCompatActivity {
             SQLiteDatabase db = _helper.getWritableDatabase();
             String test;
             test=_helper.select_ryosei_show_json(db);
-<<<<<<< HEAD
             /*
             OkHttpPost postTask = new OkHttpPost();
-=======
             OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler);
->>>>>>> d29840c (PCから送られてきたデータをToastで表示できるようにした)
             postTask.json = test;
             postTask.execute();
              */
