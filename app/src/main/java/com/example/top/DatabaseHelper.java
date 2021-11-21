@@ -51,6 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_parcels.append(" placement INTEGER default 0,");
         sb_parcels.append(" fragile INTEGER default 0,");
         sb_parcels.append(" is_released INTEGER DEFAULT 0,");
+        sb_parcels.append(" release_agent_uid TEXT,");
         sb_parcels.append(" release_datetime TEXT,");
         sb_parcels.append(" release_staff_uid TEXT,");
         sb_parcels.append(" release_staff_room_name TEXT,");
