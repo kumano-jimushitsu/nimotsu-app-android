@@ -72,7 +72,6 @@
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="300dp"
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toEndOf="@+id/double_jimutou_name_show"
@@ -83,9 +82,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="検索したい名前を入力"
             android:inputType="textPersonName"
             android:maxLength="20"
-            android:hint="検索したい名前を入力"
             android:text="" />
 
 
@@ -95,6 +94,48 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="寮生検索" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/jimutoboder"
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@+id/double_buttoned_uketori_room_list"
+        app:layout_constraintTop_toBottomOf="@+id/double_buttoned_uketori_ryosei_list">
+
+        <Switch
+            android:id="@+id/proxy_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="代理受取"
+            android:textOn="代理受取モード" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/proxy_cahnge_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="代理人選択" />
+
+            <TextView
+                android:id="@+id/proxy_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="代理受取人：" />
+        </LinearLayout>
     </LinearLayout>
 
 

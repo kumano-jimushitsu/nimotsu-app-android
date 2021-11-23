@@ -11,23 +11,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-public class Jimuto_Change_Dialog extends DialogFragment {
+public class Proxy_Change_Dialog extends DialogFragment {
 
     @NonNull
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         //値を受け取る
-        String jimuto_ryosei_room = getArguments().getString("room_ryosei","");
-        String jimuto_ryosei_id = getArguments().getString("id","0");
-        builder.setTitle("事務当番交代")
-                .setMessage(jimuto_ryosei_room+"に事務当番を交代します。")
-                .setPositiveButton("交代する", new DialogInterface.OnClickListener() {
+        String proxy_ryosei_room = getArguments().getString("room_ryosei","");
+        String proxy_ryosei_id = getArguments().getString("id","0");
+        builder.setTitle("代理受取人選択")
+                .setMessage(proxy_ryosei_room+"を代理受取人として設定します。")
+                .setPositiveButton("設定する", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // このボタンを押した時の処理を書きます。
-                        Toast.makeText(getActivity(), jimuto_ryosei_room+"に事務当番を交代しました。", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), proxy_ryosei_room+"を代理受取人として設定しました。", Toast.LENGTH_SHORT).show();
                         //呼び出し元のフラグメントに結果を返す
-                        Double_Jimuto_Change callingActivity = (Double_Jimuto_Change) getActivity();
-                        callingActivity.onReturnValue(jimuto_ryosei_room,jimuto_ryosei_id);
+                        Double_Proxy_Change callingActivity = (Double_Proxy_Change) getActivity();
+                        callingActivity.onReturnValue(proxy_ryosei_room,proxy_ryosei_id);
 
                     }
                 })
