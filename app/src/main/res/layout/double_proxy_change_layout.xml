@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/double_proxy_constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,36 +13,36 @@
         android:layout_marginStart="91dp"
         android:layout_marginTop="31dp"
         android:text="代理受け取り交代の画面です。"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/double_proxy_change_block_list"
-        android:background="@drawable/listboder"
         android:layout_width="113dp"
         android:layout_height="559dp"
         android:layout_marginStart="91dp"
         android:layout_marginTop="91dp"
+        android:background="@drawable/listboder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/double_proxy_change_titile" />
 
     <ListView
         android:id="@+id/double_proxy_change_room_list"
-        android:background="@drawable/listboder"
         android:layout_width="130dp"
         android:layout_height="553dp"
         android:layout_marginStart="52dp"
         android:layout_marginTop="140dp"
+        android:background="@drawable/listboder"
         app:layout_constraintStart_toEndOf="@+id/double_proxy_change_block_list"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/double_proxy_change_ryosei_list"
-        android:background="@drawable/listboder"
         android:layout_width="654dp"
         android:layout_height="507dp"
         android:layout_marginStart="76dp"
         android:layout_marginTop="140dp"
+        android:background="@drawable/listboder"
         app:layout_constraintStart_toEndOf="@+id/double_proxy_change_room_list"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,9 +81,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="検索したい名前を入力"
             android:inputType="textPersonName"
             android:maxLength="20"
-            android:hint="検索したい名前を入力"
             android:text="" />
 
 
@@ -93,7 +94,6 @@
             android:layout_weight="1"
             android:text="寮生検索" />
     </LinearLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

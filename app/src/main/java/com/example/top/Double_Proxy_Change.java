@@ -3,6 +3,7 @@ package com.example.top;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import java.text.Normalizer;
@@ -48,6 +50,7 @@ public class Double_Proxy_Change extends AppCompatActivity {
     private String proxy_room_name = "";
     private String proxy_id = null;
     private static final int PROXYCHANGE_ACTIVITY = 2001;
+    private ConstraintLayout double_proxy_change;
 
 
 
@@ -88,6 +91,9 @@ public class Double_Proxy_Change extends AppCompatActivity {
         // DBヘルパーオブジェクトを生成。
         _helper = new DatabaseHelper(Double_Proxy_Change.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
+
+        double_proxy_change = findViewById(R.id.double_proxy_constraintlayout);
+        double_proxy_change.setBackgroundColor(Color.rgb(255,200,180));
 
     }
     public void show_ryosei (String block){

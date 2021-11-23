@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import java.text.Normalizer;
@@ -55,12 +57,14 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
     private int[] to = {android.R.id.text2,android.R.id.text1};
     private TextView  proxy_room_name_text;
     private Button  proxy_change_button;
+    private boolean proxy_check = false;
 
     private static final int PROXYCHANGE_ACTIVITY = 2001;
     String proxy_room_Str = "";
     String proxy_name_Str = "";
     String proxy_id_Str = null;
 
+    private ConstraintLayout double_buttoned_uketori;
 
 
     @Override
@@ -68,6 +72,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.double_buttoned_uketori_layout);
 
+        double_buttoned_uketori = findViewById(R.id.double_buttoned_uketori_constraintlayout);
         //事務当番の名前を受け取る
         Intent intent = getIntent();
         jimuto_name_Str = intent.getStringExtra("Jimuto_name");
@@ -159,7 +164,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.double_buttoned_uketori_ryosei_list);
         listView.setAdapter(adapter);
         ListView listListener = findViewById(R.id.double_buttoned_uketori_ryosei_list);
-        listListener.setOnItemClickListener(new ListItemClickListener());
+        listListener.setOnItemClickListener(new ListRyoseiClickListener());
         _helper.close();
     }
     public void show_block_ryosei (String block){
@@ -531,37 +536,6 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
             show_room_ryosei(selectedRoom);
         }
     }
-    public class ListRyoseiClickListener implements AdapterView.OnItemClickListener{
-
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-            Map<String ,String> item = (Map)parent.getItemAtPosition(position);
-            if(Integer.parseInt(item.get("parcels_current_count"))==0){
-                String show = item.get("room_name") + "には現在荷物が一つも登録されていません。";
-                Toast.makeText(Double_Buttoned_Uketori.this, show ,Toast.LENGTH_LONG).show();
-            }else {
-                this.showDialog(view, item.get("room_name"), item.get("id"));
-
-
-            }
-        }
-        public void showDialog(View view,String owner_room_name,String owner_id) {
-            DialogFragment dialogFragment = new Nimotsu_Uketori_Dialog();
-            String[] newStr = owner_room_name.split("\\s+");
-            Bundle args = new Bundle();
-            args.putString("owner_room",newStr[0]);
-            args.putString("owner_name",newStr[1]);
-            args.putString("owner_id",owner_id);
-            args.putString("release_staff_room",jimuto_room_Str);
-            args.putString("release_staff_name",jimuto_name_Str);
-            args.putString("release_staff_id",jimuto_id_Str);
-
-            dialogFragment.setArguments(args);
-            dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Uketori_Dialog");
-
-
-        }
-
-    }
 
     public void addRecord (int block, String heya, String ryousei_name) {
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
@@ -637,7 +611,63 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         }
     }
 
-    private class ListItemClickListener implements AdapterView.OnItemClickListener{
+    private class ListRyoseiClickListener implements AdapterView.OnItemClickListener{
+
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+            Map<String ,String> item = (Map)parent.getItemAtPosition(position);
+            //代理受け取りモード
+            if(proxy_check) {
+                if (Integer.parseInt(item.get("parcels_current_count")) == 0) {
+                    String show = item.get("room_name") + "には現在荷物が一つも登録されていません。";
+                    Toast.makeText(Double_Buttoned_Uketori.this, show, Toast.LENGTH_LONG).show();
+                } else if(proxy_id_Str == null){
+                    Toast.makeText(Double_Buttoned_Uketori.this, "代理受取人を設定してください。", Toast.LENGTH_LONG).show();
+                }else   {
+                    this.showProxyDialog(view, item.get("room_name"), item.get("id"),proxy_id_Str,proxy_room_Str,proxy_name_Str);
+
+                }
+            }
+            //通常受け取りモード
+            else{
+                if(Integer.parseInt(item.get("parcels_current_count"))==0){
+                    String show = item.get("room_name") + "には現在荷物が一つも登録されていません。";
+                    Toast.makeText(Double_Buttoned_Uketori.this, show ,Toast.LENGTH_LONG).show();
+                }else {
+                    this.showDialog(view, item.get("room_name"), item.get("id"));}
+                }
+        }
+        public void showDialog(View view,String owner_room_name,String owner_id) {
+            DialogFragment dialogFragment = new Nimotsu_Uketori_Dialog();
+            String[] newStr = owner_room_name.split("\\s+");
+            Bundle args = new Bundle();
+            args.putString("owner_room",newStr[0]);
+            args.putString("owner_name",newStr[1]);
+            args.putString("owner_id",owner_id);
+            args.putString("release_staff_room",jimuto_room_Str);
+            args.putString("release_staff_name",jimuto_name_Str);
+            args.putString("release_staff_id",jimuto_id_Str);
+            dialogFragment.setArguments(args);
+            dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Uketori_Dialog");
+        }
+        public void showProxyDialog(View view,String owner_room_name,String owner_id,String proxy_id, String proxy_room , String proxy_name) {
+            DialogFragment dialogFragment = new Nimotsu_Proxy_Uketori_Dialog();
+            String[] newStr = owner_room_name.split("\\s+");
+            Bundle args = new Bundle();
+            args.putString("owner_room",newStr[0]);
+            args.putString("owner_name",newStr[1]);
+            args.putString("owner_id",owner_id);
+            args.putString("release_staff_room",jimuto_room_Str);
+            args.putString("release_staff_name",jimuto_name_Str);
+            args.putString("release_staff_id",jimuto_id_Str);
+            args.putString("proxy_room",proxy_room);
+            args.putString("proxy_name",proxy_name);
+            args.putString("proxy_id",proxy_id);
+            dialogFragment.setArguments(args);
+            dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Proxy_Uketori_Dialog");
+        }
+
+    }
+   /* public class ListRyoseiClickListener implements AdapterView.OnItemClickListener{
 
         public void onItemClick(AdapterView<?> parent, View view, int position, long id){
             Map<String ,String> item = (Map)parent.getItemAtPosition(position);
@@ -668,16 +698,23 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         }
 
     }
+    */
+
     public class ProxySwitchListener extends Activity implements CompoundButton.OnCheckedChangeListener {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if(isChecked) {
                 proxy_room_name_text.setVisibility(View.VISIBLE);
                 proxy_change_button.setVisibility(View.VISIBLE);
+                //ConstraintLayout double_buttoned_uketori = (ConstraintLayout)findViewById(R.id.double_buttoned_uketori_constraintlayout);
+                double_buttoned_uketori.setBackgroundColor(Color.rgb(255,200,180));
             } else {
                 proxy_room_name_text.setVisibility(View.GONE);
                 proxy_change_button.setVisibility(View.GONE);
+                //ConstraintLayout double_buttoned_uketori = (ConstraintLayout)findViewById(R.id.double_buttoned_uketori_constraintlayout);
+                double_buttoned_uketori.setBackgroundColor(Color.rgb(255,255,255));
             }
+            proxy_check = isChecked;
         }
     }
     private class DoubleProxyChangeListener implements AdapterView.OnClickListener {

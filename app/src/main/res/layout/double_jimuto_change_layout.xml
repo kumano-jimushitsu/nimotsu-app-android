@@ -17,31 +17,31 @@
 
     <ListView
         android:id="@+id/double_jimuto_change_block_list"
-        android:background="@drawable/listboder"
         android:layout_width="113dp"
         android:layout_height="559dp"
         android:layout_marginStart="91dp"
         android:layout_marginTop="91dp"
+        android:background="@drawable/listboder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/double_jimuto_change_titile" />
 
     <ListView
         android:id="@+id/double_jimuto_change_room_list"
-        android:background="@drawable/listboder"
         android:layout_width="130dp"
         android:layout_height="553dp"
         android:layout_marginStart="52dp"
         android:layout_marginTop="140dp"
+        android:background="@drawable/listboder"
         app:layout_constraintStart_toEndOf="@+id/double_jimuto_change_block_list"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/double_jimuto_change_ryosei_list"
-        android:background="@drawable/listboder"
         android:layout_width="654dp"
         android:layout_height="507dp"
         android:layout_marginStart="76dp"
         android:layout_marginTop="140dp"
+        android:background="@drawable/listboder"
         app:layout_constraintStart_toEndOf="@+id/double_jimuto_change_room_list"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,8 +49,8 @@
         android:id="@+id/double_jimutou_name_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="36dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/double_jimuto_change_titile"
         app:layout_constraintTop_toTopOf="parent" />
@@ -69,10 +69,10 @@
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="300dp"
+        android:layout_marginStart="426dp"
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toEndOf="@+id/double_jimutou_name_show"
+        app:layout_constraintStart_toEndOf="@+id/double_jimuto_change_titile"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
@@ -80,9 +80,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="検索したい名前を入力"
             android:inputType="textPersonName"
             android:maxLength="20"
-            android:hint="検索したい名前を入力"
             android:text="" />
 
 
@@ -93,7 +93,6 @@
             android:layout_weight="1"
             android:text="寮生検索" />
     </LinearLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
