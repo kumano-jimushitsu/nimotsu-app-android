@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,8 +34,8 @@ public class Nimotsu_Touroku_Dialog extends DialogFragment {
         register_staff_room = getArguments().getString("register_staff_room","");
         register_staff_id = getArguments().getString("register_staff_id","0");
 
-        String[] choices = {"普通", "冷蔵", "冷凍","大型","不在票"};
-        boolean[] choicesChecked = {true, false, false, false, false};
+        String[] choices = {"普通", "冷蔵", "冷凍","大型","不在票","その他"};
+        boolean[] choicesChecked = {true, false, false, false, false,false};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(owner_ryosei_room+" "+
@@ -42,7 +43,7 @@ public class Nimotsu_Touroku_Dialog extends DialogFragment {
                 .setPositiveButton("受け取り", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // このボタンを押した時の処理を書きます。
-
+                        //if(placement != 5){
                         _helper = new com.example.top.DatabaseHelper(requireContext());
                         SQLiteDatabase db = _helper.getWritableDatabase();
                         _helper.addParcel(db,owner_ryosei_id,owner_ryosei_room,owner_ryosei_name,
@@ -52,7 +53,10 @@ public class Nimotsu_Touroku_Dialog extends DialogFragment {
                         String show = "事務当番" + register_staff_room + register_staff_name + "が"+owner_ryosei_room+" "+
                                 owner_ryosei_name+ "に荷物を受け取りしました。";
                         Toast.makeText(getActivity(), show ,Toast.LENGTH_LONG).show();
-                        //((MainActivity) getContext()).eventLogshow();
+
+                           // DialogFragment dialogFragment = new Touroku_Others_Dialog();
+                          //  dialogFragment.show(getFragmentManager(), "Touroku_Others_Dialog");
+                        //}
 
                     }
                 })

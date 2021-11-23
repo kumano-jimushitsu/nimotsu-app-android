@@ -37,13 +37,13 @@
 
     <ListView
         android:id="@+id/double_buttoned_touroku_ryosei_list"
-        android:background="@drawable/listboder"
         android:layout_width="654dp"
         android:layout_height="507dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="31dp"
+        android:background="@drawable/listboder"
         app:layout_constraintStart_toEndOf="@+id/double_buttoned_touroku_room_list"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <TextView
         android:id="@+id/double_jimutou_name_show"
@@ -65,15 +65,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/double_buttoned_touroku_titile" />
 
-    <EditText
-        android:id="@+id/editTextTextPersonName"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="280dp"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="名前検索"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
         app:layout_constraintStart_toEndOf="@+id/double_jimutou_name_show"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/touroku_editTextTextPersonName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:maxLength="20"
+            android:hint="検索したい名前を入力"
+            android:text="" />
+
+
+        <Button
+            android:id="@+id/touroku_name_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="寮生検索" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

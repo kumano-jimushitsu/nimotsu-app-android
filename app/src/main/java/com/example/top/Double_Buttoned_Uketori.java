@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -18,11 +19,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 
 public class Double_Buttoned_Uketori extends AppCompatActivity {
@@ -78,6 +81,8 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         blocklistListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListBlockClickListener());
         ListView roomlistListener = findViewById(R.id.double_buttoned_uketori_room_list);
         roomlistListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListRoomClickListener());
+        Button ryosei_search_button = findViewById(R.id.uketori_name_search);
+        ryosei_search_button.setOnClickListener(new Double_Buttoned_Uketori.RyoseiSearchListener());
 
     }
     public void show_ryosei (int block){
@@ -344,6 +349,137 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
             block_raw.clear();
         }
     }
+    public void search_show(String name){
+        show_ryosei.clear();
+        // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
+        SQLiteDatabase db = _helper.getWritableDatabase();
+        // 主キーによる検索SQL文字列の用意。
+        String sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count  FROM ryosei WHERE ryosei_name LIKE '%" + name +"%' ;" ;
+        // SQLの実行。
+        Cursor cursor = db.rawQuery(sql, null);
+        //ブロックの寮生を検索しArrayListに追加
+        while(cursor.moveToNext()) {
+            Map<String,String> ryosei_raw = new HashMap<>();
+            // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
+            String note = "";
+            String ryosei_id = "";
+            // カラムのインデックス値を取得。
+            int idNote = cursor.getColumnIndex("uid");
+            // カラムのインデックス値を元に実際のデータを取得。
+            ryosei_id = cursor.getString(idNote);
+            ryosei_raw.put("id",cursor.getString(idNote));
+
+            // カラムのインデックス値を取得。
+            int roomNameNote = cursor.getColumnIndex("room_name");
+            // カラムのインデックス値を元に実際のデータを取得。
+            note += cursor.getString(roomNameNote);
+            note += " ";
+            int ryouseiNote = cursor.getColumnIndex("ryosei_name");
+            note += cursor.getString(ryouseiNote);
+            ryosei_raw.put("room_name",note);
+            blocks_roomname_name.add(note);
+            blocks_ryosei_id.add(ryosei_id);
+            show_ryosei.add(ryosei_raw);
+
+        }
+        // 主キーによる検索SQL文字列の用意。
+        sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE ryosei_name_kana  LIKE '%" + name +"%' ;" ;
+        // SQLの実行。
+        cursor = db.rawQuery(sql, null);
+        //ブロックの寮生を検索しArrayListに追加
+        while(cursor.moveToNext()) {
+            Map<String,String> ryosei_raw = new HashMap<>();
+            // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
+            String note = "";
+            String ryosei_id = "";
+            // カラムのインデックス値を取得。
+            int idNote = cursor.getColumnIndex("uid");
+            // カラムのインデックス値を元に実際のデータを取得。
+            ryosei_id = cursor.getString(idNote);
+            ryosei_raw.put("id",cursor.getString(idNote));
+
+            // カラムのインデックス値を取得。
+            int roomNameNote = cursor.getColumnIndex("room_name");
+            // カラムのインデックス値を元に実際のデータを取得。
+            note += cursor.getString(roomNameNote);
+            note += " ";
+            int ryouseiNote = cursor.getColumnIndex("ryosei_name");
+            note += cursor.getString(ryouseiNote);
+            ryosei_raw.put("room_name",note);
+            blocks_roomname_name.add(note);
+            blocks_ryosei_id.add(ryosei_id);
+            show_ryosei.add(ryosei_raw);
+        }
+        // 主キーによる検索SQL文字列の用意。
+        sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE ryosei_name_alphabet  LIKE '%" + name +"%' ;" ;
+        // SQLの実行。
+        cursor = db.rawQuery(sql, null);
+        //ブロックの寮生を検索しArrayListに追加
+        while(cursor.moveToNext()) {
+            Map<String,String> ryosei_raw = new HashMap<>();
+            // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
+            String note = "";
+            String ryosei_id = "";
+            // カラムのインデックス値を取得。
+            int idNote = cursor.getColumnIndex("uid");
+            // カラムのインデックス値を元に実際のデータを取得。
+            ryosei_id = cursor.getString(idNote);
+            ryosei_raw.put("id",cursor.getString(idNote));
+
+            // カラムのインデックス値を取得。
+            int roomNameNote = cursor.getColumnIndex("room_name");
+            // カラムのインデックス値を元に実際のデータを取得。
+            note += cursor.getString(roomNameNote);
+            note += " ";
+            int ryouseiNote = cursor.getColumnIndex("ryosei_name");
+            note += cursor.getString(ryouseiNote);
+            ryosei_raw.put("room_name",note);
+            blocks_roomname_name.add(note);
+            blocks_ryosei_id.add(ryosei_id);
+            show_ryosei.add(ryosei_raw);
+        }
+        // 主キーによる検索SQL文字列の用意。
+        sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE room_name LIKE '%" + name +"%' ;" ;
+        // SQLの実行。
+        cursor = db.rawQuery(sql, null);
+        //ブロックの寮生を検索しArrayListに追加
+        while(cursor.moveToNext()) {
+            Map<String,String> ryosei_raw = new HashMap<>();
+            // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
+            String note = "";
+            String ryosei_id = "";
+            // カラムのインデックス値を取得。
+            int idNote = cursor.getColumnIndex("uid");
+            // カラムのインデックス値を元に実際のデータを取得。
+            ryosei_id = cursor.getString(idNote);
+            ryosei_raw.put("id",cursor.getString(idNote));
+
+            // カラムのインデックス値を取得。
+            int roomNameNote = cursor.getColumnIndex("room_name");
+            // カラムのインデックス値を元に実際のデータを取得。
+            note += cursor.getString(roomNameNote);
+            note += " ";
+            int ryouseiNote = cursor.getColumnIndex("ryosei_name");
+            note += cursor.getString(ryouseiNote);
+            ryosei_raw.put("room_name",note);
+            blocks_roomname_name.add(note);
+            blocks_ryosei_id.add(ryosei_id);
+            show_ryosei.add(ryosei_raw);
+        }
+        // リスト項目とListViewを対応付けるArrayAdapterを用意する
+        SimpleAdapter adapter = new SimpleAdapter
+                (this,
+                        show_ryosei,
+                        android.R.layout.simple_list_item_2,
+                        from,
+                        to);
+        // ListViewにArrayAdapterを設定する
+        ListView listView = (ListView)findViewById(R.id.double_buttoned_uketori_ryosei_list);
+        listView.setAdapter(adapter);
+        ListView listListener = findViewById(R.id.double_buttoned_uketori_ryosei_list);
+        listListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListRyoseiClickListener());
+        _helper.close();
+    }
     public class ListBlockClickListener implements AdapterView.OnItemClickListener {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectedBlock= (String) parent.getItemAtPosition(position);
@@ -436,6 +572,33 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         setResult(RESULT_OK,event_refresh_intent);
         finish();
     }
+
+    private class RyoseiSearchListener implements  View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            int count = 0;
+            EditText input = findViewById(R.id.jimuto_editTextTextPersonName);
+            String input_name = input.getText().toString();
+            input_name = input_name.replaceAll("　", "").replaceAll(" ", "");
+            input_name = Normalizer.normalize(input_name, Normalizer.Form.NFKC);
+            Pattern p = Pattern.compile("([0-9A-zぁ-んァ-ヶｱ-ﾝ\\u4E00-\\u9FFF\\u3005-\\u3007]+)"
+                    // + " \\p{InHiragana}|" + " \\p{InKatakana}|"
+                    // + " \\p{InCJKUnifiedIdeographs}+)"
+                    , Pattern.COMMENTS);
+            //if(input_name.matches( "^[A-zぁ-んァ-ヶｱ-ﾝﾞﾟ\u4E00-\u9FFF\u3005-\u3007]*$") ) {
+            if(p.matcher(input_name).matches()) {
+                search_show(input_name);
+            }else if(count > 5){
+                Toast.makeText(Double_Buttoned_Uketori.this, "漢字、ひらがな、カタカナしか使えません。", Toast.LENGTH_SHORT).show();
+                count++;
+            }else{
+                Toast.makeText(Double_Buttoned_Uketori.this, "漢字、ひらがな、カタカナしか使えません。", Toast.LENGTH_SHORT).show();
+                count++;
+            }
+
+        }
+    }
+
 
     private class ListItemClickListener implements AdapterView.OnItemClickListener{
 

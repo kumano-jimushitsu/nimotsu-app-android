@@ -68,15 +68,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/double_buttoned_uketori_titile" />
 
-    <EditText
-        android:id="@+id/editTextTextPersonName"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="280dp"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="名前検索"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
         app:layout_constraintStart_toEndOf="@+id/double_jimutou_name_show"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/uketori_editTextTextPersonName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:maxLength="20"
+            android:hint="検索したい名前を入力"
+            android:text="" />
+
+
+        <Button
+            android:id="@+id/uketori_name_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="寮生検索" />
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
