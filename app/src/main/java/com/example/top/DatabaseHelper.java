@@ -43,7 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_parcels.append(" uid TEXT PRIMARY KEY,");
         sb_parcels.append(" owner_uid TEXT,");
         sb_parcels.append(" owner_room_name TEXT,");
-        sb_parcels.append(" owner_parcels_name TEXT,");
+        sb_parcels.append(" owner_ryosei_name TEXT,");
         sb_parcels.append(" register_datetime TEXT,");
         sb_parcels.append(" register_staff_uid TEXT,");
         sb_parcels.append(" register_staff_room_name TEXT,");
@@ -307,7 +307,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             int placement){
         StringBuilder sb_insert_Parcel = new StringBuilder();
         sb_insert_Parcel.append("insert into parcels (" +
-                "uid,owner_uid,owner_room_name,owner_parcels_name," +
+                "uid,owner_uid,owner_room_name,owner_ryosei_name," +
                 "register_datetime," +
                 "register_staff_uid,register_staff_room_name,register_staff_parcels_name,placement,sharing_status" +
                 ") values ('");
@@ -486,7 +486,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //荷物IDとラベル(日時、受け取り事務当、場所）を返す。
         List<Map<String,String>> show_owners_parcels = new ArrayList<>();
         String sql = "SELECT uid, placement, register_datetime,lost_datetime," +
-                "register_staff_room_name, register_staff_parcels_name,owner_room_name,owner_parcels_name " +
+                "register_staff_room_name, register_staff_parcels_name,owner_room_name,owner_ryosei_name " +
                 "FROM parcels WHERE is_released = 0 and is_deleted=0  order by owner_room_name asc";
         Cursor cursor = db.rawQuery(sql, null);
         while(cursor.moveToNext()){
@@ -495,7 +495,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             int index_placement = cursor.getColumnIndex("placement");
             int index_lost_datetime = cursor.getColumnIndex("lost_datetime");
             int index_owner_room_name = cursor.getColumnIndex("owner_room_name");
-            int index_register_staff_parcels_name = cursor.getColumnIndex("owner_parcels_name");
+            int index_register_staff_parcels_name = cursor.getColumnIndex("owner_ryosei_name");
             String rabel = "";
             String parcels_id = "";
             parcels_id = cursor.getString(index_id);
@@ -776,5 +776,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
     }
-}
+    }
+
+
+

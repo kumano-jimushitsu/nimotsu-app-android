@@ -40,6 +40,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.*;
+
+import okhttp3.Response;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int JIMUTOCHANGE_ACTIVITY = 1001;
@@ -95,6 +98,19 @@ public class MainActivity extends AppCompatActivity {
         Button b_event = findViewById(R.id.button_select3);
         DBselect_Listener_event event_listener = new DBselect_Listener_event();
         b_event.setOnClickListener(event_listener);
+
+        Button b_ryosei2 = findViewById(R.id.button_select6);
+        DBselect_Listener_ryosei2 ryosei2_listener = new DBselect_Listener_ryosei2();
+        b_ryosei2.setOnClickListener(ryosei2_listener);
+
+        Button b_parcels2 = findViewById(R.id.button_select5);
+        DBselect_Listener_parcels2 parcels2_listener = new DBselect_Listener_parcels2();
+        b_parcels2.setOnClickListener(parcels2_listener);
+
+        Button b_event2 = findViewById(R.id.button_select4);
+        DBselect_Listener_event2 event2_listener = new DBselect_Listener_event2();
+        b_event2.setOnClickListener(event2_listener);
+
 
         Button duty_night = findViewById(R.id.duty_night_button);
         duty_night_listener listener6 = new duty_night_listener();
@@ -476,6 +492,53 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class DBselect_Listener_event implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+
+            _helper = new com.example.top.DatabaseHelper(MainActivity.this);
+            SQLiteDatabase db = _helper.getWritableDatabase();
+            String test;
+            test=_helper.select_event_show_json(db);
+            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler);
+            postTask.json = test;
+            touchsound.playsoundOne();
+            postTask.execute();
+        }
+    }
+    private class DBselect_Listener_ryosei2 implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+
+            _helper = new com.example.top.DatabaseHelper(MainActivity.this);
+            SQLiteDatabase db = _helper.getWritableDatabase();
+            // 主キーによる検索SQL文字列の用意。
+            String sql = "SELECT * FROM nimotsu ";
+            // SQLの実行。
+            Cursor cursor = db.rawQuery(sql, null);
+            // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
+            String note = "";
+            // SQL実行の戻り値であるカーソルオブジェクトをループさせてデータベース内のデータを取得。
+            while (cursor.moveToNext()) {
+
+            }
+        }
+    }
+    private class DBselect_Listener_parcels2 implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+
+            _helper = new com.example.top.DatabaseHelper(MainActivity.this);
+            SQLiteDatabase db = _helper.getWritableDatabase();
+            String test;
+            test=_helper.select_parcels_show_json(db);
+            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler);
+            postTask.json = test;
+            touchsound.playsoundOne();
+            postTask.execute();
+        }
+    }
+
+    private class DBselect_Listener_event2 implements View.OnClickListener {
         @Override
         public void onClick(View view) {
 

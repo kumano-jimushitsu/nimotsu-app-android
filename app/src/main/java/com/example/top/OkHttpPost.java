@@ -2,6 +2,7 @@ package com.example.top;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.database.SQLException;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
@@ -19,10 +20,16 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
 public class OkHttpPost extends AsyncTask<String,String,String> {
 
     Context context;
     Handler handler;
+    private DatabaseHelper _helper;
 
     public OkHttpPost(Context context, Handler handler) {
         this.context = context;
@@ -59,7 +66,23 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
             String popup_msg = response.body().string();
             executor.execute(() -> {
                 handler.post(() -> {
-                    Toast.makeText(context, popup_msg, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, popup_msg, Toast.LENGTH_SHORT).show();
+                    _helper = new com.example.top.DatabaseHelper(context);
+                    SQLiteDatabase db = _helper.getWritableDatabase();
+                    try {
+                        db.execSQL(popup_msg);
+                    } catch (SQLException e) {
+                        Log.e("ERROR", e.toString());
+                    }
+                    String sql = "SELECT * FROM parcels;";
+                    Cursor c = db.rawQuery(sql, null);
+                    c.moveToFirst();
+                    CharSequence[] list = new CharSequence[c.getCount()];
+                    for (int i = 0; i < list.length; i++) {
+                        list[i] = c.getString(0);
+                        c.moveToNext();
+                    }
+                    Toast.makeText(context, list[0], Toast.LENGTH_SHORT).show();
                 });
             });
             return "Success";

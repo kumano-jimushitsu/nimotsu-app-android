@@ -4,7 +4,7 @@ public enum enum_parcels {
     uid(1),
     owner_uid(1),
     owner_room_name(1),
-    owner_parcels_name(1),
+    owner_ryosei_name(1),
     register_datetime(1),
     register_staff_uid(1),
     register_staff_room_name(1),
