@@ -39,7 +39,7 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
         OkHttpClient client = new OkHttpClient();
 
 //        String url = "http://httpbin.org/post";
-        String url = "http://192.168.100.119:8080/parcel/create";
+        String url = "http://192.168.100.3:8080/parcel/create";
 //        String url = "http://127.0.0.1:8000/items/";
 //        RequestBody body = RequestBody.create(JSON, json);
         RequestBody formBody = new FormBody.Builder()

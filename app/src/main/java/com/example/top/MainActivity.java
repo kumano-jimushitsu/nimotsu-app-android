@@ -25,6 +25,11 @@ import android.view.View.OnClickListener;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
+import com.google.zxing.integration.android.IntentIntegrator;
+
 import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
@@ -42,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     String jimuto_room = "";
     String jimuto_name = "";
     String jimuto_id = null;
+    String qr_uuid = "";
     TouchSound soundinstance;
 
     private DatabaseHelper _helper;
@@ -93,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
         Button duty_night = findViewById(R.id.duty_night_button);
         duty_night_listener listener6 = new duty_night_listener();
         duty_night.setOnClickListener(listener6);
+
+        Button qr_scanner = findViewById(R.id.qr_scanner);
+        QRScanListener qr_Listener = new QRScanListener();
+        qr_scanner.setOnClickListener(qr_Listener);
 
 
 
@@ -190,6 +200,14 @@ public class MainActivity extends AppCompatActivity {
         jimuto_show.setText(jimuto_room + " " + jimuto_name);
     }
 
+    private class QRScanListener implements View.OnClickListener {
+        @Override
+        public  void  onClick(View view) {
+            //カメラの呼び出し
+            IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
+            integrator.initiateScan();
+        }
+    }
 
     private class DoubleTourokuListener implements View.OnClickListener {
         @Override
@@ -489,6 +507,15 @@ public class MainActivity extends AppCompatActivity {
                     eventLogshow();
                 default:
             }
+
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanResult != null) {
+            Toast.makeText(this, scanResult.getContents(), Toast.LENGTH_LONG).show();
+            qr_uuid = scanResult.getContents();
+            TextView qr_show = findViewById(R.id.qr_result);
+            qr_show.setText(qr_uuid);
+
+        }
         }
 
 
