@@ -19,6 +19,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.internal.http2.Http2Connection;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -30,7 +31,7 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
     Context context;
     Handler handler;
     private DatabaseHelper _helper;
-
+    private Http2Connection.Listener listener;
     public OkHttpPost(Context context, Handler handler) {
         this.context = context;
         this.handler = handler;
@@ -38,15 +39,14 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
 
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
     String json = "{\"name\":\"名前\", \"taxis\":\"分類\"}";
+    String url="http://192.168.100.3:8080/";
     //String json = "{\"name\": \"foo\", \"description\": \"bar\", \"price\": 1, \"tax\":1.1}";
+    String test = "success";
 
     @Override
-    protected String doInBackground(String... strings) {
+    protected synchronized String doInBackground(String... strings) {
 
         OkHttpClient client = new OkHttpClient();
-
-//        String url = "http://httpbin.org/post";
-        String url = "http://192.168.100.3:8080/parcel/create";
 //        String url = "http://127.0.0.1:8000/items/";
 //        RequestBody body = RequestBody.create(JSON, json);
         RequestBody formBody = new FormBody.Builder()
@@ -64,27 +64,28 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
             Response response = client.newCall(request).execute();
             // PCからのメッセージをポップアップで表示する
             String popup_msg = response.body().string();
+            if(popup_msg=="")return null;
             executor.execute(() -> {
                 handler.post(() -> {
 //                    Toast.makeText(context, popup_msg, Toast.LENGTH_SHORT).show();
-                    _helper = new com.example.top.DatabaseHelper(context);
+                    _helper = new DatabaseHelper(context);
                     SQLiteDatabase db = _helper.getWritableDatabase();
                     try {
                         db.execSQL(popup_msg);
+                        _helper.update_sharingstatus(db);
+
                     } catch (SQLException e) {
                         Log.e("ERROR", e.toString());
                     }
-                    String sql = "SELECT * FROM parcels;";
-                    Cursor c = db.rawQuery(sql, null);
-                    c.moveToFirst();
-                    CharSequence[] list = new CharSequence[c.getCount()];
-                    for (int i = 0; i < list.length; i++) {
-                        list[i] = c.getString(0);
-                        c.moveToNext();
-                    }
-                    Toast.makeText(context, list[0], Toast.LENGTH_SHORT).show();
+
                 });
             });
+
+//            if (listener != null) {
+//                listener.ok(url);
+//                //listener.onSuccess(progress[0]);
+//            }
+
             return "Success";
         } catch (IOException e) {
             e.printStackTrace();
@@ -97,4 +98,8 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
     protected void onPostExecute(String str) {
         Log.d("Debug",str);
     }
+    void setListener(Http2Connection.Listener listener) {
+        this.listener = listener;
+    }
+
 }

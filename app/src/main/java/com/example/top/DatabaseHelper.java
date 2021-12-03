@@ -47,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_parcels.append(" register_datetime TEXT,");
         sb_parcels.append(" register_staff_uid TEXT,");
         sb_parcels.append(" register_staff_room_name TEXT,");
-        sb_parcels.append(" register_staff_parcels_name TEXT,");
+        sb_parcels.append(" register_staff_ryosei_name TEXT,");
         sb_parcels.append(" placement INTEGER default 0,");
         sb_parcels.append(" fragile INTEGER default 0,");
         sb_parcels.append(" is_released INTEGER DEFAULT 0,");
@@ -55,7 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_parcels.append(" release_datetime TEXT,");
         sb_parcels.append(" release_staff_uid TEXT,");
         sb_parcels.append(" release_staff_room_name TEXT,");
-        sb_parcels.append(" release_staff_parcels_name TEXT,");
+        sb_parcels.append(" release_staff_ryosei_name TEXT,");
         sb_parcels.append(" checked_count INTEGER DEFAULT 0,");
         sb_parcels.append(" is_lost INTEGER DEFAULT 0,");
         sb_parcels.append(" lost_datetime TEXT,");
@@ -309,7 +309,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_insert_Parcel.append("insert into parcels (" +
                 "uid,owner_uid,owner_room_name,owner_ryosei_name," +
                 "register_datetime," +
-                "register_staff_uid,register_staff_room_name,register_staff_parcels_name,placement,sharing_status" +
+                "register_staff_uid,register_staff_room_name,register_staff_ryosei_name,placement,sharing_status" +
                 ") values ('");
         sb_insert_Parcel.append( UUID.randomUUID().toString() +"','");
         sb_insert_Parcel.append( owner_uid +"',");
@@ -420,7 +420,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String sql = "UPDATE parcels SET "+
                 " release_staff_uid = '" + release_staff_uid + "'," +
                 " release_staff_room_name = '" + release_staff_room_name + "' ," +
-                " release_staff_parcels_name = '" + release_staff_ryosei_name +"' ," +
+                " release_staff_ryosei_name = '" + release_staff_ryosei_name +"' ," +
                 " is_released = " + "1" +" ," +
                 " release_datetime =" + " \"" + string_register_time +"\"," +
                 " sharing_status =" + "'10'" +
@@ -436,7 +436,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //荷物IDとラベル(日時、受け取り事務当、場所）を返す。
         List<Map<String,String>> show_owners_parcels = new ArrayList<>();
         String sql = "SELECT uid, placement, register_datetime," +
-                "register_staff_room_name, register_staff_parcels_name " +
+                "register_staff_room_name, register_staff_ryosei_name " +
                 "FROM parcels WHERE is_released = 0 AND owner_uid ='" + owner_id + "'";
         Cursor cursor = db.rawQuery(sql, null);
         while(cursor.moveToNext()){
@@ -445,7 +445,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             int index_placement = cursor.getColumnIndex("placement");
             int index_register_datetime = cursor.getColumnIndex("register_datetime");
             int index_register_staff_room_name = cursor.getColumnIndex("register_staff_room_name");
-            int index_register_staff_parcels_name = cursor.getColumnIndex("register_staff_parcels_name");
+            int index_register_staff_ryosei_name = cursor.getColumnIndex("register_staff_ryosei_name");
             String rabel = "";
             String parcels_id = "";
             parcels_id = String.valueOf(cursor.getInt(index_id));
@@ -453,7 +453,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             rabel += " ";
             rabel += "受取事務当　" + cursor.getString(index_register_staff_room_name);
             rabel += " ";
-            rabel += cursor.getString(index_register_staff_parcels_name);
+            rabel += cursor.getString(index_register_staff_ryosei_name);
             rabel += " ";
             switch (cursor.getInt(index_placement)){
                 case 0 :
@@ -486,7 +486,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //荷物IDとラベル(日時、受け取り事務当、場所）を返す。
         List<Map<String,String>> show_owners_parcels = new ArrayList<>();
         String sql = "SELECT uid, placement, register_datetime,lost_datetime," +
-                "register_staff_room_name, register_staff_parcels_name,owner_room_name,owner_ryosei_name " +
+                "register_staff_room_name, register_staff_ryosei_name,owner_room_name,owner_ryosei_name " +
                 "FROM parcels WHERE is_released = 0 and is_deleted=0  order by owner_room_name asc";
         Cursor cursor = db.rawQuery(sql, null);
         while(cursor.moveToNext()){
@@ -495,13 +495,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             int index_placement = cursor.getColumnIndex("placement");
             int index_lost_datetime = cursor.getColumnIndex("lost_datetime");
             int index_owner_room_name = cursor.getColumnIndex("owner_room_name");
-            int index_register_staff_parcels_name = cursor.getColumnIndex("owner_ryosei_name");
+            int index_register_staff_ryosei_name = cursor.getColumnIndex("owner_ryosei_name");
             String rabel = "";
             String parcels_id = "";
             parcels_id = cursor.getString(index_id);
             rabel += "持ち主　" + cursor.getString(index_owner_room_name);
             rabel += " ";
-            rabel += cursor.getString(index_register_staff_parcels_name);
+            rabel += cursor.getString(index_register_staff_ryosei_name);
             rabel += " ";
             switch (cursor.getInt(index_placement)){
                 case 0 :
@@ -671,9 +671,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-    public String select_ryosei_show_json(SQLiteDatabase db){
+    public String select_ryosei_show_json(SQLiteDatabase db, int type){
         //owner_idの寮生を取得
-        String sql = "SELECT *  FROM ryosei";
+        String sql;
+        //owner_idの寮生を取得
+        if(type == 1) {
+            sql = "SELECT *  FROM ryosei order by uid";
+        }else if (type == 10){
+            sql = "SELECT *  FROM ryosei where sharing_status = '10'";
+        }else if (type == 11){
+            sql = "SELECT *  FROM ryosei where sharing_status = '11'";
+        }else{
+            sql = "SELECT *  FROM ryosei order by uid";
+        }
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         if(cursor.getCount()==0)return "";
@@ -706,9 +716,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return json_str;
     }
 
-    public String select_parcels_show_json(SQLiteDatabase db){
+    public String select_parcels_show_json(SQLiteDatabase db, int type){
+        String sql;
         //owner_idの寮生を取得
-        String sql = "SELECT *  FROM parcels order by uid";
+        if(type == 1) {
+            sql = "SELECT *  FROM parcels order by uid";
+        }else if (type == 10){
+            sql = "SELECT *  FROM parcels where sharing_status = '10'";
+        }else if (type == 11){
+            sql = "SELECT *  FROM parcels where sharing_status = '11'";
+        }else{
+            sql = "SELECT *  FROM parcels order by uid";
+        }
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         if(cursor.getCount()==0)return "";
@@ -740,9 +759,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         json_str+="]";
         return json_str;
     }
-    public String select_event_show_json(SQLiteDatabase db){
+    public String select_event_show_json(SQLiteDatabase db, int type){
         //owner_idの寮生を取得
-        String sql = "SELECT *  FROM parcel_event order by uid limit 4";
+        String sql;
+        //owner_idの寮生を取得
+        if(type == 1) {
+            sql = "SELECT *  FROM parcel_event order by uid";
+        }else if (type == 10){
+            sql = "SELECT *  FROM parcel_event where sharing_status = '10'";
+        }else if (type == 11){
+            sql = "SELECT *  FROM parcel_event where sharing_status = '11'";
+        }else{
+            sql = "SELECT *  FROM parcel_event order by uid";
+        }
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         if(cursor.getCount()==0)return "";
@@ -772,7 +801,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return json_str;
     }
 
-
+    public void update_sharingstatus(SQLiteDatabase db){
+        String sql = "update parcels set sharing_status = '30' where sharing_status = '20'";
+        db.execSQL(sql);
+    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
