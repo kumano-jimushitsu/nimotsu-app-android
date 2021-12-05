@@ -518,7 +518,7 @@ public class MainActivity extends AppCompatActivity {
 
             OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler);
             postTask2.json ="success";
-            postTask2.url="http://192.168.100.3:8080/parcel/create_check";
+            postTask2.url="http://192.168.100.3:8080/parcel/check";
             postTask2.execute();
 
 
