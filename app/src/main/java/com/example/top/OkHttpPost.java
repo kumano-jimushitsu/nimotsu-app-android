@@ -1,17 +1,15 @@
 package com.example.top;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -19,19 +17,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.internal.http2.Http2Connection;
-
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 public class OkHttpPost extends AsyncTask<String,String,String> {
-
     Context context;
     Handler handler;
+    private Listener listener;
     private DatabaseHelper _helper;
-    private Http2Connection.Listener listener;
     public OkHttpPost(Context context, Handler handler) {
         this.context = context;
         this.handler = handler;
@@ -95,11 +86,17 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
     }
 
     @Override
-    protected void onPostExecute(String str) {
-        Log.d("Debug",str);
+    protected void onPostExecute(String result) {
+        if (listener != null) {
+            listener.onSuccess(result);
+        }
     }
-    void setListener(Http2Connection.Listener listener) {
+
+    void setListener(Listener listener) {
         this.listener = listener;
     }
 
+    interface Listener {
+        String onSuccess(String res);
+    }
 }

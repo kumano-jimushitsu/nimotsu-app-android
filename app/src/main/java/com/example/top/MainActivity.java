@@ -1,36 +1,26 @@
 package com.example.top;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.OnLifecycleEvent;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.View.OnClickListener;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
-import com.google.zxing.integration.android.IntentIntegrator;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -40,9 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.*;
 
-import okhttp3.Response;
 import okhttp3.internal.http2.Http2Connection;
 import okhttp3.internal.http2.Http2Stream;
 
@@ -489,20 +477,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private Http2Connection.Listener createListener() {
-        return new Http2Connection.Listener() {
-            @Override
-            public void onStream(Http2Stream stream) throws IOException {
-
-            }
-
-            public void ok(String url) throws IOException{
-                OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler);
-                postTask2.json="success";
-                postTask2.url=url;
-                postTask2.execute();
-            }
-        };
+    private OkHttpPost.Listener createListener() {
+       return new OkHttpPost.Listener() {
+           @Override
+           public String onSuccess(String res) {
+               return res;
+           }
+       };
     }
 
     private class DBselect_Listener_parcels implements View.OnClickListener {
@@ -514,14 +495,13 @@ public class MainActivity extends AppCompatActivity {
             OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler);
             postTask.json =_helper.select_parcels_show_json(db,10);;
             postTask.url="http://192.168.100.3:8080/parcel/create";
+            postTask.setListener(createListener());
             postTask.execute();
 
             OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler);
             postTask2.json ="success";
-            postTask2.url="http://192.168.100.3:8080/parcel/create_check";
+            postTask2.url="http://192.168.100.3:8080/parcel/check";
             postTask2.execute();
-
-
         }
     }
 
