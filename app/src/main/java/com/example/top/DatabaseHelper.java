@@ -66,6 +66,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_parcels.append(" note TEXT,");
         sb_parcels.append(" is_deleted INTEGER DEFAULT 0,");
         sb_parcels.append(" sharing_status TEXT");
+
+        //release_agent_uid nvarchar(36)
         sb_parcels.append(");");
         String sql_parcels = sb_parcels.toString();
         db.execSQL(sql_parcels);
@@ -103,7 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_parcel_event.append(" ryosei_uid TEXT,");
         sb_parcel_event.append(" room_name TEXT,");
         sb_parcel_event.append(" ryosei_name TEXT,");
-        sb_parcel_event.append("target_event_uid TEXT,");
+        sb_parcel_event.append(" target_event_uid TEXT,");
         sb_parcel_event.append(" note TEXT,");
         sb_parcel_event.append(" is_finished INTEGER DEFAULT 0,");
         sb_parcel_event.append(" is_deleted INTEGER DEFAULT 0,");
@@ -333,6 +335,46 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         event_add_touroku(db,owner_uid,owner_room,owner_ryosei_name);
     }
 
+    public void addParcelOthers (
+            SQLiteDatabase db,
+            String owner_uid,
+            String owner_room,
+            String owner_ryosei_name,
+            String register_staff_uid,
+            String register_staff_room_name,
+            String register_staff_ryosei_name,
+            int placement,
+            String others_detail){
+        StringBuilder sb_insert_Parcel = new StringBuilder();
+        sb_insert_Parcel.append("insert into parcels (" +
+                "uid,owner_uid,owner_room_name,owner_parcels_name," +
+                "register_datetime," +
+                "register_staff_uid,register_staff_room_name,register_staff_parcels_name,placement,sharing_status,note" +
+                ") values ('");
+        sb_insert_Parcel.append( UUID.randomUUID().toString() +"','");
+        sb_insert_Parcel.append( owner_uid +"',");
+        sb_insert_Parcel.append( " \"" + owner_room +" \",");
+        sb_insert_Parcel.append( " \"" + owner_ryosei_name +"\",");
+        // 現在日時情報で初期化されたインスタンスの生成
+        Date dateObj = new Date();
+        SimpleDateFormat format = new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" );
+        // 日時情報を指定フォーマットの文字列で取得
+        String string_register_time = format.format( dateObj );
+        sb_insert_Parcel.append( " \"" + string_register_time +"\",'");
+        sb_insert_Parcel.append( register_staff_uid +"',");
+        sb_insert_Parcel.append( " \"" + register_staff_room_name +"\",");
+        sb_insert_Parcel.append( " \"" + register_staff_ryosei_name +"\",");
+        sb_insert_Parcel.append( " \"" + placement +"\",");
+        sb_insert_Parcel.append( " \"" + "10" +"\",");
+        sb_insert_Parcel.append( " \"" + others_detail +"\")");
+
+        String sql_insert_test_parcel = sb_insert_Parcel.toString();
+        db.execSQL(sql_insert_test_parcel);
+
+        nimotsuCountAdder(db,owner_uid);
+        event_add_touroku(db,owner_uid,owner_room,owner_ryosei_name);
+    }
+
     public void event_add_touroku(
             SQLiteDatabase db,
             String ryosei_id,
@@ -431,12 +473,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public void receiveParcelsProxy(
+            SQLiteDatabase db,
+            String owner_id,
+            String owner_room,
+            String owner_ryosei_name,
+            String parcels_uid,
+            String release_staff_uid,
+            String release_staff_room_name,
+            String release_staff_ryosei_name,
+            String proxy_id){
+        // 現在日時情報で初期化されたインスタンスの生成
+        Date dateObj = new Date();
+        SimpleDateFormat format = new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" );
+        // 日時情報を指定フォーマットの文字列で取得
+        String string_register_time = format.format( dateObj );
+        String sql = "UPDATE parcels SET "+
+                " release_staff_uid = '" + release_staff_uid + "'," +
+                " release_staff_room_name = '" + release_staff_room_name + "' ," +
+                " release_staff_parcels_name = '" + release_staff_ryosei_name +"' ," +
+                " is_released = " + "1" +" ," +
+                " release_datetime =" + " \"" + string_register_time +"\"," +
+                " sharing_status =" + "'10'" +
+                " WHERE uid =" + parcels_uid;
+        db.execSQL(sql);
+        nimotsuCountSubber(db, owner_id);
+        event_add_uketori(db,owner_id,owner_room,owner_ryosei_name);
+
+    }
+
 
     public List<Map<String,String>> nimotsuCountOfRyosei (SQLiteDatabase db, String owner_id){
         //荷物IDとラベル(日時、受け取り事務当、場所）を返す。
         List<Map<String,String>> show_owners_parcels = new ArrayList<>();
         String sql = "SELECT uid, placement, register_datetime," +
-                "register_staff_room_name, register_staff_ryosei_name " +
+                "register_staff_room_name, register_staff_ryosei_name,note " +
                 "FROM parcels WHERE is_released = 0 AND owner_uid ='" + owner_id + "'";
         Cursor cursor = db.rawQuery(sql, null);
         while(cursor.moveToNext()){
@@ -445,7 +516,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             int index_placement = cursor.getColumnIndex("placement");
             int index_register_datetime = cursor.getColumnIndex("register_datetime");
             int index_register_staff_room_name = cursor.getColumnIndex("register_staff_room_name");
-            int index_register_staff_ryosei_name = cursor.getColumnIndex("register_staff_ryosei_name");
+            int index_register_staff_ryosei_name = cursor.getColumnIndex("register_staff_ryosei_name");;
+            int index_note = cursor.getColumnIndex("note");
             String rabel = "";
             String parcels_id = "";
             parcels_id = String.valueOf(cursor.getInt(index_id));
@@ -472,7 +544,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     rabel += "不在票";
                     break;
                 case 5 :
-                    rabel += "その他";
+                    rabel += cursor.getString(index_note);
                     break;
             }
             parcels_raw.put("rabel",rabel);

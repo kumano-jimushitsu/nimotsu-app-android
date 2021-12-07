@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Touroku_Others">
+
+    <TextView
+        android:id="@+id/touroku_others_title"
+        android:layout_width="481dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="87dp"
+        android:layout_marginTop="53dp"
+        android:text="その他の荷物の登録の画面です。任意のテキストで説明を加えることができます。複数荷物の場合はここ彼ではなく、荷物の数だけ普通に登録してください。"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/touroku_others_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="69dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/touroku_others_title" />
+
+    <EditText
+        android:id="@+id/touroku_others_edit"
+        android:layout_width="658dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="98dp"
+        android:layout_marginTop="81dp"
+        android:ems="10"
+        android:hint="その他の情報を入力"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/touroku_others_text" />
+
+    <Button
+        android:id="@+id/touroku_others_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="95dp"
+        android:text="cancel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/touroku_others_edit" />
+
+    <Button
+        android:id="@+id/touroku_others_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="106dp"
+        android:layout_marginTop="95dp"
+        android:text="add"
+        app:layout_constraintStart_toEndOf="@+id/touroku_others_cancel"
+        app:layout_constraintTop_toBottomOf="@+id/touroku_others_edit" />
+</androidx.constraintlayout.widget.ConstraintLayout>

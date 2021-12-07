@@ -524,7 +524,7 @@ public class MainActivity extends AppCompatActivity {
 
             postTask.execute();
 
-            OkHttpPost postTask2 = new  OkHttpPojjst(MainActivity.this, handler);
+            OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler);
             postTask2.json ="success";
             postTask2.url="http://192.168.100.3:8080/event/create_check";
             postTask2.execute();

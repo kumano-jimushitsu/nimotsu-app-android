@@ -396,7 +396,11 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         SQLiteDatabase db = _helper.getWritableDatabase();
         // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count  FROM ryosei WHERE ryosei_name LIKE '%" + name +"%' ;" ;
+        String sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count  FROM ryosei WHERE " +
+                "ryosei_name LIKE '%" + name +"%' " +
+                "OR ryosei_name_kana LIKE '%" + name +"%' " +
+                "OR ryosei_name_alphabet LIKE '%" + name +"%' "+
+                "OR room_name LIKE '%" + name +"%' ";
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -424,90 +428,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
             show_ryosei.add(ryosei_raw);
 
         }
-        // 主キーによる検索SQL文字列の用意。
-        sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE ryosei_name_kana  LIKE '%" + name +"%' ;" ;
-        // SQLの実行。
-        cursor = db.rawQuery(sql, null);
-        //ブロックの寮生を検索しArrayListに追加
-        while(cursor.moveToNext()) {
-            Map<String,String> ryosei_raw = new HashMap<>();
-            // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
-            String note = "";
-            String ryosei_id = "";
-            // カラムのインデックス値を取得。
-            int idNote = cursor.getColumnIndex("uid");
-            // カラムのインデックス値を元に実際のデータを取得。
-            ryosei_id = cursor.getString(idNote);
-            ryosei_raw.put("id",cursor.getString(idNote));
 
-            // カラムのインデックス値を取得。
-            int roomNameNote = cursor.getColumnIndex("room_name");
-            // カラムのインデックス値を元に実際のデータを取得。
-            note += cursor.getString(roomNameNote);
-            note += " ";
-            int ryouseiNote = cursor.getColumnIndex("ryosei_name");
-            note += cursor.getString(ryouseiNote);
-            ryosei_raw.put("room_name",note);
-            blocks_roomname_name.add(note);
-            blocks_ryosei_id.add(ryosei_id);
-            show_ryosei.add(ryosei_raw);
-        }
-        // 主キーによる検索SQL文字列の用意。
-        sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE ryosei_name_alphabet  LIKE '%" + name +"%' ;" ;
-        // SQLの実行。
-        cursor = db.rawQuery(sql, null);
-        //ブロックの寮生を検索しArrayListに追加
-        while(cursor.moveToNext()) {
-            Map<String,String> ryosei_raw = new HashMap<>();
-            // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
-            String note = "";
-            String ryosei_id = "";
-            // カラムのインデックス値を取得。
-            int idNote = cursor.getColumnIndex("uid");
-            // カラムのインデックス値を元に実際のデータを取得。
-            ryosei_id = cursor.getString(idNote);
-            ryosei_raw.put("id",cursor.getString(idNote));
-
-            // カラムのインデックス値を取得。
-            int roomNameNote = cursor.getColumnIndex("room_name");
-            // カラムのインデックス値を元に実際のデータを取得。
-            note += cursor.getString(roomNameNote);
-            note += " ";
-            int ryouseiNote = cursor.getColumnIndex("ryosei_name");
-            note += cursor.getString(ryouseiNote);
-            ryosei_raw.put("room_name",note);
-            blocks_roomname_name.add(note);
-            blocks_ryosei_id.add(ryosei_id);
-            show_ryosei.add(ryosei_raw);
-        }
-        // 主キーによる検索SQL文字列の用意。
-        sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE room_name LIKE '%" + name +"%' ;" ;
-        // SQLの実行。
-        cursor = db.rawQuery(sql, null);
-        //ブロックの寮生を検索しArrayListに追加
-        while(cursor.moveToNext()) {
-            Map<String,String> ryosei_raw = new HashMap<>();
-            // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
-            String note = "";
-            String ryosei_id = "";
-            // カラムのインデックス値を取得。
-            int idNote = cursor.getColumnIndex("uid");
-            // カラムのインデックス値を元に実際のデータを取得。
-            ryosei_id = cursor.getString(idNote);
-            ryosei_raw.put("id",cursor.getString(idNote));
-
-            // カラムのインデックス値を取得。
-            int roomNameNote = cursor.getColumnIndex("room_name");
-            // カラムのインデックス値を元に実際のデータを取得。
-            note += cursor.getString(roomNameNote);
-            note += " ";
-            int ryouseiNote = cursor.getColumnIndex("ryosei_name");
-            note += cursor.getString(ryouseiNote);
-            ryosei_raw.put("room_name",note);
-            blocks_roomname_name.add(note);
-            blocks_ryosei_id.add(ryosei_id);
-            show_ryosei.add(ryosei_raw);
-        }
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter adapter = new SimpleAdapter
                 (this,
@@ -589,7 +510,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             int count = 0;
-            EditText input = findViewById(R.id.jimuto_editTextTextPersonName);
+            EditText input = findViewById(R.id.uketori_editTextTextPersonName);
             String input_name = input.getText().toString();
             input_name = input_name.replaceAll("　", "").replaceAll(" ", "");
             input_name = Normalizer.normalize(input_name, Normalizer.Form.NFKC);

@@ -64,8 +64,8 @@ public class Nimotsu_Proxy_Uketori_Dialog extends DialogFragment {
                         // このボタンを押した時の処理を書きます。
                         for(int i = 0; i < choices.size(); i++){
                             if(isCheckedList[i] == true){
-                                _helper.receiveParcels(db,owner_ryosei_id,owner_ryosei_room,owner_ryosei_name,String.valueOf(idlist[i]),release_staff_id,
-                                release_staff_room,release_staff_name);
+                                _helper.receiveParcelsProxy(db,owner_ryosei_id,owner_ryosei_room,owner_ryosei_name,String.valueOf(idlist[i]),release_staff_id,
+                                release_staff_room,release_staff_name,proxy_id);
                                 nimotsu_count_sametime++;
                             }
                         }

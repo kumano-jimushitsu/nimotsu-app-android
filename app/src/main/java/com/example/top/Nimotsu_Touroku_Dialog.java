@@ -3,6 +3,7 @@ package com.example.top;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.ViewGroup;
@@ -43,17 +44,30 @@ public class Nimotsu_Touroku_Dialog extends DialogFragment {
                 .setPositiveButton("受け取り", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // このボタンを押した時の処理を書きます。
-                        //if(placement != 5){
+                        if(placement != 5){
                         _helper = new com.example.top.DatabaseHelper(requireContext());
                         SQLiteDatabase db = _helper.getWritableDatabase();
                         _helper.addParcel(db,owner_ryosei_id,owner_ryosei_room,owner_ryosei_name,
-                          register_staff_id,register_staff_room,register_staff_name,placement
-                        );
+                          register_staff_id,register_staff_room,register_staff_name,placement);
+                        _helper.close();}
+                        else{
+                            Intent others_intent = new Intent(getActivity(), Touroku_Others.class);
+                            others_intent.putExtra("Jimuto_id", register_staff_id);
+                            others_intent.putExtra("Jimuto_room", register_staff_room);
+                            others_intent.putExtra("Jimuto_name", register_staff_name);
+                            others_intent.putExtra("Owner_id", owner_ryosei_id);
+                            others_intent.putExtra("Owner_room", owner_ryosei_room);
+                            others_intent.putExtra("Owner_name", owner_ryosei_name);
+                            others_intent.putExtra("placement", String.valueOf(placement));
+                            startActivity(others_intent);
+                        }
 
-                        String show = "事務当番" + register_staff_room + register_staff_name + "が"+owner_ryosei_room+" "+
-                                owner_ryosei_name+ "に荷物を受け取りしました。";
-                        Toast.makeText(getActivity(), show ,Toast.LENGTH_LONG).show();
 
+                        if(placement != 5) {
+                            String show = "事務当番" + register_staff_room + register_staff_name + "が" + owner_ryosei_room + " " +
+                                    owner_ryosei_name + "に荷物を受け取りしました。";
+                            Toast.makeText(getActivity(), show, Toast.LENGTH_LONG).show();
+                        }
                            // DialogFragment dialogFragment = new Touroku_Others_Dialog();
                           //  dialogFragment.show(getFragmentManager(), "Touroku_Others_Dialog");
                         //}
