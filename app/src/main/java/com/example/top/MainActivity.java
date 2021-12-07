@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     String jimuto_name = "";
     String jimuto_id = null;
     String qr_uuid = "";
+    String result = "";
     TouchSound soundinstance;
     int a=1;
 
@@ -467,7 +468,7 @@ public class MainActivity extends AppCompatActivity {
             OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler);
             postTask.json=_helper.select_ryosei_show_json(db, 10);
             postTask.url="http://192.168.100.3:8080/ryosei/create";
-            postTask.setListener(createListener());
+//            postTask.setListener(createListener());
             postTask.execute();
 
             OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler);
@@ -478,12 +479,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private OkHttpPost.Listener createListener() {
-       return new OkHttpPost.Listener() {
-           @Override
-           public String onSuccess(String res) {
-               return res;
-           }
-       };
+        return new OkHttpPost.Listener() {
+            @Override
+            public void onSuccess(String res) {
+                MainActivity.this.result = res;
+            }
+        };
     }
 
     private class DBselect_Listener_parcels implements View.OnClickListener {
@@ -498,9 +499,15 @@ public class MainActivity extends AppCompatActivity {
             postTask.setListener(createListener());
             postTask.execute();
 
+            while (true) {
+                if (MainActivity.this.result.equals("Success")) {
+                    break;
+                }
+            }
+
             OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler);
-            postTask2.json ="success";
-            postTask2.url="http://192.168.100.3:8080/parcel/check";
+            postTask2.json = "success";
+            postTask2.url = "http://192.168.100.3:8080/parcel/check";
             postTask2.execute();
         }
     }
@@ -517,7 +524,7 @@ public class MainActivity extends AppCompatActivity {
 
             postTask.execute();
 
-            OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler);
+            OkHttpPost postTask2 = new  OkHttpPojjst(MainActivity.this, handler);
             postTask2.json ="success";
             postTask2.url="http://192.168.100.3:8080/event/create_check";
             postTask2.execute();

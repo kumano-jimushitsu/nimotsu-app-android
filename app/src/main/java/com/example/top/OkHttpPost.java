@@ -55,7 +55,9 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
             Response response = client.newCall(request).execute();
             // PCからのメッセージをポップアップで表示する
             String popup_msg = response.body().string();
-            if(popup_msg=="")return null;
+            if(popup_msg.equals("Done")) {
+                return null;
+            }
             executor.execute(() -> {
                 handler.post(() -> {
 //                    Toast.makeText(context, popup_msg, Toast.LENGTH_SHORT).show();
@@ -72,23 +74,11 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
                 });
             });
 
-//            if (listener != null) {
-//                listener.ok(url);
-//                //listener.onSuccess(progress[0]);
-//            }
-
+            listener.onSuccess("Success");
             return "Success";
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(String result) {
-        if (listener != null) {
-            listener.onSuccess(result);
+            return null;
         }
     }
 
@@ -97,6 +87,6 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
     }
 
     interface Listener {
-        String onSuccess(String res);
+        void onSuccess(String res);
     }
 }
