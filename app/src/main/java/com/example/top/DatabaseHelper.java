@@ -347,9 +347,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String others_detail){
         StringBuilder sb_insert_Parcel = new StringBuilder();
         sb_insert_Parcel.append("insert into parcels (" +
-                "uid,owner_uid,owner_room_name,owner_parcels_name," +
+                "uid,owner_uid,owner_room_name,owner_ryosei_name," +
                 "register_datetime," +
-                "register_staff_uid,register_staff_room_name,register_staff_parcels_name,placement,sharing_status,note" +
+                "register_staff_uid,register_staff_room_name,register_staff_ryosei_name,placement,sharing_status,note" +
                 ") values ('");
         sb_insert_Parcel.append( UUID.randomUUID().toString() +"','");
         sb_insert_Parcel.append( owner_uid +"',");
