@@ -23,7 +23,9 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
     Handler handler;
     private Listener listener;
     private DatabaseHelper _helper;
+
     public OkHttpPost(Context context, Handler handler) {
+        super();
         this.context = context;
         this.handler = handler;
     }
@@ -53,18 +55,26 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
 
         try {
             Response response = client.newCall(request).execute();
-            // PCからのメッセージをポップアップで表示する
-            String popup_msg = response.body().string();
-            if(popup_msg.equals("Done")) {
+            String msg = response.body().string();
+            
+            /*
+            * msg=リクエストを送るとPCから送られてくる文字列
+            * これが空文字列ならOkHttpPostは二回目のリクエストを送らずnullを返す(no op)
+            * */
+            if(msg.equals("")) {
+                if (this.listener != null) {
+                    listener.onReceiveResponseFromPC(msg);
+                }
                 return null;
             }
+            
             executor.execute(() -> {
                 handler.post(() -> {
-//                    Toast.makeText(context, popup_msg, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
                     _helper = new DatabaseHelper(context);
                     SQLiteDatabase db = _helper.getWritableDatabase();
                     try {
-                        db.execSQL(popup_msg);
+                        db.execSQL(msg);
                         _helper.update_sharingstatus(db);
 
                     } catch (SQLException e) {
@@ -74,8 +84,8 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
                 });
             });
 
-            listener.onSuccess("Success");
-            return "Success";
+            listener.onReceiveResponseFromPC("Success");
+            return null;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -87,6 +97,6 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
     }
 
     interface Listener {
-        void onSuccess(String res);
+        void onReceiveResponseFromPC(String res);
     }
 }
