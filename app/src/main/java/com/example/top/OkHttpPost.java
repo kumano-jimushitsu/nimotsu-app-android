@@ -19,29 +19,25 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class OkHttpPost extends AsyncTask<String,String,String> {
+    String json;
+    String url = "http://192.168.100.82:8080";
     Context context;
     Handler handler;
     private Listener listener;
     private DatabaseHelper _helper;
 
-    public OkHttpPost(Context context, Handler handler) {
+    public OkHttpPost(Context context, Handler handler, String json) {
         super();
         this.context = context;
         this.handler = handler;
+        this.json = json;
     }
-
-    public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
-    String json = "{\"name\":\"名前\", \"taxis\":\"分類\"}";
-    String url="http://192.168.100.3:8080/";
-    //String json = "{\"name\": \"foo\", \"description\": \"bar\", \"price\": 1, \"tax\":1.1}";
-    String test = "success";
 
     @Override
     protected synchronized String doInBackground(String... strings) {
 
         OkHttpClient client = new OkHttpClient();
-//        String url = "http://127.0.0.1:8000/items/";
-//        RequestBody body = RequestBody.create(JSON, json);
+
         RequestBody formBody = new FormBody.Builder()
                 .add("", json)
                 .build();
@@ -55,26 +51,26 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
 
         try {
             Response response = client.newCall(request).execute();
-            String msg = response.body().string();
+            String sqlCommand = response.body().string();
             
             /*
-            * msg=リクエストを送るとPCから送られてくる文字列
+            * sqlCommand=リクエストを送るとPCから送られてくる文字列
             * これが空文字列ならOkHttpPostは二回目のリクエストを送らずnullを返す(no op)
             * */
-            if(msg.equals("")) {
+            if(sqlCommand.equals("")) {
                 if (this.listener != null) {
-                    listener.onReceiveResponseFromPC(msg);
+                    listener.onReceiveResponseFromPC(sqlCommand);
                 }
                 return null;
             }
             
             executor.execute(() -> {
                 handler.post(() -> {
-//                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, sqlCommand, Toast.LENGTH_SHORT).show();
                     _helper = new DatabaseHelper(context);
                     SQLiteDatabase db = _helper.getWritableDatabase();
                     try {
-                        db.execSQL(msg);
+                        db.execSQL(sqlCommand);
                         _helper.update_sharingstatus(db);
 
                     } catch (SQLException e) {

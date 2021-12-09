@@ -66,8 +66,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
-        android:layout_marginTop="612dp"
-        android:text="ryosei"
+        android:layout_marginTop="600dp"
+        android:text="寮生(update)"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,9 +75,9 @@
         android:id="@+id/ryosei_insert_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="640dp"
-        android:text="ryosei"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="650dp"
+        android:text="寮生(insert)"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -85,9 +85,9 @@
         android:id="@+id/ryosei_debug_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="720dp"
-        android:text="ryosei"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="700dp"
+        android:text="寮生(debug)"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -95,9 +95,9 @@
         android:id="@+id/parcel_update_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="204dp"
-        android:layout_marginTop="608dp"
-        android:text="parcels"
+        android:layout_marginStart="216dp"
+        android:layout_marginTop="600dp"
+        android:text="荷物"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -106,9 +106,9 @@
         android:id="@+id/parcel_insert_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="196dp"
-        android:layout_marginTop="640dp"
-        android:text="parcels"
+        android:layout_marginStart="216dp"
+        android:layout_marginTop="650dp"
+        android:text="荷物"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -116,9 +116,9 @@
         android:id="@+id/parcel_debug_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="204dp"
-        android:layout_marginTop="708dp"
-        android:text="parcels"
+        android:layout_marginStart="216dp"
+        android:layout_marginTop="700dp"
+        android:text="荷物"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -126,9 +126,9 @@
         android:id="@+id/parcel_event_update_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="336dp"
-        android:layout_marginTop="608dp"
-        android:text="event"
+        android:layout_marginStart="320dp"
+        android:layout_marginTop="600dp"
+        android:text="イベント"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -136,9 +136,9 @@
         android:id="@+id/parcel_event_insert_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="324dp"
-        android:layout_marginTop="640dp"
-        android:text="event"
+        android:layout_marginStart="320dp"
+        android:layout_marginTop="650dp"
+        android:text="イベント"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -146,9 +146,9 @@
         android:id="@+id/parcel_event_debug_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="328dp"
-        android:layout_marginTop="708dp"
-        android:text="event"
+        android:layout_marginStart="320dp"
+        android:layout_marginTop="700dp"
+        android:text="イベント"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

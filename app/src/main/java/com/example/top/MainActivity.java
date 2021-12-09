@@ -37,15 +37,13 @@ public class MainActivity extends AppCompatActivity {
     String jimuto_name = "";
     String jimuto_id = null;
     String qr_uuid = "";
-    TouchSound soundinstance;
-    int a = 1;
 
-    private DatabaseHelper _helper;
-
-    private String[] from = {"id", "text"};
-    private int[] to = {android.R.id.text2, android.R.id.text1};
+    final String[] from = {"id", "text"};
+    final int[] to = {android.R.id.text2, android.R.id.text1};
 
     private TouchSound touchsound;
+    private DatabaseHelper _helper;
+    private SQLiteDatabase db;
     final Handler handler = new Handler();
 
     @Override
@@ -53,13 +51,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        _helper = new com.example.top.DatabaseHelper(this);
+        db = _helper.getWritableDatabase();
         touchsound = new TouchSound(this);
-
 
         ImageButton image_button_touroku = findViewById(R.id.image_button_touroku);
         DoubleTourokuListener listener3 = new DoubleTourokuListener();
         image_button_touroku.setOnClickListener(listener3);
-
 
         Button jimutou_change = findViewById(R.id.jimuto_change_button);
         DoubleJimutoChangeListener listener4 = new DoubleJimutoChangeListener();
@@ -74,41 +72,41 @@ public class MainActivity extends AppCompatActivity {
         EventShowListener showListener = new EventShowListener();
         eventLogshower.setOnItemClickListener(showListener);
 
-        Button b_parcels3 = findViewById(R.id.parcel_update_button);
-        DBselect_Listener_parcels3 parcels3_listener = new DBselect_Listener_parcels3();
-        b_parcels3.setOnClickListener(parcels3_listener);
+        Button parcel_update_button = findViewById(R.id.parcel_update_button);
+        SendRequestListener parcels_update_listener = new SendRequestListener("parcel", "update");
+        parcel_update_button.setOnClickListener(parcels_update_listener);
 
         Button parcel_insert_button = findViewById(R.id.parcel_insert_button);
-        SendRequestListener parcels_listener = new SendRequestListener("http://192.168.100.3:8080", "parcel", "create");
-        parcel_insert_button.setOnClickListener(parcels_listener);
+        SendRequestListener parcel_insert_listener = new SendRequestListener("parcel", "create");
+        parcel_insert_button.setOnClickListener(parcel_insert_listener);
 
-        Button b_parcels2 = findViewById(R.id.parcel_debug_button);
-        DBselect_Listener_parcels2 parcels2_listener = new DBselect_Listener_parcels2();
-        b_parcels2.setOnClickListener(parcels2_listener);
+        Button parcel_debug_button = findViewById(R.id.parcel_debug_button);
+        ShowRecordsListener parcels_debug_listener = new ShowRecordsListener("parcel");
+        parcel_debug_button.setOnClickListener(parcels_debug_listener);
 
-        Button b_ryosei3 = findViewById(R.id.ryosei_update_button);
-        DBselect_Listener_ryosei3 ryosei3_listener = new DBselect_Listener_ryosei3();
-        b_ryosei3.setOnClickListener(ryosei3_listener);
+        Button ryosei_update_button = findViewById(R.id.ryosei_update_button);
+        SendRequestListener ryosei_update_listener = new SendRequestListener("ryosei", "update");
+        ryosei_update_button.setOnClickListener(ryosei_update_listener);
 
-        Button b_ryosei = findViewById(R.id.ryosei_insert_button);
-        DBselect_Listener_ryosei ryosei_listener = new DBselect_Listener_ryosei();
-        b_ryosei.setOnClickListener(ryosei_listener);
+        Button ryosei_insert_button = findViewById(R.id.ryosei_insert_button);
+        SendRequestListener ryosei_insert_listener = new SendRequestListener("ryosei", "create");
+        ryosei_insert_button.setOnClickListener(ryosei_insert_listener);
 
-        Button b_ryosei2 = findViewById(R.id.ryosei_debug_button);
-        DBselect_Listener_ryosei2 ryosei2_listener = new DBselect_Listener_ryosei2();
-        b_ryosei2.setOnClickListener(ryosei2_listener);
+        Button ryosei_debug_button = findViewById(R.id.ryosei_debug_button);
+        ShowRecordsListener ryosei_debug_listener = new ShowRecordsListener("ryosei");
+        ryosei_debug_button.setOnClickListener(ryosei_debug_listener);
 
-        Button b_event3 = findViewById(R.id.parcel_event_update_button);
-        DBselect_Listener_event3 event3_listener = new DBselect_Listener_event3();
-        b_event3.setOnClickListener(event3_listener);
+        Button parcel_event_update_button = findViewById(R.id.parcel_event_update_button);
+        SendRequestListener parcel_event_update_listener = new SendRequestListener("parcel_event", "update");
+        parcel_event_update_button.setOnClickListener(parcel_event_update_listener);
 
-        Button b_event = findViewById(R.id.parcel_event_insert_button);
-        DBselect_Listener_event event_listener = new DBselect_Listener_event();
-        b_event.setOnClickListener(event_listener);
+        Button parcel_event_insert_button = findViewById(R.id.parcel_event_insert_button);
+        SendRequestListener parcel_event_insert_listener = new SendRequestListener("parcel_event", "create");
+        parcel_event_insert_button.setOnClickListener(parcel_event_insert_listener);
 
-        Button b_event2 = findViewById(R.id.parcel_event_debug_button);
-        DBselect_Listener_event2 event2_listener = new DBselect_Listener_event2();
-        b_event2.setOnClickListener(event2_listener);
+        Button parcel_event_debug_button = findViewById(R.id.parcel_event_debug_button);
+        ShowRecordsListener parcel_event_debug_listener = new ShowRecordsListener("parcel_event");
+        parcel_event_debug_button.setOnClickListener(parcel_event_debug_listener);
 
         Button duty_night = findViewById(R.id.duty_night_button);
         duty_night_listener listener6 = new duty_night_listener();
@@ -137,8 +135,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void eventLogshow() {
         List<Map<String, String>> show_eventlist = new ArrayList<>();
-        _helper = new com.example.top.DatabaseHelper(MainActivity.this);
-        SQLiteDatabase db = _helper.getWritableDatabase();
         String sql = "SELECT uid, created_at, event_type, parcel_uid, room_name, ryosei_name, target_event_uid,is_deleted FROM parcel_event where is_deleted = 0 order by uid desc limit 100";
         Cursor cursor = db.rawQuery(sql, null);
         show_eventlist.clear();
@@ -198,7 +194,6 @@ public class MainActivity extends AppCompatActivity {
         listListener.setOnItemClickListener(new EventShowListener());
     }
 
-
     public void onReturnJimutoValue(String value, String id) {
         jimuto_id = id;
 
@@ -236,7 +231,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     private class TourokuListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
@@ -252,7 +246,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 
     private class UketoriListener implements View.OnClickListener {
         @Override
@@ -312,7 +305,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     private class duty_night_listener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
@@ -335,7 +327,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     private class EventShowListener implements AdapterView.OnItemClickListener {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             String event_id = "";
@@ -351,8 +342,6 @@ public class MainActivity extends AppCompatActivity {
             //TextView configshow = findViewById(R.id.showText);
             //configshow.setText(item.get("id"));
             item.get("id");
-            _helper = new com.example.top.DatabaseHelper(MainActivity.this);
-            SQLiteDatabase db = _helper.getWritableDatabase();
             String sql = "SELECT uid, created_at, event_type,ryosei_uid, parcel_uid, room_name, ryosei_name, target_event_uid FROM parcel_event WHERE uid = " +
                     item.get("id");
             Cursor cursor = db.rawQuery(sql, null);
@@ -397,7 +386,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
     private class A101KumanoTourokuListener implements View.OnClickListener {
         @Override
@@ -447,46 +435,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class DBselect_Listener_ryosei implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            touchsound.playsoundOne();
-            _helper = new com.example.top.DatabaseHelper(MainActivity.this);
-            SQLiteDatabase db = _helper.getWritableDatabase();
-            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler);
-            postTask.json = _helper.select_ryosei_show_json(db, 10);
-            postTask.url = "http://192.168.100.3:8080/ryosei/create";
-//            postTask.setListener(createListener());
-            postTask.execute();
-
-            OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler);
-            postTask2.json = "success";
-            postTask2.url = "http://192.168.100.3:8080/ryosei/create_check";
-            postTask2.execute();
-        }
-    }
-
     private class SendRequestListener implements View.OnClickListener {
         String result = null;
-        String host;
-        String object;
+        String table;
         String method;
 
-        public SendRequestListener(String host, String object, String method) {
-            this.host = host;
-            this.object = object;
+        public SendRequestListener(String table, String method) {
+            this.table = table;
             this.method = method;
         };
 
         @Override
         public void onClick(View view) {
             touchsound.playsoundOne();
-            _helper = new com.example.top.DatabaseHelper(MainActivity.this);
-            SQLiteDatabase db = _helper.getWritableDatabase();
-            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler);
-//            postTask.json = _helper.select_parcels_show_json(db, 10);
-            postTask.json = getJsonFromDatabase(10);
-            postTask.url = host + "/" + object + "/" + method;
+            String json = getJsonFromDatabase();
+            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler, json);
+            postTask.url = postTask.url + "/" + table + "/" + method;
             postTask.setListener(createListener());
             postTask.execute();
 
@@ -498,15 +462,16 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 } else if (this.result.equals("Success")) {
+                    result = null;
                     break;
                 } else if (this.result.equals("")) {
+                    result = null;
                     return;
                 }
             }
 
-            OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler);
-            postTask2.json = "Success";
-            postTask2.url = host + "/" + object + "/check";
+            OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler, "Success");
+            postTask2.url = postTask2.url + "/" + table + "/check";
             postTask2.execute();
         }
 
@@ -519,129 +484,61 @@ public class MainActivity extends AppCompatActivity {
             };
         }
 
-        private String getJsonFromDatabase<String T>(SQLiteDatabase db, int sharing_status) {
-            if (object.equals("ryosei")) {
-                return _helper.select_ryosei_show_json(db, sharing_status);
-            } else if (object.equals("parcel")) {
+        private String getJsonFromDatabase() {
+            int sharing_status = getSharingStatus();
+            switch (table) {
+                case "ryosei":
+                    return _helper.select_ryosei_show_json(db, sharing_status);
+                case "parcel":
+                    return _helper.select_parcels_show_json(db, sharing_status);
+                case "parcel_event":
+                    return _helper.select_event_show_json(db, sharing_status);
+                default:
+                    return "";
+            }
+        }
 
+        private int getSharingStatus() {
+            switch(method){
+                case "create":
+                    return 10;
+                case "update":
+                    return 11;
+                case "debug":
+                    return 30;
+                default:
+                    return 0;
             }
         }
     }
 
-    private class DBselect_Listener_event implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            touchsound.playsoundOne();
-            _helper = new com.example.top.DatabaseHelper(MainActivity.this);
-            SQLiteDatabase db = _helper.getWritableDatabase();
-            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler);
-            postTask.json = _helper.select_event_show_json(db, 10);
-            postTask.url = "http://192.168.100.3:8080/event/create";
+    private class ShowRecordsListener implements View.OnClickListener {
+        String table;
 
-            postTask.execute();
-
-            OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler);
-            postTask2.json = "success";
-            postTask2.url = "http://192.168.100.3:8080/event/create_check";
-            postTask2.execute();
+        public ShowRecordsListener(String table) {
+            this.table = table;
         }
-    }
 
-    private class DBselect_Listener_ryosei3 implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            touchsound.playsoundOne();
-            _helper = new com.example.top.DatabaseHelper(MainActivity.this);
-            SQLiteDatabase db = _helper.getWritableDatabase();
-            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler);
-            postTask.json = _helper.select_ryosei_show_json(db, 11);
-            postTask.url = "http://192.168.100.3:8080/ryosei/update";
-
-            postTask.execute();
-
-            OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler);
-            postTask2.json = "success";
-            postTask2.url = "http://192.168.100.3:8080/ryosei/update_check";
-            postTask2.execute();
-        }
-    }
-
-    private class DBselect_Listener_parcels3 implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            touchsound.playsoundOne();
-            _helper = new com.example.top.DatabaseHelper(MainActivity.this);
-            SQLiteDatabase db = _helper.getWritableDatabase();
-            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler);
-            postTask.json = _helper.select_parcels_show_json(db, 11);
-            ;
-            postTask.url = "http://192.168.100.3:8080/parcel/update";
-
-            postTask.execute();
-
-            OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler);
-            postTask2.json = "success";
-            postTask2.url = "http://192.168.100.3:8080/parcel/update_check";
-            postTask2.execute();
-        }
-    }
-
-    private class DBselect_Listener_event3 implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            touchsound.playsoundOne();
-            _helper = new com.example.top.DatabaseHelper(MainActivity.this);
-            SQLiteDatabase db = _helper.getWritableDatabase();
-            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler);
-            postTask.json = _helper.select_event_show_json(db, 11);
-            postTask.url = "http://192.168.100.3:8080/event/update";
-
-            postTask.execute();
-
-            OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler);
-            postTask2.json = "success";
-            postTask2.url = "http://192.168.100.3:8080/event/update_check";
-            postTask2.execute();
-        }
-    }
-
-    private class DBselect_Listener_ryosei2 implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-
-            _helper = new com.example.top.DatabaseHelper(MainActivity.this);
-            SQLiteDatabase db = _helper.getWritableDatabase();
             // 主キーによる検索SQL文字列の用意。
-            String a = _helper.select_ryosei_show_json(db, 1);
-            int b = 1;
+            String json = getJsonFromDatabase();
+        }
 
+        private String getJsonFromDatabase() {
+            int sharing_status = 1;
+            switch (table) {
+                case "ryosei":
+                    return _helper.select_ryosei_show_json(db, sharing_status);
+                case "parcel":
+                    return _helper.select_parcels_show_json(db, sharing_status);
+                case "parcel_event":
+                    return _helper.select_event_show_json(db, sharing_status);
+                default:
+                    return "";
+            }
         }
     }
-
-    private class DBselect_Listener_parcels2 implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-
-            _helper = new com.example.top.DatabaseHelper(MainActivity.this);
-            SQLiteDatabase db = _helper.getWritableDatabase();
-            // 主キーによる検索SQL文字列の用意。
-            String a = _helper.select_parcels_show_json(db, 1);
-            int b = 1;
-
-        }
-    }
-
-    private class DBselect_Listener_event2 implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            _helper = new com.example.top.DatabaseHelper(MainActivity.this);
-            SQLiteDatabase db = _helper.getWritableDatabase();
-            // 主キーによる検索SQL文字列の用意。
-            String a = _helper.select_event_show_json(db, 1);
-            int b = 1;
-        }
-    }
-
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -668,10 +565,4 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
-
 }
-
-
-
-
