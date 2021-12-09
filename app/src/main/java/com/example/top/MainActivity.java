@@ -108,11 +108,11 @@ public class MainActivity extends AppCompatActivity {
         ShowRecordsListener parcel_event_debug_listener = new ShowRecordsListener("parcel_event");
         parcel_event_debug_button.setOnClickListener(parcel_event_debug_listener);
 
-        Button duty_night = findViewById(R.id.duty_night_button);
+        ImageButton duty_night = findViewById(R.id.duty_night_button);
         duty_night_listener listener6 = new duty_night_listener();
         duty_night.setOnClickListener(listener6);
 
-        Button qr_scanner = findViewById(R.id.qr_scanner);
+        ImageButton qr_scanner = findViewById(R.id.qr_scanner);
         QRScanListener qr_Listener = new QRScanListener();
         qr_scanner.setOnClickListener(qr_Listener);
     }
