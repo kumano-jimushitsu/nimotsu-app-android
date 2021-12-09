@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -22,7 +21,6 @@ import androidx.fragment.app.DialogFragment;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,9 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
-import okhttp3.internal.http2.Http2Connection;
-import okhttp3.internal.http2.Http2Stream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -80,40 +75,40 @@ public class MainActivity extends AppCompatActivity {
         eventLogshower.setOnItemClickListener(showListener);
 
         Button b_ryosei = findViewById(R.id.button_select);
-        DBselect_Listener_ryosei ryosei_listener = new DBselect_Listener_ryosei();
+        DBselect_Listener_ryosei_insert ryosei_listener = new DBselect_Listener_ryosei_insert();
         b_ryosei.setOnClickListener(ryosei_listener);
 
         Button b_parcels = findViewById(R.id.button_select2);
-        DBselect_Listener_parcels parcels_listener = new DBselect_Listener_parcels();
+        DBselect_Listener_parcels_insert parcels_listener = new DBselect_Listener_parcels_insert();
         b_parcels.setOnClickListener(parcels_listener);
 
         Button b_event = findViewById(R.id.button_select3);
-        DBselect_Listener_event event_listener = new DBselect_Listener_event();
+        DBselect_Listener_event_insert event_listener = new DBselect_Listener_event_insert();
         b_event.setOnClickListener(event_listener);
 
-        Button b_ryosei2 = findViewById(R.id.button_select6);
-        DBselect_Listener_ryosei2 ryosei2_listener = new DBselect_Listener_ryosei2();
-        b_ryosei2.setOnClickListener(ryosei2_listener);
+        Button b_ryosei_show = findViewById(R.id.button_select6);
+        DBselect_Listener_ryosei_show ryosei_show_listener = new DBselect_Listener_ryosei_show();
+        b_ryosei_show.setOnClickListener(ryosei_show_listener);
 
-        Button b_parcels2 = findViewById(R.id.button_select5);
-        DBselect_Listener_parcels2 parcels2_listener = new DBselect_Listener_parcels2();
-        b_parcels2.setOnClickListener(parcels2_listener);
+        Button b_parcels_show = findViewById(R.id.button_select5);
+        DBselect_Listener_parcels_show parcels_show_listener = new DBselect_Listener_parcels_show();
+        b_parcels_show.setOnClickListener(parcels_show_listener);
 
-        Button b_event2 = findViewById(R.id.button_select4);
-        DBselect_Listener_event2 event2_listener = new DBselect_Listener_event2();
-        b_event2.setOnClickListener(event2_listener);
+        Button b_event_show = findViewById(R.id.button_select4);
+        DBselect_Listener_event_show event_show_listener = new DBselect_Listener_event_show();
+        b_event_show.setOnClickListener(event_show_listener);
 
-        Button b_ryosei3 = findViewById(R.id.button_select7);
-        DBselect_Listener_ryosei3 ryosei3_listener = new DBselect_Listener_ryosei3();
-        b_ryosei3.setOnClickListener(ryosei3_listener);
+        Button b_ryosei_update = findViewById(R.id.button_select7);
+        DBselect_Listener_ryosei_update ryosei_update_listener = new DBselect_Listener_ryosei_update();
+        b_ryosei_update.setOnClickListener(ryosei_update_listener);
 
-        Button b_parcels3 = findViewById(R.id.button_select8);
-        DBselect_Listener_parcels3 parcels3_listener = new DBselect_Listener_parcels3();
-        b_parcels3.setOnClickListener(parcels3_listener);
+        Button b_parcels_update = findViewById(R.id.button_select8);
+        DBselect_Listener_parcels_update parcels_update_listener = new DBselect_Listener_parcels_update();
+        b_parcels_update.setOnClickListener(parcels_update_listener);
 
-        Button b_event3 = findViewById(R.id.button_select9);
-        DBselect_Listener_event3 event3_listener = new DBselect_Listener_event3();
-        b_event3.setOnClickListener(event3_listener);
+        Button b_eventi_update = findViewById(R.id.button_select9);
+        DBselect_Listener_eventi_update eventi_update_listener = new DBselect_Listener_eventi_update();
+        b_eventi_update.setOnClickListener(eventi_update_listener);
 
         Button duty_night = findViewById(R.id.duty_night_button);
         duty_night_listener listener6 = new duty_night_listener();
@@ -458,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    private class DBselect_Listener_ryosei implements View.OnClickListener {
+    private class DBselect_Listener_ryosei_insert implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             touchsound.playsoundOne();
@@ -486,7 +481,7 @@ public class MainActivity extends AppCompatActivity {
        };
     }
 
-    private class DBselect_Listener_parcels implements View.OnClickListener {
+    private class DBselect_Listener_parcels_insert implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             touchsound.playsoundOne();
@@ -505,7 +500,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class DBselect_Listener_event implements View.OnClickListener {
+    private class DBselect_Listener_event_insert implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             touchsound.playsoundOne();
@@ -515,6 +510,7 @@ public class MainActivity extends AppCompatActivity {
             postTask.json = _helper.select_event_show_json(db, 10);
             postTask.url="http://192.168.100.3:8080/event/create";
 
+
             postTask.execute();
 
             OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler);
@@ -523,7 +519,7 @@ public class MainActivity extends AppCompatActivity {
             postTask2.execute();
         }
     }
-    private class DBselect_Listener_ryosei3 implements View.OnClickListener {
+    private class DBselect_Listener_ryosei_update implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             touchsound.playsoundOne();
@@ -541,7 +537,7 @@ public class MainActivity extends AppCompatActivity {
             postTask2.execute();
         }
     }
-    private class DBselect_Listener_parcels3 implements View.OnClickListener {
+    private class DBselect_Listener_parcels_update implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             touchsound.playsoundOne();
@@ -560,7 +556,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class DBselect_Listener_event3 implements View.OnClickListener {
+    private class DBselect_Listener_eventi_update implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             touchsound.playsoundOne();
@@ -578,7 +574,7 @@ public class MainActivity extends AppCompatActivity {
             postTask2.execute();
         }
     }
-    private class DBselect_Listener_ryosei2 implements View.OnClickListener {
+    private class DBselect_Listener_ryosei_show implements View.OnClickListener {
         @Override
         public void onClick(View view) {
 
@@ -590,7 +586,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-    private class DBselect_Listener_parcels2 implements View.OnClickListener {
+    private class DBselect_Listener_parcels_show implements View.OnClickListener {
         @Override
         public void onClick(View view) {
 
@@ -603,7 +599,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class DBselect_Listener_event2 implements View.OnClickListener {
+    private class DBselect_Listener_event_show implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             _helper = new com.example.top.DatabaseHelper(MainActivity.this);

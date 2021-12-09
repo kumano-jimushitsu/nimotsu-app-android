@@ -23,7 +23,7 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
     Handler handler;
     private Listener listener;
     private DatabaseHelper _helper;
-    public OkHttpPost(Context context, Handler handler) {
+    public OkHttpPost(Context context, Handler handler) {//コンテキスト　呼び出し元と　非同期処理をメインスレッドから飛ばしてここで行っている。
         this.context = context;
         this.handler = handler;
     }
@@ -54,17 +54,16 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
         try {
             Response response = client.newCall(request).execute();
             // PCからのメッセージをポップアップで表示する
-            String popup_msg = response.body().string();
+            String popup_msg = response.body().string();//HTTPリクエストを出してそのリスポンスを個々で取得している。responce型が実行されると中身が入ってる
             if(popup_msg=="")return null;
-            executor.execute(() -> {
+            executor.execute(() -> {//あろう関数　関数表記を単純にしたもの
                 handler.post(() -> {
 //                    Toast.makeText(context, popup_msg, Toast.LENGTH_SHORT).show();
                     _helper = new DatabaseHelper(context);
                     SQLiteDatabase db = _helper.getWritableDatabase();
                     try {
                         db.execSQL(popup_msg);
-                        _helper.update_sharingstatus(db);
-
+                        _helper.update_sharingstatus_parcels(db);
                     } catch (SQLException e) {
                         Log.e("ERROR", e.toString());
                     }

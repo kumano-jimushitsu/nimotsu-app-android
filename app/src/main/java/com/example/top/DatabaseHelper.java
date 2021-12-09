@@ -801,8 +801,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return json_str;
     }
 
-    public void update_sharingstatus(SQLiteDatabase db){
+    public void update_sharingstatus_parcels(SQLiteDatabase db){
         String sql = "update parcels set sharing_status = '30' where sharing_status = '20'";
+        db.execSQL(sql);
+    }
+
+    public void update_sharingstatus_ryosei(SQLiteDatabase db){
+        String sql = "update ryosei set sharing_status = '30' where sharing_status = '20'";
+        db.execSQL(sql);
+    }
+
+    public void update_sharingstatus_event(SQLiteDatabase db){
+        String sql = "update parcel_event set sharing_status = '30' where sharing_status = '20'";
         db.execSQL(sql);
     }
 
