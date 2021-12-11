@@ -307,13 +307,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String register_staff_room_name,
             String register_staff_ryosei_name,
             int placement){
+        String uuid = UUID.randomUUID().toString();
         StringBuilder sb_insert_Parcel = new StringBuilder();
         sb_insert_Parcel.append("insert into parcels (" +
                 "uid,owner_uid,owner_room_name,owner_ryosei_name," +
                 "register_datetime," +
                 "register_staff_uid,register_staff_room_name,register_staff_ryosei_name,placement,sharing_status" +
                 ") values ('");
-        sb_insert_Parcel.append( UUID.randomUUID().toString() +"','");
+        sb_insert_Parcel.append( uuid +"','");
         sb_insert_Parcel.append( owner_uid +"',");
         sb_insert_Parcel.append( " \"" + owner_room +" \",");
         sb_insert_Parcel.append( " \"" + owner_ryosei_name +"\",");
@@ -326,10 +327,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_insert_Parcel.append( register_staff_uid +"',");
         sb_insert_Parcel.append( " \"" + register_staff_room_name +"\",");
         sb_insert_Parcel.append( " \"" + register_staff_ryosei_name +"\",");
-        sb_insert_Parcel.append( " \"" + placement +"\",'10')");
+        sb_insert_Parcel.append( " \"" + placement +"\",'10') ");
 
         String sql_insert_test_parcel = sb_insert_Parcel.toString();
         db.execSQL(sql_insert_test_parcel);
+
 
         nimotsuCountAdder(db,owner_uid);
         event_add_touroku(db,owner_uid,owner_room,owner_ryosei_name);
@@ -345,13 +347,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String register_staff_ryosei_name,
             int placement,
             String others_detail){
+        String uuid = UUID.randomUUID().toString();
         StringBuilder sb_insert_Parcel = new StringBuilder();
         sb_insert_Parcel.append("insert into parcels (" +
                 "uid,owner_uid,owner_room_name,owner_ryosei_name," +
                 "register_datetime," +
                 "register_staff_uid,register_staff_room_name,register_staff_ryosei_name,placement,sharing_status,note" +
                 ") values ('");
-        sb_insert_Parcel.append( UUID.randomUUID().toString() +"','");
+        sb_insert_Parcel.append( uuid +"','");
         sb_insert_Parcel.append( owner_uid +"',");
         sb_insert_Parcel.append( " \"" + owner_room +" \",");
         sb_insert_Parcel.append( " \"" + owner_ryosei_name +"\",");
@@ -874,7 +877,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void update_sharingstatus(SQLiteDatabase db){
-        String sql = "update parcels set sharing_status = '30' where sharing_status = '20'";
+        String sql = "update parcels set sharing_status = '30' where sharing_status = '20' or sharing_status = '21' or sharing_status = '10' or sharing_status = '11'";
         db.execSQL(sql);
     }
 

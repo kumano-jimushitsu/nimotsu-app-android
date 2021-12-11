@@ -178,7 +178,7 @@
         android:layout_height="130dp"
         android:layout_marginStart="64dp"
         android:layout_marginTop="590dp"
-        android:background="@drawable/qr_code"
+        android:background="@drawable/qr_code_v2"
         android:contentDescription="QRコードで荷物を引き渡します"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -190,7 +190,7 @@
         android:layout_height="130dp"
         android:layout_marginStart="360dp"
         android:layout_marginTop="590dp"
-        android:background="@drawable/tomari_jimuto"
+        android:background="@drawable/tomari_jimuto_v2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck"
@@ -217,18 +217,18 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="740dp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/jimuto_change_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
             android:layout_marginStart="25dp"
             android:layout_marginTop="5dp"
+            android:background="@drawable/change_jimuto"
             android:layout_marginEnd="10dp"
-
-            android:text="事務当番設定"
             app:layout_constraintTop_toTopOf="parent"
             app:rippleColor="@color/teal_200"
-            tools:layout_editor_absoluteX="1020dp" />
+            tools:layout_editor_absoluteX="1020dp"
+            android:contentDescription="泊まり事務当モードに移行します"/>
     </LinearLayout>
 
     <TextView
