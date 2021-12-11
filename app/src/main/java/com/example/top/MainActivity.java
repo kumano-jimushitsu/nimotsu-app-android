@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         DoubleTourokuListener listener3 = new DoubleTourokuListener();
         image_button_touroku.setOnClickListener(listener3);
 
-        Button jimutou_change = findViewById(R.id.jimuto_change_button);
+        ImageButton jimutou_change = findViewById(R.id.jimuto_change_button);
         DoubleJimutoChangeListener listener4 = new DoubleJimutoChangeListener();
         jimutou_change.setOnClickListener(listener4);
 
@@ -449,7 +449,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             touchsound.playsoundOne();
             String json = getJsonFromDatabase();
-            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler, json);
+            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler, json, db, _helper);
             postTask.url = postTask.url + "/" + table + "/" + method;
             postTask.setListener(createListener());
             postTask.execute();
@@ -470,7 +470,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler, "Success");
+            OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler, "Success", db, _helper);
             postTask2.url = postTask2.url + "/" + table + "/check";
             postTask2.execute();
         }

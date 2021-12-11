@@ -23,14 +23,17 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
     String url = "http://192.168.100.82:8080";
     Context context;
     Handler handler;
+    SQLiteDatabase db;
     private Listener listener;
-    private DatabaseHelper _helper;
+    private DatabaseHelper helper;
 
-    public OkHttpPost(Context context, Handler handler, String json) {
+    public OkHttpPost(Context context, Handler handler, String json, SQLiteDatabase db, DatabaseHelper helper) {
         super();
         this.context = context;
         this.handler = handler;
         this.json = json;
+        this.db = db;
+        this.helper = helper;
     }
 
     @Override
@@ -47,8 +50,6 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
                 .post(formBody)
                 .build();
 
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-
         try {
             Response response = client.newCall(request).execute();
             String sqlCommand = response.body().string();
@@ -59,28 +60,20 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
             * */
             if(sqlCommand.equals("")) {
                 if (this.listener != null) {
-                    listener.onReceiveResponseFromPC(sqlCommand);
+                    listener.onReceiveResponseFromPC("");
                 }
                 return null;
             }
-            
-            executor.execute(() -> {
-                handler.post(() -> {
-//                    Toast.makeText(context, sqlCommand, Toast.LENGTH_SHORT).show();
-                    _helper = new DatabaseHelper(context);
-                    SQLiteDatabase db = _helper.getWritableDatabase();
-                    try {
-                        db.execSQL(sqlCommand);
-                        _helper.update_sharingstatus(db);
 
-                    } catch (SQLException e) {
-                        Log.e("ERROR", e.toString());
-                    }
+            try {
+                db.execSQL(sqlCommand);
+                helper.update_sharingstatus(db);
+                listener.onReceiveResponseFromPC("Success");
+            } catch (SQLException e) {
+                Log.e("ERROR", e.toString());
+                listener.onReceiveResponseFromPC("");
+            }
 
-                });
-            });
-
-            listener.onReceiveResponseFromPC("Success");
             return null;
         } catch (IOException e) {
             e.printStackTrace();
