@@ -68,9 +68,9 @@ public class Nimotsu_Touroku_Dialog extends DialogFragment {
                                     owner_ryosei_name + "に荷物を受け取りしました。";
                             Toast.makeText(getActivity(), show, Toast.LENGTH_LONG).show();
                         }
-                           // DialogFragment dialogFragment = new Touroku_Others_Dialog();
-                          //  dialogFragment.show(getFragmentManager(), "Touroku_Others_Dialog");
-                        //}
+//                        insert_parcels_shearingstatus();
+//                        update_ryosei_shearingstatus();
+//                        insert_event_shearingstatus();
 
                     }
                 })
@@ -83,6 +83,15 @@ public class Nimotsu_Touroku_Dialog extends DialogFragment {
                 });
 
         return builder.create();
+    }
+    public void insert_parcels_shearingstatus (){
+
+    }
+    public void update_ryosei_shearingstatus (){
+
+    }
+    public void insert_event_shearingstatus (){
+
     }
 
 

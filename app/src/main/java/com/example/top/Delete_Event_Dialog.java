@@ -38,11 +38,27 @@ public class Delete_Event_Dialog extends DialogFragment {
                     _helper = new com.example.top.DatabaseHelper(requireContext());
                     SQLiteDatabase db = _helper.getWritableDatabase();
                     _helper.delete_event(db,event_id,ryosei_id,parcel_id,event_type);
+//
+//                    update_parcels_shearingstatus();
+//                    update_ryosei_shearingstatus();
+//                    update_event_shearingstatus();
+//                    _helper.close();
                 }
             })
                     .setNegativeButton("キャンセル", null);
         }
         return builder.create();
     }
+    public void update_parcels_shearingstatus (){
+
+    }
+    public void update_ryosei_shearingstatus (){
+
+    }
+    public void update_event_shearingstatus (){
+
+    }
+
+
 
 }

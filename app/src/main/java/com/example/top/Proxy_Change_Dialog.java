@@ -32,7 +32,20 @@ public class Proxy_Change_Dialog extends DialogFragment {
                     }
                 })
                 .setNegativeButton("キャンセル", null);
+
+        insert_parcels_shearingstatus();
+        update_ryosei_shearingstatus();
+        insert_event_shearingstatus();
         return builder.create();
+    }
+    public void insert_parcels_shearingstatus (){
+
+    }
+    public void update_ryosei_shearingstatus (){
+
+    }
+    public void insert_event_shearingstatus (){
+
     }
 
 }

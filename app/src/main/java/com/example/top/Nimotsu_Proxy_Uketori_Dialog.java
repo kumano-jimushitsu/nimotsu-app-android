@@ -77,6 +77,9 @@ public class Nimotsu_Proxy_Uketori_Dialog extends DialogFragment {
                             Double_Buttoned_Uketori callingActivity = (Double_Buttoned_Uketori) getActivity();
                             callingActivity.closeActivity();
                         }
+                        update_parcels_shearingstatus();
+                        update_ryosei_shearingstatus();
+                        insert_event_shearingstatus();
                     }
                 })
                 .setNegativeButton("キャンセル", null)
@@ -88,5 +91,15 @@ public class Nimotsu_Proxy_Uketori_Dialog extends DialogFragment {
                     }
                 });
         return builder.create();
+    }
+
+    public void update_parcels_shearingstatus (){
+
+    }
+    public void update_ryosei_shearingstatus (){
+
+    }
+    public void insert_event_shearingstatus (){
+
     }
 }

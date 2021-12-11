@@ -38,6 +38,9 @@ public class Touroku_Others_Dialog extends DialogFragment {
                         Toast.makeText(getActivity(),
                                 editView.getText().toString(),
                                 Toast.LENGTH_LONG).show();
+                        insert_parcels_shearingstatus();
+                        update_ryosei_shearingstatus();
+                        insert_event_shearingstatus();
                     }
                 })
                 .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
@@ -46,6 +49,15 @@ public class Touroku_Others_Dialog extends DialogFragment {
                 })
                 .show();
         return builder.create();
+
+    }
+    public void insert_parcels_shearingstatus (){
+
+    }
+    public void update_ryosei_shearingstatus (){
+
+    }
+    public void insert_event_shearingstatus (){
 
     }
 }

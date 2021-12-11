@@ -84,6 +84,14 @@ public class Duty_Night_Dialog extends DialogFragment {
         lp.height = (int)(getResources().getDisplayMetrics().heightPixels*0.70);
         d.show();
         d.getWindow().setAttributes(lp); */
+        update_parcels_shearingstatus();
+        insert_event_shearingstatus();
         return builder.create();
+    }
+    public void update_parcels_shearingstatus (){
+
+    }
+    public void insert_event_shearingstatus (){
+
     }
 }
