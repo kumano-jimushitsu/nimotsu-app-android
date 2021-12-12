@@ -40,12 +40,12 @@ public class Nimotsu_Uketori_Dialog extends DialogFragment {
 
         List<Map<String,String>> choices = _helper.nimotsuCountOfRyosei(db,owner_ryosei_id);
         String[] rabellist = new String[choices.size()];
-        int[] idlist = new int[choices.size()];
+        String[] idlist = new String[choices.size()];
         boolean[] isCheckedList = new boolean[choices.size()];
         nimotsu_count_sametime = 0;
         for(int i =0;i < choices.size();i++){
             rabellist[i] = choices.get(i).get("rabel");
-            idlist[i] = Integer.parseInt(choices.get(i).get("parcels_id"));
+            idlist[i] = (choices.get(i).get("parcels_id"));
             isCheckedList[i] = false;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
