@@ -61,6 +61,7 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
             if(sqlCommand.equals("")) {
                 if (this.listener != null) {
                     listener.onReceiveResponseFromPC("");
+                    helper.update_sharingstatus(db);
                 }
                 return null;
             }
