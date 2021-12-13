@@ -57,12 +57,12 @@ public class Touroku_Others extends AppCompatActivity {
         setContentView(R.layout.touroku_others_layout);
 
         Intent intent = getIntent();
-        owner_ryosei_name = intent.getStringExtra("Jimuto_name");
-        owner_ryosei_room = intent.getStringExtra("Jimuto_room");
-        owner_ryosei_id = intent.getStringExtra("Jimuto_id");
-        register_staff_name = intent.getStringExtra("Owner_name");
-        register_staff_room = intent.getStringExtra("Owner_room");
-        register_staff_id = intent.getStringExtra("Owner_id");
+        owner_ryosei_name = intent.getStringExtra("Owner_name");
+        owner_ryosei_room = intent.getStringExtra("Owner_room");
+        owner_ryosei_id = intent.getStringExtra("Owner_id");
+        register_staff_name = intent.getStringExtra("Jimuto_name");
+        register_staff_room = intent.getStringExtra("Jimuto_room");
+        register_staff_id = intent.getStringExtra("Jimuto_id");
         placement = intent.getStringExtra("placement");
         Button buttonAdd = findViewById(R.id.touroku_others_add);
         buttonAdd.setOnClickListener(new Touroku_Others.buttonAddListener());

@@ -121,7 +121,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         SQLiteDatabase db = _helper.getWritableDatabase();
         // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE block_id = '"+ String.valueOf(block) +"';" ;
+        String sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id = '"+ String.valueOf(block) +"';" ;
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -174,9 +174,9 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         String sql;
         // 主キーによる検索SQL文字列の用意。
         if (block == null){
-            sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei;";
+            sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei WHERE parcels_current_count > 0;";
         }else {
-            sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE block_id = '" + block_to_id(block) + "';";
+            sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id = '" + block_to_id(block) + "';";
         }// SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -226,7 +226,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         SQLiteDatabase db = _helper.getWritableDatabase();
         // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE room_name = '"+ room +"';" ;
+        String sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND room_name = '"+ room +"';" ;
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -315,7 +315,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         if(block_to_id(block) == 0){
             sql = "SELECT DISTINCT room_name FROM ryosei ;";
         }else {
-            sql = "SELECT DISTINCT room_name FROM ryosei WHERE block_id = '" + block_to_id(block) + "';";
+            sql = "SELECT DISTINCT room_name FROM ryosei WHERE parcels_current_count > 0 AND block_id = '" + block_to_id(block) + "';";
         }
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
@@ -423,6 +423,9 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
             int ryouseiNote = cursor.getColumnIndex("ryosei_name");
             note += cursor.getString(ryouseiNote);
             ryosei_raw.put("room_name",note);
+            int index_parcels_current_count = cursor.getColumnIndex("parcels_current_count");
+            int parcels_count = cursor.getInt(index_parcels_current_count);
+            ryosei_raw.put("parcels_current_count",String.valueOf(parcels_count));
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
             show_ryosei.add(ryosei_raw);

@@ -9,9 +9,10 @@
         android:id="@+id/double_jimuto_change_titile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="91dp"
-        android:layout_marginTop="31dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="28dp"
         android:text="事務当番交代の画面です。"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -19,8 +20,8 @@
         android:id="@+id/double_jimuto_change_block_list"
         android:layout_width="113dp"
         android:layout_height="559dp"
-        android:layout_marginStart="91dp"
-        android:layout_marginTop="91dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="104dp"
         android:background="@drawable/listboder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/double_jimuto_change_titile" />
@@ -29,18 +30,18 @@
         android:id="@+id/double_jimuto_change_room_list"
         android:layout_width="130dp"
         android:layout_height="553dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="176dp"
         android:background="@drawable/listboder"
         app:layout_constraintStart_toEndOf="@+id/double_jimuto_change_block_list"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/double_jimuto_change_ryosei_list"
-        android:layout_width="654dp"
-        android:layout_height="507dp"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="140dp"
+        android:layout_width="650dp"
+        android:layout_height="476dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="172dp"
         android:background="@drawable/listboder"
         app:layout_constraintStart_toEndOf="@+id/double_jimuto_change_room_list"
         app:layout_constraintTop_toTopOf="parent" />
@@ -49,19 +50,21 @@
         android:id="@+id/double_jimutou_name_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="88dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/double_jimuto_change_titile"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/double_jimuto_change_go_back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="896dp"
-        android:layout_marginTop="612dp"
+        android:layout_marginStart="932dp"
+        android:layout_marginTop="616dp"
         android:text="go back"
+        android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/double_jimuto_change_titile" />
 
@@ -69,11 +72,12 @@
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="426dp"
+        android:layout_marginStart="400dp"
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toEndOf="@+id/double_jimuto_change_titile"
         app:layout_constraintTop_toTopOf="parent">
+
 
         <EditText
             android:id="@+id/jimuto_editTextTextPersonName"
@@ -85,13 +89,13 @@
             android:maxLength="20"
             android:text="" />
 
-
         <Button
             android:id="@+id/jimuto_name_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="寮生検索" />
+            android:text="寮生検索"
+            android:textSize="25sp" />
     </LinearLayout>
 
 

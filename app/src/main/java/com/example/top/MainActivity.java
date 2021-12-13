@@ -231,38 +231,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class TourokuListener implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            if (jimuto_id == null) {
-                String show = "先に事務当番を設定してください。";
-                Toast.makeText(MainActivity.this, show, Toast.LENGTH_LONG).show();
-            } else {
-                Intent intent = new Intent(MainActivity.this, Buttoned_Touroku.class);
-                intent.putExtra("Jimuto_id", jimuto_id);
-                intent.putExtra("Jimuto_room", jimuto_room);
-                intent.putExtra("Jimuto_name", jimuto_name);
-                startActivity(intent);
-            }
-        }
-    }
 
-    private class UketoriListener implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            if (jimuto_id == null) {
-                String show = "先に事務当番を設定してください。";
-                Toast.makeText(MainActivity.this, show, Toast.LENGTH_LONG).show();
-            } else {
-                Intent intent = new Intent(MainActivity.this, Buttoned_Uketori.class);
-                intent.putExtra("Jimuto_id", jimuto_id);
-                intent.putExtra("Jimuto_room", jimuto_room);
-                intent.putExtra("Jimuto_name", jimuto_name);
-                startActivity(intent);
-            }
-        }
-
-    }
 
     private class DoubleUketoriListener implements View.OnClickListener {
         @Override
