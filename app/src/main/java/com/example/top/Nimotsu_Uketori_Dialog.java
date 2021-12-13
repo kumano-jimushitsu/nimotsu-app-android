@@ -68,6 +68,9 @@ public class Nimotsu_Uketori_Dialog extends DialogFragment {
                             //呼び出し元のフラグメントに結果を返す
                             Double_Buttoned_Uketori callingActivity = (Double_Buttoned_Uketori) getActivity();
                             callingActivity.closeActivity();
+                        }else{
+
+                            Toast.makeText(getActivity(), "チェックがされていません。", Toast.LENGTH_SHORT).show();
                         }
                         update_parcels_shearingstatus();
                         update_ryosei_shearingstatus();
