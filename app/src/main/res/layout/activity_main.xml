@@ -10,19 +10,19 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="36dp"
-        android:text="熊野寮荷物アプリ"
+        android:layout_marginStart="392dp"
+        android:layout_marginTop="50dp"
+        android:text="荷物管理アプリ"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/image_button_touroku"
-        android:layout_width="600dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="130dp"
+        android:layout_width="548dp"
+        android:layout_height="166dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="172dp"
         android:background="@drawable/uketori_v2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -30,10 +30,10 @@
 
     <ImageButton
         android:id="@+id/image_button_uketori"
-        android:layout_width="600dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="360dp"
+        android:layout_width="548dp"
+        android:layout_height="170dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="388dp"
         android:background="@drawable/hikiwatashi_v2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -43,7 +43,7 @@
         android:id="@+id/event_show"
         android:layout_width="428dp"
         android:layout_height="550dp"
-        android:layout_marginStart="772dp"
+        android:layout_marginStart="740dp"
         android:layout_marginTop="172dp"
         android:background="#F1F1F1"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,8 +55,8 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="800dp"
-        android:layout_marginTop="148dp"
+        android:layout_marginStart="740dp"
+        android:layout_marginTop="140dp"
         android:text="履歴"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -174,10 +174,10 @@
 
     <ImageButton
         android:id="@+id/qr_scanner"
-        android:layout_width="296dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="590dp"
+        android:layout_width="289dp"
+        android:layout_height="105dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="616dp"
         android:background="@drawable/qr_code_v2"
         android:contentDescription="QRコードで荷物を引き渡します"
         app:layout_constraintStart_toStartOf="parent"
@@ -186,22 +186,22 @@
 
     <ImageButton
         android:id="@+id/duty_night_button"
-        android:layout_width="300dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="360dp"
-        android:layout_marginTop="590dp"
+        android:layout_width="254dp"
+        android:layout_height="105dp"
+        android:layout_marginStart="392dp"
+        android:layout_marginTop="616dp"
         android:background="@drawable/tomari_jimuto_v2"
+        android:contentDescription="泊まり事務当モードに移行します"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck"
-        android:contentDescription="泊まり事務当モードに移行します" />
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="wrap_content"
         android:layout_height="75dp"
-        android:layout_marginStart="780dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginStart="740dp"
+        android:layout_marginTop="48dp"
         android:background="@drawable/jimutoboder"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
@@ -220,12 +220,12 @@
 
         <ImageButton
             android:id="@+id/jimuto_change_button"
-            android:layout_width="140dp"
-            android:layout_height="58dp"
+            android:layout_width="67dp"
+            android:layout_height="65dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/tohobanchange2"
+            android:background="@drawable/change_jimuto"
             android:contentDescription="泊まり事務当モードに移行します"
             app:layout_constraintTop_toTopOf="parent"
             app:rippleColor="@color/teal_200"
@@ -243,7 +243,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/nimotsufuda_Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="38dp"
@@ -252,5 +252,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_help"
         tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="401dp"
+        android:layout_height="93dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/pokke" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -115,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
         ImageButton qr_scanner = findViewById(R.id.qr_scanner);
         QRScanListener qr_Listener = new QRScanListener();
         qr_scanner.setOnClickListener(qr_Listener);
+
+        ImageButton nimotsufuda = findViewById(R.id.nimotsufuda_Button);
+        NightDutyNimotsufudaListener listenerNimotsufuda = new NightDutyNimotsufudaListener();
+        nimotsufuda.setOnClickListener(listenerNimotsufuda);
     }
 
     class buttonClick implements View.OnClickListener {
@@ -274,6 +278,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private class NightDutyNimotsufudaListener implements AdapterView.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            Intent nimotsufuda_intent = new Intent(MainActivity.this, Night_Duty_NimotsuFuda.class);
+            startActivity(nimotsufuda_intent);
+            touchsound.playsoundOne();
+        }
+    }
+
     private class duty_night_listener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
@@ -282,15 +295,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, show, Toast.LENGTH_LONG).show();
                 touchsound.playsoundOne();
             } else {
-
-                DialogFragment dialogFragment = new Duty_Night_Dialog();
-                Bundle args = new Bundle();
-                args.putString("register_staff_room", jimuto_room);
-                args.putString("register_staff_name", jimuto_name);
-                args.putString("register_staff_id", jimuto_id);
-
-                dialogFragment.setArguments(args);
-                dialogFragment.show(getSupportFragmentManager(), "Duty_Night_Dialog");
+                Intent intent = new Intent(MainActivity.this, Night_Duty_NimotsuFuda.class);
+                intent.putExtra("Jimuto_id", jimuto_id);
+                intent.putExtra("Jimuto_room", jimuto_room);
+                intent.putExtra("Jimuto_name", jimuto_name);
+                startActivityForResult(intent, EVENT_REFRESH_ACTIVITY);
                 touchsound.playsoundOne();
             }
         }
@@ -523,6 +532,7 @@ public class MainActivity extends AppCompatActivity {
                 boolean event_update = intent.getBooleanExtra("EventRefresh", false);
                 eventLogshow();
             default:
+                //ここにケースを追加！
         }
 
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);

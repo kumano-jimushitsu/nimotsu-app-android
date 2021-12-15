@@ -53,37 +53,19 @@ public class Duty_Night_Dialog extends DialogFragment {
             isCheckedList[i] = false;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("泊まり事務当用の画面です。確認できた荷物にチェックを入れてください。")
-                .setPositiveButton("確認", new DialogInterface.OnClickListener() {
+        builder.setTitle("泊事務当番")
+                .setMessage("チェックされていない荷物があります。荷物確認を実行してもよろしいでしょうか？")
+                .setPositiveButton("荷物確認をする", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // このボタンを押した時の処理を書きます。
-                        for(int i = 0; i < choices.size(); i++){
-                            if(isCheckedList[i]){
-                                _helper.night_check_updater(db,idlist[i]);
-                            }
-                        }
-                        if(nimotsu_count_sametime != 0){
-                            Toast.makeText(getActivity(), "荷物確認をしました。荷物札確認をしてください。", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "荷物確認しました。", Toast.LENGTH_SHORT).show();
+                        //呼び出し元のフラグメントに結果を返す
+                        Night_Duty_NimotsuFuda callingActivity = (Night_Duty_NimotsuFuda) getActivity();
+                        //callingActivity.onReturnValue(true);
 
-                        }
                     }
                 })
-                .setNegativeButton("キャンセル", null)
-                .setMultiChoiceItems(rabellist, isCheckedList, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        isCheckedList[which] = isChecked;
-
-                    }
-                });
-        /*
-        Dialog d = builder.setView(new View(getActivity())).create();
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(d.getWindow().getAttributes());
-        lp.width = (int)(getResources().getDisplayMetrics().widthPixels*0.60);
-        lp.height = (int)(getResources().getDisplayMetrics().heightPixels*0.70);
-        d.show();
-        d.getWindow().setAttributes(lp); */
+                .setNegativeButton("キャンセル", null);
         update_parcels_shearingstatus();
         insert_event_shearingstatus();
         return builder.create();

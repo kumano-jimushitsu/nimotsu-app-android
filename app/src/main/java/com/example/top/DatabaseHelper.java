@@ -264,8 +264,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','阪本茂男	',3,'A310','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','藤野真菜	',3,'A311','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','会田茉凛	',3,'A311','10'),");
-        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','青山佳子	',3,'A311','10'),");
-        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','岡田志歩	',3,'A311','10'),");
+        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','高橋優	',6,'B311','10'),");
+        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','鈴木凛	',6,'B301','10'),");
+        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','水戸香織	',6,'B302','10'),");
+        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','齊藤翔	',5,'B103','10'),");
+        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','道上初	',5,'B111','10'),");
+        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','栗生法間	',5,'B202','10'),");
+        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','矢場東流	',5,'B202','10'),");
+        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','水戸香織	',6,'B302','10'),");
+        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','有地士郎	',6,'B310','10'),");
+        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','酒井泰斗	',6,'B302','10'),");
+        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','青山佳子	',3,'A304','10'),");
+        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','岡田志歩	',3,'A305','10'),");
 //        sb_insert_test_ryosei.append('"("+UUID.randomUUID().toString()',+"'山下好	',4,'A401','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','香坂留美	',4,'A401','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','植田嘉一	',4,'A401','10'),");
@@ -546,6 +556,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             int index_note = cursor.getColumnIndex("note");
             String rabel = "";
             String parcels_id = "";
+            String parcels_attribute = "";
             parcels_id = (cursor.getString(index_id));
             rabel += "登録日時　" + cursor.getString(index_register_datetime);
             rabel += " ";
@@ -556,25 +567,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             switch (cursor.getInt(index_placement)) {
                 case 0:
                     rabel += "普通";
+                    parcels_attribute = "荷物";
                     break;
                 case 1:
                     rabel += "冷蔵";
+                    parcels_attribute = "冷蔵";
                     break;
                 case 2:
                     rabel += "冷凍";
+                    parcels_attribute = "冷凍";
                     break;
                 case 3:
                     rabel += "大型";
+                    parcels_attribute = "大型";
                     break;
                 case 4:
                     rabel += "不在票";
+                    parcels_attribute = "不在票";
                     break;
                 case 5:
                     rabel += cursor.getString(index_note);
+                    parcels_attribute = "その他";
                     break;
             }
             parcels_raw.put("rabel", rabel);
             parcels_raw.put("parcels_id", parcels_id);
+            parcels_raw.put("attribute",parcels_attribute);
             show_owners_parcels.add(parcels_raw);
         }
         return show_owners_parcels;
