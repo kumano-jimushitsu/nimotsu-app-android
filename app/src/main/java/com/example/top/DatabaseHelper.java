@@ -225,14 +225,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','江成彦郎',3,'A301','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','長岡克洋',3,'A301','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','榊原一郎',3,'A301','10'),");
-        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','向後拓真',3,'A301','10'),");
-        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','鈴木哲史',3,'A302','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','新川華蓮',3,'A302','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','宮原恋雪',3,'A302','10'),");
-//        sb_insert_test_ryosei.append('"("+UUID.randomUUID().toString()',+"'福永航',3,'A302','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','小久保子',3,'A303','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','佐久間美',3,'A303','10'),");
-        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','久野託望',3,'A303','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','大川茂男',3,'A303','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','益田春佳',3,'A304','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','寺崎俊二',3,'A304','10'),");
@@ -288,7 +284,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','神保由姫',4,'A403','10'),");
 //        sb_insert_test_ryosei.append('"("+UUID.randomUUID().toString()',+"'竹下伸',4,'A403','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','大友敏子',4,'A403','10'),");
-//        sb_insert_test_ryosei.append('"("+UUID.randomUUID().toString()',+"'上柿大',10,'図書室'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','花岡洋二',10,'図書室','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','神山柚希',10,'図書室','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','大平伸子',10,'図書室','10'),");
@@ -344,7 +339,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','谷沢子',	8	,'C206','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','野中江美',	8	,'C207','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','藤村洋子',	8	,'C208','10'),");
-        sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','川副博嗣v',	8	,'C201','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','高瀬麗奈',	8	,'C202','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','安田隆吉',	8	,'C203','10'),");
         sb_insert_test_ryosei.append("('" + UUID.randomUUID().toString() + "','谷川信広',	8	,'C204','10'),");
