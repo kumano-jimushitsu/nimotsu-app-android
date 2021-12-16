@@ -36,4 +36,14 @@ public class MultiSelectDialog extends DialogFragment {
 
         return builder.create();
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        AlertDialog alertDialog = (AlertDialog) getDialog();
+        if (alertDialog != null) {
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
+            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextSize(20);
+        }
+
+    }
 }

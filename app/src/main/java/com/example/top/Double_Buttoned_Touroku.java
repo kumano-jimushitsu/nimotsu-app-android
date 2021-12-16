@@ -99,9 +99,9 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
         String sql;
         // 主キーによる検索SQL文字列の用意。
         if (block == ""){
-            sql = "SELECT uid, room_name, ryosei_name FROM ryosei;";
+            sql = "SELECT uid, room_name, ryosei_name FROM ryosei order by room_name asc;";
         }else {
-            sql = "SELECT uid, room_name, ryosei_name FROM ryosei WHERE block_id = '" + block_to_id(block) + "';";
+            sql = "SELECT uid, room_name, ryosei_name FROM ryosei WHERE block_id = '" + block_to_id(block) + "'order by room_name asc;";
         }// SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -230,9 +230,9 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
         // 主キーによる検索SQL文字列の用意。
         String sql;
         if(block_to_id(block) == 0){
-            sql = "SELECT DISTINCT room_name FROM ryosei ;";
+            sql = "SELECT DISTINCT room_name FROM ryosei order by room_name asc;";
         }else {
-            sql = "SELECT DISTINCT room_name FROM ryosei WHERE block_id = '" + block_to_id(block) + "';";
+            sql = "SELECT DISTINCT room_name FROM ryosei WHERE block_id = '" + block_to_id(block) + "' order by room_name asc;";
         }
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);

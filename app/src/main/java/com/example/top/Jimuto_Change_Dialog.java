@@ -34,5 +34,15 @@ public class Jimuto_Change_Dialog extends DialogFragment {
                 .setNegativeButton("キャンセル", null);
         return builder.create();
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        AlertDialog alertDialog = (AlertDialog) getDialog();
+        if (alertDialog != null) {
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
+            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextSize(20);
+        }
+
+    }
 
 }

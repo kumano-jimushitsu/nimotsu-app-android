@@ -41,6 +41,17 @@
         android:padding="@dimen/dp_s"
         android:textSize="@dimen/sp_m" />
 
+    <TextView
+        android:id="@+id/raw4_rinjicapacity"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="3"
+        android:singleLine="true"
+        android:gravity="center"
+        android:layout_marginRight="@dimen/dp_s"
+        android:layout_marginBottom="@dimen/dp_s"
+        android:padding="@dimen/dp_s"
+        android:textSize="@dimen/sp_m" />
     <CheckBox
         android:id="@+id/parcelcheckbox_rinjicapacity"
         android:layout_width="wrap_content"

@@ -350,19 +350,7 @@
             android:layout_weight="1" />
         />
 
-
     </LinearLayout>
-
-    <Button
-        android:id="@+id/resultshowbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="220dp"
-        android:layout_marginTop="31dp"
-        android:text="確認"
-        android:textSize="@dimen/sp_l"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout7"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
 
     <TextView
         android:id="@+id/textView10"
@@ -388,15 +376,26 @@
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <Button
+        android:id="@+id/resultshowbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="996dp"
+        android:layout_marginTop="728dp"
+        android:text="確認"
+        android:textSize="@dimen/sp_l"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/go_back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="31dp"
+        android:layout_marginStart="1116dp"
+        android:layout_marginTop="728dp"
         android:text="go back"
         android:textSize="@dimen/sp_l"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout7"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -73,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="400dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="30dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toEndOf="@+id/double_jimuto_change_titile"
         app:layout_constraintTop_toTopOf="parent">

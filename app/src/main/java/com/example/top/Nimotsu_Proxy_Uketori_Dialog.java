@@ -48,12 +48,12 @@ public class Nimotsu_Proxy_Uketori_Dialog extends DialogFragment {
 
         List<Map<String,String>> choices = _helper.nimotsuCountOfRyosei(db,owner_ryosei_id);
         String[] rabellist = new String[choices.size()];
-        int[] idlist = new int[choices.size()];
+        String[] idlist = new String[choices.size()];
         boolean[] isCheckedList = new boolean[choices.size()];
         nimotsu_count_sametime = 0;
         for(int i =0;i < choices.size();i++){
             rabellist[i] = choices.get(i).get("rabel");
-            idlist[i] = Integer.parseInt(choices.get(i).get("parcels_id"));
+            idlist[i] = choices.get(i).get("parcels_id");
             isCheckedList[i] = false;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -91,6 +91,16 @@ public class Nimotsu_Proxy_Uketori_Dialog extends DialogFragment {
                     }
                 });
         return builder.create();
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        AlertDialog alertDialog = (AlertDialog) getDialog();
+        if (alertDialog != null) {
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
+            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextSize(20);
+        }
+
     }
 
     public void update_parcels_shearingstatus (){

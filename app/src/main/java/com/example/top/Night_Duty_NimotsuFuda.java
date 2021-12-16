@@ -1,7 +1,6 @@
 package com.example.top;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -11,7 +10,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -22,9 +20,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +46,13 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_night_duty_nimotsu_fuda);
+        setContentView(R.layout.activity_scroll_night_duty_nimotsu_fuda);
         //事務当番の名前を受け取る
         Intent intent = getIntent();
         staff_room = intent.getStringExtra("Jimuto_name");
         staff_ryosei = intent.getStringExtra("Jimuto_id");
         staff_id = intent.getStringExtra("Jimuto_room");
-        listViewA = findViewById(R.id.listA);
+        ListView listViewA = findViewById(R.id.listA);
         ListView listViewB = findViewById(R.id.listB);
         ListView listViewC = findViewById(R.id.listC);
         ListView listViewD = findViewById(R.id.listD);
@@ -71,16 +66,16 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
             String sql = null;
             switch (i) {
                 case 0:
-                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 0 AND block_id <= 4 ";
+                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 0 AND block_id <= 4 order by room_name asc,ryosei_name asc";
                     break;
                 case 1:
-                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 4 AND block_id <= 7 ";
+                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 4 AND block_id <= 7 order by room_name asc,ryosei_name asc";
                     break;
                 case 2:
-                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 7 AND block_id <= 9 ";
+                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 7 AND block_id <= 9 order by room_name asc,ryosei_name asc";
                     break;
                 case 3:
-                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 9 AND block_id <= 10 ";
+                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 9 AND block_id <= 10 order by room_name asc,ryosei_name asc";
                     break;
             }
             // 検索結果を保存
@@ -107,10 +102,12 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                     data.setRoomName(roomName);
                     data.setRyoseiName(ryoseiName);
                     data.setParcelUid(onesParcels.get(j).get("parcels_id"));
+                    data.setLostDateTime(onesParcels.get(j).get("lost_datetime"));
                     data.setChecked(false);
                     switch (i) {
                         case 0:
                             dataListA.add(data);
+
                             break;
                         case 1:
                             dataListB.add(data);
@@ -251,7 +248,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                         _helper.night_check_updater(db, outputDataAll.get(i));
                 }
                 db.close();
-                Toast.makeText(Night_Duty_NimotsuFuda.this, "荷物確認をしました。表示に沿って荷物札チェックをしてください。", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Night_Duty_NimotsuFuda.this, R.string.night_duty_short, Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -317,7 +314,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
             }
             db.close();
             finish();
-            Toast.makeText(Night_Duty_NimotsuFuda.this, "荷物確認をしました。表示に沿って荷物札チェックをしてください。", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Night_Duty_NimotsuFuda.this, R.string.night_duty_short, Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -328,6 +325,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
         private String ryoseiName;
         private String parcelsAttribute;
         private String parcelsUid;
+        private String lostDateTime;
         private Boolean checkdata;
 
         public void setRoomName(String room) {
@@ -342,8 +340,12 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
             this.parcelsAttribute = parcels;
         }
 
+        public void setLostDateTime(String lostDateTime) {
+            this.lostDateTime = lostDateTime;
+        }
+
         public void setParcelUid(String uid) {
-            this.parcelsUid = parcelsUid;
+            this.parcelsUid = uid;
         }
 
         public void setChecked(Boolean b) {
@@ -366,203 +368,16 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
             return parcelsUid;
         }
 
+        public String getLostDateTime() {
+            return lostDateTime;
+        }
+
         public Boolean isChecked() {
             return checkdata;
         }
     }
 
-/*
-// A棟リスト表示制御用クラス
-class ListAdapterA extends ArrayAdapter<Data> {
-    private LayoutInflater inflater;
-    // values/colors.xmlより設定値を取得するために利用。
-    private Resources r;
-
-    public ListAdapterA(Context context, List<Data> objects) {
-        super(context, 0, objects);
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        r = context.getResources();
-
-    }
-
-    @Override
-    public View getView(final int position, View view, ViewGroup parent) {
-        // layout/raw.xmlを紐付ける
-        if (view == null) {
-            view = inflater.inflate(R.layout.nimotsufuda_raw, parent, false);
-        }
-        final Data data = this.getItem(position);
-        TextView tvData1A = (TextView) view.findViewById(R.id.raw1A);
-        TextView tvData2A = (TextView) view.findViewById(R.id.raw2A);
-        TextView tvData3A = (TextView) view.findViewById(R.id.raw3A);
-        CheckBox checkBoxA = (CheckBox) view.findViewById(R.id.checkBoxA);
-        if (data != null) {
-            //1列目は部屋番号
-            tvData1A.setText(data.getRoomName());
-            //2列目は名前
-            tvData2A.setText(data.getRyoseiName());
-            //3列目は荷物札の種類
-            tvData3A.setText(data.getParcelsAttribute());
-        }
-        //偶数行の場合の背景色を設定
-        if (position % 2 == 0) {
-            tvData1A.setBackgroundColor(r.getColor(R.color.data1A));
-            tvData2A.setBackgroundColor(r.getColor(R.color.data1A));
-            tvData3A.setBackgroundColor(r.getColor(R.color.data1A));
-            //checkBoxA.setBackgroundColor(r.getColor(R.color.data1A));
-        }
-        //奇数行の場合の背景色を設定
-        else {
-            tvData1A.setBackgroundColor(r.getColor(R.color.data2A));
-            tvData2A.setBackgroundColor(r.getColor(R.color.data2A));
-            tvData3A.setBackgroundColor(r.getColor(R.color.data2A));
-           // checkBoxA.setBackgroundColor(r.getColor(R.color.data2A));
-        }
-        return view;
-    }
-}
-// B棟リスト表示制御用クラス
-class ListAdapterB extends ArrayAdapter<Data> {
-    private LayoutInflater inflater;
-    // values/colors.xmlより設定値を取得するために利用。
-    private Resources r;
-
-    public ListAdapterB(Context context, List<Data> objects) {
-        super(context, 0, objects);
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        r = context.getResources();
-
-    }
-
-    @Override
-    public View getView(final int position, View view, ViewGroup parent) {
-        // layout/raw.xmlを紐付ける
-        if (view == null) {
-            view = inflater.inflate(R.layout.nimotsufuda_raw, parent, false);
-        }
-        final Data data = this.getItem(position);
-        TextView tvData1B = (TextView) view.findViewById(R.id.raw1B);
-        TextView tvData2B = (TextView) view.findViewById(R.id.raw2B);
-        TextView tvData3B = (TextView) view.findViewById(R.id.raw3B);
-        if (data != null) {
-            //1列目は部屋番号
-            tvData1B.setText(data.getRoomName());
-            //2列目は名前
-            tvData2B.setText(data.getRyoseiName());
-            //3列目は荷物札の種類
-            tvData3B.setText(data.getParcelsAttribute());
-        }
-        //偶数行の場合の背景色を設定
-        if (position % 2 == 0) {
-            tvData1B.setBackgroundColor(r.getColor(R.color.data1B));
-            tvData2B.setBackgroundColor(r.getColor(R.color.data1B));
-            tvData3B.setBackgroundColor(r.getColor(R.color.data1B));
-        }
-        //奇数行の場合の背景色を設定
-        else {
-            tvData1B.setBackgroundColor(r.getColor(R.color.data2B));
-            tvData2B.setBackgroundColor(r.getColor(R.color.data2B));
-            tvData3B.setBackgroundColor(r.getColor(R.color.data2B));
-        }
-        return view;
-    }
-}
-// C棟リスト表示制御用クラス
-class ListAdapterC extends ArrayAdapter<Data> {
-    private LayoutInflater inflater;
-    // values/colors.xmlより設定値を取得するために利用。
-    private Resources r;
-
-    public ListAdapterC(Context context, List<Data> objects) {
-        super(context, 0, objects);
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        r = context.getResources();
-
-    }
-
-    @Override
-    public View getView(final int position, View view, ViewGroup parent) {
-        // layout/raw.xmlを紐付ける
-        if (view == null) {
-            view = inflater.inflate(R.layout.raw_c, parent, false);
-        }
-        final Data data = this.getItem(position);
-        TextView tvData1C = (TextView) view.findViewById(R.id.raw1C);
-        TextView tvData2C = (TextView) view.findViewById(R.id.raw2C);
-        TextView tvData3C = (TextView) view.findViewById(R.id.raw3C);
-        if (data != null) {
-            //1列目は部屋番号
-            tvData1C.setText(data.getRoomName());
-            //2列目は名前
-            tvData2C.setText(data.getRyoseiName());
-            //3列目は荷物札の種類
-            tvData3C.setText(data.getParcelsAttribute());
-        }
-
-                //偶数行の場合の背景色を設定
-                if (position % 2 == 0) {
-                    tvData1C.setBackgroundColor(r.getColor(R.color.data1C));
-                    tvData2C.setBackgroundColor(r.getColor(R.color.data1C));
-                    tvData3C.setBackgroundColor(r.getColor(R.color.data1C));
-                }
-                //奇数行の場合の背景色を設定
-                else {
-                    tvData1C.setBackgroundColor(r.getColor(R.color.data2C));
-                    tvData2C.setBackgroundColor(r.getColor(R.color.data2C));
-                    tvData3C.setBackgroundColor(r.getColor(R.color.data2C));
-                }
-        return view;
-    }
-}
-// 臨キャリスト表示制御用クラス
-class ListAdapterD extends ArrayAdapter<Data> {
-    private LayoutInflater inflater;
-    // values/colors.xmlより設定値を取得するために利用。
-    private Resources r;
-
-    public ListAdapterD(Context context, List<Data> objects) {
-        super(context, 0, objects);
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        r = context.getResources();
-
-    }
-
-    @Override
-    public View getView(final int position, View view, ViewGroup parent) {
-        // layout/raw.xmlを紐付ける
-        if (view == null) {
-            view = inflater.inflate(R.layout.raw_d, parent, false);
-        }
-        final Data data = this.getItem(position);
-        TextView tvData1D = (TextView) view.findViewById(R.id.raw1D);
-        TextView tvData2D = (TextView) view.findViewById(R.id.raw2D);
-        TextView tvData3D = (TextView) view.findViewById(R.id.raw3D);
-        if (data != null) {
-            //1列目は部屋番号
-            tvData1D.setText(data.getRoomName());
-            //2列目は名前
-            tvData2D.setText(data.getRyoseiName());
-            //3列目は荷物札の種類
-            tvData3D.setText(data.getParcelsAttribute());
-        }
-        //偶数行の場合の背景色を設定
-        if (position % 2 == 0) {
-            tvData1D.setBackgroundColor(r.getColor(R.color.data1D));
-            tvData2D.setBackgroundColor(r.getColor(R.color.data1D));
-            tvData3D.setBackgroundColor(r.getColor(R.color.data1D));
-        }
-        //奇数行の場合の背景色を設定
-        else {
-            tvData1D.setBackgroundColor(r.getColor(R.color.data2D));
-            tvData2D.setBackgroundColor(r.getColor(R.color.data2D));
-            tvData3D.setBackgroundColor(r.getColor(R.color.data2D));
-        }
-
-        return view;
-    }
-}   */
-
-    // A棟リスト表示制御用クラス
+     // A棟リスト表示制御用クラス
     class ListAdapterA extends ArrayAdapter<Data> {
         private LayoutInflater inflater;
         // values/colors.xmlより設定値を取得するために利用。
@@ -589,6 +404,8 @@ class ListAdapterD extends ArrayAdapter<Data> {
             tvData2A.setText(item.getRyoseiName());
             TextView tvData3A = (TextView) view.findViewById(R.id.raw3);
             tvData3A.setText(item.getParcelsAttribute());
+            TextView tvData4A = (TextView) view.findViewById(R.id.raw4);
+            tvData3A.setText(item.getLostDateTime());
             CheckBox checkBoxA = (CheckBox) view.findViewById(R.id.parcelcheckbox);
             checkBoxA.setOnCheckedChangeListener(null);
             checkBoxA.setChecked(item.isChecked());
@@ -606,12 +423,14 @@ class ListAdapterD extends ArrayAdapter<Data> {
                 tvData2A.setText(data.getRyoseiName());
                 //3列目は荷物札の種類
                 tvData3A.setText(data.getParcelsAttribute());
+                tvData4A.setText(data.getLostDateTime());
             }
             //偶数行の場合の背景色を設定
             if (position % 2 == 0) {
                 tvData1A.setBackgroundColor(r.getColor(R.color.data1A));
                 tvData2A.setBackgroundColor(r.getColor(R.color.data1A));
                 tvData3A.setBackgroundColor(r.getColor(R.color.data1A));
+                tvData4A.setBackgroundColor(r.getColor(R.color.data1A));
                 //checkBoxA.setBackgroundColor(r.getColor(R.color.data1A));
             }
             //奇数行の場合の背景色を設定
@@ -619,6 +438,7 @@ class ListAdapterD extends ArrayAdapter<Data> {
                 tvData1A.setBackgroundColor(r.getColor(R.color.data2A));
                 tvData2A.setBackgroundColor(r.getColor(R.color.data2A));
                 tvData3A.setBackgroundColor(r.getColor(R.color.data2A));
+                tvData4A.setBackgroundColor(r.getColor(R.color.data2A));
                 // checkBoxA.setBackgroundColor(r.getColor(R.color.data2A));
             }
             return view;
@@ -652,6 +472,8 @@ class ListAdapterD extends ArrayAdapter<Data> {
             tvData2A.setText(item.getRyoseiName());
             TextView tvData3A = (TextView) view.findViewById(R.id.raw3);
             tvData3A.setText(item.getParcelsAttribute());
+            TextView tvData4A = (TextView) view.findViewById(R.id.raw4);
+            tvData3A.setText(item.getLostDateTime());
             CheckBox checkBoxA = (CheckBox) view.findViewById(R.id.parcelcheckbox);
             checkBoxA.setOnCheckedChangeListener(null);
             checkBoxA.setChecked(item.isChecked());
@@ -669,12 +491,14 @@ class ListAdapterD extends ArrayAdapter<Data> {
                 tvData2A.setText(data.getRyoseiName());
                 //3列目は荷物札の種類
                 tvData3A.setText(data.getParcelsAttribute());
+                tvData4A.setText(data.getLostDateTime());
             }
             //偶数行の場合の背景色を設定
             if (position % 2 == 0) {
                 tvData1A.setBackgroundColor(r.getColor(R.color.data1B));
                 tvData2A.setBackgroundColor(r.getColor(R.color.data1B));
                 tvData3A.setBackgroundColor(r.getColor(R.color.data1B));
+                tvData4A.setBackgroundColor(r.getColor(R.color.data1B));
                 //checkBoxA.setBackgroundColor(r.getColor(R.color.data1A));
             }
             //奇数行の場合の背景色を設定
@@ -682,6 +506,7 @@ class ListAdapterD extends ArrayAdapter<Data> {
                 tvData1A.setBackgroundColor(r.getColor(R.color.data2B));
                 tvData2A.setBackgroundColor(r.getColor(R.color.data2B));
                 tvData3A.setBackgroundColor(r.getColor(R.color.data2B));
+                tvData4A.setBackgroundColor(r.getColor(R.color.data2B));
                 // checkBoxA.setBackgroundColor(r.getColor(R.color.data2A));
             }
             return view;
@@ -715,6 +540,8 @@ class ListAdapterD extends ArrayAdapter<Data> {
             tvData2A.setText(item.getRyoseiName());
             TextView tvData3A = (TextView) view.findViewById(R.id.raw3);
             tvData3A.setText(item.getParcelsAttribute());
+            TextView tvData4A = (TextView) view.findViewById(R.id.raw4);
+            tvData4A.setText(item.getLostDateTime());
             CheckBox checkBoxA = (CheckBox) view.findViewById(R.id.parcelcheckbox);
             checkBoxA.setOnCheckedChangeListener(null);
             checkBoxA.setChecked(item.isChecked());
@@ -732,12 +559,14 @@ class ListAdapterD extends ArrayAdapter<Data> {
                 tvData2A.setText(data.getRyoseiName());
                 //3列目は荷物札の種類
                 tvData3A.setText(data.getParcelsAttribute());
+                tvData4A.setText(data.getLostDateTime());
             }
             //偶数行の場合の背景色を設定
             if (position % 2 == 0) {
                 tvData1A.setBackgroundColor(r.getColor(R.color.data1C));
                 tvData2A.setBackgroundColor(r.getColor(R.color.data1C));
                 tvData3A.setBackgroundColor(r.getColor(R.color.data1C));
+                tvData4A.setBackgroundColor(r.getColor(R.color.data1C));
                 //checkBoxA.setBackgroundColor(r.getColor(R.color.data1A));
             }
             //奇数行の場合の背景色を設定
@@ -745,6 +574,7 @@ class ListAdapterD extends ArrayAdapter<Data> {
                 tvData1A.setBackgroundColor(r.getColor(R.color.data2C));
                 tvData2A.setBackgroundColor(r.getColor(R.color.data2C));
                 tvData3A.setBackgroundColor(r.getColor(R.color.data2C));
+                tvData4A.setBackgroundColor(r.getColor(R.color.data2C));
                 // checkBoxA.setBackgroundColor(r.getColor(R.color.data2A));
             }
             return view;
@@ -778,6 +608,8 @@ class ListAdapterD extends ArrayAdapter<Data> {
             tvData2A.setText(item.getRyoseiName());
             TextView tvData3A = (TextView) view.findViewById(R.id.raw3_rinjicapacity);
             tvData3A.setText(item.getParcelsAttribute());
+            TextView tvData4A = (TextView) view.findViewById(R.id.raw4_rinjicapacity);
+            tvData3A.setText(item.getLostDateTime());
             CheckBox checkBoxA = (CheckBox) view.findViewById(R.id.parcelcheckbox_rinjicapacity);
             checkBoxA.setOnCheckedChangeListener(null);
             checkBoxA.setChecked(item.isChecked());
@@ -795,12 +627,14 @@ class ListAdapterD extends ArrayAdapter<Data> {
                 tvData2A.setText(data.getRyoseiName());
                 //3列目は荷物札の種類
                 tvData3A.setText(data.getParcelsAttribute());
+                tvData4A.setText(data.getLostDateTime());
             }
             //偶数行の場合の背景色を設定
             if (position % 2 == 0) {
                 tvData1A.setBackgroundColor(r.getColor(R.color.data1D));
                 tvData2A.setBackgroundColor(r.getColor(R.color.data1D));
                 tvData3A.setBackgroundColor(r.getColor(R.color.data1D));
+                tvData4A.setBackgroundColor(r.getColor(R.color.data1D));
                 //checkBoxA.setBackgroundColor(r.getColor(R.color.data1A));
             }
             //奇数行の場合の背景色を設定
@@ -808,6 +642,7 @@ class ListAdapterD extends ArrayAdapter<Data> {
                 tvData1A.setBackgroundColor(r.getColor(R.color.data2D));
                 tvData2A.setBackgroundColor(r.getColor(R.color.data2D));
                 tvData3A.setBackgroundColor(r.getColor(R.color.data2D));
+                tvData4A.setBackgroundColor(r.getColor(R.color.data2D));
                 // checkBoxA.setBackgroundColor(r.getColor(R.color.data2A));
             }
             return view;
