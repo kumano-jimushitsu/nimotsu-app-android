@@ -1,12 +1,5 @@
 <resources>
     <string name="app_name">Top</string>
-    <string name="log_sample1">2021 09/13 23:22:12 A301向後荷物受取　事務当A302福永</string>
-    <string name="log_sample2">2021 09/13 23:22:17 A302緒方荷物受取　事務当A302福永</string>
-    <string name="log_sample3">2021 09/13 23:24:10 A303稲葉荷物登録　事務当A302福永</string>
-    <string name="log_sample4">2021 09/13 23:26:53 A301向後荷物受取　事務当A302福永</string>
-    <string name="log_sample5">2021 09/13 23:29:50 A301向後荷物登録　事務当A302福永</string>
-    <string name="log_sample6">2021 09/13 23:32:16 A303木戸荷物受取　事務当A310原口</string>
-    <string name="log_sample7">2021 09/13 23:55:23 A310橋本荷物登録　事務当A310原口</string>
 
 
     <string name="dialog_title">荷物登録確認</string>
@@ -32,5 +25,27 @@
     <string name="reg">登録</string>
     <string name="del">削除</string>
     <string name="cancel">キャンセル</string>
+    <string name="ok">OK</string>
+    <string name="error">エラー</string>
+
+    <string name="qr_no_qr">無効なQRコードです。対応していません。</string>
+    <string name="qr_already">この荷物はすでに受け取り済みです。</string>
+    <string name="qr_more_than_two">データベースにエラーが発生しています。開発者に連絡してください。</string>
+
+    <string name="main_not_selected_staff">先に事務当番を設定してください。</string>
+
+    <string name="title1">部屋</string>
+    <string name="title2">名前</string>
+    <string name="title3">札</string>
+    <string name="title4">最終確認日時</string>
+    <string name="title5">✓</string>
+    <string name="a_tou">A棟</string>
+    <string name="b_tou">B棟</string>
+    <string name="c_tou">C棟</string>
+    <string name="rinji_capacity">臨キャパ</string>
+    <string name="night_duty_title">泊まり事務当</string>
+    <string name="night_duty_short">"荷物確認をしました。表示に沿って荷物札チェックをしてください。"</string>
+    <string name="night_duty_explanation">泊まり事務当の画面です。リストをスクロールして事務室に荷物があるかチェックしてください。
+    チェックが終わったら事務室の荷物札が一致しているか確認してください。</string>
 
 </resources>

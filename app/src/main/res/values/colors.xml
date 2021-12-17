@@ -7,4 +7,28 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- タイトル背景 -->
+    <color name="titleA">#ff6767</color>
+    <!-- データ1背景 -->
+    <color name="data1A">#ffcdcd</color>
+    <!-- データ2背景 -->
+    <color name="data2A">#ff9a9a</color>
+    <!-- タイトル背景 -->
+    <color name="titleB">#4472c4</color>
+    <!-- データ1背景 -->
+    <color name="data1B">#d0d6ea</color>
+    <!-- データ2背景 -->
+    <color name="data2B">#e0ebf5</color>
+    <!-- タイトル背景 -->
+    <color name="titleD">#70ad47</color>
+    <!-- データ1背景 -->
+    <color name="data1D">#e9ebf5</color>
+    <!-- データ2背景 -->
+    <color name="data2D">#ecf2ea</color>
+    <!-- タイトル背景 -->
+    <color name="titleC">#f7bf45</color>
+    <!-- データ1背景 -->
+    <color name="data1C">#fde9cb</color>
+    <!-- データ2背景 -->
+    <color name="data2C">#fdf4e7</color>
 </resources>

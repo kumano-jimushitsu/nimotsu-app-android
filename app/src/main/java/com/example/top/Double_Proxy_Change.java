@@ -68,7 +68,7 @@ public class Double_Proxy_Change extends AppCompatActivity {
         proxy_id = intent.getStringExtra("proxy_id");
         //代理受取人の名前を表示する
         TextView proxy_name = findViewById(R.id.double_proxyu_name_show);
-        if (proxy_room_name == "") {
+        if (proxy_room_name == null) {
             proxy_name.setText("代理受取人が設定されていません。");
         } else{
             proxy_name.setText("ただいまの代理受取人は " + proxy_room_name + " です。");
@@ -102,10 +102,10 @@ public class Double_Proxy_Change extends AppCompatActivity {
         SQLiteDatabase db = _helper.getWritableDatabase();
         String sql;
         if(block==null){
-            sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei ;";
+            sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei  order by room_name asc;";
         }else {
             // 主キーによる検索SQL文字列の用意。
-            sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE block_id = '" + block + "';";
+            sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE block_id = '" + block + "' order by room_name asc;";
         }
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
@@ -158,9 +158,9 @@ public class Double_Proxy_Change extends AppCompatActivity {
         String sql;
         // 主キーによる検索SQL文字列の用意。
         if (block == null){
-            sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei;";
+            sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei order by room_name asc;";
         }else {
-            sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE block_id = '" + block_to_id(block) + "';";
+            sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE block_id = '" + block_to_id(block) + "' order by room_name asc;";
         }// SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -211,7 +211,7 @@ public class Double_Proxy_Change extends AppCompatActivity {
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         SQLiteDatabase db = _helper.getWritableDatabase();
         // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE room_name = '"+ room +"';" ;
+        String sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE room_name = '"+ room +"' order by room_name asc;" ;
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -294,9 +294,9 @@ public class Double_Proxy_Change extends AppCompatActivity {
         // 主キーによる検索SQL文字列の用意。
         String sql;
         if(block_to_id(block) == 0){
-            sql = "SELECT DISTINCT room_name FROM ryosei ;";
+            sql = "SELECT DISTINCT room_name FROM ryosei  order by room_name asc;";
         }else {
-            sql = "SELECT DISTINCT room_name FROM ryosei WHERE block_id = '" + block_to_id(block) + "';";
+            sql = "SELECT DISTINCT room_name FROM ryosei WHERE block_id = '" + block_to_id(block) + "' order by room_name asc;";
         }
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);

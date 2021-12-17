@@ -24,6 +24,7 @@ public class Nimotsu_Uketori_Dialog extends DialogFragment {
     String  release_staff_id = "";
     int nimotsu_count_sametime = 0;
     private DatabaseHelper _helper;
+    Boolean cancel= true;
 
     @NonNull
     @Override
@@ -67,9 +68,10 @@ public class Nimotsu_Uketori_Dialog extends DialogFragment {
                             //荷物引き渡しページを閉じさせる。
                             //呼び出し元のフラグメントに結果を返す
                             Double_Buttoned_Uketori callingActivity = (Double_Buttoned_Uketori) getActivity();
+                            cancel = true;
                             callingActivity.closeActivity();
                         }else{
-
+                            cancel = false;
                             Toast.makeText(getActivity(), "チェックがされていません。", Toast.LENGTH_SHORT).show();
                         }
                         update_parcels_shearingstatus();
@@ -77,7 +79,12 @@ public class Nimotsu_Uketori_Dialog extends DialogFragment {
                         insert_event_shearingstatus();
                     }
                 })
-                .setNegativeButton("キャンセル", null)
+                .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                cancel = true;
+            }
+        })
+
                 .setMultiChoiceItems(rabellist, isCheckedList, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -85,7 +92,21 @@ public class Nimotsu_Uketori_Dialog extends DialogFragment {
 
                     }
                 });
-        return builder.create();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        return alertDialog;
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        AlertDialog alertDialog = (AlertDialog) getDialog();
+        if (alertDialog != null) {
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackgroundColor(getResources().getColor(R.color.data1D));
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
+            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(getResources().getColor(R.color.data1D));
+            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextSize(20);
+        }
+
     }
     public void update_parcels_shearingstatus (){
 

@@ -7,6 +7,17 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/double_jimutou_name_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="91dp"
+        android:layout_marginTop="84dp"
+        android:text="TextView"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/double_buttoned_uketori_titile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,10 +34,10 @@
         android:layout_width="113dp"
         android:layout_height="559dp"
         android:layout_marginStart="88dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="27dp"
         android:background="@drawable/listboder"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/double_buttoned_uketori_titile" />
+        app:layout_constraintTop_toBottomOf="@+id/double_jimutou_name_show" />
 
     <ListView
         android:id="@+id/double_buttoned_uketori_room_list"
@@ -50,36 +61,25 @@
         app:layout_constraintStart_toEndOf="@+id/double_buttoned_uketori_room_list"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/double_jimutou_name_show"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="91dp"
-        android:layout_marginTop="84dp"
-        android:text="TextView"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/double_uketori_go_back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="920dp"
-        android:layout_marginTop="600dp"
+        android:layout_marginStart="990dp"
+        android:layout_marginTop="49dp"
         android:text="go back"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/double_buttoned_uketori_titile" />
+        app:layout_constraintTop_toBottomOf="@+id/double_buttoned_uketori_ryosei_list" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="320dp"
+        android:layout_marginStart="868dp"
         android:layout_marginTop="32dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toEndOf="@+id/double_buttoned_uketori_titile"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
 

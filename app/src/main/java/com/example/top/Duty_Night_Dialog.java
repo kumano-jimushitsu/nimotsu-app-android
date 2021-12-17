@@ -1,34 +1,28 @@
 package com.example.top;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Display;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDialog;
 import androidx.fragment.app.DialogFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class Duty_Night_Dialog extends DialogFragment {
 
 
-    String  staff_name = "";
-    String  staff_room = "";
-    String  staff_id = "";
-    int nimotsu_count_sametime = 0;
+    String staffName = "";
+    String staffRoom = "";
+    String staffId = "";
+    ArrayList<String> allData = null;
+    int nimotsuCountSametime = 0;
     private DatabaseHelper _helper;
 
     @NonNull
@@ -36,9 +30,10 @@ public class Duty_Night_Dialog extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
 
-        staff_name = getArguments().getString("jimuto_name","");
-        staff_room = getArguments().getString("jimuto_room","");
-        staff_id = getArguments().getString("jimuto_id","0");
+        staffName = getArguments().getString("jimuto_name","");
+        staffRoom = getArguments().getString("jimuto_room","");
+        staffId = getArguments().getString("jimuto_id","0");
+        allData = getArguments().getStringArrayList("dataAll");
         _helper = new DatabaseHelper(requireContext());
         SQLiteDatabase db = _helper.getWritableDatabase();
 
@@ -46,47 +41,45 @@ public class Duty_Night_Dialog extends DialogFragment {
         String[] rabellist = new String[choices.size()];
         String[] idlist = new String[choices.size()];
         boolean[] isCheckedList = new boolean[choices.size()];
-        nimotsu_count_sametime = 0;
+        nimotsuCountSametime = 0;
         for(int i =0;i < choices.size();i++){
             rabellist[i] = choices.get(i).get("rabel");
             idlist[i] = choices.get(i).get("parcels_id");
             isCheckedList[i] = false;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("泊まり事務当用の画面です。確認できた荷物にチェックを入れてください。")
-                .setPositiveButton("確認", new DialogInterface.OnClickListener() {
+        builder.setTitle("泊事務当番")
+                .setMessage("チェックされていない荷物があります。荷物確認を実行してもよろしいでしょうか？")
+                .setPositiveButton("荷物確認をする", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // このボタンを押した時の処理を書きます。
-                        for(int i = 0; i < choices.size(); i++){
-                            if(isCheckedList[i]){
-                                _helper.night_check_updater(db,idlist[i]);
-                            }
-                        }
-                        if(nimotsu_count_sametime != 0){
-                            Toast.makeText(getActivity(), "荷物確認をしました。荷物札確認をしてください。", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "荷物確認しました。", Toast.LENGTH_SHORT).show();
+                        //呼び出し元のフラグメントに結果を返す
 
+                        SQLiteDatabase db = _helper.getWritableDatabase();
+                        for(int i = 0; i < allData.size(); i++) {
+                            _helper.night_check_updater(db, allData.get(i));
                         }
+                        db.close();
+                        Night_Duty_NimotsuFuda callingActivity = (Night_Duty_NimotsuFuda) getActivity();
+                        //callingActivity.onReturnValue(true);
+
                     }
                 })
-                .setNegativeButton("キャンセル", null)
-                .setMultiChoiceItems(rabellist, isCheckedList, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        isCheckedList[which] = isChecked;
-
-                    }
-                });
-        /*
-        Dialog d = builder.setView(new View(getActivity())).create();
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(d.getWindow().getAttributes());
-        lp.width = (int)(getResources().getDisplayMetrics().widthPixels*0.60);
-        lp.height = (int)(getResources().getDisplayMetrics().heightPixels*0.70);
-        d.show();
-        d.getWindow().setAttributes(lp); */
+                .setNegativeButton("キャンセル", null);
         update_parcels_shearingstatus();
         insert_event_shearingstatus();
         return builder.create();
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        AlertDialog alertDialog = (AlertDialog) getDialog();
+        if (alertDialog != null) {
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
+            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextSize(20);
+        }
+
     }
     public void update_parcels_shearingstatus (){
 

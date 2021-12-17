@@ -115,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
         ImageButton qr_scanner = findViewById(R.id.qr_scanner);
         QRScanListener qr_Listener = new QRScanListener();
         qr_scanner.setOnClickListener(qr_Listener);
+
+        ImageButton nimotsufuda = findViewById(R.id.nimotsufuda_Button);
+        NightDutyNimotsufudaListener listenerNimotsufuda = new NightDutyNimotsufudaListener();
+        nimotsufuda.setOnClickListener(listenerNimotsufuda);
     }
 
     class buttonClick implements View.OnClickListener {
@@ -207,18 +211,33 @@ public class MainActivity extends AppCompatActivity {
     private class QRScanListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            //カメラの呼び出し
-            IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
-            integrator.initiateScan();
+            if (jimuto_id == null) {
+                this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
+                touchsound.playsoundOne();
+            } else {
+                //カメラの呼び出し
+                IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
+                integrator.initiateScan();
+            }
         }
+        public  void showMyDialog(View view,String title,String mainText,String positiveButton,String negativeButton) {
+            DialogFragment dialogFragment = new myDialog();
+            Bundle args = new Bundle();
+            args.putString("positivebutton",positiveButton);
+            args.putString("negativebutton",negativeButton);
+            args.putString("title",title);
+            args.putString("maintext",mainText);
+            dialogFragment.setArguments(args);
+            dialogFragment.show(getSupportFragmentManager(), "myDialog");
+        }
+
     }
 
     private class DoubleTourokuListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             if (jimuto_id == null) {
-                String show = "先に事務当番を設定してください。";
-                Toast.makeText(MainActivity.this, show, Toast.LENGTH_LONG).show();
+                this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
                 touchsound.playsoundOne();
             } else {
                 Intent intent = new Intent(MainActivity.this, Double_Buttoned_Touroku.class);
@@ -229,6 +248,16 @@ public class MainActivity extends AppCompatActivity {
                 touchsound.playsoundOne();
             }
         }
+        public  void showMyDialog(View view,String title,String mainText,String positiveButton,String negativeButton) {
+            DialogFragment dialogFragment = new myDialog();
+            Bundle args = new Bundle();
+            args.putString("positivebutton",positiveButton);
+            args.putString("negativebutton",negativeButton);
+            args.putString("title",title);
+            args.putString("maintext",mainText);
+            dialogFragment.setArguments(args);
+            dialogFragment.show(getSupportFragmentManager(), "myDialog");
+        }
     }
 
 
@@ -237,8 +266,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             if (jimuto_id == null) {
-                String show = "先に事務当番を設定してください。";
-                Toast.makeText(MainActivity.this, show, Toast.LENGTH_LONG).show();
+                this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
                 touchsound.playsoundOne();
             } else {
                 Intent intent = new Intent(MainActivity.this, Double_Buttoned_Uketori.class);
@@ -250,6 +278,17 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+        public  void showMyDialog(View view,String title,String mainText,String positiveButton,String negativeButton) {
+            DialogFragment dialogFragment = new myDialog();
+            Bundle args = new Bundle();
+            args.putString("positivebutton",positiveButton);
+            args.putString("negativebutton",negativeButton);
+            args.putString("title",title);
+            args.putString("maintext",mainText);
+            dialogFragment.setArguments(args);
+            dialogFragment.show(getSupportFragmentManager(), "myDialog");
+        }
+
 
     }
 
@@ -274,25 +313,40 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class duty_night_listener implements View.OnClickListener {
+    private class NightDutyNimotsufudaListener implements AdapterView.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            Intent nimotsufuda_intent = new Intent(MainActivity.this, Night_Duty_NimotsuFuda.class);
+            startActivity(nimotsufuda_intent);
+            touchsound.playsoundOne();
+        }
+    }
+
+    public class duty_night_listener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             if (jimuto_id == null) {
-                String show = "先に事務当番を設定してください。";
-                Toast.makeText(MainActivity.this, show, Toast.LENGTH_LONG).show();
+                this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
                 touchsound.playsoundOne();
             } else {
-
-                DialogFragment dialogFragment = new Duty_Night_Dialog();
-                Bundle args = new Bundle();
-                args.putString("register_staff_room", jimuto_room);
-                args.putString("register_staff_name", jimuto_name);
-                args.putString("register_staff_id", jimuto_id);
-
-                dialogFragment.setArguments(args);
-                dialogFragment.show(getSupportFragmentManager(), "Duty_Night_Dialog");
+                Intent intent = new Intent(MainActivity.this, Night_Duty_NimotsuFuda.class);
+                intent.putExtra("Jimuto_id", jimuto_id);
+                intent.putExtra("Jimuto_room", jimuto_room);
+                intent.putExtra("Jimuto_name", jimuto_name);
+                startActivityForResult(intent, EVENT_REFRESH_ACTIVITY);
                 touchsound.playsoundOne();
             }
+        }
+
+        public  void showMyDialog(View view,String title,String mainText,String positiveButton,String negativeButton) {
+            DialogFragment dialogFragment = new myDialog();
+            Bundle args = new Bundle();
+            args.putString("positivebutton",positiveButton);
+            args.putString("negativebutton",negativeButton);
+            args.putString("title",title);
+            args.putString("maintext",mainText);
+            dialogFragment.setArguments(args);
+            dialogFragment.show(getSupportFragmentManager(), "myDialog");
         }
     }
 
@@ -523,15 +577,72 @@ public class MainActivity extends AppCompatActivity {
                 boolean event_update = intent.getBooleanExtra("EventRefresh", false);
                 eventLogshow();
             default:
+                //ここにケースを追加！
         }
 
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
-            Toast.makeText(this, scanResult.getContents(), Toast.LENGTH_LONG).show();
             qr_uuid = scanResult.getContents();
             TextView qr_show = findViewById(R.id.qr_result);
             qr_show.setText(qr_uuid);
+            // DBヘルパーオブジェクトを生成。
+            _helper = new DatabaseHelper(MainActivity.this);
+            SQLiteDatabase db = _helper.getWritableDatabase();
+            String sql = " SELECT uid,is_released,fragile,owner_ryosei_name,owner_room_name FROM parcels WHERE uid ='" + qr_uuid + "';";
+            Cursor cursor = db.rawQuery(sql, null);
+            int is_released = 0;
+            String uid = "";
+            String owner_ryosei_name = "";
+            String owner_room_name = "";
+            int fragile = 0;
+            if(cursor.getCount() == 0){//QRコードがデータベースにない場合
+                this.showMyDialog(null,getString(R.string.error),getString(R.string.qr_no_qr),getString(R.string.ok),"");
+            }else if(cursor.getCount() == 1) {//QRコードがデータベースに一つある場合
+                while (cursor.moveToNext()) {
+                    int uid_index = cursor.getColumnIndex("uid");
+                    int released_index = cursor.getColumnIndex("is_released");
+                    int fragile_index = cursor.getColumnIndex("feagile");
+                    int owner_room_index = cursor.getColumnIndex("owner_room_name");
+                    int owner_ryosei_index = cursor.getColumnIndex("owner_ryosei_name");
+                    uid = cursor.getString(uid_index);
+                    owner_ryosei_name = cursor.getString(owner_ryosei_index);
+                    owner_room_name = cursor.getString(owner_room_index);
+                    is_released = cursor.getInt(released_index);
+                }
+                this.showQRDialog(null,owner_room_name,owner_ryosei_name,uid);
+                if(is_released == 0){//その荷物が未受け取りの時
 
+                }else{//その荷物が受け取り済みの時
+                    this.showMyDialog(null,getString(R.string.error),getString(R.string.qr_already),getString(R.string.ok),"");
+                }
+            }else{//QRコードがデータベースに二つ以上ある場合
+                this.showMyDialog(null,getString(R.string.error),getString(R.string.qr_more_than_two),getString(R.string.ok),"");
+            }
         }
+
+    }
+
+    public void showQRDialog(View view, String owner_room, String owner_name, String owner_id) {
+        DialogFragment dialogFragment = new Nimotsu_Uketori_Dialog();
+        Bundle args = new Bundle();
+        args.putString("owner_room",owner_room);
+        args.putString("owner_name",owner_name);
+        args.putString("owner_id",owner_id);
+        args.putString("release_staff_room",jimuto_room);
+        args.putString("release_staff_name",jimuto_name);
+        args.putString("release_staff_id",jimuto_id);
+        dialogFragment.setArguments(args);
+        dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Uketori_Dialog");
+    }
+
+    public  void showMyDialog(View view,String title,String mainText,String positiveButton,String negativeButton) {
+        DialogFragment dialogFragment = new myDialog();
+        Bundle args = new Bundle();
+        args.putString("positivebutton",positiveButton);
+        args.putString("negativebutton",negativeButton);
+        args.putString("title",title);
+        args.putString("maintext",mainText);
+        dialogFragment.setArguments(args);
+        dialogFragment.show(getSupportFragmentManager(), "myDialog");
     }
 }

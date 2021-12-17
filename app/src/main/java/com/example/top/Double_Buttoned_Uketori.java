@@ -56,6 +56,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
     private String[] from={"parcels_current_count","room_name"};
     private int[] to = {android.R.id.text2,android.R.id.text1};
     private TextView  proxy_room_name_text;
+    private TextView titleText;
     private Button  proxy_change_button;
     private boolean proxy_check = false;
 
@@ -107,6 +108,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         proxySwitch.setOnCheckedChangeListener(new Double_Buttoned_Uketori.ProxySwitchListener());
         proxy_room_name_text = findViewById(R.id.proxy_textview);
         proxy_change_button = findViewById(R.id.proxy_cahnge_button);
+        titleText = findViewById(R.id.double_buttoned_uketori_titile);
         proxy_room_name_text.setVisibility(View.GONE);
         proxy_change_button.setVisibility(View.GONE);
         proxy_change_button.setOnClickListener(new DoubleProxyChangeListener());
@@ -121,7 +123,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         SQLiteDatabase db = _helper.getWritableDatabase();
         // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id = '"+ String.valueOf(block) +"';" ;
+        String sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id = '"+ String.valueOf(block) +"'order by room_name asc;" ;
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -174,9 +176,9 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         String sql;
         // 主キーによる検索SQL文字列の用意。
         if (block == null){
-            sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei WHERE parcels_current_count > 0;";
+            sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei WHERE parcels_current_count > 0 order by room_name asc;";
         }else {
-            sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id = '" + block_to_id(block) + "';";
+            sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id = '" + block_to_id(block) + "'order by room_name asc;";
         }// SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -226,7 +228,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         SQLiteDatabase db = _helper.getWritableDatabase();
         // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND room_name = '"+ room +"';" ;
+        String sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND room_name = '"+ room +"'order by room_name asc;" ;
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -313,9 +315,9 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         // 主キーによる検索SQL文字列の用意。
         String sql;
         if(block_to_id(block) == 0){
-            sql = "SELECT DISTINCT room_name FROM ryosei ;";
+            sql = "SELECT DISTINCT room_name FROM ryosei order by room_name asc;";
         }else {
-            sql = "SELECT DISTINCT room_name FROM ryosei WHERE parcels_current_count > 0 AND block_id = '" + block_to_id(block) + "';";
+            sql = "SELECT DISTINCT room_name FROM ryosei WHERE parcels_current_count > 0 AND block_id = '" + block_to_id(block) + "'order by room_name asc;";
         }
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
@@ -632,11 +634,13 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
                 proxy_change_button.setVisibility(View.VISIBLE);
                 //ConstraintLayout double_buttoned_uketori = (ConstraintLayout)findViewById(R.id.double_buttoned_uketori_constraintlayout);
                 double_buttoned_uketori.setBackgroundColor(Color.rgb(255,200,180));
+                titleText.setText("代理人荷物引き渡しの画面です。");
             } else {
                 proxy_room_name_text.setVisibility(View.GONE);
                 proxy_change_button.setVisibility(View.GONE);
                 //ConstraintLayout double_buttoned_uketori = (ConstraintLayout)findViewById(R.id.double_buttoned_uketori_constraintlayout);
                 double_buttoned_uketori.setBackgroundColor(Color.rgb(255,255,255));
+                titleText.setText("荷物引き渡しの画面です。");
             }
             proxy_check = isChecked;
         }
