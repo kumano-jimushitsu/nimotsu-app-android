@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         qr_scanner.setOnClickListener(qr_Listener);
 
         ImageButton nimotsufuda = findViewById(R.id.nimotsufuda_Button);
-        NightDutyNimotsufudaListener listenerNimotsufuda = new NightDutyNimotsufudaListener();
+        RefreshListener listenerNimotsufuda = new RefreshListener();
         nimotsufuda.setOnClickListener(listenerNimotsufuda);
     }
 
@@ -321,6 +321,13 @@ public class MainActivity extends AppCompatActivity {
             touchsound.playsoundOne();
         }
     }
+    private class RefreshListener implements AdapterView.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            eventLogshow();
+        }
+    }
+
 
     public class duty_night_listener implements View.OnClickListener {
         @Override
@@ -588,7 +595,7 @@ public class MainActivity extends AppCompatActivity {
             // DBヘルパーオブジェクトを生成。
             _helper = new DatabaseHelper(MainActivity.this);
             SQLiteDatabase db = _helper.getWritableDatabase();
-            String sql = " SELECT uid,is_released,fragile,owner_ryosei_name,owner_room_name FROM parcels WHERE uid ='" + qr_uuid + "';";
+            String sql = " SELECT uid,is_released,fragile,owner_ryosei_name,owner_room_name,owner_uid FROM parcels WHERE uid ='" + qr_uuid + "';";
             Cursor cursor = db.rawQuery(sql, null);
             int is_released = 0;
             String uid = "";
@@ -599,7 +606,7 @@ public class MainActivity extends AppCompatActivity {
                 this.showMyDialog(null,getString(R.string.error),getString(R.string.qr_no_qr),getString(R.string.ok),"");
             }else if(cursor.getCount() == 1) {//QRコードがデータベースに一つある場合
                 while (cursor.moveToNext()) {
-                    int uid_index = cursor.getColumnIndex("uid");
+                    int uid_index = cursor.getColumnIndex("owner_uid");
                     int released_index = cursor.getColumnIndex("is_released");
                     int fragile_index = cursor.getColumnIndex("feagile");
                     int owner_room_index = cursor.getColumnIndex("owner_room_name");
@@ -609,9 +616,9 @@ public class MainActivity extends AppCompatActivity {
                     owner_room_name = cursor.getString(owner_room_index);
                     is_released = cursor.getInt(released_index);
                 }
-                this.showQRDialog(null,owner_room_name,owner_ryosei_name,uid);
-                if(is_released == 0){//その荷物が未受け取りの時
 
+                if(is_released == 0){//その荷物が未受け取りの時
+                    this.showQRDialog(null,owner_room_name,owner_ryosei_name,uid);
                 }else{//その荷物が受け取り済みの時
                     this.showMyDialog(null,getString(R.string.error),getString(R.string.qr_already),getString(R.string.ok),"");
                 }
@@ -623,7 +630,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showQRDialog(View view, String owner_room, String owner_name, String owner_id) {
-        DialogFragment dialogFragment = new Nimotsu_Uketori_Dialog();
+        DialogFragment dialogFragment = new Nimotsu_Uketori_QR_Dialog();
         Bundle args = new Bundle();
         args.putString("owner_room",owner_room);
         args.putString("owner_name",owner_name);

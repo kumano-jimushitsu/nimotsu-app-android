@@ -41,7 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         StringBuilder sb_parcels = new StringBuilder();
         sb_parcels.append("CREATE TABLE parcels (");
         sb_parcels.append(" uid TEXT PRIMARY KEY,");
-        sb_parcels.append(" owner_uid TEXT,");
+        sb_parcels.append(" a TEXT,");
         sb_parcels.append(" owner_room_name TEXT,");
         sb_parcels.append(" owner_ryosei_name TEXT,");
         sb_parcels.append(" register_datetime TEXT,");
