@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -213,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             if (jimuto_id == null) {
                 this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
-                touchsound.playsoundOne();
+                touchsound.playsoundTwo();
             } else {
                 //カメラの呼び出し
                 IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
@@ -238,14 +239,14 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             if (jimuto_id == null) {
                 this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
-                touchsound.playsoundOne();
+                touchsound.playsoundTwo();
             } else {
                 Intent intent = new Intent(MainActivity.this, Double_Buttoned_Touroku.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 intent.putExtra("Jimuto_name", jimuto_name);
                 startActivityForResult(intent, EVENT_REFRESH_ACTIVITY);
-                touchsound.playsoundOne();
+                touchsound.playsoundTwo();
             }
         }
         public  void showMyDialog(View view,String title,String mainText,String positiveButton,String negativeButton) {
@@ -267,14 +268,14 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             if (jimuto_id == null) {
                 this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
-                touchsound.playsoundOne();
+                touchsound.playsoundTwo();
             } else {
                 Intent intent = new Intent(MainActivity.this, Double_Buttoned_Uketori.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 intent.putExtra("Jimuto_name", jimuto_name);
                 startActivityForResult(intent, EVENT_REFRESH_ACTIVITY);
-                touchsound.playsoundOne();
+                touchsound.playsoundTwo();
             }
 
         }
@@ -309,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
             jimuto_intent.putExtra("Jimuto_name", jimuto_room + " " + jimuto_name);
             jimuto_intent.putExtra("Jimuto_id", jimuto_id);
             startActivityForResult(jimuto_intent, JIMUTOCHANGE_ACTIVITY);
-            touchsound.playsoundOne();
+            touchsound.playsoundTwo();
         }
     }
 
@@ -318,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             Intent nimotsufuda_intent = new Intent(MainActivity.this, Night_Duty_NimotsuFuda.class);
             startActivity(nimotsufuda_intent);
-            touchsound.playsoundOne();
+            touchsound.playsoundTwo();
         }
     }
     private class RefreshListener implements AdapterView.OnClickListener {
@@ -334,14 +335,14 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             if (jimuto_id == null) {
                 this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
-                touchsound.playsoundOne();
+                touchsound.playsoundTwo();
             } else {
                 Intent intent = new Intent(MainActivity.this, Night_Duty_NimotsuFuda.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 intent.putExtra("Jimuto_name", jimuto_name);
                 startActivityForResult(intent, EVENT_REFRESH_ACTIVITY);
-                touchsound.playsoundOne();
+                touchsound.playsoundTwo();
             }
         }
 
@@ -410,7 +411,7 @@ public class MainActivity extends AppCompatActivity {
             args.putString("event_type", event_type);
             dialogFragment.setArguments(args);
             dialogFragment.show(getSupportFragmentManager(), "Delete_Event_Dialog");
-            touchsound.playsoundOne();
+            touchsound.playsoundTwo();
 
             _helper.close();
         }
@@ -460,7 +461,7 @@ public class MainActivity extends AppCompatActivity {
                 note += cursor.getString(ryouseiStatus);
                 note += "\n";
 
-                touchsound.playsoundOne();
+                touchsound.playsoundTwo();
             }
         }
     }
@@ -477,7 +478,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
-            touchsound.playsoundOne();
+            touchsound.playsoundTwo();
             String json = getJsonFromDatabase();
             OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler, json, db, _helper);
             postTask.url = postTask.url + "/" + table + "/" + method;
