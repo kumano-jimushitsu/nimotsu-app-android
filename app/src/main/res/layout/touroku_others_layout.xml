@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="83dp"
         android:layout_marginTop="95dp"
-        android:text="cancel"
+        android:text="戻る"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/touroku_others_edit" />
 
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="106dp"
         android:layout_marginTop="95dp"
-        android:text="add"
+        android:text="追加"
         app:layout_constraintStart_toEndOf="@+id/touroku_others_cancel"
         app:layout_constraintTop_toBottomOf="@+id/touroku_others_edit" />
 

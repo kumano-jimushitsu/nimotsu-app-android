@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="990dp"
         android:layout_marginTop="49dp"
-        android:text="go back"
+        android:text="戻る"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/double_buttoned_uketori_ryosei_list" />
