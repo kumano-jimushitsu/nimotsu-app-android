@@ -59,6 +59,7 @@
         android:layout_marginStart="740dp"
         android:layout_marginTop="140dp"
         android:text="履歴"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -235,13 +236,13 @@
 
     <ImageButton
         android:id="@+id/nimotsufuda_Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="51dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="132dp"
+        android:layout_marginTop="172dp"
         app:layout_constraintStart_toEndOf="@+id/linearLayout3"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icon_help"
+        app:srcCompat="@drawable/refresh"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageView

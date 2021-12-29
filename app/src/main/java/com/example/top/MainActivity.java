@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         qr_scanner.setOnClickListener(qr_Listener);
 
         ImageButton nimotsufuda = findViewById(R.id.nimotsufuda_Button);
-        NightDutyNimotsufudaListener listenerNimotsufuda = new NightDutyNimotsufudaListener();
+        RefreshListener listenerNimotsufuda = new RefreshListener();
         nimotsufuda.setOnClickListener(listenerNimotsufuda);
     }
 
@@ -213,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             if (jimuto_id == null) {
                 this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
-                touchsound.playsoundOne();
+                touchsound.playsoundTwo();
             } else {
                 //カメラの呼び出し
                 IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
@@ -238,14 +239,14 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             if (jimuto_id == null) {
                 this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
-                touchsound.playsoundOne();
+                touchsound.playsoundTwo();
             } else {
                 Intent intent = new Intent(MainActivity.this, Double_Buttoned_Touroku.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 intent.putExtra("Jimuto_name", jimuto_name);
                 startActivityForResult(intent, EVENT_REFRESH_ACTIVITY);
-                touchsound.playsoundOne();
+                touchsound.playsoundTwo();
             }
         }
         public  void showMyDialog(View view,String title,String mainText,String positiveButton,String negativeButton) {
@@ -267,14 +268,14 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             if (jimuto_id == null) {
                 this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
-                touchsound.playsoundOne();
+                touchsound.playsoundTwo();
             } else {
                 Intent intent = new Intent(MainActivity.this, Double_Buttoned_Uketori.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 intent.putExtra("Jimuto_name", jimuto_name);
                 startActivityForResult(intent, EVENT_REFRESH_ACTIVITY);
-                touchsound.playsoundOne();
+                touchsound.playsoundTwo();
             }
 
         }
@@ -309,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
             jimuto_intent.putExtra("Jimuto_name", jimuto_room + " " + jimuto_name);
             jimuto_intent.putExtra("Jimuto_id", jimuto_id);
             startActivityForResult(jimuto_intent, JIMUTOCHANGE_ACTIVITY);
-            touchsound.playsoundOne();
+            touchsound.playsoundTwo();
         }
     }
 
@@ -318,23 +319,30 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             Intent nimotsufuda_intent = new Intent(MainActivity.this, Night_Duty_NimotsuFuda.class);
             startActivity(nimotsufuda_intent);
-            touchsound.playsoundOne();
+            touchsound.playsoundTwo();
         }
     }
+    private class RefreshListener implements AdapterView.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            eventLogshow();
+        }
+    }
+
 
     public class duty_night_listener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             if (jimuto_id == null) {
                 this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
-                touchsound.playsoundOne();
+                touchsound.playsoundTwo();
             } else {
                 Intent intent = new Intent(MainActivity.this, Night_Duty_NimotsuFuda.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 intent.putExtra("Jimuto_name", jimuto_name);
                 startActivityForResult(intent, EVENT_REFRESH_ACTIVITY);
-                touchsound.playsoundOne();
+                touchsound.playsoundTwo();
             }
         }
 
@@ -403,7 +411,7 @@ public class MainActivity extends AppCompatActivity {
             args.putString("event_type", event_type);
             dialogFragment.setArguments(args);
             dialogFragment.show(getSupportFragmentManager(), "Delete_Event_Dialog");
-            touchsound.playsoundOne();
+            touchsound.playsoundTwo();
 
             _helper.close();
         }
@@ -453,7 +461,7 @@ public class MainActivity extends AppCompatActivity {
                 note += cursor.getString(ryouseiStatus);
                 note += "\n";
 
-                touchsound.playsoundOne();
+                touchsound.playsoundTwo();
             }
         }
     }
@@ -470,7 +478,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
-            touchsound.playsoundOne();
+            touchsound.playsoundTwo();
             String json = getJsonFromDatabase();
             OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler, json, db, _helper);
             postTask.url = postTask.url + "/" + table + "/" + method;
@@ -588,7 +596,7 @@ public class MainActivity extends AppCompatActivity {
             // DBヘルパーオブジェクトを生成。
             _helper = new DatabaseHelper(MainActivity.this);
             SQLiteDatabase db = _helper.getWritableDatabase();
-            String sql = " SELECT uid,is_released,fragile,owner_ryosei_name,owner_room_name FROM parcels WHERE uid ='" + qr_uuid + "';";
+            String sql = " SELECT uid,is_released,fragile,owner_ryosei_name,owner_room_name,owner_uid FROM parcels WHERE uid ='" + qr_uuid + "';";
             Cursor cursor = db.rawQuery(sql, null);
             int is_released = 0;
             String uid = "";
@@ -599,7 +607,7 @@ public class MainActivity extends AppCompatActivity {
                 this.showMyDialog(null,getString(R.string.error),getString(R.string.qr_no_qr),getString(R.string.ok),"");
             }else if(cursor.getCount() == 1) {//QRコードがデータベースに一つある場合
                 while (cursor.moveToNext()) {
-                    int uid_index = cursor.getColumnIndex("uid");
+                    int uid_index = cursor.getColumnIndex("owner_uid");
                     int released_index = cursor.getColumnIndex("is_released");
                     int fragile_index = cursor.getColumnIndex("feagile");
                     int owner_room_index = cursor.getColumnIndex("owner_room_name");
@@ -609,9 +617,9 @@ public class MainActivity extends AppCompatActivity {
                     owner_room_name = cursor.getString(owner_room_index);
                     is_released = cursor.getInt(released_index);
                 }
-                this.showQRDialog(null,owner_room_name,owner_ryosei_name,uid);
-                if(is_released == 0){//その荷物が未受け取りの時
 
+                if(is_released == 0){//その荷物が未受け取りの時
+                    this.showQRDialog(null,owner_room_name,owner_ryosei_name,uid);
                 }else{//その荷物が受け取り済みの時
                     this.showMyDialog(null,getString(R.string.error),getString(R.string.qr_already),getString(R.string.ok),"");
                 }
@@ -623,7 +631,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showQRDialog(View view, String owner_room, String owner_name, String owner_id) {
-        DialogFragment dialogFragment = new Nimotsu_Uketori_Dialog();
+        DialogFragment dialogFragment = new Nimotsu_Uketori_QR_Dialog();
         Bundle args = new Bundle();
         args.putString("owner_room",owner_room);
         args.putString("owner_name",owner_name);
