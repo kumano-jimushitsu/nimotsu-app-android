@@ -20,20 +20,22 @@ import okhttp3.Response;
 
 public class OkHttpPost extends AsyncTask<String,String,String> {
     String json;
-    String url = "http://192.168.100.82:8080";
+    String url = "http://192.168.100.95:8080";
     Context context;
     Handler handler;
     SQLiteDatabase db;
     private Listener listener;
     private DatabaseHelper helper;
+    private String method;
 
-    public OkHttpPost(Context context, Handler handler, String json, SQLiteDatabase db, DatabaseHelper helper) {
+    public OkHttpPost(Context context, Handler handler, String json, SQLiteDatabase db, DatabaseHelper helper, String method) {
         super();
         this.context = context;
         this.handler = handler;
         this.json = json;
         this.db = db;
         this.helper = helper;
+        this.method = method;
     }
 
     @Override
@@ -61,14 +63,14 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
             if(sqlCommand.equals("")) {
                 if (this.listener != null) {
                     listener.onReceiveResponseFromPC("");
-                    helper.update_sharingstatus(db);
+                    helper.updateSharingStatus(db, method);
                 }
                 return null;
             }
 
             try {
                 db.execSQL(sqlCommand);
-                helper.update_sharingstatus(db);
+                helper.updateSharingStatusFromPC(db, method);
                 listener.onReceiveResponseFromPC("Success");
             } catch (SQLException e) {
                 Log.e("ERROR", e.toString());
