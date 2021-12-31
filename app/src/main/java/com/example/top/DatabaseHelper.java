@@ -1776,8 +1776,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result_sharing_status;
     }
 
-    public void update_sharingstatus(SQLiteDatabase db) {
-        String sql = "update parcels set sharing_status = '30' where sharing_status = '20' or sharing_status = '21' or sharing_status = '10' or sharing_status = '11'";
+    public void updateSharingStatus(SQLiteDatabase db, String method) {
+        String sql = "update parcels set sharing_status = '30' where sharing_status = ";
+        switch (method) {
+            case "create":
+                sql = sql + "'" + 10 + "'";
+                break;
+            case "update":
+                sql = sql + "'" + 11 + "'";
+        }
+        db.execSQL(sql);
+    }
+
+    public void updateSharingStatusFromPC(SQLiteDatabase db, String method) {
+        String sql = "update parcels set sharing_status = '30' where sharing_status = ";
+        switch (method) {
+            case "create":
+                sql = sql + "'" + 20 + "'";
+                break;
+            case "update":
+                sql = sql + "'" + 21 + "'";
+        }
         db.execSQL(sql);
     }
 

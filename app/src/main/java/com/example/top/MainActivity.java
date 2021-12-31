@@ -480,7 +480,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             touchsound.playsoundTwo();
             String json = getJsonFromDatabase();
-            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler, json, db, _helper);
+            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler, json, db, _helper, method);
             postTask.url = postTask.url + "/" + table + "/" + method;
             postTask.setListener(createListener());
             postTask.execute();
@@ -501,7 +501,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler, "Success", db, _helper);
+            OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler, method + "Success", db, _helper, method);
             postTask2.url = postTask2.url + "/" + table + "/check";
             postTask2.execute();
         }
@@ -645,6 +645,8 @@ public class MainActivity extends AppCompatActivity {
 
     public  void showMyDialog(View view,String title,String mainText,String positiveButton,String negativeButton) {
         DialogFragment dialogFragment = new myDialog();
+
+
         Bundle args = new Bundle();
         args.putString("positivebutton",positiveButton);
         args.putString("negativebutton",negativeButton);
