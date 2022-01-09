@@ -466,20 +466,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class SendRequestListener implements View.OnClickListener {
-        String result = null;
+    private class HttpListener{
+        String result;
         String table;
         String method;
 
-        public SendRequestListener(String table, String method) {
+        public HttpListener(String result, String table, String method) {
+            this.result = result;
             this.table = table;
             this.method = method;
         };
-
-        @Override
-        public void onClick(View view) {
-            touchsound.playsoundTwo();
+        public void Listen(){
             String json = getJsonFromDatabase();
+
             OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler, json, db, _helper, method);
             postTask.url = postTask.url + "/" + table + "/" + method;
             postTask.setListener(createListener());
@@ -505,7 +504,6 @@ public class MainActivity extends AppCompatActivity {
             postTask2.url = postTask2.url + "/" + table + "/check";
             postTask2.execute();
         }
-
         private OkHttpPost.Listener createListener() {
             return new OkHttpPost.Listener() {
                 @Override
@@ -514,7 +512,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
         }
-
         private String getJsonFromDatabase() {
             int sharing_status = getSharingStatus();
             switch (table) {
@@ -528,7 +525,6 @@ public class MainActivity extends AppCompatActivity {
                     return "";
             }
         }
-
         private int getSharingStatus() {
             switch(method){
                 case "create":
@@ -540,6 +536,24 @@ public class MainActivity extends AppCompatActivity {
                 default:
                     return 0;
             }
+        }
+    }
+
+    private class SendRequestListener implements View.OnClickListener {
+        String result = null;
+        String table;
+        String method;
+
+        public SendRequestListener(String table, String method) {
+            this.table = table;
+            this.method = method;
+        };
+
+        @Override
+        public void onClick(View view) {
+            touchsound.playsoundTwo();
+            HttpListener httpListener = new HttpListener(result, table, method);
+            httpListener.Listen();
         }
     }
 
