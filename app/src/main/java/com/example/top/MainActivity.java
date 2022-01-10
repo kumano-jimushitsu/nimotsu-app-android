@@ -487,7 +487,7 @@ public class MainActivity extends AppCompatActivity {
             while (true) {
                 if (this.result == null) {
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -552,8 +552,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             touchsound.playsoundTwo();
+            /*
             HttpListener httpListener = new HttpListener(result, table, method);
             httpListener.Listen();
+            */
+            new HttpListener(result, table, method).Listen();
         }
     }
 
@@ -601,6 +604,16 @@ public class MainActivity extends AppCompatActivity {
             default:
                 //ここにケースを追加！
         }
+        //同期処理部分
+//        new HttpListener(null,"parcel","insert").Listen();
+//        new HttpListener(null,"parcel","update").Listen();
+//        new HttpListener(null,"ryosei","insert").Listen();
+//        new HttpListener(null,"ryosei","update").Listen();
+//        new HttpListener(null,"parcel_event","insert").Listen();
+        //new HttpListener(null,"parcel_event","update").Listen();
+
+        //同期処理部分ここまで
+
 
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
