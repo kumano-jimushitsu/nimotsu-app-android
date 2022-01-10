@@ -1,9 +1,11 @@
 package com.example.top;
 
+import android.content.AsyncQueryHandler;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -466,7 +468,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class HttpListener{
+    public class HttpTask extends AsyncTask<Integer,Integer,Integer>{
+        String result;
+        String table;
+        String method;
+        public HttpTask(String result,String table, String method){
+            this.result = result;
+            this.table = table;
+            this.method = method;
+        }
+        // 非同期処理
+        @Override
+        protected Integer doInBackground(Integer... params) {
+            new HttpListener(result,table,method).Listen();
+            return 1;
+        }
+    }
+
+    private class HttpListener {
         String result;
         String table;
         String method;
@@ -476,6 +495,9 @@ public class MainActivity extends AppCompatActivity {
             this.table = table;
             this.method = method;
         };
+
+
+
         public void Listen(){
             String json = getJsonFromDatabase();
 
@@ -556,7 +578,8 @@ public class MainActivity extends AppCompatActivity {
             HttpListener httpListener = new HttpListener(result, table, method);
             httpListener.Listen();
             */
-            new HttpListener(result, table, method).Listen();
+//            new HttpListener(result, table, method).Listen();
+            new HttpTask(result, table, method).execute();
         }
     }
 
