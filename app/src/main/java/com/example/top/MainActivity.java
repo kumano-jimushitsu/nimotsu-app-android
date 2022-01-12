@@ -476,6 +476,7 @@ public class MainActivity extends AppCompatActivity {
             this.result = result;
             this.table = table;
             this.method = method;
+
         }
         // 非同期処理
         @Override
