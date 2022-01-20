@@ -593,6 +593,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String sql_insert_test_ryosei = sb_insert_test_ryosei.toString();
         db.execSQL(sql_insert_test_ryosei);
+        set_createdat_forTest(db);
+    }
+
+    void set_createdat_forTest(SQLiteDatabase db){
+        db.execSQL("update ryosei set created_at='2022-01-19 22:22:22.222',ryosei_name_alphabet='test',slack_id='testslack', last_event_id='testlastevid',last_event_datetime='2022-01-20 19:19:19.119', updated_at='2022-01-20 19:19:19.119';" );
     }
 
     void insert_test_ryosei(SQLiteDatabase db) {
@@ -1631,13 +1636,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String sql;
         //owner_idの寮生を取得
         if (type == 1) {
-            sql = "SELECT *  FROM ryosei order by uid";
+            sql = "SELECT *  FROM ryosei order by uid Limit 2";
         } else if (type == 10) {
-            sql = "SELECT *  FROM ryosei where sharing_status = '10'";
+            sql = "SELECT *  FROM ryosei where sharing_status = '10' order by uid Limit 2";
         } else if (type == 11) {
-            sql = "SELECT *  FROM ryosei where sharing_status = '11'";
+            sql = "SELECT *  FROM ryosei where sharing_status = '11' order by uid Limit 2";
         } else {
-            sql = "SELECT *  FROM ryosei order by uid";
+            sql = "SELECT *  FROM ryosei order by uid Limit 2";
         }
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
@@ -1675,13 +1680,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String sql;
         //owner_idの寮生を取得
         if (type == 1) {
-            sql = "SELECT *  FROM parcels order by uid";
+            sql = "SELECT *  FROM parcels order by uid Limit 5";
         } else if (type == 10) {
-            sql = "SELECT *  FROM parcels where sharing_status = '10'";
+            sql = "SELECT *  FROM parcels where sharing_status = '10' order by uid Limit 5";
         } else if (type == 11) {
-            sql = "SELECT *  FROM parcels where sharing_status = '11'";
+            sql = "SELECT *  FROM parcels where sharing_status = '11' order by uid Limit 5";
         } else {
-            sql = "SELECT *  FROM parcels order by uid";
+            sql = "SELECT *  FROM parcels order by uid Limit 5";
         }
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
@@ -1720,13 +1725,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String sql;
         //owner_idの寮生を取得
         if (type == 1) {
-            sql = "SELECT *  FROM parcel_event order by uid";
+            sql = "SELECT *  FROM parcel_event order by uid Limit 50";
         } else if (type == 10) {
-            sql = "SELECT *  FROM parcel_event where sharing_status = '10'";
+            sql = "SELECT *  FROM parcel_event where sharing_status = '10' order by uid Limit 50";
         } else if (type == 11) {
-            sql = "SELECT *  FROM parcel_event where sharing_status = '11'";
+            sql = "SELECT *  FROM parcel_event where sharing_status = '11' order by uid Limit 50";
         } else {
-            sql = "SELECT *  FROM parcel_event order by uid";
+            sql = "SELECT *  FROM parcel_event order by uid Limit 50";
         }
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);

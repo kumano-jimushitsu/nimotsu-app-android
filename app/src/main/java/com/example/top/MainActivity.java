@@ -31,6 +31,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -468,6 +470,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*
     public class HttpTask extends AsyncTask<Integer,Integer,Integer>{
         String result;
         String table;
@@ -478,6 +481,7 @@ public class MainActivity extends AppCompatActivity {
             this.method = method;
 
         }
+
         // 非同期処理
         @Override
         protected Integer doInBackground(Integer... params) {
@@ -486,7 +490,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class HttpListener {
+    */
+    public class HttpTask {
+        String result;
+        String table;
+        String method;
+        public HttpTask(String result,String table, String method){
+            this.result = result;
+            this.table = table;
+            this.method = method;
+
+        }
+        public void execute(){
+            HttpListener httpListener=new HttpListener(result,table,method);
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            executorService.submit(httpListener);
+        }
+    }
+
+    private class HttpListener implements Runnable {
         String result;
         String table;
         String method;
@@ -498,8 +520,8 @@ public class MainActivity extends AppCompatActivity {
         };
 
 
-
-        public void Listen(){
+        @Override
+        public void run(){
             String json = getJsonFromDatabase();
 
             OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler, json, db, _helper, method);
@@ -560,6 +582,7 @@ public class MainActivity extends AppCompatActivity {
                     return 0;
             }
         }
+
     }
 
     private class SendRequestListener implements View.OnClickListener {
@@ -595,6 +618,9 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             // 主キーによる検索SQL文字列の用意。
             String json = getJsonFromDatabase();
+            android.util.Log.d("json",json);
+            android.util.Log.d("json",json);
+
         }
 
         private String getJsonFromDatabase() {
