@@ -28,8 +28,9 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
     private Listener listener;
     private DatabaseHelper helper;
     private String method;
+    private String table;
 
-    public OkHttpPost(Context context, Handler handler, String json, SQLiteDatabase db, DatabaseHelper helper, String method) {
+    public OkHttpPost(Context context, Handler handler, String json, SQLiteDatabase db, DatabaseHelper helper, String method,String table) {
         super();
         this.context = context;
         this.handler = handler;
@@ -37,6 +38,7 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
         this.db = db;
         this.helper = helper;
         this.method = method;
+        this.table = table;
     }
 
     @Override
@@ -64,14 +66,14 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
             if(sqlCommand.equals("")) {
                 if (this.listener != null) {
                     listener.onReceiveResponseFromPC("");
-                    helper.updateSharingStatus(db, method);
+                    helper.updateSharingStatus(db, method,table);
                 }
                 return null;
             }
 
             try {
                 db.execSQL(sqlCommand);
-                helper.updateSharingStatusFromPC(db, method);
+                helper.updateSharingStatusFromPC(db, method,table);
                 listener.onReceiveResponseFromPC("Success");
             } catch (SQLException e) {
                 Log.e("ERROR", e.toString());

@@ -78,15 +78,15 @@ public class MainActivity extends AppCompatActivity {
         eventLogshower.setOnItemClickListener(showListener);
 
         Button parcel_update_button = findViewById(R.id.parcel_update_button);
-        SendRequestListener parcels_update_listener = new SendRequestListener("parcel", "update");
+        SendRequestListener parcels_update_listener = new SendRequestListener("parcels", "update");
         parcel_update_button.setOnClickListener(parcels_update_listener);
 
         Button parcel_insert_button = findViewById(R.id.parcel_insert_button);
-        SendRequestListener parcel_insert_listener = new SendRequestListener("parcel", "create");
+        SendRequestListener parcel_insert_listener = new SendRequestListener("parcels", "create");
         parcel_insert_button.setOnClickListener(parcel_insert_listener);
 
         Button parcel_debug_button = findViewById(R.id.parcel_debug_button);
-        ShowRecordsListener parcels_debug_listener = new ShowRecordsListener("parcel");
+        ShowRecordsListener parcels_debug_listener = new ShowRecordsListener("parcels");
         parcel_debug_button.setOnClickListener(parcels_debug_listener);
 
         Button ryosei_update_button = findViewById(R.id.ryosei_update_button);
@@ -524,7 +524,7 @@ public class MainActivity extends AppCompatActivity {
         public void run(){
             String json = getJsonFromDatabase();
 
-            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler, json, db, _helper, method);
+            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler, json, db, _helper, method,table);
             postTask.url = postTask.url + "/" + table + "/" + method;
             postTask.setListener(createListener());
             postTask.execute();
@@ -545,7 +545,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler, method + "Success", db, _helper, method);
+            OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler, method + "Success", db, _helper, method,table);
             postTask2.url = postTask2.url + "/" + table + "/check";
             postTask2.execute();
         }
@@ -562,7 +562,7 @@ public class MainActivity extends AppCompatActivity {
             switch (table) {
                 case "ryosei":
                     return _helper.select_ryosei_show_json(db, sharing_status);
-                case "parcel":
+                case "parcels":
                     return _helper.select_parcels_show_json(db, sharing_status);
                 case "parcel_event":
                     return _helper.select_event_show_json(db, sharing_status);
@@ -628,7 +628,7 @@ public class MainActivity extends AppCompatActivity {
             switch (table) {
                 case "ryosei":
                     return _helper.select_ryosei_show_json(db, sharing_status);
-                case "parcel":
+                case "parcels":
                     return _helper.select_parcels_show_json(db, sharing_status);
                 case "parcel_event":
                     return _helper.select_event_show_json(db, sharing_status);
@@ -639,6 +639,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        //インテント終了後、メイン画面に戻ったときの処理を記載する部分
         super.onActivityResult(requestCode, resultCode, intent);
         switch (requestCode) {
             case JIMUTOCHANGE_ACTIVITY:
