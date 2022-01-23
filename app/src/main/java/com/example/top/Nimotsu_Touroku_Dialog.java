@@ -48,7 +48,7 @@ public class Nimotsu_Touroku_Dialog extends DialogFragment {
                         _helper = new com.example.top.DatabaseHelper(requireContext());
                         SQLiteDatabase db = _helper.getWritableDatabase();
                         _helper.addParcel(db,owner_ryosei_id,owner_ryosei_room,owner_ryosei_name,
-                          register_staff_id,register_staff_room,register_staff_name,placement);
+                          register_staff_id,register_staff_room,register_staff_name,placement,"");
                         _helper.close();}
                         else{
                             Intent others_intent = new Intent(getActivity(), Touroku_Others.class);

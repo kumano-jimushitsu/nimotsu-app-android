@@ -108,6 +108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_parcel_event.append(" ryosei_name TEXT,");
         sb_parcel_event.append(" target_event_uid TEXT,");
         sb_parcel_event.append(" note TEXT,");
+        sb_parcel_event.append(" is_after_fixed_time INTEGER DEFAULT 0,");
         sb_parcel_event.append(" is_finished INTEGER DEFAULT 0,");
         sb_parcel_event.append(" is_deleted INTEGER DEFAULT 0,");
         sb_parcel_event.append(" sharing_status TEXT");
@@ -615,7 +616,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String register_staff_uid,
             String register_staff_room_name,
             String register_staff_ryosei_name,
-            int placement) {
+            int placement,
+            String note) {
         String uuid = UUID.randomUUID().toString();
         StringBuilder sb_insert_Parcel = new StringBuilder();
         sb_insert_Parcel.append("insert into parcels (" +
@@ -642,10 +644,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(sql_insert_test_parcel);
 
 
-        nimotsuCountAdder(db, owner_uid);
-        event_add_touroku(db, owner_uid, owner_room, owner_ryosei_name);
+        nimotsuCountAdder(db, owner_uid);//ryoseiテーブルの更新
+        event_add_touroku(db, string_register_time,uuid,owner_uid, owner_room, owner_ryosei_name, note);//eventテーブルの更新
     }
 
+    /*
     public void addParcelOthers(
             SQLiteDatabase db,
             String owner_uid,
@@ -684,16 +687,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(sql_insert_test_parcel);
 
         nimotsuCountAdder(db, owner_uid);
-        event_add_touroku(db, owner_uid, owner_room, owner_ryosei_name);
+        event_add_touroku(db,string_register_time, uuid,owner_uid, owner_room, owner_ryosei_name);
     }
+    */
 
     public void event_add_touroku(
             SQLiteDatabase db,
+            String created_at,
+            String parcel_uid,
             String ryosei_id,
             String room_name,
-            String ryosei_name) {
+            String ryosei_name,
+            String note
+            ) {
         StringBuilder sb_insert_Parcel = new StringBuilder();
+
+        String uuid = UUID.randomUUID().toString();
         sb_insert_Parcel.append("insert into parcel_event (" +
+                "uid," +
                 "created_at," +
                 "event_type," +
                 "parcel_uid," +
@@ -703,6 +714,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "sharing_status" +
                 ") values (");
 
+        sb_insert_Parcel.append(" \"" + uuid + "\",");
         // 現在日時情報で初期化されたインスタンスの生成
         Date dateObj = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
@@ -1201,8 +1213,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             for (enum_event column : enum_event.values()) {
                 String col = column.toString();
                 String val = cursor.getString(cursor.getColumnIndex(col));
+                json_str += "\"";
                 json_str += col;
-                json_str += ": ";
+                json_str += "\": ";
                 if (column.getCode() == 1 && val != null) json_str += "\"";
                 json_str += val;
                 if (column.getCode() == 1 && val != null) json_str += "\"";

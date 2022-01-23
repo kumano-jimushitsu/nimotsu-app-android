@@ -10,6 +10,7 @@ public enum enum_event {
     ryosei_name(1),
     target_event_uid(1),
     note(1),
+    is_after_fixed_time(100),
     is_finished(100),
     is_deleted(100),
     sharing_status(100);

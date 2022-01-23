@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void eventLogshow() {
         List<Map<String, String>> show_eventlist = new ArrayList<>();
-        String sql = "SELECT uid, created_at, event_type, parcel_uid, room_name, ryosei_name, target_event_uid,is_deleted FROM parcel_event where is_deleted = 0 order by uid desc limit 100";
+        String sql = "SELECT uid, created_at, event_type, parcel_uid, room_name, ryosei_name, target_event_uid,is_deleted FROM parcel_event where is_deleted = 0 order by created_at desc limit 100";
         Cursor cursor = db.rawQuery(sql, null);
         show_eventlist.clear();
         while (cursor.moveToNext()) {

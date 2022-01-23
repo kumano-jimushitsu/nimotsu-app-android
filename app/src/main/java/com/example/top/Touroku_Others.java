@@ -91,7 +91,7 @@ public class Touroku_Others extends AppCompatActivity {
                 //その他の荷物を追加
                 _helper = new com.example.top.DatabaseHelper(getApplicationContext());
                 SQLiteDatabase db = _helper.getWritableDatabase();
-                _helper.addParcelOthers(db,owner_ryosei_id,owner_ryosei_room,owner_ryosei_name,
+                _helper.addParcel(db,owner_ryosei_id,owner_ryosei_room,owner_ryosei_name,
                         register_staff_id,register_staff_room,register_staff_name,Integer.parseInt(placement),input_detail);
                 _helper.close();
                 Toast.makeText(Touroku_Others.this, owner_ryosei_room +" "+owner_ryosei_name +"に"+input_detail+"の荷物を登録しました。", Toast.LENGTH_SHORT).show();
