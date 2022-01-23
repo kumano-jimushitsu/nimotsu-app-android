@@ -218,7 +218,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/change_jimuto"
-            android:contentDescription="泊まり事務当モードに移行します"
+            android:contentDescription="事務当を交代します"
             app:layout_constraintTop_toTopOf="parent"
             app:rippleColor="@color/teal_200"
             tools:layout_editor_absoluteX="1020dp" />

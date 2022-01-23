@@ -87,6 +87,7 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         SQLiteDatabase db = _helper.getWritableDatabase();
 
     }
+    /*
     public void show_ryosei (String block){
         show_list.clear();
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
@@ -141,6 +142,8 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         ListView listListener = findViewById(R.id.double_jimuto_change_ryosei_list);
         listListener.setOnItemClickListener(new Double_Jimuto_Change.ListRyoseiClickListener());
     }
+    */
+
     public void show_block_ryosei (String block){
         show_list.clear();
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。

@@ -627,7 +627,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ") values ('");
         sb_insert_Parcel.append(uuid + "','");
         sb_insert_Parcel.append(owner_uid + "',");
-        sb_insert_Parcel.append(" \"" + owner_room + " \",");
+        sb_insert_Parcel.append(" \"" + owner_room + "\",");
         sb_insert_Parcel.append(" \"" + owner_ryosei_name + "\",");
         // 現在日時情報で初期化されたインスタンスの生成
         Date dateObj = new Date();
@@ -644,8 +644,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(sql_insert_test_parcel);
 
 
-        nimotsuCountAdder(db, owner_uid);//ryoseiテーブルの更新
-        event_add_touroku(db, string_register_time,uuid,owner_uid, owner_room, owner_ryosei_name, note);//eventテーブルの更新
+        nimotsuCountAdder(db, owner_uid);//ryoseiテーブルの更新(update)
+        event_add_touroku(db, string_register_time,uuid,owner_uid, owner_room, owner_ryosei_name, note);//eventテーブルの更新(update)
     }
 
     /*
@@ -711,24 +711,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "ryosei_uid," +
                 "room_name," +
                 "ryosei_name," +
+                "note,"+
                 "sharing_status" +
                 ") values (");
 
         sb_insert_Parcel.append(" \"" + uuid + "\",");
-        // 現在日時情報で初期化されたインスタンスの生成
-        Date dateObj = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
-        // 日時情報を指定フォーマットの文字列で取得
-        String string_register_time = format.format(dateObj);
-        sb_insert_Parcel.append(" \"" + string_register_time + "\",");
-        sb_insert_Parcel.append(" \"" + 1 + " \",");
-        Cursor cursor = db.rawQuery("SELECT uid FROM parcels ORDER BY register_datetime DESC LIMIT 1", null);
-        cursor.moveToFirst();
-        String uid_str = String.valueOf(cursor.getInt(cursor.getColumnIndex("uid")));
-        sb_insert_Parcel.append(" \"" + uid_str + " \",'");
-        sb_insert_Parcel.append(ryosei_id + "',");
-        sb_insert_Parcel.append(" \"" + room_name + " \",");
-        sb_insert_Parcel.append(" \"" + ryosei_name + "\",'10')");
+        sb_insert_Parcel.append(" \"" + created_at + "\",");
+        sb_insert_Parcel.append(" \"" + 1 + "\",");
+        sb_insert_Parcel.append(" \"" + parcel_uid + "\",");
+        sb_insert_Parcel.append(" \""+ryosei_id +"\",");
+        sb_insert_Parcel.append(" \"" + room_name + "\",");
+        sb_insert_Parcel.append(" \"" + ryosei_name + "\",");
+        sb_insert_Parcel.append(" \"" + note + "\",");
+        sb_insert_Parcel.append(" 10);");
+
         String sql_insert_event = sb_insert_Parcel.toString();
         db.execSQL(sql_insert_event);
 

@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
         ListView listListener = findViewById(R.id.event_show);
         listListener.setOnItemClickListener(new EventShowListener());
     }
-
+/*
     public void onReturnJimutoValue(String value, String id) {
         jimuto_id = id;
 
@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         TextView jimuto_show = findViewById(R.id.main_jimutou_show);
         jimuto_show.setText(jimuto_room + " " + jimuto_name);
     }
-
+*/
     private class QRScanListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
@@ -296,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
+/*
     private class JimutoChangeListener implements AdapterView.OnClickListener {
         @Override
         public void onClick(View view) {
@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(jimuto_intent, JIMUTOCHANGE_ACTIVITY);
         }
     }
-
+*/
     private class DoubleJimutoChangeListener implements AdapterView.OnClickListener {
         @Override
         public void onClick(View view) {
