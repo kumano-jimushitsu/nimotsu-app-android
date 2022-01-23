@@ -40,7 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //parcelsテーブルの登録
         StringBuilder sb_parcels = new StringBuilder();
         sb_parcels.append("CREATE TABLE parcels (");
-        sb_parcels.append(" uid TEXT PRIMARY KEY,");
+        sb_parcels.append(" uid TEXT NOT NULL PRIMARY KEY,");
         sb_parcels.append(" a TEXT,");
         sb_parcels.append(" owner_uid TEXT,");
         sb_parcels.append(" owner_room_name TEXT,");
@@ -1095,20 +1095,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sql = "update parcels set is_deleted=1, sharing_status='10' where uid ='" + parcel_id + "'";
         db.execSQL(sql);
     }
-
-
-    public String select_ryosei_show_json(SQLiteDatabase db, int type) {
+    public String select_show_json(SQLiteDatabase db, int type,String table) {
         //owner_idの寮生を取得
         String sql;
         //owner_idの寮生を取得
         if (type == 1) {
-            sql = "SELECT *  FROM ryosei order by uid Limit 5";
+            sql = "SELECT *  FROM "+table+" order by uid Limit 5";
         } else if (type == 10) {
-            sql = "SELECT *  FROM ryosei where sharing_status = '10' order by uid Limit 5";
+            sql = "SELECT *  FROM "+table+" where sharing_status = '10' order by uid Limit 5";
         } else if (type == 11) {
-            sql = "SELECT *  FROM ryosei where sharing_status = '11' order by uid Limit 5";
+            sql = "SELECT *  FROM "+table+" where sharing_status = '11' order by uid Limit 5";
         } else {
-            sql = "SELECT *  FROM ryosei order by uid Limit 10";
+            sql = "SELECT *  FROM "+table+" order by uid Limit 10";
         }
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
@@ -1119,16 +1117,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         while (cursor.moveToNext()) {
             json_str += "{\n";
-            for (enum_ryosei column : enum_ryosei.values()) {
-                String col = column.toString();
-                String val = cursor.getString(cursor.getColumnIndex(col));
-                json_str += "\"";
-                json_str += col;
-                json_str += "\": ";
-                if (column.getCode() == 1 && val != null) json_str += "\"";
-                json_str += val;
-                if (column.getCode() == 1 && val != null) json_str += "\"";
-                json_str += ",\n";
+            if(table=="ryosei"){
+                for (enum_ryosei column : enum_ryosei.values()) {
+                    String col = column.toString();
+                    String val = cursor.getString(cursor.getColumnIndex(col));
+                    json_str += "\"";
+                    json_str += col;
+                    json_str += "\": ";
+                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    json_str += val;
+                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    json_str += ",\n";
+                }
+            }else if(table=="parcels"){
+                for (enum_parcels column : enum_parcels.values()) {
+                    String col = column.toString();
+                    String val = cursor.getString(cursor.getColumnIndex(col));
+                    json_str += "\"";
+                    json_str += col;
+                    json_str += "\": ";
+
+                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    json_str += val;
+                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    json_str += ",\n";
+                }
+            }else if(table=="parcel_event"){
+                for (enum_event column : enum_event.values()) {
+                    String col = column.toString();
+                    String val = cursor.getString(cursor.getColumnIndex(col));
+                    json_str += "\"";
+                    json_str += col;
+                    json_str += "\": ";
+                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    json_str += val;
+                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    json_str += ",\n";
+                }
             }
             //末尾からカンマを削除
             json_str = json_str.substring(0, json_str.length() - 2);
@@ -1141,94 +1166,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         json_str += "]";
         return json_str;
     }
-
-    public String select_parcels_show_json(SQLiteDatabase db, int type) {
-        String sql;
-        //owner_idの寮生を取得
-        if (type == 1) {
-            sql = "SELECT *  FROM parcels order by uid Limit 5";
-        } else if (type == 10) {
-            sql = "SELECT *  FROM parcels where sharing_status = '10' order by uid Limit 5";
-        } else if (type == 11) {
-            sql = "SELECT *  FROM parcels where sharing_status = '11' order by uid Limit 5";
-        } else {
-            sql = "SELECT *  FROM parcels order by uid Limit 10";
-        }
-        // SQLの実行。
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor.getCount() == 0) return "";
-
-        String json_str = "[\n";
-
-        while (cursor.moveToNext()) {
-            json_str += "{\n";
-            for (enum_parcels column : enum_parcels.values()) {
-                String col = column.toString();
-                String val = cursor.getString(cursor.getColumnIndex(col));
-                json_str += "\"";
-                json_str += col;
-                json_str += "\": ";
-
-                if (column.getCode() == 1 && val != null) json_str += "\"";
-                json_str += val;
-                if (column.getCode() == 1 && val != null) json_str += "\"";
-                json_str += ",\n";
-            }
-            //末尾からカンマを削除
-            json_str = json_str.substring(0, json_str.length() - 2);
-            json_str += "\n";
-            json_str += "},\n";
-
-        }
-        json_str = json_str.substring(0, json_str.length() - 2);
-        json_str += "\n";
-        json_str += "]";
-        return json_str;
-    }
-
-    public String select_event_show_json(SQLiteDatabase db, int type) {
-        //owner_idの寮生を取得
-        String sql;
-        //owner_idの寮生を取得
-        if (type == 1) {
-            sql = "SELECT *  FROM parcel_event order by uid Limit 50";
-        } else if (type == 10) {
-            sql = "SELECT *  FROM parcel_event where sharing_status = '10' order by uid Limit 50";
-        } else if (type == 11) {
-            sql = "SELECT *  FROM parcel_event where sharing_status = '11' order by uid Limit 50";
-        } else {
-            sql = "SELECT *  FROM parcel_event order by uid Limit 50";
-        }
-        // SQLの実行。
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor.getCount() == 0) return "";
-        String json_str = "[\n";
-
-        while (cursor.moveToNext()) {
-            json_str += "{\n";
-            for (enum_event column : enum_event.values()) {
-                String col = column.toString();
-                String val = cursor.getString(cursor.getColumnIndex(col));
-                json_str += "\"";
-                json_str += col;
-                json_str += "\": ";
-                if (column.getCode() == 1 && val != null) json_str += "\"";
-                json_str += val;
-                if (column.getCode() == 1 && val != null) json_str += "\"";
-                json_str += ",\n";
-            }
-            //末尾からカンマを削除
-            json_str = json_str.substring(0, json_str.length() - 2);
-            json_str += "\n";
-            json_str += "},\n";
-
-        }
-        json_str = json_str.substring(0, json_str.length() - 2);
-        json_str += "\n";
-        json_str += "]";
-        return json_str;
-    }
-
     public String returnStatus(SQLiteDatabase db, String table, String uid) {
         Cursor cursor = db.rawQuery("SELECT sharing_status FROM " + table + " WHERE uid = " + "'" + uid + "'", null);
         String result_sharing_status = null;
@@ -1272,6 +1209,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
     }
 
+    public void jimuto_change_event(SQLiteDatabase db, String ryosei_id){
+        //先にryosei_idから部屋番号と氏名を取得
+        Cursor cursor = db.rawQuery("SELECT room_name,ryosei_name FROM ryosei where uid='"+ryosei_id+"';", null);
+        String room_name;
+        String ryosei_name;
+        try {
+                cursor.moveToNext();
+                // カラムのインデックス値を取得。
+                // カラムのインデックス値を元に実際のデータを取得。
+                room_name= cursor.getString(cursor.getColumnIndex("room_name"));
+                ryosei_name= cursor.getString(cursor.getColumnIndex("ryosei_name"));
+
+
+            //
+            // 現在日時情報で初期化されたインスタンスの生成
+            Date dateObj = new Date();
+            String event_id= UUID.randomUUID().toString();
+            SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+            String created_at = format.format(dateObj);
+            String sql = "insert into parcel_event(uid,created_at,event_type,ryosei_uid,room_name,ryosei_name,target_event_uid,is_finished,sharing_status)";
+            sql += "values('";
+            sql += event_id+"','"+created_at + "',10,'" + ryosei_id + "',";
+            sql += "'" + room_name + "',";
+            sql += "'" + ryosei_name + "','";
+            sql += event_id + "',1,'10');";
+            db.execSQL(sql);
+        } finally {
+            cursor.close();
+        }
+
+    }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 

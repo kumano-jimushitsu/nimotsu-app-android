@@ -456,6 +456,12 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         jimuto_name.setText("ただいまの事務当番は "+value+" です。");
         jimuto_room_name = value;
         jimuto_id = id;
+
+        Intent jimuto_intent = new Intent();
+        jimuto_intent.putExtra("Jimuto_room_name", jimuto_room_name);
+        jimuto_intent.putExtra("Jimuto_id", jimuto_id);
+        setResult(RESULT_OK,jimuto_intent);
+        finish();
     }
 
 

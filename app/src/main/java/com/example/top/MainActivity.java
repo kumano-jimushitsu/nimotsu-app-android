@@ -160,34 +160,29 @@ public class MainActivity extends AppCompatActivity {
             switch (event_type_int) {
                 case 1://荷物登録
                     text = "受け取り   ";
-                    index = cursor.getColumnIndex("room_name");
-                    text += cursor.getString(index);
-                    index = cursor.getColumnIndex("ryosei_name");
-                    text += "    ";
-                    text += cursor.getString(index);
-                    index = cursor.getColumnIndex("created_at");
-                    text += "  " + cursor.getString(index);
-                    event_raw.put("id", event_id);
-                    event_raw.put("text", text);
-                    show_eventlist.add(event_raw);
                     break;
                 case 2://荷物受取
                     text = "引き渡し   ";
-                    index = cursor.getColumnIndex("room_name");
-                    text += cursor.getString(index);
-                    index = cursor.getColumnIndex("ryosei_name");
-                    text += "    ";
-                    text += cursor.getString(index);
-                    index = cursor.getColumnIndex("created_at");
-                    text += "  " + cursor.getString(index);
-                    event_raw.put("id", event_id);
-                    event_raw.put("text", text);
-                    show_eventlist.add(event_raw);
+
                     break;
                 case 3://イベント削除：表示しなくてもいいかもね
                     //text="イベントが削除されました";
                     break;
+                case 10:
+                    text="事務当交代 ";
+
+
             }
+            index = cursor.getColumnIndex("room_name");
+            text += cursor.getString(index);
+            index = cursor.getColumnIndex("ryosei_name");
+            text += "    ";
+            text += cursor.getString(index);
+            index = cursor.getColumnIndex("created_at");
+            text += "  " + cursor.getString(index);
+            event_raw.put("id", event_id);
+            event_raw.put("text", text);
+            show_eventlist.add(event_raw);
 
         }
         SimpleAdapter adapter = new SimpleAdapter(
@@ -522,8 +517,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void run(){
-            String json = getJsonFromDatabase();
-
+            //String json = getJsonFromDatabase();
+            String json=_helper.select_show_json(db,getSharingStatus(),table);
             OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler, json, db, _helper, method,table);
             postTask.url = postTask.url + "/" + table + "/" + method;
             postTask.setListener(createListener());
@@ -557,8 +552,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
         }
+        /*
         private String getJsonFromDatabase() {
             int sharing_status = getSharingStatus();
+
+
             switch (table) {
                 case "ryosei":
                     return _helper.select_ryosei_show_json(db, sharing_status);
@@ -569,7 +567,11 @@ public class MainActivity extends AppCompatActivity {
                 default:
                     return "";
             }
+
+
         }
+
+         */
         private int getSharingStatus() {
             switch(method){
                 case "create":
@@ -617,12 +619,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             // 主キーによる検索SQL文字列の用意。
-            String json = getJsonFromDatabase();
+//            String json = getJsonFromDatabase();
+            String json = _helper.select_show_json(db,1,table);
             android.util.Log.d("json",json);
             android.util.Log.d("json",json);
 
         }
-
+/*
         private String getJsonFromDatabase() {
             int sharing_status = 1;
             switch (table) {
@@ -636,7 +639,10 @@ public class MainActivity extends AppCompatActivity {
                     return "";
             }
         }
+        */
     }
+
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         //インテント終了後、メイン画面に戻ったときの処理を記載する部分
@@ -645,10 +651,12 @@ public class MainActivity extends AppCompatActivity {
             case JIMUTOCHANGE_ACTIVITY:
                 jimuto_id = intent.getStringExtra("Jimuto_id");
                 String[] newStr = intent.getStringExtra("Jimuto_room_name").split("\\s+");
+                //jimuto_room_nameには、A303 前田敏貴 のような形で入っている
                 jimuto_room = newStr[0];
                 jimuto_name = newStr[1];
                 TextView jimuto_show = findViewById(R.id.main_jimutou_show);
                 jimuto_show.setText(jimuto_room + " " + jimuto_name);
+                _helper.jimuto_change_event(db,jimuto_id);
             case EVENT_REFRESH_ACTIVITY:
                 boolean event_update = intent.getBooleanExtra("EventRefresh", false);
                 eventLogshow();

@@ -38,9 +38,6 @@
         <activity
             android:name=".Double_Proxy_Change"
             android:exported="true" />
-        <activity
-            android:name=".Jimuto_Change"
-            android:exported="true" />
         <activity android:name=".TextActivity" />
         <activity
             android:name=".MainActivity"
