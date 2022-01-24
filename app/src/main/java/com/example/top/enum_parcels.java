@@ -19,13 +19,15 @@ public enum enum_parcels {
     release_staff_ryosei_name(1),
     checked_count(100),
     is_lost(100),
+    lost_datetime(1),
     is_returned(100),
     returned_datetime(1),
     is_operation_error(100),
     operation_error_type(100),
     note(1),
     is_deleted(100),
-    sharing_status(100);
+    sharing_status(100),
+    sharing_time(1);
     private final int code;
     enum_parcels(int i) {
         this.code=i;

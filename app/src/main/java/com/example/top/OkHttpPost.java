@@ -46,6 +46,7 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
 
         OkHttpClient client = new OkHttpClient();
 
+
         RequestBody formBody = new FormBody.Builder()
                 .add("", json)
                 .build();
@@ -58,7 +59,7 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
         try {
             Response response = client.newCall(request).execute();
             String sqlCommand = response.body().string();
-            
+
             /*
             * sqlCommand=リクエストを送るとPCから送られてくる文字列
             * これが空文字列ならOkHttpPostは二回目のリクエストを送らずnullを返す(no op)
@@ -66,14 +67,14 @@ public class OkHttpPost extends AsyncTask<String,String,String> {
             if(sqlCommand.equals("")) {
                 if (this.listener != null) {
                     listener.onReceiveResponseFromPC("");
-                    helper.updateSharingStatus(db, method,table);
+                    //helper.updateSharingStatus(db, method,table);
                 }
                 return null;
             }
 
             try {
                 db.execSQL(sqlCommand);
-                helper.updateSharingStatusFromPC(db, method,table);
+                //helper.updateSharingStatusFromPC(db, method,table);
                 listener.onReceiveResponseFromPC("Success");
             } catch (SQLException e) {
                 Log.e("ERROR", e.toString());

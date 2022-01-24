@@ -59,14 +59,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_parcels.append(" release_staff_ryosei_name TEXT,");
         sb_parcels.append(" checked_count INTEGER DEFAULT 0,");
         sb_parcels.append(" is_lost INTEGER DEFAULT 0,");
-        sb_parcels.append(" lost_datetime TEXT DEFAULT 未チェック,");
+        sb_parcels.append(" lost_datetime TEXT,");
         sb_parcels.append(" is_returned INTEGER DEFAULT 0,");
         sb_parcels.append(" returned_datetime TEXT,");
         sb_parcels.append(" is_operation_error INTEGER DEFAULT 0,");
         sb_parcels.append(" operation_error_type INTEGER,");
         sb_parcels.append(" note TEXT,");
         sb_parcels.append(" is_deleted INTEGER DEFAULT 0,");
-        sb_parcels.append(" sharing_status TEXT");
+        sb_parcels.append(" sharing_status TEXT,");
+        sb_parcels.append(" sharing_time TEXT");
 
         //release_agent_uid nvarchar(36)
         sb_parcels.append(");");
@@ -76,7 +77,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //ryoseiテーブルの登録
         StringBuilder sb_ryosei = new StringBuilder();
         sb_ryosei.append("CREATE TABLE ryosei(");
-        sb_ryosei.append(" uid TEXT PRIMARY KEY,");//
+        sb_ryosei.append(" uid TEXT not null PRIMARY KEY,");//
         sb_ryosei.append(" room_name TEXT,");//
         sb_ryosei.append(" ryosei_name TEXT,");//
         sb_ryosei.append(" ryosei_name_kana TEXT,");
@@ -91,7 +92,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_ryosei.append(" last_event_datetime TEXT,");
         sb_ryosei.append("created_at TEXT,");
         sb_ryosei.append("updated_at TEXT,");
-        sb_ryosei.append(" sharing_status TEXT");
+        sb_ryosei.append(" sharing_status TEXT,");
+        sb_ryosei.append(" sharing_time TEXT");
         sb_ryosei.append("); ");
         String sql_ryosei = sb_ryosei.toString();
         db.execSQL(sql_ryosei);
@@ -99,7 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //eventテーブルの登録
         StringBuilder sb_parcel_event = new StringBuilder();
         sb_parcel_event.append("CREATE TABLE parcel_event(");
-        sb_parcel_event.append(" uid TEXT PRIMARY KEY,");
+        sb_parcel_event.append(" uid TEXT not null PRIMARY KEY,");
         sb_parcel_event.append(" created_at TEXT,");
         sb_parcel_event.append(" event_type INTEGER,");
         sb_parcel_event.append(" parcel_uid TEXT,");
@@ -111,7 +113,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_parcel_event.append(" is_after_fixed_time INTEGER DEFAULT 0,");
         sb_parcel_event.append(" is_finished INTEGER DEFAULT 0,");
         sb_parcel_event.append(" is_deleted INTEGER DEFAULT 0,");
-        sb_parcel_event.append(" sharing_status TEXT");
+        sb_parcel_event.append(" sharing_status TEXT,");
+        sb_parcel_event.append(" sharing_time TEXT");
         sb_parcel_event.append(");");
         String sql_parcel_event = sb_parcel_event.toString();
         db.execSQL(sql_parcel_event);
@@ -600,8 +603,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     void set_createdat_forTest(SQLiteDatabase db){
+        //created_atを取得する
+        // 現在日時情報で初期化されたインスタンスの生成
+        Date dateObj = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // 日時情報を指定フォーマットの文字列で取得
+        String created_at = format.format(dateObj);
         //db.execSQL("update ryosei set created_at='2022-01-19 22:22:22.222',ryosei_name_alphabet='test',slack_id='testslack', last_event_id='testlastevid',last_event_datetime='2022-01-20 19:19:19.119', updated_at='2022-01-20 19:19:19.119';" );
-        db.execSQL("update ryosei set created_at='2022-01-19 22:22:22.222';" );
+        db.execSQL("update ryosei set created_at='"+created_at+"';" );
 
 
     }
@@ -631,7 +640,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_insert_Parcel.append(" \"" + owner_ryosei_name + "\",");
         // 現在日時情報で初期化されたインスタンスの生成
         Date dateObj = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         // 日時情報を指定フォーマットの文字列で取得
         String string_register_time = format.format(dateObj);
         sb_insert_Parcel.append(" \"" + string_register_time + "\",'");
@@ -672,7 +681,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_insert_Parcel.append(" \"" + owner_ryosei_name + "\",");
         // 現在日時情報で初期化されたインスタンスの生成
         Date dateObj = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         // 日時情報を指定フォーマットの文字列で取得
         String string_register_time = format.format(dateObj);
         sb_insert_Parcel.append(" \"" + string_register_time + "\",'");
@@ -748,7 +757,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // 現在日時情報で初期化されたインスタンスの生成
         Date dateObj = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         // 日時情報を指定フォーマットの文字列で取得
         String string_register_time = format.format(dateObj);
         sb_insert_Parcel.append(" \"" + string_register_time + "\",");
@@ -776,7 +785,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String release_staff_ryosei_name) {
         // 現在日時情報で初期化されたインスタンスの生成
         Date dateObj = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         // 日時情報を指定フォーマットの文字列で取得
         String string_register_time = format.format(dateObj);
         String oldSharingStatus = returnStatus(db, "parcels", parcels_uid);
@@ -818,7 +827,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String proxy_id) {
         // 現在日時情報で初期化されたインスタンスの生成
         Date dateObj = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         // 日時情報を指定フォーマットの文字列で取得
         String string_register_time = format.format(dateObj);
         String sql = "UPDATE parcels SET " +
@@ -1021,7 +1030,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void night_check_updater(SQLiteDatabase db, String parcels_uid) {
         // 現在日時情報で初期化されたインスタンスの生成
         Date dateObj = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String string_register_time = format.format(dateObj);
         String sql = "UPDATE parcels SET " +
                 " lost_datetime =" + " \"" + string_register_time + "\"" + ", sharing_status =" + "'10'" +
@@ -1060,7 +1069,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //created_atを取得する
         // 現在日時情報で初期化されたインスタンスの生成
         Date dateObj = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         // 日時情報を指定フォーマットの文字列で取得
         String created_at = format.format(dateObj);
 
@@ -1095,12 +1104,80 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sql = "update parcels set is_deleted=1, sharing_status='10' where uid ='" + parcel_id + "'";
         db.execSQL(sql);
     }
+    public ArrayList<String> select_for_sync(SQLiteDatabase db,String table,int length){
+        Cursor cursor = db.rawQuery("SELECT uid FROM "+table+" where sharing_status = '10' order by uid Limit "+String.valueOf(length),null);
+        ArrayList<String> uids=new ArrayList<String>();
+        while (cursor.moveToNext()) {
+            uids.add(cursor.getString(cursor.getColumnIndex("uid")));
+        }
+        return uids;
+    }
+    public String select_for_json(SQLiteDatabase db,String table,ArrayList<String> uids){
+        Cursor cursor;
+        String sql;
+        String json_str = "[\n";
+        for(String uid:uids){
+            sql="SELECT *  FROM "+table+" where uid='"+uid+"';";
+            cursor = db.rawQuery(sql, null);
+            cursor.moveToNext();
+            json_str += "{\n";
+            if(table=="ryosei"){
+                for (enum_ryosei column : enum_ryosei.values()) {
+                    String col = column.toString();
+                    String val = cursor.getString(cursor.getColumnIndex(col));
+                    json_str += "\"";
+                    json_str += col;
+                    json_str += "\": ";
+                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    json_str += val;
+                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    json_str += ",\n";
+                }
+            }else if(table=="parcels"){
+                for (enum_parcels column : enum_parcels.values()) {
+                    String col = column.toString();
+                    String val = cursor.getString(cursor.getColumnIndex(col));
+                    json_str += "\"";
+                    json_str += col;
+                    json_str += "\": ";
+
+                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    json_str += val;
+                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    json_str += ",\n";
+                }
+            }else if(table=="parcel_event"){
+                for (enum_event column : enum_event.values()) {
+                    String col = column.toString();
+                    String val = cursor.getString(cursor.getColumnIndex(col));
+                    json_str += "\"";
+                    json_str += col;
+                    json_str += "\": ";
+                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    json_str += val;
+                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    json_str += ",\n";
+                }
+            }
+            //末尾からカンマを削除
+            json_str = json_str.substring(0, json_str.length() - 2);
+            json_str += "\n";
+            json_str += "},\n";
+        }
+        if(json_str.length()>3){
+            json_str = json_str.substring(0, json_str.length() - 2);
+        }
+        json_str += "\n";
+        json_str += "]";
+        return json_str;
+    }
+
     public String select_show_json(SQLiteDatabase db, int type,String table) {
         //owner_idの寮生を取得
         String sql;
         //owner_idの寮生を取得
         if (type == 1) {
-            sql = "SELECT *  FROM "+table+" order by uid Limit 5";
+            sql = "SELECT *  FROM "+table+" order by uid Limit 50";
         } else if (type == 10) {
             sql = "SELECT *  FROM "+table+" where sharing_status = '10' order by uid Limit 5";
         } else if (type == 11) {
@@ -1110,7 +1187,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
-        if (cursor.getCount() == 0) return "";
+        //if (cursor.getCount() == 0) return "";
 
 
         String json_str = "[\n";
@@ -1161,11 +1238,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             json_str += "},\n";
 
         }
-        json_str = json_str.substring(0, json_str.length() - 2);
+        if(json_str.length()>3){
+            json_str = json_str.substring(0, json_str.length() - 2);
+        }
         json_str += "\n";
         json_str += "]";
         return json_str;
     }
+
+    public void update_sharing_status_for_success(SQLiteDatabase db,String table,ArrayList<String> uids){
+        // 現在日時情報で初期化されたインスタンスの生成
+        Date dateObj = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String now = format.format(dateObj);
+        String sql;
+        for(String uid:uids){
+            sql="update "+ table + "set sharing_status = 30, sharing_time='"+now+"' where uid = '"+uid+"';";
+            db.execSQL(sql);
+        }
+    }
+
+
     public String returnStatus(SQLiteDatabase db, String table, String uid) {
         Cursor cursor = db.rawQuery("SELECT sharing_status FROM " + table + " WHERE uid = " + "'" + uid + "'", null);
         String result_sharing_status = null;
@@ -1226,7 +1319,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // 現在日時情報で初期化されたインスタンスの生成
             Date dateObj = new Date();
             String event_id= UUID.randomUUID().toString();
-            SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String created_at = format.format(dateObj);
             String sql = "insert into parcel_event(uid,created_at,event_type,ryosei_uid,room_name,ryosei_name,target_event_uid,is_finished,sharing_status)";
             sql += "values('";

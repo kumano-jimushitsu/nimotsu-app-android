@@ -16,7 +16,8 @@ public enum enum_ryosei {
     last_event_datetime(1),
     created_at(1),
     updated_at(1),
-    sharing_status(100);
+    sharing_status(100),
+    sharing_time(1);
 
     private final int code;
     enum_ryosei(int i) {

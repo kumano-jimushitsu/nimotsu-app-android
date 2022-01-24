@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
             text += "    ";
             text += cursor.getString(index);
             index = cursor.getColumnIndex("created_at");
-            text += "  " + cursor.getString(index);
+            text += "  " + cursor.getString(index).substring(5).replace('-','/');
             event_raw.put("id", event_id);
             event_raw.put("text", text);
             show_eventlist.add(event_raw);
@@ -417,54 +417,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private class A101KumanoTourokuListener implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-
-            // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
-            SQLiteDatabase db = _helper.getWritableDatabase();
-
-            // 日時情報を指定フォーマットの文字列で取得
-            Date dateObj = new Date();
-            SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            String date = format.format(dateObj);
-            String ryousei = "A101KumanoAjiri";
-            String mada = "MadaUketottenai";
-            // インサート用SQL文字列の用意。
-            //String sqlInsert = "INSERT INTO nimotsu (time, ryosei, done) VALUES (?, ?, ?)";
-            String sqlInsert = "INSERT INTO nimotsu VALUES (?, ?, ?)";
-            // SQL文字列を元にプリペアドステートメントを取得。
-            SQLiteStatement stmt = db.compileStatement(sqlInsert);
-            // 変数のバイド。
-            stmt.bindString(1, date);
-            stmt.bindString(2, ryousei);
-            stmt.bindString(3, mada);
-            // インサートSQLの実行。
-            stmt.executeInsert();
-
-            // 主キーによる検索SQL文字列の用意。
-            String sql = "SELECT * FROM nimotsu ";
-            // SQLの実行。
-            Cursor cursor = db.rawQuery(sql, null);
-            // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
-            String note = "";
-            // SQL実行の戻り値であるカーソルオブジェクトをループさせてデータベース内のデータを取得。
-            while (cursor.moveToNext()) {
-                // カラムのインデックス値を取得。
-                int dateNote = cursor.getColumnIndex("time");
-                // カラムのインデックス値を元に実際のデータを取得。
-                note += cursor.getString(dateNote);
-                int ryouseiNote = cursor.getColumnIndex("ryosei");
-                note += cursor.getString(ryouseiNote);
-                int ryouseiStatus = cursor.getColumnIndex("done");
-                note += cursor.getString(ryouseiStatus);
-                note += "\n";
-
-                touchsound.playsoundTwo();
-            }
-        }
-    }
-
     /*
     public class HttpTask extends AsyncTask<Integer,Integer,Integer>{
         String result;
@@ -518,31 +470,51 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run(){
             //String json = getJsonFromDatabase();
-            String json=_helper.select_show_json(db,getSharingStatus(),table);
-            OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler, json, db, _helper, method,table);
-            postTask.url = postTask.url + "/" + table + "/" + method;
-            postTask.setListener(createListener());
-            postTask.execute();
+            //一旦一度に同期するのは5つ分と決めるが、後から変えられるように作る
+            //allaylistにuidを格納する
+            int uids_per_one_sync=2;
+            boolean onemore=true;
+            OkHttpPost.Listener oklis=createListener();
 
-            while (true) {
-                if (this.result == null) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+            while(onemore) {//PC側にデータが残っているorタブレット側にデータが残っている限り回り続けるwhile
+                ArrayList<String> uids_for_sync = _helper.select_for_sync(db, table, uids_per_one_sync);
+                onemore = (uids_per_one_sync == uids_for_sync.size());//タブレット側で同期すべきデータが尽きたら、ArrayListに5個格納されなくなりfalseになる
+
+                String json = _helper.select_for_json(db, table, uids_for_sync);
+                OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler, json, db, _helper, method, table);
+                postTask.url = postTask.url + "/" + table + "/" + method;
+                postTask.setListener(oklis);
+                postTask.execute();
+
+                //待機（通信が返ってきたらthis.resultが更新される）
+                int c=0;
+                while (c<1000) {
+                    if (this.result == null) {
+                        try {
+                            Thread.sleep(100);
+                            c++;
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (this.result.equals("Success")) {
+                        //PC側にデータが残っている場合（
+                        _helper.update_sharing_status_for_success(db,table,uids_for_sync);
+                        result = null;
+                        onemore=true;
+                        break;
+                    } else if (this.result.equals("")) {
+                        //PC側にデータが残っていない
+                        _helper.update_sharing_status_for_success(db,table,uids_for_sync);
+                        result = null;
+                        break;
                     }
-                } else if (this.result.equals("Success")) {
-                    result = null;
-                    break;
-                } else if (this.result.equals("")) {
-                    result = null;
-                    return;
                 }
+                /*
+                OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler, method + "Success", db, _helper, method, table);
+                postTask2.url = postTask2.url + "/" + table + "/check";
+                postTask2.execute();
+                */
             }
-
-            OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler, method + "Success", db, _helper, method,table);
-            postTask2.url = postTask2.url + "/" + table + "/check";
-            postTask2.execute();
         }
         private OkHttpPost.Listener createListener() {
             return new OkHttpPost.Listener() {

@@ -13,7 +13,8 @@ public enum enum_event {
     is_after_fixed_time(100),
     is_finished(100),
     is_deleted(100),
-    sharing_status(100);
+    sharing_status(100),
+    sharing_time(1);
     private final int code;
     enum_event(int i) {
         this.code=i;
