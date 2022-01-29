@@ -474,7 +474,6 @@ public class MainActivity extends AppCompatActivity {
             //allaylistにuidを格納する
             int uids_per_one_sync=2;
             boolean onemore=true;
-            OkHttpPost.Listener oklis=createListener();
 
             while(onemore) {//PC側にデータが残っているorタブレット側にデータが残っている限り回り続けるwhile
                 ArrayList<String> uids_for_sync = _helper.select_for_sync(db, table, uids_per_one_sync);
@@ -483,7 +482,7 @@ public class MainActivity extends AppCompatActivity {
                 String json = _helper.select_for_json(db, table, uids_for_sync);
                 OkHttpPost postTask = new OkHttpPost(MainActivity.this, handler, json, db, _helper, method, table);
                 postTask.url = postTask.url + "/" + table + "/" + method;
-                postTask.setListener(oklis);
+                postTask.setListener(createListener());
                 postTask.execute();
 
                 //待機（通信が返ってきたらthis.resultが更新される）
@@ -509,6 +508,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                 }
+
                 /*
                 OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler, method + "Success", db, _helper, method, table);
                 postTask2.url = postTask2.url + "/" + table + "/check";
@@ -544,6 +544,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
          */
+        /*
         private int getSharingStatus() {
             switch(method){
                 case "create":
@@ -556,6 +557,8 @@ public class MainActivity extends AppCompatActivity {
                     return 0;
             }
         }
+
+         */
 
     }
 
@@ -635,15 +638,6 @@ public class MainActivity extends AppCompatActivity {
             default:
                 //ここにケースを追加！
         }
-        //同期処理部分
-//        new HttpListener(null,"parcel","insert").Listen();
-//        new HttpListener(null,"parcel","update").Listen();
-//        new HttpListener(null,"ryosei","insert").Listen();
-//        new HttpListener(null,"ryosei","update").Listen();
-//        new HttpListener(null,"parcel_event","insert").Listen();
-        //new HttpListener(null,"parcel_event","update").Listen();
-
-        //同期処理部分ここまで
 
 
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
@@ -685,6 +679,14 @@ public class MainActivity extends AppCompatActivity {
                 this.showMyDialog(null,getString(R.string.error),getString(R.string.qr_more_than_two),getString(R.string.ok),"");
             }
         }
+
+        //同期処理部分
+        new HttpTask(null,"parcels","create").execute();
+        new HttpTask(null,"ryosei","create").execute();
+        new HttpTask(null,"parcel_event","create").execute();
+
+        //同期処理部分ここまで
+
 
     }
 

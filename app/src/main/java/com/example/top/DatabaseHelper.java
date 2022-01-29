@@ -113,7 +113,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_parcel_event.append(" is_after_fixed_time INTEGER DEFAULT 0,");
         sb_parcel_event.append(" is_finished INTEGER DEFAULT 0,");
         sb_parcel_event.append(" is_deleted INTEGER DEFAULT 0,");
-        sb_parcel_event.append(" sharing_status TEXT,");
+        sb_parcel_event.append(" sharing_status INTEGER,");
         sb_parcel_event.append(" sharing_time TEXT");
         sb_parcel_event.append(");");
         String sql_parcel_event = sb_parcel_event.toString();
@@ -126,10 +126,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     void insert_test_ryoseitaikai(SQLiteDatabase db){
         StringBuilder sb_insert_test_ryosei = new StringBuilder();
         sb_insert_test_ryosei.append("insert into ryosei(uid,room_name,ryosei_name,ryosei_name_kana,block_id,sharing_status) values");
-        sb_insert_test_ryosei.append("('C66040CB-CF55-4824-AA20-0E06B38A6D0F','A101','中川雄太','なかがわゆうた',1,'10'),");
-        sb_insert_test_ryosei.append("('38E3ABBB-CEAA-4673-AE12-0A8889255329','A101','西垣健吾','にしがきけんご',1,'10'),");
-        sb_insert_test_ryosei.append("('C063BD88-6DB1-4E42-842A-0CFA00D8BFB1','A101','顧平原','ぐぴんゆあん',1,'10'),");
-        sb_insert_test_ryosei.append("('20035AD1-0CEF-4654-92B0-1C4D5CC4AE93','A101','内海武尊','うつみたける',1,'10'),");
+        sb_insert_test_ryosei.append("('C66040CB-CF55-4824-AA20-0E06B38A6D0F','A101','中川雄太','なかがわゆうた',1,10),");
+        sb_insert_test_ryosei.append("('38E3ABBB-CEAA-4673-AE12-0A8889255329','A101','西垣健吾','にしがきけんご',1,10),");
+        sb_insert_test_ryosei.append("('C063BD88-6DB1-4E42-842A-0CFA00D8BFB1','A101','顧平原','ぐぴんゆあん',1,10),");
+        sb_insert_test_ryosei.append("('20035AD1-0CEF-4654-92B0-1C4D5CC4AE93','A101','内海武尊','うつみたける',1,10),");
         /*
         sb_insert_test_ryosei.append("('F718E342-4B61-4353-A6A0-0A6A29F2A418','A102','道田蒼人','みちだそうと',1,'10'),");
         sb_insert_test_ryosei.append("('E85F9C11-3ACA-45C3-95FD-ED3C21A0AC81','A102','小口裕斗','おぐちゆうと',1,'10'),");
@@ -595,7 +595,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_insert_test_ryosei.append("('633581C4-E804-4D49-8934-626DD2CD70B1','B312','佐藤桂','さとうけい',6,'10'),");
         sb_insert_test_ryosei.append("('E9E95A10-9019-4418-A2B7-6026880976B8','C100','山戸康祐','やまとこうすけ',10,'10'),");
         */
-        sb_insert_test_ryosei.append("('FCDA8CF3-ED0D-4078-831E-91EA2A7F4429','B地下踊り場','飯田駿介','いいだしゅんすけ',10,'10');");
+        sb_insert_test_ryosei.append("('FCDA8CF3-ED0D-4078-831E-91EA2A7F4429','B地下踊り場','飯田駿介','いいだしゅんすけ',10,10);");
 
         String sql_insert_test_ryosei = sb_insert_test_ryosei.toString();
         db.execSQL(sql_insert_test_ryosei);
@@ -647,7 +647,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_insert_Parcel.append(register_staff_uid + "',");
         sb_insert_Parcel.append(" \"" + register_staff_room_name + "\",");
         sb_insert_Parcel.append(" \"" + register_staff_ryosei_name + "\",");
-        sb_insert_Parcel.append(" \"" + placement + "\",'10') ");
+        sb_insert_Parcel.append(" \"" + placement + "\",10) ");
 
         String sql_insert_test_parcel = sb_insert_Parcel.toString();
         db.execSQL(sql_insert_test_parcel);
@@ -768,7 +768,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_insert_Parcel.append(" \"" + uid_str + " \",'");
         sb_insert_Parcel.append(ryosei_id + "',");
         sb_insert_Parcel.append(" \"" + room_name + " \",");
-        sb_insert_Parcel.append(" \"" + ryosei_name + "\",'10')");
+        sb_insert_Parcel.append(" \"" + ryosei_name + "\",10)");
         String sql_insert_event = sb_insert_Parcel.toString();
         db.execSQL(sql_insert_event);
 
@@ -788,20 +788,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         // 日時情報を指定フォーマットの文字列で取得
         String string_register_time = format.format(dateObj);
-        String oldSharingStatus = returnStatus(db, "parcels", parcels_uid);
-        String newSharingStatus = updateSharingStatus(oldSharingStatus);
+        //String oldSharingStatus = returnStatus(db, "parcels", parcels_uid);
+        //String newSharingStatus = updateSharingStatus(oldSharingStatus);
         String sql = "UPDATE parcels SET " +
                 " release_staff_uid = '" + release_staff_uid + "'," +
                 " release_staff_room_name = '" + release_staff_room_name + "' ," +
                 " release_staff_ryosei_name = '" + release_staff_ryosei_name + "' ," +
                 " is_released = " + "1" + " ," +
                 " release_datetime =" + " \"" + string_register_time + "\"," +
-                "sharing_status =" + newSharingStatus + " WHERE uid = '" + parcels_uid + "'";
+                "sharing_status = 10 WHERE uid = '" + parcels_uid + "'";
         db.execSQL(sql);
         nimotsuCountSubber(db, owner_id);
         event_add_uketori(db, owner_id, owner_room, owner_ryosei_name);
     }
-
+/*
     private String updateSharingStatus(String oldSharingStatus) {
         switch (oldSharingStatus) {
             case "10":
@@ -814,6 +814,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 return "0";
         }
     }
+
+ */
 
     public void receiveParcelsProxy(
             SQLiteDatabase db,
@@ -836,8 +838,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " release_staff_ryosei_name = '" + release_staff_ryosei_name + "' ," +
                 " is_released = " + "1" + " ," +
                 " release_datetime =" + " \"" + string_register_time + "\","+
-                " release_agent_uid ='" + proxy_id +"',"
-                ;
+                " release_agent_uid ='" + proxy_id +"',"+
+                " sharing_status =10 WHERE uid ='" + parcels_uid +"'";
+
+        /*
         switch (returnStatus(db, "parcels", parcels_uid)) {
             case "10":
                 sql = sql + " sharing_status =" + "'10'" + " WHERE uid ='" + parcels_uid +"'";
@@ -849,6 +853,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 sql = sql + " sharing_status =" + "'11'" + " WHERE uid ='" + parcels_uid+"'";
                 break;
         }
+
+         */
         db.execSQL(sql);
         nimotsuCountSubber(db, owner_id);
         event_add_uketori(db, owner_id, owner_room, owner_ryosei_name);
@@ -997,7 +1003,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // カラムのインデックス値を元に実際のデータを取得。
         }
         sql = "UPDATE ryosei SET parcels_current_count =" + String.valueOf(parcels_current_count + 1)
-                + ", parcels_total_count =" + String.valueOf(parcels_total_count + 1) + ", sharing_status =" + "'10'" + " WHERE uid ='" + owner_id + "'";
+                + ", parcels_total_count =" + String.valueOf(parcels_total_count + 1) + ", sharing_status =10 WHERE uid ='" + owner_id + "'";
         db.execSQL(sql);
     }
 
@@ -1022,8 +1028,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // カラムのインデックス値を元に実際のデータを取得。
             parcels_current_count--;
         }
-        sql = "UPDATE ryosei SET parcels_current_count =" + String.valueOf(parcels_current_count) + ", sharing_status =" + "'10'"
-                + " WHERE uid ='" + owner_id + "'";
+        sql = "UPDATE ryosei SET parcels_current_count =" + String.valueOf(parcels_current_count) + ", sharing_status =10  WHERE uid ='" + owner_id + "'";
         db.execSQL(sql);
     }
 
@@ -1033,8 +1038,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String string_register_time = format.format(dateObj);
         String sql = "UPDATE parcels SET " +
-                " lost_datetime =" + " \"" + string_register_time + "\"" + ", sharing_status =" + "'10'" +
-                " WHERE uid ='" + parcels_uid + "'";
+                " lost_datetime =" + " \"" + string_register_time + "\"" + ", sharing_status =10 WHERE uid ='" + parcels_uid + "'";
         db.execSQL(sql);
     }
 
@@ -1087,7 +1091,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sql += created_at + "',3,'" + parcel_id + "','" + ryosei_id + "',";
         sql += "'" + room_name + "',";
         sql += "'" + ryosei_name + "','";
-        sql += event_id + "',1,'10');";
+        sql += event_id + "',1,10);";
         db.execSQL(sql);
 
         //ryosei
@@ -1095,17 +1099,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 parcels_total_count +
                 ",parcels_current_count=" +
                 parcels_current_count +
-                ",sharing_status=" +
-                "10"
-                + " where uid='" + ryosei_id + "'";
+                ",sharing_status= 10 where uid='" + ryosei_id + "'";
         db.execSQL(sql);
 
         //parcels
-        sql = "update parcels set is_deleted=1, sharing_status='10' where uid ='" + parcel_id + "'";
+        sql = "update parcels set is_deleted=1, sharing_status=10 where uid ='" + parcel_id + "'";
         db.execSQL(sql);
     }
     public ArrayList<String> select_for_sync(SQLiteDatabase db,String table,int length){
-        Cursor cursor = db.rawQuery("SELECT uid FROM "+table+" where sharing_status = '10' order by uid Limit "+String.valueOf(length),null);
+        Cursor cursor = db.rawQuery("SELECT uid FROM "+table+" where sharing_status<30 order by uid Limit "+String.valueOf(length),null);
         ArrayList<String> uids=new ArrayList<String>();
         while (cursor.moveToNext()) {
             uids.add(cursor.getString(cursor.getColumnIndex("uid")));
@@ -1179,9 +1181,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (type == 1) {
             sql = "SELECT *  FROM "+table+" order by uid Limit 50";
         } else if (type == 10) {
-            sql = "SELECT *  FROM "+table+" where sharing_status = '10' order by uid Limit 5";
+            sql = "SELECT *  FROM "+table+" where sharing_status = 10 order by uid Limit 5";
         } else if (type == 11) {
-            sql = "SELECT *  FROM "+table+" where sharing_status = '11' order by uid Limit 5";
+            sql = "SELECT *  FROM "+table+" where sharing_status = 11 order by uid Limit 5";
         } else {
             sql = "SELECT *  FROM "+table+" order by uid Limit 10";
         }
@@ -1253,7 +1255,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String now = format.format(dateObj);
         String sql;
         for(String uid:uids){
-            sql="update "+ table + "set sharing_status = 30, sharing_time='"+now+"' where uid = '"+uid+"';";
+            sql="update "+ table + " set sharing_status = 30, sharing_time='"+now+"' where uid = '"+uid+"';";
             db.execSQL(sql);
         }
     }
@@ -1277,7 +1279,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return result_sharing_status;
     }
-
+/*
     public void updateSharingStatus(SQLiteDatabase db, String method,String table) {
         String sql = "update "+table+" set sharing_status = '30' where sharing_status = ";
         switch (method) {
@@ -1290,6 +1292,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
     }
 
+ */
+/*
     public void updateSharingStatusFromPC(SQLiteDatabase db, String method,String table) {
         String sql = "update "+table+" set sharing_status = '30' where sharing_status = ";
         switch (method) {
@@ -1301,6 +1305,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         db.execSQL(sql);
     }
+
+ */
 
     public void jimuto_change_event(SQLiteDatabase db, String ryosei_id){
         //先にryosei_idから部屋番号と氏名を取得
@@ -1326,7 +1332,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             sql += event_id+"','"+created_at + "',10,'" + ryosei_id + "',";
             sql += "'" + room_name + "',";
             sql += "'" + ryosei_name + "','";
-            sql += event_id + "',1,'10');";
+            sql += event_id + "',1,10);";
             db.execSQL(sql);
         } finally {
             cursor.close();
