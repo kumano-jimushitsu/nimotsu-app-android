@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
 
 import androidx.annotation.NonNull;
 
@@ -134,7 +133,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String register_staff_ryosei_name,
             int placement,
             String note) {
-        String uuid = UUID.randomUUID().toString();
+        String uuid = UUID.randomUUID().toString();//parcelsのuid
 
         // 現在日時情報で初期化されたインスタンスの生成
         Date dateObj = new Date();
@@ -183,21 +182,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
     public void register_ryosei(SQLiteDatabase db, String owner_id) {
-        int parcels_current_count = 0;
-        int parcels_total_count = 0;
         //寮生に荷物カウントを追加する。
 
         //owner_idの寮生を取得
         String sql = "SELECT parcels_current_count, parcels_total_count FROM ryosei  WHERE uid = '" + owner_id + "'";
-        // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
 
 
-        while (cursor.moveToNext()) {
-            parcels_current_count = cursor.getInt(cursor.getColumnIndex("parcels_current_count"));
-            parcels_total_count = cursor.getInt(cursor.getColumnIndex("parcels_total_count"));
+        cursor.moveToNext();
+        int parcels_current_count = cursor.getInt(cursor.getColumnIndex("parcels_current_count"));
+        int parcels_total_count = cursor.getInt(cursor.getColumnIndex("parcels_total_count"));
             // カラムのインデックス値を元に実際のデータを取得。
-        }
+
         sql = "UPDATE ryosei SET parcels_current_count =" + String.valueOf(parcels_current_count + 1)
                 + ", parcels_total_count =" + String.valueOf(parcels_total_count + 1) + ", sharing_status =10 WHERE uid ='" + owner_id + "'";
         db.execSQL(sql);
@@ -284,13 +280,73 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void event_add_uketori(
+
+//受取の関数ポータル。ここからデータベース3つを更新する。agent_uidは、代理受取でない場合は""（空白文字）が来る）
+    public void release(
             SQLiteDatabase db,
+            String owner_id,
+            String owner_room,
+            String owner_ryosei_name,
+            String parcels_uid,
+            String release_staff_uid,
+            String release_staff_room_name,
+            String release_staff_ryosei_name,
+            String agent_uid) {
+        // 現在日時情報で初期化されたインスタンスの生成
+        Date dateObj = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // 日時情報を指定フォーマットの文字列で取得
+        String release_time = format.format(dateObj);
+
+        release_parcels(db,parcels_uid,release_staff_uid,release_staff_room_name,release_staff_ryosei_name,release_time,agent_uid);
+        release_ryosei(db, owner_id);
+        release_event(db, release_time,parcels_uid,owner_id, owner_room, owner_ryosei_name);
+    }
+    public void release_parcels(
+            SQLiteDatabase db,
+            String parcels_uid,
+            String release_staff_uid,
+            String release_staff_room_name,
+            String release_staff_ryosei_name,
+            String release_time,
+            String agent_uid){
+        String sql = "UPDATE parcels SET " +
+                " release_staff_uid = '" + release_staff_uid + "'," +
+                " release_staff_room_name = '" + release_staff_room_name + "' ," +
+                " release_staff_ryosei_name = '" + release_staff_ryosei_name + "' ," +
+                " is_released = 1," +
+                " release_datetime =" + "'" + release_time + "',";
+        if(agent_uid!="")sql+="agent_uid='"+agent_uid+"',";
+        sql += "sharing_status = 10 WHERE uid = '" + parcels_uid + "';";
+        db.execSQL(sql);
+    }
+
+    public void release_ryosei(SQLiteDatabase db, String owner_id) {
+
+        //owner_idの寮生を取得
+        String sql = "SELECT parcels_current_count FROM ryosei  WHERE uid = '" + owner_id + "'";
+        // SQLの実行。
+        Cursor cursor = db.rawQuery(sql, null);
+
+        cursor.moveToFirst();
+        int parcels_current_count = cursor.getInt(cursor.getColumnIndex("parcels_current_count"));
+
+        sql = "UPDATE ryosei SET parcels_current_count =" + String.valueOf(parcels_current_count -1) + ", sharing_status =10  WHERE uid ='" + owner_id + "'";
+        db.execSQL(sql);
+    }
+
+    public void release_event(
+            SQLiteDatabase db,
+            String created_at,
+            String parcel_id,
             String ryosei_id,
             String room_name,
+
             String ryosei_name) {
+        String uuid = UUID.randomUUID().toString();
         StringBuilder sb_insert_Parcel = new StringBuilder();
         sb_insert_Parcel.append("insert into parcel_event (" +
+                "uid,"+
                 "created_at," +
                 "event_type," +
                 "parcel_uid," +
@@ -299,19 +355,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "ryosei_name," +
                 "sharing_status" +
                 ") values (");
-
-        // 現在日時情報で初期化されたインスタンスの生成
-        Date dateObj = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        // 日時情報を指定フォーマットの文字列で取得
-        String string_register_time = format.format(dateObj);
-        sb_insert_Parcel.append("'" + string_register_time + "',");
-        sb_insert_Parcel.append("'" + 2 + "',");
-        Cursor cursor = db.rawQuery("SELECT uid FROM parcels ORDER BY release_datetime DESC LIMIT 1", null);
-        cursor.moveToFirst();
-        String uid_str = String.valueOf(cursor.getInt(cursor.getColumnIndex("uid")));
-        sb_insert_Parcel.append("'" + uid_str + "','");
-        sb_insert_Parcel.append(ryosei_id + "',");
+        sb_insert_Parcel.append("'" + uuid+ "',");
+        sb_insert_Parcel.append("'" + created_at + "',");
+        sb_insert_Parcel.append("2,");
+        sb_insert_Parcel.append("'" + parcel_id+ "',");
+        sb_insert_Parcel.append("'" + ryosei_id + "',");
         sb_insert_Parcel.append("'" + room_name + "',");
         sb_insert_Parcel.append("'" + ryosei_name + "',10)");
         String sql_insert_event = sb_insert_Parcel.toString();
@@ -319,49 +367,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void receiveParcels(
-            SQLiteDatabase db,
-            String owner_id,
-            String owner_room,
-            String owner_ryosei_name,
-            String parcels_uid,
-            String release_staff_uid,
-            String release_staff_room_name,
-            String release_staff_ryosei_name) {
-        // 現在日時情報で初期化されたインスタンスの生成
-        Date dateObj = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        // 日時情報を指定フォーマットの文字列で取得
-        String string_register_time = format.format(dateObj);
-        //String oldSharingStatus = returnStatus(db, "parcels", parcels_uid);
-        //String newSharingStatus = updateSharingStatus(oldSharingStatus);
-        String sql = "UPDATE parcels SET " +
-                " release_staff_uid = '" + release_staff_uid + "'," +
-                " release_staff_room_name = '" + release_staff_room_name + "' ," +
-                " release_staff_ryosei_name = '" + release_staff_ryosei_name + "' ," +
-                " is_released = " + "1" + " ," +
-                " release_datetime =" + "'" + string_register_time + "'," +
-                "sharing_status = 10 WHERE uid = '" + parcels_uid + "'";
-        db.execSQL(sql);
-        nimotsuCountSubber(db, owner_id);
-        event_add_uketori(db, owner_id, owner_room, owner_ryosei_name);
-    }
-/*
-    private String updateSharingStatus(String oldSharingStatus) {
-        switch (oldSharingStatus) {
-            case "10":
-                return "10";
-            case "11":
-                return "11";
-            case "30":
-                return "11";
-            default:
-                return "0";
-        }
-    }
-
- */
-
+/*代理確認の動作確認後削除
     public void receiveParcelsProxy(
             SQLiteDatabase db,
             String owner_id,
@@ -386,26 +392,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " release_agent_uid ='" + proxy_id +"',"+
                 " sharing_status =10 WHERE uid ='" + parcels_uid +"'";
 
-        /*
-        switch (returnStatus(db, "parcels", parcels_uid)) {
-            case "10":
-                sql = sql + " sharing_status =" + "'10'" + " WHERE uid ='" + parcels_uid +"'";
-                break;
-            case "11":
-                sql = sql + " sharing_status =" + "'11'" + " WHERE uid ='" + parcels_uid+"'";
-                break;
-            case "30":
-                sql = sql + " sharing_status =" + "'11'" + " WHERE uid ='" + parcels_uid+"'";
-                break;
-        }
 
-         */
         db.execSQL(sql);
-        nimotsuCountSubber(db, owner_id);
-        event_add_uketori(db, owner_id, owner_room, owner_ryosei_name);
+        release_ryosei(db, owner_id);
+        release_event(db, owner_id, owner_room, owner_ryosei_name);
 
     }
-
+*/
 
     public List<Map<String, String>> nimotsuCountOfRyosei(SQLiteDatabase db, String owner_id) {
         //荷物IDとラベル(日時、受け取り事務当、場所）を返す。
@@ -529,30 +522,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-    public void nimotsuCountSubber(SQLiteDatabase db, String owner_id) {
-        int parcels_current_count = 1;
-        //int parcels_total_count = 0;
-        //寮生に荷物カウントを追加する。
-
-        //owner_idの寮生を取得
-        String sql = "SELECT parcels_current_count, parcels_total_count FROM ryosei  WHERE uid = '" + owner_id + "'";
-        // SQLの実行。
-        Cursor cursor = db.rawQuery(sql, null);
-
-
-        while (cursor.moveToNext()) {
-            // カラムのインデックス値を取得。
-            int index_parcels_current_count = cursor.getColumnIndex("parcels_current_count");
-            parcels_current_count = cursor.getInt(index_parcels_current_count);
-            // カラムのインデックス値を元に実際のデータを取得。
-            int index_parcels_total_count = cursor.getColumnIndex("parcels_total_count");
-            //parcels_total_count = cursor.getInt(index_parcels_total_count);
-            // カラムのインデックス値を元に実際のデータを取得。
-            parcels_current_count--;
-        }
-        sql = "UPDATE ryosei SET parcels_current_count =" + String.valueOf(parcels_current_count) + ", sharing_status =10  WHERE uid ='" + owner_id + "'";
-        db.execSQL(sql);
-    }
 
     public void night_check_updater(SQLiteDatabase db, String parcels_uid) {
         // 現在日時情報で初期化されたインスタンスの生成
