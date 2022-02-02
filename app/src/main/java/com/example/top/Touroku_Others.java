@@ -1,41 +1,18 @@
 package com.example.top;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.OnLifecycleEvent;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.View.OnClickListener;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-
-import org.w3c.dom.Text;
 
 import java.text.Normalizer;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.*;
 import java.util.regex.Pattern;
 
 public class Touroku_Others extends AppCompatActivity {
@@ -91,7 +68,7 @@ public class Touroku_Others extends AppCompatActivity {
                 //その他の荷物を追加
                 _helper = new com.example.top.DatabaseHelper(getApplicationContext());
                 SQLiteDatabase db = _helper.getWritableDatabase();
-                _helper.addParcel(db,owner_ryosei_id,owner_ryosei_room,owner_ryosei_name,
+                _helper.register(db,owner_ryosei_id,owner_ryosei_room,owner_ryosei_name,
                         register_staff_id,register_staff_room,register_staff_name,Integer.parseInt(placement),input_detail);
                 _helper.close();
                 Toast.makeText(Touroku_Others.this, owner_ryosei_room +" "+owner_ryosei_name +"に"+input_detail+"の荷物を登録しました。", Toast.LENGTH_SHORT).show();
