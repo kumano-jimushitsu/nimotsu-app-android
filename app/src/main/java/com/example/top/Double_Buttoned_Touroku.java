@@ -57,12 +57,12 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
 
         //事務当番の名前を受け取る
         Intent intent = getIntent();
-        jimuto_name_Str = intent.getStringExtra("Jimuto_name");
+        //jimuto_name_Str = intent.getStringExtra("Jimuto_name");
         jimuto_id_Str = intent.getStringExtra("Jimuto_id");
         jimuto_room_Str = intent.getStringExtra("Jimuto_room");
         //事務当番の名前を表示する
-        TextView jimuto_name =findViewById(R.id.double_jimutou_name_show);
-        jimuto_name.setText("ただいまの事務当番は " + jimuto_room_Str +" "+jimuto_name_Str+" です。");
+        TextView jimuto_name =findViewById(R.id.main_jimutou_show);
+        jimuto_name.setText("事務当番: " + jimuto_room_Str +"   ");
 
         selectedBlock = null;
 

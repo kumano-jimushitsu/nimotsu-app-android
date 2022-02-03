@@ -5,77 +5,92 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/double_buttoned_touroku_titile"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="91dp"
-        android:layout_marginTop="31dp"
-        android:text="荷物受け取りの画面です。"
-        android:textSize="30sp"
+        android:layout_height="75dp"
+        android:layout_marginStart="740dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/jimutoboder"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/main_jimutou_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="5dp"
+            android:text="設定されていません。"
+
+            android:textSize="20sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="740dp" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/double_buttoned_touroku_block_list"
+        android:layout_width="120dp"
+        android:layout_height="540dp"
+        android:layout_marginStart="172dp"
+        android:layout_marginTop="192dp"
+        android:background="@drawable/listboder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/double_buttoned_touroku_block_list"
-        android:layout_width="113dp"
-        android:layout_height="559dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="68dp"
-        android:background="@drawable/listboder"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/double_buttoned_touroku_titile" />
-
-    <ListView
         android:id="@+id/double_buttoned_touroku_room_list"
+        android:layout_width="144dp"
+        android:layout_height="540dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="192dp"
         android:background="@drawable/listboder"
-        android:layout_width="130dp"
-        android:layout_height="553dp"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="141dp"
         app:layout_constraintStart_toEndOf="@+id/double_buttoned_touroku_block_list"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/double_buttoned_touroku_ryosei_list"
-        android:layout_width="654dp"
-        android:layout_height="507dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="76dp"
+        android:layout_width="526dp"
+        android:layout_height="504dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/listboder"
         app:layout_constraintStart_toEndOf="@+id/double_buttoned_touroku_room_list"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-    <TextView
-        android:id="@+id/double_jimutou_name_show"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="91dp"
-        android:layout_marginTop="84dp"
-        android:text="TextView"
-        android:textSize="30sp"
+    <ImageButton
+        android:id="@+id/image_button_touroku"
+        android:layout_width="438dp"
+        android:layout_height="128dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/uketori_v2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/double_touroku_go_back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="896dp"
-        android:layout_marginTop="612dp"
+        android:layout_marginStart="1120dp"
+        android:layout_marginTop="652dp"
         android:text="戻る"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/double_buttoned_touroku_titile" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="25dp"
+        android:layout_width="363dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="708dp"
+        android:layout_marginTop="144dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toEndOf="@+id/double_buttoned_touroku_titile"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
 

@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, Double_Buttoned_Touroku.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
-                intent.putExtra("Jimuto_name", jimuto_name);
+                //intent.putExtra("Jimuto_name", jimuto_name);
                 startActivityForResult(intent, EVENT_REFRESH_ACTIVITY);
                 touchsound.playsoundTwo();
             }
@@ -272,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, Double_Buttoned_Uketori.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
-                intent.putExtra("Jimuto_name", jimuto_name);
+                //intent.putExtra("Jimuto_name", jimuto_name);
                 startActivityForResult(intent, EVENT_REFRESH_ACTIVITY);
                 touchsound.playsoundTwo();
             }
@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Intent jimuto_intent = new Intent(MainActivity.this, Double_Jimuto_Change.class);
-            jimuto_intent.putExtra("Jimuto_name", jimuto_room + " " + jimuto_name);
+            jimuto_intent.putExtra("Jimuto_name", jimuto_room);
             jimuto_intent.putExtra("Jimuto_id", jimuto_id);
             startActivityForResult(jimuto_intent, JIMUTOCHANGE_ACTIVITY);
             touchsound.playsoundTwo();
@@ -339,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, Night_Duty_NimotsuFuda.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
-                intent.putExtra("Jimuto_name", jimuto_name);
+                //intent.putExtra("Jimuto_name", jimuto_name);
                 startActivityForResult(intent, EVENT_REFRESH_ACTIVITY);
                 touchsound.playsoundTwo();
             }
@@ -625,12 +625,18 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case JIMUTOCHANGE_ACTIVITY:
                 jimuto_id = intent.getStringExtra("Jimuto_id");
+                jimuto_room = intent.getStringExtra("Jimuto_room_name");
+                TextView jimuto_show = findViewById(R.id.main_jimutou_show);
+                jimuto_show.setText(jimuto_room);
+                /*
                 String[] newStr = intent.getStringExtra("Jimuto_room_name").split("\\s+");
                 //jimuto_room_nameには、A303 前田敏貴 のような形で入っている
                 jimuto_room = newStr[0];
                 jimuto_name = newStr[1];
                 TextView jimuto_show = findViewById(R.id.main_jimutou_show);
                 jimuto_show.setText(jimuto_room + " " + jimuto_name);
+
+                 */
                 _helper.jimuto_change_event(db,jimuto_id);
             case EVENT_REFRESH_ACTIVITY:
                 boolean event_update = intent.getBooleanExtra("EventRefresh", false);
