@@ -46,7 +46,7 @@ public class Nimotsu_Touroku_Dialog extends DialogFragment {
                         if(placement != 5){
                         _helper = new com.example.top.DatabaseHelper(requireContext());
                         SQLiteDatabase db = _helper.getWritableDatabase();
-                        _helper.register(db,owner_ryosei_id,owner_ryosei_room,owner_ryosei_name,
+                        _helper.register(db,owner_ryosei_id,
                           register_staff_id,register_staff_room,register_staff_name,placement,"");
                         _helper.close();}
                         else{
