@@ -153,33 +153,29 @@ public class MainActivity extends AppCompatActivity {
             }
             Map<String, String> event_raw = new HashMap<>();
             String text = "";
-            int index = cursor.getColumnIndex("uid");
-            String event_id = String.valueOf(cursor.getInt(index));
-            index = cursor.getColumnIndex("event_type");
-            int event_type_int = cursor.getInt(index);
-            switch (event_type_int) {
+
+            text += "" + cursor.getString(cursor.getColumnIndex("created_at")).substring(5).replace('-','/');
+            text += "   ";
+            switch ( cursor.getInt(cursor.getColumnIndex("event_type"))) {
                 case 1://荷物登録
-                    text = "受け取り   ";
+                    text += "受け取り       ";
                     break;
                 case 2://荷物受取
-                    text = "引き渡し   ";
+                    text += "引き渡し       ";
 
                     break;
                 case 3://イベント削除：表示しなくてもいいかもね
                     //text="イベントが削除されました";
                     break;
                 case 10:
-                    text="事務当交代 ";
-
+                    text += "事務当交代     ";
 
             }
-            index = cursor.getColumnIndex("room_name");
-            text += cursor.getString(index);
-            index = cursor.getColumnIndex("ryosei_name");
+            text += cursor.getString(cursor.getColumnIndex("room_name"));
             text += "    ";
-            text += cursor.getString(index);
-            index = cursor.getColumnIndex("created_at");
-            text += "  " + cursor.getString(index).substring(5).replace('-','/');
+            text += cursor.getString(cursor.getColumnIndex("ryosei_name"));
+
+            String event_id = String.valueOf(cursor.getInt(cursor.getColumnIndex("uid")));
             event_raw.put("id", event_id);
             event_raw.put("text", text);
             show_eventlist.add(event_raw);
