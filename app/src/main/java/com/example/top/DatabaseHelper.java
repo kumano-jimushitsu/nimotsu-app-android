@@ -410,51 +410,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(sql, null);
         while (cursor.moveToNext()) {
             Map<String, String> parcels_raw = new HashMap<>();
-            int index_id = cursor.getColumnIndex("uid");
-            int index_placement = cursor.getColumnIndex("placement");
-            int index_register_datetime = cursor.getColumnIndex("register_datetime");
-            int index_register_staff_room_name = cursor.getColumnIndex("register_staff_room_name");
-            int index_register_staff_ryosei_name = cursor.getColumnIndex("register_staff_ryosei_name");
-            int index_lost_time = cursor.getColumnIndex("lost_datetime");
+            //int index_id = cursor.getColumnIndex("uid");
+//            int index_placement = cursor.getColumnIndex("placement");
+//            int index_register_datetime = cursor.getColumnIndex("register_datetime");
+//            int index_register_staff_room_name = cursor.getColumnIndex("register_staff_room_name");
+//            int index_register_staff_ryosei_name = cursor.getColumnIndex("register_staff_ryosei_name");
+//            int index_lost_time = cursor.getColumnIndex("lost_datetime");
             int index_note = cursor.getColumnIndex("note");
-            String rabel = "";
-            String parcels_id = "";
-            String lost_datetime= "";
+            String parcels_id = cursor.getString(cursor.getColumnIndex("uid"));
+            String lost_datetime= cursor.getString(cursor.getColumnIndex("lost_datetime"));
+            String register_datetime = cursor.getString(cursor.getColumnIndex("register_datetime"));
+            String register_staff_room = cursor.getString(cursor.getColumnIndex("register_staff_room_name"));
+            String register_staff_name  = cursor.getString(cursor.getColumnIndex("register_staff_ryosei_name"));
+
+            String placement = "";
             String parcels_attribute = "";
-            parcels_id = (cursor.getString(index_id));
-            rabel += "登録日時　" + cursor.getString(index_register_datetime);
-            rabel += " ";
-            rabel += "受取事務当　" + cursor.getString(index_register_staff_room_name);
-            rabel += " ";
-            rabel += cursor.getString(index_register_staff_ryosei_name);
-            rabel += " ";
-            lost_datetime = cursor.getString(index_lost_time);
-            switch (cursor.getInt(index_placement)) {
+            switch (cursor.getInt(cursor.getColumnIndex("placement"))) {
                 case 0:
-                    rabel += "普通";
+                    placement += "普通";
                     parcels_attribute = "荷物";
                     break;
                 case 1:
-                    rabel += "冷蔵";
+                    placement += "冷蔵";
                     parcels_attribute = "冷蔵";
                     break;
                 case 2:
-                    rabel += "冷凍";
+                    placement += "冷凍";
                     parcels_attribute = "冷凍";
                     break;
                 case 3:
-                    rabel += "大型";
+                    placement += "大型";
                     parcels_attribute = "大型";
                     break;
                 case 4:
-                    rabel += "不在票";
+                    placement += "不在票";
                     parcels_attribute = "不在票";
                     break;
                 case 5:
-                    rabel += cursor.getString(index_note);
+                    placement += "その他（memo:"+cursor.getString(index_note)+")";
                     parcels_attribute = "その他";
                     break;
             }
+            String rabel = "";
+
+            rabel += register_datetime.substring(5,16).replace('-','/')+"登録   ";
+            rabel += "種類："+placement;
+            rabel += "\r\n ";
+            rabel += "     　　　　　　     (受取事務当：" + register_staff_room +")";
+
+
             parcels_raw.put("rabel", rabel);
             String look = parcels_id;
             parcels_raw.put("parcels_id", parcels_id);

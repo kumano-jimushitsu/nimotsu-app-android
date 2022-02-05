@@ -192,7 +192,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="315dp"
+        android:layout_width="320dp"
         android:layout_height="87dp"
         android:layout_marginStart="808dp"
         android:layout_marginTop="32dp"

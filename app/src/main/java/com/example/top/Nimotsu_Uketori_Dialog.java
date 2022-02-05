@@ -47,7 +47,7 @@ public class Nimotsu_Uketori_Dialog extends DialogFragment {
         for(int i =0;i < choices.size();i++){
             rabellist[i] = choices.get(i).get("rabel");
             idlist[i] = (choices.get(i).get("parcels_id"));
-            isCheckedList[i] = false;
+            isCheckedList[i] = true;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(owner_ryosei_room+" "+

@@ -537,6 +537,8 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         }
     }
 
+
+    //Listの寮生がタップされたときの処理
     private class ListRyoseiClickListener implements AdapterView.OnItemClickListener{
 
         public void onItemClick(AdapterView<?> parent, View view, int position, long id){
