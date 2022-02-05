@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
             text += "    ";
             text += cursor.getString(cursor.getColumnIndex("ryosei_name"));
 
-            String event_id = String.valueOf(cursor.getInt(cursor.getColumnIndex("uid")));
+            String event_id = cursor.getString(cursor.getColumnIndex("uid"));
             event_raw.put("id", event_id);
             event_raw.put("text", text);
             show_eventlist.add(event_raw);
@@ -197,17 +197,6 @@ public class MainActivity extends AppCompatActivity {
         ListView listListener = findViewById(R.id.event_show);
         listListener.setOnItemClickListener(new EventShowListener());
     }
-/*
-    public void onReturnJimutoValue(String value, String id) {
-        jimuto_id = id;
-
-        String[] newStr = value.split("\\s+");
-        jimuto_room = newStr[0];
-        jimuto_name = newStr[1];
-        TextView jimuto_show = findViewById(R.id.main_jimutou_show);
-        jimuto_show.setText(jimuto_room + " " + jimuto_name);
-    }
-*/
     private class QRScanListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
@@ -289,19 +278,9 @@ public class MainActivity extends AppCompatActivity {
             dialogFragment.show(getSupportFragmentManager(), "myDialog");
         }
 
+    }
 
-    }
-/*
-    private class JimutoChangeListener implements AdapterView.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            Intent jimuto_intent = new Intent(MainActivity.this, Jimuto_Change.class);
-            jimuto_intent.putExtra("Jimuto_name", jimuto_room + " " + jimuto_name);
-            jimuto_intent.putExtra("Jimuto_id", jimuto_id);
-            startActivityForResult(jimuto_intent, JIMUTOCHANGE_ACTIVITY);
-        }
-    }
-*/
+
     private class DoubleJimutoChangeListener implements AdapterView.OnClickListener {
         @Override
         public void onClick(View view) {
@@ -372,30 +351,18 @@ public class MainActivity extends AppCompatActivity {
             //TextView configshow = findViewById(R.id.showText);
             //configshow.setText(item.get("id"));
             item.get("id");
-            String sql = "SELECT uid, created_at, event_type,ryosei_uid, parcel_uid, room_name, ryosei_name, target_event_uid FROM parcel_event WHERE uid = " +
-                    item.get("id");
+            String sql = "SELECT uid, created_at, event_type,ryosei_uid, parcel_uid, room_name, ryosei_name, target_event_uid FROM parcel_event WHERE uid = '" +
+                    item.get("id") + "'";
             Cursor cursor = db.rawQuery(sql, null);
             while (cursor.moveToNext()) {
-                int index = cursor.getColumnIndex("uid");
-                event_id = String.valueOf(cursor.getInt(index));
-                index = cursor.getColumnIndex("created_at");
-                created_at = cursor.getString(index);
-                created_at = Objects.toString(created_at);
-                if (created_at == null) {
-                    created_at = "未チェック";
-                }
-                index = cursor.getColumnIndex("event_type");
-                event_type = String.valueOf(cursor.getInt(index));
-                index = cursor.getColumnIndex("parcel_uid");
-                parcel_uid = String.valueOf(cursor.getInt(index));
-                index = cursor.getColumnIndex("room_name");
-                room_name = cursor.getString(index);
-                index = cursor.getColumnIndex("ryosei_name");
-                ryosei_name = cursor.getString(index);
-                index = cursor.getColumnIndex("target_event_uid");
-                target_event_uid = String.valueOf(cursor.getInt(index));
-                index = cursor.getColumnIndex("ryosei_uid");
-                ryosei_uid = String.valueOf(cursor.getInt(index));
+                event_id = cursor.getString(cursor.getColumnIndex("uid"));
+                created_at = cursor.getString(cursor.getColumnIndex("created_at"));
+                event_type = String.valueOf(cursor.getInt(cursor.getColumnIndex("event_type")));//int型をStringにしている
+                parcel_uid = cursor.getString(cursor.getColumnIndex("parcel_uid"));
+                room_name = cursor.getString(cursor.getColumnIndex("room_name"));
+                ryosei_name = cursor.getString(cursor.getColumnIndex("ryosei_name"));
+                target_event_uid = cursor.getString(cursor.getColumnIndex("target_event_uid"));
+                ryosei_uid = cursor.getString(cursor.getColumnIndex("ryosei_uid"));
             }
 
             if (event_id == "") {
@@ -417,27 +384,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /*
-    public class HttpTask extends AsyncTask<Integer,Integer,Integer>{
-        String result;
-        String table;
-        String method;
-        public HttpTask(String result,String table, String method){
-            this.result = result;
-            this.table = table;
-            this.method = method;
 
-        }
-
-        // 非同期処理
-        @Override
-        protected Integer doInBackground(Integer... params) {
-            new HttpListener(result,table,method).Listen();
-            return 1;
-        }
-    }
-
-    */
     public class HttpTask {
         String result;
         String table;
@@ -509,11 +456,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 if(c==1000)return;
-                /*
-                OkHttpPost postTask2 = new OkHttpPost(MainActivity.this, handler, method + "Success", db, _helper, method, table);
-                postTask2.url = postTask2.url + "/" + table + "/check";
-                postTask2.execute();
-                */
+
             }
         }
         private OkHttpPost.Listener createListener() {
@@ -524,44 +467,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
         }
-        /*
-        private String getJsonFromDatabase() {
-            int sharing_status = getSharingStatus();
 
-
-            switch (table) {
-                case "ryosei":
-                    return _helper.select_ryosei_show_json(db, sharing_status);
-                case "parcels":
-                    return _helper.select_parcels_show_json(db, sharing_status);
-                case "parcel_event":
-                    return _helper.select_event_show_json(db, sharing_status);
-                default:
-                    return "";
-            }
-
-
-        }
-
-         */
-        /*
-        private int getSharingStatus() {
-            switch(method){
-                case "create":
-                    return 10;
-                case "update":
-                    return 11;
-                case "debug":
-                    return 30;
-                default:
-                    return 0;
-            }
-        }
-
-         */
 
     }
 
+    /*//開発用のボタンに対応するところなので消さない
     private class SendRequestListener implements View.OnClickListener {
         String result = null;
         String table;
@@ -578,7 +488,7 @@ public class MainActivity extends AppCompatActivity {
             /*
             HttpListener httpListener = new HttpListener(result, table, method);
             httpListener.Listen();
-            */
+
 //            new HttpListener(result, table, method).Listen();
             new HttpTask(result, table, method).execute();
         }
@@ -600,6 +510,7 @@ public class MainActivity extends AppCompatActivity {
             android.util.Log.d("json",json);
 
         }
+        */
 /*
         private String getJsonFromDatabase() {
             int sharing_status = 1;
@@ -614,9 +525,11 @@ public class MainActivity extends AppCompatActivity {
                     return "";
             }
         }
-        */
+
     }
 
+
+ */
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -628,15 +541,7 @@ public class MainActivity extends AppCompatActivity {
                 jimuto_room = intent.getStringExtra("Jimuto_room_name");
                 TextView jimuto_show = findViewById(R.id.main_jimutou_show);
                 jimuto_show.setText(jimuto_room);
-                /*
-                String[] newStr = intent.getStringExtra("Jimuto_room_name").split("\\s+");
-                //jimuto_room_nameには、A303 前田敏貴 のような形で入っている
-                jimuto_room = newStr[0];
-                jimuto_name = newStr[1];
-                TextView jimuto_show = findViewById(R.id.main_jimutou_show);
-                jimuto_show.setText(jimuto_room + " " + jimuto_name);
 
-                 */
                 _helper.jimuto_change_event(db,jimuto_id);
             case EVENT_REFRESH_ACTIVITY:
                 boolean event_update = intent.getBooleanExtra("EventRefresh", false);
@@ -665,15 +570,10 @@ public class MainActivity extends AppCompatActivity {
                 this.showMyDialog(null,getString(R.string.error),getString(R.string.qr_no_qr),getString(R.string.ok),"");
             }else if(cursor.getCount() == 1) {//QRコードがデータベースに一つある場合
                 while (cursor.moveToNext()) {
-                    int uid_index = cursor.getColumnIndex("owner_uid");
-                    int released_index = cursor.getColumnIndex("is_released");
-                    int fragile_index = cursor.getColumnIndex("feagile");
-                    int owner_room_index = cursor.getColumnIndex("owner_room_name");
-                    int owner_ryosei_index = cursor.getColumnIndex("owner_ryosei_name");
-                    uid = cursor.getString(uid_index);
-                    owner_ryosei_name = cursor.getString(owner_ryosei_index);
-                    owner_room_name = cursor.getString(owner_room_index);
-                    is_released = cursor.getInt(released_index);
+                    uid = cursor.getString(cursor.getColumnIndex("owner_uid"));
+                    owner_ryosei_name = cursor.getString(cursor.getColumnIndex("owner_ryosei_name"));
+                    owner_room_name = cursor.getString(cursor.getColumnIndex("owner_room_name"));
+                    is_released = cursor.getInt(cursor.getColumnIndex("is_released"));
                 }
 
                 if(is_released == 0){//その荷物が未受け取りの時
