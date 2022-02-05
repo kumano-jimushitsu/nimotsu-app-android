@@ -274,9 +274,8 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
             ryosei_raw.put("id",cursor.getString(idNote));
 
             // カラムのインデックス値を取得。
-            int roomNameNote = cursor.getColumnIndex("room_name");
             // カラムのインデックス値を元に実際のデータを取得。
-            note += cursor.getString(roomNameNote);
+            note += cursor.getString(cursor.getColumnIndex("room_name"));
             note += " ";
             int ryouseiNote = cursor.getColumnIndex("ryosei_name");
             note += cursor.getString(ryouseiNote);

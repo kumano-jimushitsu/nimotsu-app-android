@@ -379,7 +379,6 @@ public class MainActivity extends AppCompatActivity {
             dialogFragment.show(getSupportFragmentManager(), "Delete_Event_Dialog");
             touchsound.playsoundTwo();
 
-            _helper.close();
         }
 
     }
