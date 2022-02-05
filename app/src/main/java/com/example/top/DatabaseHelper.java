@@ -624,8 +624,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
 
         //parcels
-        sql = "update parcels set is_deleted=1, sharing_status=10 where uid ='" + parcel_id + "'";
-        db.execSQL(sql);
+        //①受取の削除の場合、is_deleted=1にする
+        //②引渡の削除の場合、is_released=0, release_agent_uid,release_datetime, release_staff_uidをnullにする
+        //      release_staff_room_nameとrelease_staff_ryosei_nameはnullにせずに残しておく。一回受取されたことがそこからも分かるかもしれない(sql分を短くしたい)
+        if(event_type.equals("1")){
+            sql = "update parcels set is_deleted=1, sharing_status=10 where uid ='" + parcel_id + "'";
+            db.execSQL(sql);
+
+        }else{
+            sql = "update parcels set is_released=0,release_agent_uid=null,release_datetime=null, release_staff_uid=null, sharing_status=10 where uid ='" + parcel_id + "'";
+            db.execSQL(sql);
+        }
     }
     public ArrayList<String> select_for_sync(SQLiteDatabase db,String table,int length){
         Cursor cursor = db.rawQuery("SELECT uid FROM "+table+" where sharing_status<30 order by uid Limit "+String.valueOf(length),null);
