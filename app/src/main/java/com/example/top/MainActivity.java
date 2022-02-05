@@ -374,6 +374,7 @@ public class MainActivity extends AppCompatActivity {
             args.putString("event_id", event_id);
             args.putString("parcel_id", parcel_uid);
             args.putString("ryosei_id", ryosei_uid);
+            args.putString("jimuto_id",jimuto_id);
             args.putString("event_type", event_type);
             dialogFragment.setArguments(args);
             dialogFragment.show(getSupportFragmentManager(), "Delete_Event_Dialog");

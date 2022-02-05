@@ -344,6 +344,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String room_name,
 
             String ryosei_name) {
+        //単にinsertするだけではなく、target_event_uidに入るregisterのeventのuidを取得し、
+        //さらに取得したregisterのレコードのis_finishedを1にupdateする必要がある
+
+        String sql = "select uid from parcel_event where is_deleted=0 and event_type = 1 and parcel_uid = '"+ parcel_id +"'";
+        Cursor cursor = db.rawQuery(sql, null);
+        cursor.moveToFirst();
+
+        String target_event_uid=cursor.getString(cursor.getColumnIndex("uid"));
+
+
+
         String uuid = UUID.randomUUID().toString();
         StringBuilder sb_insert_Parcel = new StringBuilder();
         sb_insert_Parcel.append("insert into parcel_event (" +
@@ -354,6 +365,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "ryosei_uid," +
                 "room_name," +
                 "ryosei_name," +
+                "target_event_uid,"+
                 "sharing_status" +
                 ") values (");
         sb_insert_Parcel.append("'" + uuid+ "',");
@@ -362,9 +374,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_insert_Parcel.append("'" + parcel_id+ "',");
         sb_insert_Parcel.append("'" + ryosei_id + "',");
         sb_insert_Parcel.append("'" + room_name + "',");
-        sb_insert_Parcel.append("'" + ryosei_name + "',10)");
-        String sql_insert_event = sb_insert_Parcel.toString();
-        db.execSQL(sql_insert_event);
+        sb_insert_Parcel.append("'" + ryosei_name + "',");
+        sb_insert_Parcel.append("'" + target_event_uid + "',");
+        sb_insert_Parcel.append("10)");
+        sql = sb_insert_Parcel.toString();
+        db.execSQL(sql);
+
+        sql = "update parcel_event set is_finished=1,sharing_status=10 where uid = '"+ target_event_uid +"'";
+        db.execSQL(sql);
 
     }
 
@@ -543,28 +560,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public void delete_event(SQLiteDatabase db, String event_id, String ryosei_id, String parcel_id, String event_type) {
+    public void delete_event(SQLiteDatabase db, String event_id, String ryosei_id, String parcel_id ,String jimuto_id, String event_type) {
         //event idは1 or 2が入る　1が登録のイベントを消し込むとき、2が受取のイベントを消し込むとき
 
         //room_name, ryosei_name, total_parcels_count, current_parcels_countを取得する
         String sql = "SELECT room_name, ryosei_name, parcels_total_count, parcels_current_count  FROM ryosei where uid='" + ryosei_id + "'";
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
-        cursor.moveToNext();
+        cursor.moveToFirst();
         String room_name = cursor.getString(cursor.getColumnIndex("room_name"));
         String ryosei_name = cursor.getString(cursor.getColumnIndex("ryosei_name"));
-        String parcels_total_count = cursor.getString(cursor.getColumnIndex("parcels_total_count"));
-        String parcels_current_count = cursor.getString(cursor.getColumnIndex("parcels_current_count"));
-        int parcels_TC = Integer.parseInt(parcels_total_count), parcels_CC = Integer.parseInt(parcels_current_count);
+        int parcels_total_count = cursor.getInt(cursor.getColumnIndex("parcels_total_count"));
+        int parcels_current_count = cursor.getInt(cursor.getColumnIndex("parcels_current_count"));
         if (event_type.equals("1")) {
-            parcels_TC--;
-            parcels_CC--;
+            parcels_total_count--;
+            parcels_current_count--;
         } else {
-            parcels_TC++;
-            parcels_CC++;
+            parcels_total_count++;
+            parcels_current_count++;
         }
-        parcels_total_count = String.valueOf(parcels_TC);
-        parcels_current_count = String.valueOf(parcels_CC);
 
         //created_atを取得する
         // 現在日時情報で初期化されたインスタンスの生成
@@ -579,17 +593,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //parcelstableのupdate（論理削除）
         //が必要
 
+        String new_uid= UUID.randomUUID().toString();
         //event
+        //①削除するレコードのis_deletedをupdate
         sql = "update parcel_event set is_deleted=1, sharing_status=10 where uid='" + event_id + "'";
         db.execSQL(sql);
-        sql = "insert into parcel_event(created_at,event_type,parcel_uid,ryosei_uid,room_name,ryosei_name,target_event_uid,is_finished,sharing_status)";
+        //②削除というイベント自体のレコードをinsert
+        sql = "insert into parcel_event(uid,created_at,event_type,parcel_uid,ryosei_uid,room_name,ryosei_name,target_event_uid,is_finished,sharing_status)";
         sql += "values('";
-        sql += created_at + "',3,'" + parcel_id + "','" + ryosei_id + "',";
+        sql += new_uid+"','"+created_at + "',3,'" + parcel_id + "','" + ryosei_id + "',";
         sql += "'" + room_name + "',";
         sql += "'" + ryosei_name + "','";
         sql += event_id + "',1,10);";
         db.execSQL(sql);
-
+        //③引渡の削除の場合、受取のis_finishedを0に戻す
+        if(event_type.equals("2")) {
+            sql = "select uid from parcel_event where is_deleted=0 and event_type = 1 and parcel_uid = '"+ parcel_id +"'";
+            cursor = db.rawQuery(sql, null);
+            cursor.moveToFirst();
+            String target_event_uid=cursor.getString(cursor.getColumnIndex("uid"));
+            sql = "update parcel_event set is_finished=0, sharing_status=10 where uid='" + target_event_uid + "'";
+            db.execSQL(sql);
+        }
         //ryosei
         sql = "update ryosei set parcels_total_count=" +
                 parcels_total_count +

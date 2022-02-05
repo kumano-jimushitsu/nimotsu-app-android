@@ -18,6 +18,7 @@ public class Delete_Event_Dialog extends DialogFragment {
     String event_id = "";
     String ryosei_id = "";
     String parcel_id = "";
+    String jimuto_id="";
     String event_type = "";
     private DatabaseHelper _helper;
     //int placement = 0;
@@ -29,6 +30,7 @@ public class Delete_Event_Dialog extends DialogFragment {
         ryosei_id = getArguments().getString("ryosei_id","0");
         parcel_id = getArguments().getString("parcel_id","0");
         event_id = getArguments().getString("event_id","0");
+        jimuto_id = getArguments().getString("jimuto_id","0");
         event_type = getArguments().getString("event_type","0");//文字列として処理
 
         _helper = new com.example.top.DatabaseHelper(requireContext());
@@ -52,29 +54,25 @@ public class Delete_Event_Dialog extends DialogFragment {
                 message +="　・引き渡し状況：";
                 if(cursor.getInt(cursor.getColumnIndex("is_released"))==0){
                     message+="未引渡";
-                    //ついでに、ここから引渡のダイアログを出せるようにする
+                    //ついでに、ここから引渡のダイアログを出せるようにする→したかった
+                    /*
                     builder.setNeutralButton("受取",new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             DialogFragment dialogFragment = new Nimotsu_Touroku_Dialog();
-                            String[] newStr = owner_room_name.split("\\s+");
                             Bundle args = new Bundle();
-                            args.putString("owner_room",newStr[0]);
-                            args.putString("owner_name",newStr[1]);
-                            args.putString("owner_id",owner_id);
-                            args.putString("register_staff_room",jimuto_room_Str);
-                            args.putString("register_staff_name",jimuto_name_Str);
-                            args.putString("register_staff_id",jimuto_id_Str);
+                            args.putString("owner_id",ryosei_id);
+                            args.putString("register_staff_id",jimuto_id);
                             dialogFragment.setArguments(args);
                             dialogFragment.show(getFragmentManager(), "Nimotsu_Touroku_Dialog");
                         }
-                    });
+                    });*/
                 }else{
                     message+="引渡済";
                 }
                 message +="\r\n";
                 message +="　・寮到着時間　：" + cursor.getString(cursor.getColumnIndex("register_datetime")).replace('-','/') +"";
                 message +="\r\n";
-                message +="　・受取時事務当　："+ cursor.getString(cursor.getColumnIndex("register_staff_room_name")) +"　"+ cursor.getString(cursor.getColumnIndex("register_staff_ryosei_name"));
+                message +="　・受取時事務当："+ cursor.getString(cursor.getColumnIndex("register_staff_room_name")) +"　"+ cursor.getString(cursor.getColumnIndex("register_staff_ryosei_name"));
                 message +="\r\n";
 
                 message +="　・荷物の種類　：";//{"普通", "冷蔵", "冷凍","大型","不在票","その他"};
@@ -155,7 +153,7 @@ public class Delete_Event_Dialog extends DialogFragment {
                 builder.setPositiveButton("操作取り消し", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         SQLiteDatabase db = _helper.getWritableDatabase();
-                        _helper.delete_event(db, event_id, ryosei_id, parcel_id, event_type);
+                        _helper.delete_event(db, event_id, ryosei_id, parcel_id, jimuto_id,event_type);
 //
 //                    update_parcels_shearingstatus();
 //                    update_ryosei_shearingstatus();
@@ -181,7 +179,7 @@ public class Delete_Event_Dialog extends DialogFragment {
         }
 
     }
-
+/*
     public void showDialog(View view, String owner_room_name, String owner_id) {
         DialogFragment dialogFragment = new Nimotsu_Uketori_Dialog();
         String[] newStr = owner_room_name.split("\\s+");
@@ -195,6 +193,7 @@ public class Delete_Event_Dialog extends DialogFragment {
         dialogFragment.setArguments(args);
         dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Uketori_Dialog");
     }
+    */
     public void update_parcels_shearingstatus (){
 
     }
