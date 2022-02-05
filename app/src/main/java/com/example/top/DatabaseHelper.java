@@ -572,11 +572,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String ryosei_name = cursor.getString(cursor.getColumnIndex("ryosei_name"));
         int parcels_total_count = cursor.getInt(cursor.getColumnIndex("parcels_total_count"));
         int parcels_current_count = cursor.getInt(cursor.getColumnIndex("parcels_current_count"));
-        if (event_type.equals("1")) {
+        if (event_type.equals("1")) {//受取の削除
             parcels_total_count--;
             parcels_current_count--;
-        } else {
-            parcels_total_count++;
+        } else {//引渡の削除
             parcels_current_count++;
         }
 

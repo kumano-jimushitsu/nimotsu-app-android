@@ -127,6 +127,13 @@ public class MainActivity extends AppCompatActivity {
         ImageButton nimotsufuda = findViewById(R.id.nimotsufuda_Button);
         RefreshListener listenerNimotsufuda = new RefreshListener();
         nimotsufuda.setOnClickListener(listenerNimotsufuda);
+
+        //同期処理部分
+        new HttpTask(null,"parcels","create").execute();
+        new HttpTask(null,"ryosei","create").execute();
+        new HttpTask(null,"parcel_event","create").execute();
+
+        //同期処理部分ここまで
     }
 
     class buttonClick implements View.OnClickListener {
@@ -152,7 +159,10 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = db.rawQuery(sql, null);
         show_eventlist.clear();
         while (cursor.moveToNext()) {
-            if (cursor.getString(cursor.getColumnIndex("is_deleted")).equals("1")) {
+            if (cursor.getString(cursor.getColumnIndex("is_deleted")).equals("1")) {//論理削除されている場合表示しない
+                continue;
+            }
+            if( cursor.getInt(cursor.getColumnIndex("event_type"))==3){//削除をしめすレコードの場合表示しない
                 continue;
             }
             Map<String, String> event_raw = new HashMap<>();
@@ -168,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                     text += "引き渡し       ";
 
                     break;
-                case 3://イベント削除：表示しなくてもいいかもね
+                case 3://イベント削除：表示しなくてもいいかもね→上の方で分岐
                     //text="イベントが削除されました";
                     break;
                 case 10:
@@ -303,7 +313,15 @@ public class MainActivity extends AppCompatActivity {
     private class RefreshListener implements AdapterView.OnClickListener {
         @Override
         public void onClick(View view) {
+
             eventLogshow();
+
+            //同期処理部分
+            new HttpTask(null,"parcels","create").execute();
+            new HttpTask(null,"ryosei","create").execute();
+            new HttpTask(null,"parcel_event","create").execute();
+
+            //同期処理部分ここまで
         }
     }
 

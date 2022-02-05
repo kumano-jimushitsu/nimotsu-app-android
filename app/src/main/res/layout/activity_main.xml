@@ -44,24 +44,13 @@
         android:id="@+id/event_show"
         android:layout_width="497dp"
         android:layout_height="546dp"
-        android:layout_marginStart="716dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginStart="712dp"
+        android:layout_marginTop="192dp"
         android:background="#F1F1F1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     </ListView>
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="740dp"
-        android:layout_marginTop="140dp"
-        android:text="履歴"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <!--消さない
     <GridLayout
@@ -166,6 +155,17 @@
     </GridLayout>
 
 -->
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="724dp"
+        android:layout_marginTop="156dp"
+        android:text="履歴"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
         android:id="@+id/qr_scanner"
         android:layout_width="289dp"
@@ -240,10 +240,10 @@
 
     <ImageButton
         android:id="@+id/nimotsufuda_Button"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="60dp"
+        android:layout_width="51dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="140dp"
         app:layout_constraintStart_toEndOf="@+id/linearLayout3"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/refresh"
