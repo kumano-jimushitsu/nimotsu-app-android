@@ -451,6 +451,8 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         }
     }
 
+    //Dialogから帰ってきたのをここで受ける
+    //使っていないが、jimuto_change_Dialogを参考にするため残している関係で残している
     public void onReturnValue(String value,String id) {
         TextView jimuto_name =findViewById(R.id.double_jimutou_name_show);
         jimuto_name.setText("ただいまの事務当番は "+value+" です。");
@@ -463,6 +465,8 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         setResult(RESULT_OK,jimuto_intent);
         finish();
     }
+
+
 
 
     private class RyoseiSearchListener implements  View.OnClickListener {
@@ -496,7 +500,21 @@ public class Double_Jimuto_Change extends AppCompatActivity {
 
         public void onItemClick(AdapterView<?> parent, View view, int position, long id){
                 Map<String ,String> item = (Map)parent.getItemAtPosition(position);
-            this.showDialog(view,item.get("room_name"),item.get("id"));
+            //this.showDialog(view,item.get("room_name"),item.get("id"));
+            //参考になるので消さないが、ダイアログでの確認をせず更新するために変更
+
+            //2/5ダイアログでの確認を省略する変更の際に追加↓
+            TextView jimuto_name =findViewById(R.id.double_jimutou_name_show);
+            jimuto_room_name = item.get("room_name");
+            jimuto_id = item.get("id");
+            jimuto_name.setText("ただいまの事務当番は "+jimuto_room_name+" です。");
+
+
+            Intent jimuto_intent = new Intent();
+            jimuto_intent.putExtra("Jimuto_room_name", jimuto_room_name);
+            jimuto_intent.putExtra("Jimuto_id", jimuto_id);
+            setResult(RESULT_OK,jimuto_intent);
+            finish();
 
         }
         public void showDialog(View view,String room_name,String id) {
