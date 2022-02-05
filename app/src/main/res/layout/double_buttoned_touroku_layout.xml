@@ -7,16 +7,17 @@
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="wrap_content"
+        android:layout_width="315dp"
         android:layout_height="75dp"
-        android:layout_marginStart="740dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="808dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/jimutoboder"
-        android:orientation="horizontal"
         android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
+        <!--
+        android:layout_width="wrap_content"のようにしていたが、固定する-->
         <TextView
             android:id="@+id/main_jimutou_show"
             android:layout_width="wrap_content"
@@ -34,7 +35,7 @@
     <ListView
         android:id="@+id/double_buttoned_touroku_block_list"
         android:layout_width="122dp"
-        android:layout_height="580dp"
+        android:layout_height="560dp"
         android:layout_marginStart="164dp"
         android:layout_marginTop="160dp"
         android:background="@drawable/listboder"
@@ -44,8 +45,8 @@
     <ListView
         android:id="@+id/double_buttoned_touroku_room_list"
         android:layout_width="149dp"
-        android:layout_height="580dp"
-        android:layout_marginStart="44dp"
+        android:layout_height="560dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="160dp"
         android:background="@drawable/listboder"
         app:layout_constraintStart_toEndOf="@+id/double_buttoned_touroku_block_list"
@@ -54,8 +55,8 @@
     <ListView
         android:id="@+id/double_buttoned_touroku_ryosei_list"
         android:layout_width="537dp"
-        android:layout_height="520dp"
-        android:layout_marginStart="80dp"
+        android:layout_height="500dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="220dp"
         android:background="@drawable/listboder"
         app:layout_constraintStart_toEndOf="@+id/double_buttoned_touroku_room_list"
@@ -77,7 +78,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginStart="1120dp"
-        android:layout_marginTop="652dp"
+        android:layout_marginTop="660dp"
         android:text="➡"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,8 +86,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="278dp"
-        android:layout_height="61dp"
+        android:layout_width="296dp"
+        android:layout_height="63dp"
         android:layout_marginStart="800dp"
         android:layout_marginTop="144dp"
         android:orientation="horizontal"
@@ -124,5 +125,5 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.168" />
+        app:layout_constraintVertical_bias="0.163" />
 </androidx.constraintlayout.widget.ConstraintLayout>

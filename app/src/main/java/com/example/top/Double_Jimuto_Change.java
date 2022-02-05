@@ -152,7 +152,9 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         String sql;
         // 主キーによる検索SQL文字列の用意。
         if (block == null){
-            sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei order by room_name asc;";
+            //sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei order by room_name asc;";
+            sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei order by random() LIMIT 50;";
+            //キチガイなのでランダムに取得
         }else {
             sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE block_id = '" + block_to_id(block) + "' order by room_name asc;";
         }// SQLの実行。

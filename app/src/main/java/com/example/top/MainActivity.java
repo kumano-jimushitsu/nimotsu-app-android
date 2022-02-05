@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         ListView eventLogshower = findViewById(R.id.event_show);
         EventShowListener showListener = new EventShowListener();
         eventLogshower.setOnItemClickListener(showListener);
+        /*消さない
 
         Button parcel_update_button = findViewById(R.id.parcel_update_button);
         SendRequestListener parcels_update_listener = new SendRequestListener("parcels", "update");
@@ -112,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
         Button parcel_event_debug_button = findViewById(R.id.parcel_event_debug_button);
         ShowRecordsListener parcel_event_debug_listener = new ShowRecordsListener("parcel_event");
         parcel_event_debug_button.setOnClickListener(parcel_event_debug_listener);
+*/
+
 
         ImageButton duty_night = findViewById(R.id.duty_night_button);
         duty_night_listener listener6 = new duty_night_listener();
@@ -129,7 +132,8 @@ public class MainActivity extends AppCompatActivity {
     class buttonClick implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            if (view.getId() == R.id.jimuto_change_button || view.getId() == R.id.image_button_touroku || view.getId() == R.id.image_button_uketori || view.getId() == R.id.event_show || view.getId() == R.id.ryosei_insert_button || view.getId() == R.id.parcel_insert_button || view.getId() == R.id.parcel_event_insert_button || view.getId() == R.id.duty_night_button) {
+            //if (view.getId() == R.id.jimuto_change_button || view.getId() == R.id.image_button_touroku || view.getId() == R.id.image_button_uketori || view.getId() == R.id.event_show || view.getId() == R.id.ryosei_insert_button || view.getId() == R.id.parcel_insert_button || view.getId() == R.id.parcel_event_insert_button || view.getId() == R.id.duty_night_button) {
+            if (view.getId() == R.id.jimuto_change_button || view.getId() == R.id.image_button_touroku || view.getId() == R.id.image_button_uketori || view.getId() == R.id.event_show ||  view.getId() == R.id.duty_night_button) {
                 final Button button = (Button) findViewById(view.getId());
                 button.setEnabled(false);
                 new Handler().postDelayed(new Runnable() {

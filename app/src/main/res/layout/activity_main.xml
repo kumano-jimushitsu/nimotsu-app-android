@@ -63,6 +63,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--消さない
     <GridLayout
         android:layout_width="300dp"
         android:layout_height="140dp"
@@ -164,6 +165,7 @@
 
     </GridLayout>
 
+-->
     <ImageButton
         android:id="@+id/qr_scanner"
         android:layout_width="289dp"
@@ -192,8 +194,8 @@
         android:id="@+id/linearLayout3"
         android:layout_width="315dp"
         android:layout_height="87dp"
-        android:layout_marginStart="740dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="808dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/jimutoboder"
         android:gravity="center"
         android:orientation="horizontal"
@@ -256,5 +258,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/pokke" />
-
+    <View
+        android:id="@+id/line_horizontal_center"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/zxing_result_view"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.163" />
 </androidx.constraintlayout.widget.ConstraintLayout>
