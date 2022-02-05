@@ -73,7 +73,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.double_buttoned_uketori_layout);
 
-        double_buttoned_uketori = findViewById(R.id.double_buttoned_uketori_constraintlayout);
+        //double_buttoned_uketori = findViewById(R.id.double_buttoned_uketori_constraintlayout);
         //事務当番の名前を受け取る
         Intent intent = getIntent();
         //jimuto_name_Str = intent.getStringExtra("Jimuto_name");
@@ -84,7 +84,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         proxy_id_Str = intent.getStringExtra("Proxy_id");
         proxy_room_Str = intent.getStringExtra("Proxy_room");
         //事務当番の名前を表示する
-        TextView jimuto_name =findViewById(R.id.main_jimutou_show);
+        TextView jimuto_name =findViewById(R.id.double_jimutou_name_show);
         jimuto_name.setText("事務当番は " + jimuto_room_Str +" です。");
         Button backbutton =(Button)findViewById(R.id.double_uketori_go_back_button);
         backbutton.setOnClickListener(this::onBackButtonClick);
