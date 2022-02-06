@@ -404,19 +404,6 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
     }
 
 
-    public void addRecord (int block, String heya, String ryousei_name) {
-        // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
-        SQLiteDatabase db = _helper.getWritableDatabase();
-        // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
-        String sqlInsert = "INSERT INTO ryosei (block_id, room_name, ryosei_name) VALUES (?, ?, ?)";
-        SQLiteStatement stmt = db.compileStatement(sqlInsert);
-        // 変数のバイド。
-        stmt.bindLong(1, block);
-        stmt.bindString(2, heya);
-        stmt.bindString(3, ryousei_name);
-        // インサートSQLの実行。
-        stmt.executeInsert();
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

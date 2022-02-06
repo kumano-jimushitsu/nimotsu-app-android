@@ -73,7 +73,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.double_buttoned_uketori_layout);
 
-        //double_buttoned_uketori = findViewById(R.id.double_buttoned_uketori_constraintlayout);
+        double_buttoned_uketori = findViewById(R.id.double_buttoned_uketori_constraintlayout);
         //事務当番の名前を受け取る
         Intent intent = getIntent();
         //jimuto_name_Str = intent.getStringExtra("Jimuto_name");

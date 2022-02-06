@@ -58,7 +58,7 @@ public class Nimotsu_Proxy_Uketori_Dialog extends DialogFragment {
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(owner_ryosei_room+" "+
-                owner_ryosei_name+" の荷物を引き渡します。"+br+"注意" + proxy_room + " " + proxy_name + "が代理で受取します。")
+                owner_ryosei_name+" の荷物を引き渡します。"+br+"※注意 " + proxy_room + " " + proxy_name + "が代理で受取します。")
                 .setPositiveButton("引き渡し", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // このボタンを押した時の処理を書きます。

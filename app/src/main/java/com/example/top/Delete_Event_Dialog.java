@@ -98,7 +98,7 @@ public class Delete_Event_Dialog extends DialogFragment {
                 message +="\r\n";
                 message +="　・寮生引渡時間：" + cursor.getString(cursor.getColumnIndex("release_datetime")).replace('-','/') +"";
                 message +="\r\n";
-                message +="　・引渡時事務当："+ cursor.getString(cursor.getColumnIndex("register_staff_room_name")) +"　"+ cursor.getString(cursor.getColumnIndex("register_staff_ryosei_name"));
+                message +="　・引渡時事務当："+ cursor.getString(cursor.getColumnIndex("release_staff_room_name")) +"　"+ cursor.getString(cursor.getColumnIndex("release_staff_ryosei_name"));
                 message +="\r\n";
 
                 message +="　・荷物の種類　：";//{"普通", "冷蔵", "冷凍","大型","不在票","その他"};

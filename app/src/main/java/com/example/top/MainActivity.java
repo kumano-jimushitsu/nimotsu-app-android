@@ -610,7 +610,7 @@ public class MainActivity extends AppCompatActivity {
         new HttpTask(null,"parcel_event","create").execute();
 
         //同期処理部分ここまで
-
+        eventLogshow();
 
     }
 

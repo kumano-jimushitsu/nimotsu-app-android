@@ -3,6 +3,7 @@ package com.example.top;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -30,14 +31,29 @@ public class Nimotsu_Uketori_Dialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
-        owner_ryosei_name = getArguments().getString("owner_name","");
-        owner_ryosei_room = getArguments().getString("owner_room","");
+//        owner_ryosei_name = getArguments().getString("owner_name","");
+        //owner_ryosei_room = getArguments().getString("owner_room","");
         owner_ryosei_id = getArguments().getString("owner_id","0");
-         release_staff_name = getArguments().getString("release_staff_name","");
-         release_staff_room = getArguments().getString("release_staff_room","");
+//         release_staff_name = getArguments().getString("release_staff_name","");
+//         release_staff_room = getArguments().getString("release_staff_room","");
          release_staff_id = getArguments().getString("release_staff_id","0");
         _helper = new com.example.top.DatabaseHelper(requireContext());
         SQLiteDatabase db = _helper.getWritableDatabase();
+        Cursor cursor;
+        String sql;
+
+        sql = "select room_name, ryosei_name from ryosei where uid ='"+ owner_ryosei_id + "'";
+        cursor = db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        owner_ryosei_room=cursor.getString(cursor.getColumnIndex("room_name"));
+        owner_ryosei_name=cursor.getString(cursor.getColumnIndex("ryosei_name"));
+
+        sql = "select room_name, ryosei_name from ryosei where uid ='"+ release_staff_id + "'";
+        cursor = db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        release_staff_room=cursor.getString(cursor.getColumnIndex("room_name"));
+        release_staff_name=cursor.getString(cursor.getColumnIndex("ryosei_name"));
+
 
         List<Map<String,String>> choices = _helper.nimotsuCountOfRyosei(db,owner_ryosei_id);
         String[] rabellist = new String[choices.size()];
