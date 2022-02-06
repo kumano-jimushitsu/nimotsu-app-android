@@ -386,7 +386,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Map<String, String>> show_owners_parcels = new ArrayList<>();
         String sql = "SELECT uid, placement, register_datetime," +
                 "register_staff_room_name, register_staff_ryosei_name,note, lost_datetime " +
-                "FROM parcels WHERE is_released = 0 AND owner_uid ='" + owner_id + "'";
+                "FROM parcels WHERE is_released = 0 AND owner_uid ='" + owner_id + "' and is_deleted=0";
         Cursor cursor = db.rawQuery(sql, null);
         while (cursor.moveToNext()) {
             Map<String, String> parcels_raw = new HashMap<>();
@@ -436,7 +436,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             rabel += register_datetime.substring(5,16).replace('-','/')+"登録   ";
             rabel += "種類："+placement;
             rabel += "\r\n ";
-            rabel += "     　　　　　　     (受取事務当：" + register_staff_room +")";
+            rabel += "     　　　　　　     (受取事務当：" + register_staff_room +" "+register_staff_name + ")";
 
 
             parcels_raw.put("rabel", rabel);

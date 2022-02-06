@@ -56,6 +56,7 @@ public class Nimotsu_Uketori_Dialog extends DialogFragment {
 
 
         List<Map<String,String>> choices = _helper.nimotsuCountOfRyosei(db,owner_ryosei_id);
+        //↑チェックリストの中身とか文面もここで作っている
         String[] rabellist = new String[choices.size()];
         String[] idlist = new String[choices.size()];
         boolean[] isCheckedList = new boolean[choices.size()];
@@ -90,9 +91,6 @@ public class Nimotsu_Uketori_Dialog extends DialogFragment {
                             cancel = false;
                             Toast.makeText(getActivity(), "チェックがされていません。", Toast.LENGTH_SHORT).show();
                         }
-                        update_parcels_shearingstatus();
-                        update_ryosei_shearingstatus();
-                        insert_event_shearingstatus();
                     }
                 })
                 .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
@@ -122,15 +120,6 @@ public class Nimotsu_Uketori_Dialog extends DialogFragment {
             alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(getResources().getColor(R.color.data1D));
             alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextSize(20);
         }
-
-    }
-    public void update_parcels_shearingstatus (){
-
-    }
-    public void update_ryosei_shearingstatus (){
-
-    }
-    public void insert_event_shearingstatus (){
 
     }
 }

@@ -59,6 +59,7 @@ public class Touroku_Others extends AppCompatActivity {
             String input_detail = others_detail.getText().toString();
             input_detail = input_detail.replaceAll("　", "").replaceAll(" ", "");
             input_detail = Normalizer.normalize(input_detail, Normalizer.Form.NFKC);
+            input_detail = trim_text(input_detail);
             Pattern p = Pattern.compile("([0-9A-zぁ-んァ-ヶｱ-ﾝ\\u4E00-\\u9FFF\\u3005-\\u3007]+)"
                     // + " \\p{InHiragana}|" + " \\p{InKatakana}|"
                     // + " \\p{InCJKUnifiedIdeographs}+)"
@@ -75,6 +76,11 @@ public class Touroku_Others extends AppCompatActivity {
             }else{
                 Toast.makeText(Touroku_Others.this, "漢字、ひらがな、カタカナしか使えません。", Toast.LENGTH_SHORT).show();
             }
+        }
+        private String trim_text(String text){
+            int len=text.length();
+            if(len>200)len=200;
+            return text.substring(0,len);
         }
     }
 
