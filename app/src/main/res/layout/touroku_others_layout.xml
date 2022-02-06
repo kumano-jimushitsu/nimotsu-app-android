@@ -8,31 +8,21 @@
 
     <TextView
         android:id="@+id/touroku_others_title"
-        android:layout_width="1023dp"
-        android:layout_height="159dp"
+        android:layout_width="1009dp"
+        android:layout_height="214dp"
         android:layout_marginStart="96dp"
         android:layout_marginTop="164dp"
-        android:text="任意のテキストで説明を加えることができます。複数荷物の場合はここからではなく、荷物の数だけ普通に登録してください。"
+        android:text="荷物種類：その他の場合、以下で説明を加えてください。\r\n(荷物を複数登録する場合は、「その他」を用いてまとめて登録するのではなく。一つずつ登録してください）、\r\nテキストの200文字以降の部分は削除されます。"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/touroku_others_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
-        android:layout_marginTop="89dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/touroku_others_title" />
 
     <EditText
         android:id="@+id/touroku_others_edit"
         android:layout_width="658dp"
         android:layout_height="45dp"
-        android:layout_marginStart="98dp"
-        android:layout_marginTop="81dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="80dp"
         android:ems="10"
         android:hint="その他の情報を入力"
         android:inputType="textPersonName"
@@ -40,23 +30,33 @@
         app:layout_constraintTop_toBottomOf="@+id/touroku_others_text" />
 
     <Button
-        android:id="@+id/touroku_others_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="83dp"
-        android:layout_marginTop="95dp"
-        android:text="戻る"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/touroku_others_edit" />
-
-    <Button
         android:id="@+id/touroku_others_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="106dp"
-        android:layout_marginTop="95dp"
+        android:layout_marginStart="108dp"
+        android:layout_marginTop="96dp"
         android:text="追加"
         app:layout_constraintStart_toEndOf="@+id/touroku_others_cancel"
+        app:layout_constraintTop_toBottomOf="@+id/touroku_others_edit" />
+
+    <TextView
+        android:id="@+id/touroku_others_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="40dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/touroku_others_title" />
+
+    <Button
+        android:id="@+id/touroku_others_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="96dp"
+        android:text="戻る"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/touroku_others_edit" />
 
     <TextView
