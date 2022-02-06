@@ -235,6 +235,12 @@ public class MainActivity extends AppCompatActivity {
     private class DoubleTourokuListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
+            //同期処理部分
+            new HttpTask(null,"parcels","create").execute();
+            new HttpTask(null,"ryosei","create").execute();
+            new HttpTask(null,"parcel_event","create").execute();
+
+            //同期処理部分ここまで
             if (jimuto_id == null) {
                 this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
                 touchsound.playsoundTwo();
@@ -264,6 +270,12 @@ public class MainActivity extends AppCompatActivity {
     private class DoubleUketoriListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
+            //同期処理部分
+            new HttpTask(null,"parcels","create").execute();
+            new HttpTask(null,"ryosei","create").execute();
+            new HttpTask(null,"parcel_event","create").execute();
+
+            //同期処理部分ここまで
             if (jimuto_id == null) {
                 this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
                 touchsound.playsoundTwo();
@@ -294,6 +306,12 @@ public class MainActivity extends AppCompatActivity {
     private class DoubleJimutoChangeListener implements AdapterView.OnClickListener {
         @Override
         public void onClick(View view) {
+            //同期処理部分
+            new HttpTask(null,"parcels","create").execute();
+            new HttpTask(null,"ryosei","create").execute();
+            new HttpTask(null,"parcel_event","create").execute();
+
+            //同期処理部分ここまで
             Intent jimuto_intent = new Intent(MainActivity.this, Double_Jimuto_Change.class);
             jimuto_intent.putExtra("Jimuto_name", jimuto_room);
             jimuto_intent.putExtra("Jimuto_id", jimuto_id);
@@ -356,6 +374,12 @@ public class MainActivity extends AppCompatActivity {
 
     private class EventShowListener implements AdapterView.OnItemClickListener {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            //同期処理部分
+            new HttpTask(null,"parcels","create").execute();
+            new HttpTask(null,"ryosei","create").execute();
+            new HttpTask(null,"parcel_event","create").execute();
+
+            //同期処理部分ここまで
             String event_id = "";
             String ryosei_uid = "";
             String created_at = null;

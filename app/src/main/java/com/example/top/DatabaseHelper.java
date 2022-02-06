@@ -568,14 +568,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sql += "'" + ryosei_name + "','";
         sql += event_id + "',1,10);";
         db.execSQL(sql);
-        //③引渡の削除の場合、受取のis_finishedを0に戻す
+        //③引渡の削除の場合、is_after_fixed_timeが0ならば、受取のis_finishedを0に戻す
         if(event_type.equals("2")) {
-            sql = "select uid from parcel_event where is_deleted=0 and event_type = 1 and parcel_uid = '"+ parcel_id +"'";
+            sql = "select uid, is_after_fixed_time from parcel_event where is_deleted=0 and event_type = 1 and parcel_uid = '"+ parcel_id +"'";
             cursor = db.rawQuery(sql, null);
             cursor.moveToFirst();
-            String target_event_uid=cursor.getString(cursor.getColumnIndex("uid"));
-            sql = "update parcel_event set is_finished=0, sharing_status=10 where uid='" + target_event_uid + "'";
-            db.execSQL(sql);
+            if(cursor.getInt(cursor.getColumnIndex("is_after_fixed_time"))==0){
+
+                String target_event_uid=cursor.getString(cursor.getColumnIndex("uid"));
+                sql = "update parcel_event set is_finished=0, sharing_status=10 where uid='" + target_event_uid + "'";
+                db.execSQL(sql);
+            }
         }
         //ryosei
         sql = "update ryosei set parcels_total_count=" +
