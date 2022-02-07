@@ -20,7 +20,7 @@ import okhttp3.Response;
 
 public class OkHttpPost extends AsyncTask<String,String,String> {
     String json;
-    String url = "http://192.168.100.45:8080";
+    String url = "http://192.168.11.3:8080";
 //    String url = "http://192.168.100.95:8080";
     Context context;
     Handler handler;

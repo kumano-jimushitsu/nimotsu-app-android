@@ -9,6 +9,7 @@ public class TouchSound {
     public SoundPool pool;
     public int soundOne;
     public int soundTwo;
+    public int soundThree;
 
     public TouchSound (Context context) {
         AudioAttributes attr = new AudioAttributes.Builder()
@@ -22,6 +23,7 @@ public class TouchSound {
 
         soundOne = pool.load(context, R.raw.sound1, 1);
         soundTwo = pool.load(context, R.raw.tm2_pon001, 1);
+        soundThree = pool.load(context, R.raw.error, 1);
 
 
     }
@@ -30,5 +32,6 @@ public class TouchSound {
         pool.play(soundOne, 1.0f, 1.0f, 1, 0, 1.0f);
     }
     public  void playsoundTwo() {pool.play(soundTwo, 1.0f, 1.0f, 1, 0, 1.0f);}
+    public  void playsoundThree() {pool.play(soundThree, 1.0f, 1.0f, 1, 0, 1.0f);}
 
 }

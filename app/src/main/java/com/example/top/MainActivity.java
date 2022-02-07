@@ -1,12 +1,16 @@
 package com.example.top;
 
 import android.content.AsyncQueryHandler;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.AsyncTask;
+import android.os.BatteryManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     String jimuto_name = "";
     String jimuto_id = null;
     String qr_uuid = "";
+    private static Context context;
+
 
     final String[] from = {"id", "text"};
     final int[] to = {android.R.id.text2, android.R.id.text1};
@@ -55,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MainActivity.context = getApplicationContext();
 
         _helper = new com.example.top.DatabaseHelper(this);
         db = _helper.getWritableDatabase();
@@ -128,19 +136,37 @@ public class MainActivity extends AppCompatActivity {
         RefreshListener listenerNimotsufuda = new RefreshListener();
         nimotsufuda.setOnClickListener(listenerNimotsufuda);
 
+     //   ButteryChecker butterychecker = new ButteryChecker();
+        // Listenerを設定
+        //  butterychecker.setListener(createListener());
+        //  butterychecker.execute(0);
+
         //同期処理部分
-        new HttpTask(null,"parcels","create").execute();
-        new HttpTask(null,"ryosei","create").execute();
-        new HttpTask(null,"parcel_event","create").execute();
+        new HttpTask(null, "parcels", "create").execute();
+        new HttpTask(null, "ryosei", "create").execute();
+        new HttpTask(null, "parcel_event", "create").execute();
 
         //同期処理部分ここまで
+    }
+
+    private ButteryChecker.Listener createListener() {
+        return new ButteryChecker.Listener() {
+            @Override
+            public void onSuccess(int count) {
+                TextView textView2 = findViewById(R.id.textView8);
+                textView2.setText(String.valueOf(count));
+                if(count>5){
+                    touchsound.playsoundThree();
+                }
+            }
+        };
     }
 
     class buttonClick implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             //if (view.getId() == R.id.jimuto_change_button || view.getId() == R.id.image_button_touroku || view.getId() == R.id.image_button_uketori || view.getId() == R.id.event_show || view.getId() == R.id.ryosei_insert_button || view.getId() == R.id.parcel_insert_button || view.getId() == R.id.parcel_event_insert_button || view.getId() == R.id.duty_night_button) {
-            if (view.getId() == R.id.jimuto_change_button || view.getId() == R.id.image_button_touroku || view.getId() == R.id.image_button_uketori || view.getId() == R.id.event_show ||  view.getId() == R.id.duty_night_button) {
+            if (view.getId() == R.id.jimuto_change_button || view.getId() == R.id.image_button_touroku || view.getId() == R.id.image_button_uketori || view.getId() == R.id.event_show || view.getId() == R.id.duty_night_button) {
                 final Button button = (Button) findViewById(view.getId());
                 button.setEnabled(false);
                 new Handler().postDelayed(new Runnable() {
@@ -153,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     public void eventLogshow() {
         List<Map<String, String>> show_eventlist = new ArrayList<>();
         String sql = "SELECT uid, created_at, event_type, parcel_uid, room_name, ryosei_name, target_event_uid,is_deleted FROM parcel_event where is_deleted = 0 order by created_at desc limit 100";
@@ -162,15 +189,15 @@ public class MainActivity extends AppCompatActivity {
             if (cursor.getString(cursor.getColumnIndex("is_deleted")).equals("1")) {//論理削除されている場合表示しない
                 continue;
             }
-            if( cursor.getInt(cursor.getColumnIndex("event_type"))==3){//削除をしめすレコードの場合表示しない
+            if (cursor.getInt(cursor.getColumnIndex("event_type")) == 3) {//削除をしめすレコードの場合表示しない
                 continue;
             }
             Map<String, String> event_raw = new HashMap<>();
             String text = "";
 
-            text += "" + cursor.getString(cursor.getColumnIndex("created_at")).substring(5).replace('-','/');
+            text += "" + cursor.getString(cursor.getColumnIndex("created_at")).substring(5).replace('-', '/');
             text += "   ";
-            switch ( cursor.getInt(cursor.getColumnIndex("event_type"))) {
+            switch (cursor.getInt(cursor.getColumnIndex("event_type"))) {
                 case 1://荷物登録
                     text += "受け取り       ";
                     break;
@@ -207,11 +234,14 @@ public class MainActivity extends AppCompatActivity {
         ListView listListener = findViewById(R.id.event_show);
         listListener.setOnItemClickListener(new EventShowListener());
     }
+
+
+
     private class QRScanListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             if (jimuto_id == null) {
-                this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
+                this.showMyDialog(null, getString(R.string.main_not_selected_staff), "", getString(R.string.ok), "");
                 touchsound.playsoundTwo();
             } else {
                 //カメラの呼び出し
@@ -219,30 +249,33 @@ public class MainActivity extends AppCompatActivity {
                 integrator.initiateScan();
             }
         }
-        public  void showMyDialog(View view,String title,String mainText,String positiveButton,String negativeButton) {
+
+        public void showMyDialog(View view, String title, String mainText, String positiveButton, String negativeButton) {
             DialogFragment dialogFragment = new myDialog();
             Bundle args = new Bundle();
-            args.putString("positivebutton",positiveButton);
-            args.putString("negativebutton",negativeButton);
-            args.putString("title",title);
-            args.putString("maintext",mainText);
+            args.putString("positivebutton", positiveButton);
+            args.putString("negativebutton", negativeButton);
+            args.putString("title", title);
+            args.putString("maintext", mainText);
             dialogFragment.setArguments(args);
             dialogFragment.show(getSupportFragmentManager(), "myDialog");
         }
 
     }
 
+
+
     private class DoubleTourokuListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             //同期処理部分
-            new HttpTask(null,"parcels","create").execute();
-            new HttpTask(null,"ryosei","create").execute();
-            new HttpTask(null,"parcel_event","create").execute();
+            new HttpTask(null, "parcels", "create").execute();
+            new HttpTask(null, "ryosei", "create").execute();
+            new HttpTask(null, "parcel_event", "create").execute();
 
             //同期処理部分ここまで
             if (jimuto_id == null) {
-                this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
+                this.showMyDialog(null, getString(R.string.main_not_selected_staff), "", getString(R.string.ok), "");
                 touchsound.playsoundTwo();
             } else {
                 Intent intent = new Intent(MainActivity.this, Double_Buttoned_Touroku.class);
@@ -253,31 +286,31 @@ public class MainActivity extends AppCompatActivity {
                 touchsound.playsoundTwo();
             }
         }
-        public  void showMyDialog(View view,String title,String mainText,String positiveButton,String negativeButton) {
+
+        public void showMyDialog(View view, String title, String mainText, String positiveButton, String negativeButton) {
             DialogFragment dialogFragment = new myDialog();
             Bundle args = new Bundle();
-            args.putString("positivebutton",positiveButton);
-            args.putString("negativebutton",negativeButton);
-            args.putString("title",title);
-            args.putString("maintext",mainText);
+            args.putString("positivebutton", positiveButton);
+            args.putString("negativebutton", negativeButton);
+            args.putString("title", title);
+            args.putString("maintext", mainText);
             dialogFragment.setArguments(args);
             dialogFragment.show(getSupportFragmentManager(), "myDialog");
         }
     }
 
 
-
     private class DoubleUketoriListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             //同期処理部分
-            new HttpTask(null,"parcels","create").execute();
-            new HttpTask(null,"ryosei","create").execute();
-            new HttpTask(null,"parcel_event","create").execute();
+            new HttpTask(null, "parcels", "create").execute();
+            new HttpTask(null, "ryosei", "create").execute();
+            new HttpTask(null, "parcel_event", "create").execute();
 
             //同期処理部分ここまで
             if (jimuto_id == null) {
-                this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
+                this.showMyDialog(null, getString(R.string.main_not_selected_staff), "", getString(R.string.ok), "");
                 touchsound.playsoundTwo();
             } else {
                 Intent intent = new Intent(MainActivity.this, Double_Buttoned_Uketori.class);
@@ -289,13 +322,14 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-        public  void showMyDialog(View view,String title,String mainText,String positiveButton,String negativeButton) {
+
+        public void showMyDialog(View view, String title, String mainText, String positiveButton, String negativeButton) {
             DialogFragment dialogFragment = new myDialog();
             Bundle args = new Bundle();
-            args.putString("positivebutton",positiveButton);
-            args.putString("negativebutton",negativeButton);
-            args.putString("title",title);
-            args.putString("maintext",mainText);
+            args.putString("positivebutton", positiveButton);
+            args.putString("negativebutton", negativeButton);
+            args.putString("title", title);
+            args.putString("maintext", mainText);
             dialogFragment.setArguments(args);
             dialogFragment.show(getSupportFragmentManager(), "myDialog");
         }
@@ -307,9 +341,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             //同期処理部分
-            new HttpTask(null,"parcels","create").execute();
-            new HttpTask(null,"ryosei","create").execute();
-            new HttpTask(null,"parcel_event","create").execute();
+            new HttpTask(null, "parcels", "create").execute();
+            new HttpTask(null, "ryosei", "create").execute();
+            new HttpTask(null, "parcel_event", "create").execute();
 
             //同期処理部分ここまで
             Intent jimuto_intent = new Intent(MainActivity.this, Double_Jimuto_Change.class);
@@ -328,6 +362,7 @@ public class MainActivity extends AppCompatActivity {
             touchsound.playsoundTwo();
         }
     }
+
     private class RefreshListener implements AdapterView.OnClickListener {
         @Override
         public void onClick(View view) {
@@ -335,20 +370,19 @@ public class MainActivity extends AppCompatActivity {
             eventLogshow();
 
             //同期処理部分
-            new HttpTask(null,"parcels","create").execute();
-            new HttpTask(null,"ryosei","create").execute();
-            new HttpTask(null,"parcel_event","create").execute();
+            new HttpTask(null, "parcels", "create").execute();
+            new HttpTask(null, "ryosei", "create").execute();
+            new HttpTask(null, "parcel_event", "create").execute();
 
             //同期処理部分ここまで
         }
     }
 
-
     public class duty_night_listener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             if (jimuto_id == null) {
-                this.showMyDialog(null,getString(R.string.main_not_selected_staff),"",getString(R.string.ok),"");
+                this.showMyDialog(null, getString(R.string.main_not_selected_staff), "", getString(R.string.ok), "");
                 touchsound.playsoundTwo();
             } else {
                 Intent intent = new Intent(MainActivity.this, Night_Duty_NimotsuFuda.class);
@@ -360,13 +394,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        public  void showMyDialog(View view,String title,String mainText,String positiveButton,String negativeButton) {
+        public void showMyDialog(View view, String title, String mainText, String positiveButton, String negativeButton) {
             DialogFragment dialogFragment = new myDialog();
             Bundle args = new Bundle();
-            args.putString("positivebutton",positiveButton);
-            args.putString("negativebutton",negativeButton);
-            args.putString("title",title);
-            args.putString("maintext",mainText);
+            args.putString("positivebutton", positiveButton);
+            args.putString("negativebutton", negativeButton);
+            args.putString("title", title);
+            args.putString("maintext", mainText);
             dialogFragment.setArguments(args);
             dialogFragment.show(getSupportFragmentManager(), "myDialog");
         }
@@ -375,9 +409,9 @@ public class MainActivity extends AppCompatActivity {
     private class EventShowListener implements AdapterView.OnItemClickListener {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             //同期処理部分
-            new HttpTask(null,"parcels","create").execute();
-            new HttpTask(null,"ryosei","create").execute();
-            new HttpTask(null,"parcel_event","create").execute();
+            new HttpTask(null, "parcels", "create").execute();
+            new HttpTask(null, "ryosei", "create").execute();
+            new HttpTask(null, "parcel_event", "create").execute();
 
             //同期処理部分ここまで
             String event_id = "";
@@ -416,7 +450,7 @@ public class MainActivity extends AppCompatActivity {
             args.putString("event_id", event_id);
             args.putString("parcel_id", parcel_uid);
             args.putString("ryosei_id", ryosei_uid);
-            args.putString("jimuto_id",jimuto_id);
+            args.putString("jimuto_id", jimuto_id);
             args.putString("event_type", event_type);
             dialogFragment.setArguments(args);
             dialogFragment.show(getSupportFragmentManager(), "Delete_Event_Dialog");
@@ -431,14 +465,16 @@ public class MainActivity extends AppCompatActivity {
         String result;
         String table;
         String method;
-        public HttpTask(String result,String table, String method){
+
+        public HttpTask(String result, String table, String method) {
             this.result = result;
             this.table = table;
             this.method = method;
 
         }
-        public void execute(){
-            HttpListener httpListener=new HttpListener(result,table,method);
+
+        public void execute() {
+            HttpListener httpListener = new HttpListener(result, table, method);
             ExecutorService executorService = Executors.newSingleThreadExecutor();
             executorService.submit(httpListener);
         }
@@ -453,18 +489,20 @@ public class MainActivity extends AppCompatActivity {
             this.result = result;
             this.table = table;
             this.method = method;
-        };
+        }
+
+        ;
 
 
         @Override
-        public void run(){
+        public void run() {
             //String json = getJsonFromDatabase();
             //一旦一度に同期するのは5つ分と決めるが、後から変えられるように作る
             //allaylistにuidを格納する
-            int uids_per_one_sync=5;
-            boolean onemore=true;
+            int uids_per_one_sync = 5;
+            boolean onemore = true;
 
-            while(onemore) {//PC側にデータが残っているorタブレット側にデータが残っている限り回り続けるwhile
+            while (onemore) {//PC側にデータが残っているorタブレット側にデータが残っている限り回り続けるwhile
                 ArrayList<String> uids_for_sync = _helper.select_for_sync(db, table, uids_per_one_sync);
                 onemore = (uids_per_one_sync == uids_for_sync.size());//タブレット側で同期すべきデータが尽きたら、ArrayListに5個格納されなくなりfalseになる
 
@@ -475,8 +513,8 @@ public class MainActivity extends AppCompatActivity {
                 postTask.execute();
 
                 //待機（通信が返ってきたらthis.resultが更新される）
-                int c=0;
-                while (c<1000) {
+                int c = 0;
+                while (c < 1000) {
                     if (this.result == null) {
                         try {
                             Thread.sleep(100);
@@ -486,21 +524,22 @@ public class MainActivity extends AppCompatActivity {
                         }
                     } else if (this.result.equals("Success")) {
                         //PC側にデータが残っている場合（
-                        _helper.update_sharing_status_for_success(db,table,uids_for_sync);
+                        _helper.update_sharing_status_for_success(db, table, uids_for_sync);
                         result = null;
-                        onemore=true;
+                        onemore = true;
                         break;
                     } else if (this.result.equals("")) {
                         //PC側にデータが残っていない
-                        _helper.update_sharing_status_for_success(db,table,uids_for_sync);
+                        _helper.update_sharing_status_for_success(db, table, uids_for_sync);
                         result = null;
                         break;
                     }
                 }
-                if(c==1000)return;
+                if (c == 1000) return;
 
             }
         }
+
         private OkHttpPost.Listener createListener() {
             return new OkHttpPost.Listener() {
                 @Override
@@ -512,67 +551,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-    /*//開発用のボタンに対応するところなので消さない
-    private class SendRequestListener implements View.OnClickListener {
-        String result = null;
-        String table;
-        String method;
-
-        public SendRequestListener(String table, String method) {
-            this.table = table;
-            this.method = method;
-        };
-
-        @Override
-        public void onClick(View view) {
-            touchsound.playsoundTwo();
-            /*
-            HttpListener httpListener = new HttpListener(result, table, method);
-            httpListener.Listen();
-
-//            new HttpListener(result, table, method).Listen();
-            new HttpTask(result, table, method).execute();
-        }
-    }
-
-    private class ShowRecordsListener implements View.OnClickListener {
-        String table;
-
-        public ShowRecordsListener(String table) {
-            this.table = table;
-        }
-
-        @Override
-        public void onClick(View view) {
-            // 主キーによる検索SQL文字列の用意。
-//            String json = getJsonFromDatabase();
-            String json = _helper.select_show_json(db,1,table);
-            android.util.Log.d("json",json);
-            android.util.Log.d("json",json);
-
-        }
-        */
-/*
-        private String getJsonFromDatabase() {
-            int sharing_status = 1;
-            switch (table) {
-                case "ryosei":
-                    return _helper.select_ryosei_show_json(db, sharing_status);
-                case "parcels":
-                    return _helper.select_parcels_show_json(db, sharing_status);
-                case "parcel_event":
-                    return _helper.select_event_show_json(db, sharing_status);
-                default:
-                    return "";
-            }
-        }
-
-    }
-
-
- */
-
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         //インテント終了後、メイン画面に戻ったときの処理を記載する部分
@@ -662,5 +640,10 @@ public class MainActivity extends AppCompatActivity {
         args.putString("maintext",mainText);
         dialogFragment.setArguments(args);
         dialogFragment.show(getSupportFragmentManager(), "myDialog");
+    }
+
+
+    public static Context getAppContext() {
+        return MainActivity.context;
     }
 }

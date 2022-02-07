@@ -518,6 +518,8 @@ public class Double_Jimuto_Change extends AppCompatActivity {
             setResult(RESULT_OK,jimuto_intent);
             finish();
 
+
+
         }
         public void showDialog(View view,String room_name,String id) {
             Bundle args = new Bundle();
