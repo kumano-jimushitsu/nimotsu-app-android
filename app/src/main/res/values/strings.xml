@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Top</string>
+    <string name="app_name">荷物管理アプリ POKKE</string>
 
 
     <string name="dialog_title">荷物登録確認</string>
@@ -47,5 +47,6 @@
     <string name="night_duty_short">"荷物確認をしました。表示に沿って荷物札チェックをしてください。"</string>
     <string name="night_duty_explanation">泊まり事務当の画面です。リストをスクロールして事務室に荷物があるかチェックしてください。
     チェックが終わったら事務室の荷物札が一致しているか確認してください。</string>
+    <string name="copyright">Copyright © 2022 Kumano Dormitory IT Section</string>
 
 </resources>
