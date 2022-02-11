@@ -108,7 +108,6 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         proxySwitch.setOnCheckedChangeListener(new Double_Buttoned_Uketori.ProxySwitchListener());
         proxy_room_name_text = findViewById(R.id.proxy_textview);
         proxy_change_button = findViewById(R.id.proxy_cahnge_button);
-        titleText = findViewById(R.id.double_buttoned_uketori_titile);
         proxy_room_name_text.setVisibility(View.GONE);
         proxy_change_button.setVisibility(View.GONE);
         proxy_change_button.setOnClickListener(new DoubleProxyChangeListener());
