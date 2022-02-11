@@ -62,7 +62,7 @@
                 android:paddingHorizontal="20dp"
                 android:paddingTop="10dp">
 
-                <androidx.appcompat.widget.SwitchCompat
+                <Switch
                     android:id="@+id/proxy_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

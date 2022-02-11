@@ -64,7 +64,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
     String proxy_name_Str = "";
     String proxy_id_Str = null;
 
-    private ConstraintLayout double_buttoned_uketori;
+    //private ConstraintLayout double_buttoned_uketori;
 
 
     @Override
@@ -72,7 +72,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_hikiwatashi);
 
-        double_buttoned_uketori = findViewById(R.id.double_buttoned_uketori_constraintlayout);
+       // double_buttoned_uketori = findViewById(R.id.fragment_hi);
         //事務当番の名前を受け取る
         Intent intent = getIntent();
         //jimuto_name_Str = intent.getStringExtra("Jimuto_name");
@@ -83,7 +83,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         proxy_id_Str = intent.getStringExtra("Proxy_id");
         proxy_room_Str = intent.getStringExtra("Proxy_room");
         //事務当番の名前を表示する
-        TextView jimuto_name =findViewById(R.id.double_jimutou_name_show);
+        TextView jimuto_name =findViewById(R.id.main_jimutou_show);
         jimuto_name.setText("事務当番は " + jimuto_room_Str +" です。");
         Button backbutton =(Button)findViewById(R.id.hikiwatashi_go_back_button);
         backbutton.setOnClickListener(this::onBackButtonClick);
@@ -633,13 +633,13 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
                 proxy_room_name_text.setVisibility(View.VISIBLE);
                 proxy_change_button.setVisibility(View.VISIBLE);
                 //ConstraintLayout double_buttoned_uketori = (ConstraintLayout)findViewById(R.id.double_buttoned_uketori_constraintlayout);
-                double_buttoned_uketori.setBackgroundColor(Color.rgb(255,200,180));
-                titleText.setText("代理人荷物引き渡しの画面です。");
+                //double_buttoned_uketori.setBackgroundColor(Color.rgb(255,200,180));
+                //titleText.setText("代理人荷物引き渡しの画面です。");
             } else {
                 proxy_room_name_text.setVisibility(View.GONE);
                 proxy_change_button.setVisibility(View.GONE);
                 //ConstraintLayout double_buttoned_uketori = (ConstraintLayout)findViewById(R.id.double_buttoned_uketori_constraintlayout);
-                double_buttoned_uketori.setBackgroundColor(Color.rgb(255,255,255));
+                //double_buttoned_uketori.setBackgroundColor(Color.rgb(255,255,255));
                 titleText.setText("荷物引き渡しの画面です。");
             }
             proxy_check = isChecked;
