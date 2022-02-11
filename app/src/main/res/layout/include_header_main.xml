@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:background="@color/theme_color"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="30dp">
+
+    <ImageView
+        android:id="@+id/pokke_logo"
+        android:layout_width="401dp"
+        android:layout_height="93dp"
+        app:srcCompat="@drawable/pokke" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="荷物管理アプリ"
+        android:textColor="@color/white"
+        android:textSize="30sp" />
+
+    <Space
+        android:layout_width="30dp"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:id="@+id/battery_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+    <Space
+        android:layout_width="80dp"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="現在の事務等："
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/main_jimutou_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="設定されていません。"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/jimuto_change_button"
+            android:layout_width="67dp"
+            android:layout_height="65dp"
+            android:background="@drawable/change_jimuto"
+            android:contentDescription="事務当を交代します"
+            app:rippleColor="@color/teal_200" />
+    </LinearLayout>
+
+</LinearLayout>

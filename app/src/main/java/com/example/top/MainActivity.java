@@ -1,26 +1,20 @@
 package com.example.top;
 
-import android.content.AsyncQueryHandler;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
-import android.os.AsyncTask;
-import android.os.BatteryManager;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -29,13 +23,10 @@ import com.example.top.ClickListener.OnOneClickListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -69,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         db = _helper.getWritableDatabase();
         touchsound = new TouchSound(this);
 
-        ImageButton image_button_touroku = findViewById(R.id.image_button_touroku);
+        ImageButton image_button_touroku = findViewById(R.id.image_button_uketori);
         DoubleTourokuListener listener3 = new DoubleTourokuListener();
         image_button_touroku.setOnClickListener(listener3);
 
@@ -77,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         DoubleJimutoChangeListener listener4 = new DoubleJimutoChangeListener();
         jimutou_change.setOnClickListener(listener4);
 
-        ImageButton image_button_uketori = findViewById(R.id.image_button_uketori);
+        ImageButton image_button_uketori = findViewById(R.id.image_button_hikiwatashi);
         DoubleUketoriListener listener5 = new DoubleUketoriListener();
         image_button_uketori.setOnClickListener(listener5);
 
@@ -133,11 +124,11 @@ public class MainActivity extends AppCompatActivity {
         QRScanListener qr_Listener = new QRScanListener();
         qr_scanner.setOnClickListener(qr_Listener);
 
-        ImageButton nimotsufuda = findViewById(R.id.nimotsufuda_Button);
+        ImageButton nimotsufuda = findViewById(R.id.event_history_refresh_button);
         RefreshListener listenerNimotsufuda = new RefreshListener();
         nimotsufuda.setOnClickListener(listenerNimotsufuda);
 
-     //   ButteryChecker butterychecker = new ButteryChecker();
+        //   ButteryChecker butterychecker = new ButteryChecker();
         // Listenerを設定
         //  butterychecker.setListener(createListener());
         //  butterychecker.execute(0);
@@ -148,15 +139,24 @@ public class MainActivity extends AppCompatActivity {
         new HttpTask(null, "parcel_event", "create").execute();
 
         //同期処理部分ここまで
+
+        // システムナビゲーションバーの色を変更
+        Window window = this.getWindow();
+        window.setFlags(
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        );
+        int colorId = getResources().getColor(R.color.theme_color);
+        window.setNavigationBarColor(colorId);
     }
 
     private ButteryChecker.Listener createListener() {
         return new ButteryChecker.Listener() {
             @Override
             public void onSuccess(int count) {
-                TextView textView2 = findViewById(R.id.textView8);
+                TextView textView2 = findViewById(R.id.battery_timer);
                 textView2.setText(String.valueOf(count));
-                if(count>5){
+                if (count > 5) {
                     touchsound.playsoundThree();
                 }
             }
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             //if (view.getId() == R.id.jimuto_change_button || view.getId() == R.id.image_button_touroku || view.getId() == R.id.image_button_uketori || view.getId() == R.id.event_show || view.getId() == R.id.ryosei_insert_button || view.getId() == R.id.parcel_insert_button || view.getId() == R.id.parcel_event_insert_button || view.getId() == R.id.duty_night_button) {
-            if (view.getId() == R.id.jimuto_change_button || view.getId() == R.id.image_button_touroku || view.getId() == R.id.image_button_uketori || view.getId() == R.id.event_show || view.getId() == R.id.duty_night_button) {
+            if (view.getId() == R.id.jimuto_change_button || view.getId() == R.id.image_button_uketori || view.getId() == R.id.image_button_hikiwatashi || view.getId() == R.id.event_show || view.getId() == R.id.duty_night_button) {
                 final Button button = (Button) findViewById(view.getId());
                 button.setEnabled(false);
                 new Handler().postDelayed(new Runnable() {
@@ -237,7 +237,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private class QRScanListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
@@ -263,7 +262,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
 
     private class DoubleTourokuListener implements View.OnClickListener {
@@ -574,7 +572,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView jimuto_show = findViewById(R.id.main_jimutou_show);
                 jimuto_show.setText(jimuto_room);
 
-                _helper.jimuto_change_event(db,jimuto_id);
+                _helper.jimuto_change_event(db, jimuto_id);
             case EVENT_REFRESH_ACTIVITY:
                 boolean event_update = intent.getBooleanExtra("EventRefresh", false);
                 eventLogshow();
@@ -598,9 +596,9 @@ public class MainActivity extends AppCompatActivity {
             String owner_ryosei_name = "";
             String owner_room_name = "";
             int fragile = 0;
-            if(cursor.getCount() == 0){//QRコードがデータベースにない場合
-                this.showMyDialog(null,getString(R.string.error),getString(R.string.qr_no_qr),getString(R.string.ok),"");
-            }else if(cursor.getCount() == 1) {//QRコードがデータベースに一つある場合
+            if (cursor.getCount() == 0) {//QRコードがデータベースにない場合
+                this.showMyDialog(null, getString(R.string.error), getString(R.string.qr_no_qr), getString(R.string.ok), "");
+            } else if (cursor.getCount() == 1) {//QRコードがデータベースに一つある場合
                 while (cursor.moveToNext()) {
                     uid = cursor.getString(cursor.getColumnIndex("owner_uid"));
                     owner_ryosei_name = cursor.getString(cursor.getColumnIndex("owner_ryosei_name"));
@@ -608,20 +606,20 @@ public class MainActivity extends AppCompatActivity {
                     is_released = cursor.getInt(cursor.getColumnIndex("is_released"));
                 }
 
-                if(is_released == 0){//その荷物が未受け取りの時
-                    this.showQRDialog(null,owner_room_name,owner_ryosei_name,uid);
-                }else{//その荷物が受け取り済みの時
-                    this.showMyDialog(null,getString(R.string.error),getString(R.string.qr_already),getString(R.string.ok),"");
+                if (is_released == 0) {//その荷物が未受け取りの時
+                    this.showQRDialog(null, owner_room_name, owner_ryosei_name, uid);
+                } else {//その荷物が受け取り済みの時
+                    this.showMyDialog(null, getString(R.string.error), getString(R.string.qr_already), getString(R.string.ok), "");
                 }
-            }else{//QRコードがデータベースに二つ以上ある場合
-                this.showMyDialog(null,getString(R.string.error),getString(R.string.qr_more_than_two),getString(R.string.ok),"");
+            } else {//QRコードがデータベースに二つ以上ある場合
+                this.showMyDialog(null, getString(R.string.error), getString(R.string.qr_more_than_two), getString(R.string.ok), "");
             }
         }
 
         //同期処理部分
-        new HttpTask(null,"parcels","create").execute();
-        new HttpTask(null,"ryosei","create").execute();
-        new HttpTask(null,"parcel_event","create").execute();
+        new HttpTask(null, "parcels", "create").execute();
+        new HttpTask(null, "ryosei", "create").execute();
+        new HttpTask(null, "parcel_event", "create").execute();
 
         //同期処理部分ここまで
         eventLogshow();
@@ -631,30 +629,28 @@ public class MainActivity extends AppCompatActivity {
     public void showQRDialog(View view, String owner_room, String owner_name, String owner_id) {
         DialogFragment dialogFragment = new Nimotsu_Uketori_QR_Dialog();
         Bundle args = new Bundle();
-        args.putString("owner_room",owner_room);
-        args.putString("owner_name",owner_name);
-        args.putString("owner_id",owner_id);
-        args.putString("release_staff_room",jimuto_room);
-        args.putString("release_staff_name",jimuto_name);
-        args.putString("release_staff_id",jimuto_id);
+        args.putString("owner_room", owner_room);
+        args.putString("owner_name", owner_name);
+        args.putString("owner_id", owner_id);
+        args.putString("release_staff_room", jimuto_room);
+        args.putString("release_staff_name", jimuto_name);
+        args.putString("release_staff_id", jimuto_id);
         dialogFragment.setArguments(args);
         dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Uketori_Dialog");
     }
 
-    public  void showMyDialog(View view,String title,String mainText,String positiveButton,String negativeButton) {
+    public void showMyDialog(View view, String title, String mainText, String positiveButton, String negativeButton) {
         DialogFragment dialogFragment = new myDialog();
 
 
         Bundle args = new Bundle();
-        args.putString("positivebutton",positiveButton);
-        args.putString("negativebutton",negativeButton);
-        args.putString("title",title);
-        args.putString("maintext",mainText);
+        args.putString("positivebutton", positiveButton);
+        args.putString("negativebutton", negativeButton);
+        args.putString("title", title);
+        args.putString("maintext", mainText);
         dialogFragment.setArguments(args);
         dialogFragment.show(getSupportFragmentManager(), "myDialog");
     }
-
-
 
 
     public static Context getAppContext() {

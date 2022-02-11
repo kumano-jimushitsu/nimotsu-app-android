@@ -7,6 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="lightgray">#D3D3D3</color>
+    <color name="darkgray">#A9A9A9</color>
     <!-- タイトル背景 -->
     <color name="titleA">#ff6767</color>
     <!-- データ1背景 -->
@@ -31,4 +33,6 @@
     <color name="data1C">#fde9cb</color>
     <!-- データ2背景 -->
     <color name="data2C">#fdf4e7</color>
+    <!--  プロジェクトテーマカラー  -->
+    <color name="theme_color">#333C5E</color>
 </resources>

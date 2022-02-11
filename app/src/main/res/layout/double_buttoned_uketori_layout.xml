@@ -64,7 +64,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/image_button_uketori"
+        android:id="@+id/image_button_hikiwatashi"
         android:layout_width="397dp"
         android:layout_height="104dp"
         android:layout_marginStart="152dp"
