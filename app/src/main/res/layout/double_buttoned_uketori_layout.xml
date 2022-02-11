@@ -6,78 +6,91 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/double_jimutou_name_show"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="91dp"
-        android:layout_marginTop="84dp"
-        android:text="TextView"
-        android:textSize="30sp"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="320dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="808dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/jimutoboder"
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+        <!--
+        android:layout_width="wrap_content"のようにしていたが、固定する-->
+        <TextView
+            android:id="@+id/main_jimutou_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="5dp"
+            android:text="設定されていません。"
 
-    <TextView
-        android:id="@+id/double_buttoned_uketori_titile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="91dp"
-        android:layout_marginTop="31dp"
-        android:text="荷物引き渡しの画面です。"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="20sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="740dp" />
+
+    </LinearLayout>
 
     <ListView
         android:id="@+id/double_buttoned_uketori_block_list"
-
-        android:layout_width="113dp"
-        android:layout_height="559dp"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="27dp"
+        android:layout_width="122dp"
+        android:layout_height="560dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="160dp"
         android:background="@drawable/listboder"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/double_jimutou_name_show" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/double_buttoned_uketori_room_list"
-
-        android:layout_width="130dp"
-        android:layout_height="553dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="156dp"
+        android:layout_width="149dp"
+        android:layout_height="560dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="160dp"
         android:background="@drawable/listboder"
         app:layout_constraintStart_toEndOf="@+id/double_buttoned_uketori_block_list"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/double_buttoned_uketori_ryosei_list"
-
-        android:layout_width="646dp"
-        android:layout_height="467dp"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="156dp"
+        android:layout_width="537dp"
+        android:layout_height="500dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="220dp"
         android:background="@drawable/listboder"
         app:layout_constraintStart_toEndOf="@+id/double_buttoned_uketori_room_list"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/image_button_uketori"
+        android:layout_width="397dp"
+        android:layout_height="104dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/hikiwatashi_v2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
+
     <Button
         android:id="@+id/double_uketori_go_back_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="990dp"
-        android:layout_marginTop="49dp"
-        android:text="戻る"
-        android:textSize="30sp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="1120dp"
+        android:layout_marginTop="660dp"
+        android:text="➡"
+        android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/double_buttoned_uketori_ryosei_list" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="868dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="296dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="800dp"
+        android:layout_marginTop="144dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -85,24 +98,38 @@
 
         <EditText
             android:id="@+id/uketori_editTextTextPersonName"
-            android:layout_width="wrap_content"
+            android:layout_width="225dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="検索したい名前を入力"
+            android:hint="寮生氏名で検索"
             android:inputType="textPersonName"
             android:maxLength="20"
             android:text="" />
 
         <Button
             android:id="@+id/uketori_name_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="34dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="寮生検索"
+            android:text="🔍"
             android:textSize="25sp" />
     </LinearLayout>
 
+    <View
+        android:id="@+id/line_horizontal_center"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/zxing_result_view"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.163" />
+
     <LinearLayout
+        android:id="@+id/proxy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
@@ -118,9 +145,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:textSize="30sp"
             android:text="代理受取"
-            android:textOn="代理受取モード" />
+            android:textOn="代理受取モード"
+            android:textSize="30sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -134,16 +161,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="30sp"
-                android:text="代理人選択" />
+                android:text="代理人選択"
+                android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/proxy_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20sp"
-                android:text="代理受取人：" />
+                android:text="代理受取人："
+                android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
 

@@ -25,6 +25,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.top.ClickListener.OnOneClickListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -378,9 +379,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public class duty_night_listener implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
+    public class duty_night_listener extends OnOneClickListener {
+        public void onOneClick(View view) {
+            //enableWaitHandler(1000L,view);
             if (jimuto_id == null) {
                 this.showMyDialog(null, getString(R.string.main_not_selected_staff), "", getString(R.string.ok), "");
                 touchsound.playsoundTwo();
@@ -403,6 +404,17 @@ public class MainActivity extends AppCompatActivity {
             args.putString("maintext", mainText);
             dialogFragment.setArguments(args);
             dialogFragment.show(getSupportFragmentManager(), "myDialog");
+        }
+
+        public void enableWaitHandler(long stopTime, final View view) {
+
+            view.setEnabled(false);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    view.setEnabled(true);
+                }
+            }, stopTime);
         }
     }
 
@@ -641,6 +653,8 @@ public class MainActivity extends AppCompatActivity {
         dialogFragment.setArguments(args);
         dialogFragment.show(getSupportFragmentManager(), "myDialog");
     }
+
+
 
 
     public static Context getAppContext() {
