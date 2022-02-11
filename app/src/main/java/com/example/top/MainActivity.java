@@ -1,16 +1,10 @@
 package com.example.top;
 
-import android.content.AsyncQueryHandler;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
-import android.os.AsyncTask;
-import android.os.BatteryManager;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.View;
 import android.view.Window;
@@ -21,8 +15,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -31,13 +23,10 @@ import com.example.top.ClickListener.OnOneClickListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -568,8 +557,6 @@ public class MainActivity extends AppCompatActivity {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
             qr_uuid = scanResult.getContents();
-            TextView qr_show = findViewById(R.id.qr_result);
-            qr_show.setText(qr_uuid);
             // DBヘルパーオブジェクトを生成。
             _helper = new DatabaseHelper(MainActivity.this);
             SQLiteDatabase db = _helper.getWritableDatabase();
