@@ -3,7 +3,6 @@ package com.example.top;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -53,7 +52,7 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.double_buttoned_touroku_layout);
+        setContentView(R.layout.fragment_uketori);
 
         //事務当番の名前を受け取る
         Intent intent = getIntent();
@@ -66,7 +65,7 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
 
         selectedBlock = null;
 
-        Button backbutton =(Button)findViewById(R.id.double_touroku_go_back_button);
+        Button backbutton =(Button)findViewById(R.id.uketori_go_back_button);
         backbutton.setOnClickListener(this::onBackButtonClick);
 
 
@@ -77,18 +76,18 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
         SQLiteDatabase db = _helper.getWritableDatabase();
 
         this.show_block_ryosei("");//""を渡すと全寮生を表示
-        ListView ryoseilistListener = findViewById(R.id.double_buttoned_touroku_ryosei_list);
+        ListView ryoseilistListener = findViewById(R.id.uketori_ryosei_list);
         ryoseilistListener.setOnItemClickListener(new ListRyoseiClickListener());
         get_block();
         show_block();
         get_room(" ");
         Collections.sort(show_room);
         show_room();
-        ListView blocklistListener = findViewById(R.id.double_buttoned_touroku_block_list);
+        ListView blocklistListener = findViewById(R.id.uketori_block_list);
         blocklistListener.setOnItemClickListener(new ListBlockClickListener());
-        ListView roomlistListener = findViewById(R.id.double_buttoned_touroku_room_list);
+        ListView roomlistListener = findViewById(R.id.uketori_room_list);
         roomlistListener.setOnItemClickListener(new ListRoomClickListener());
-        Button ryosei_search_listener = findViewById(R.id.touroku_name_search);
+        Button ryosei_search_listener = findViewById(R.id.uketori_search_ryosei_name_button);
         ryosei_search_listener.setOnClickListener(new RyoseiSearchListener());
 
     }
@@ -136,9 +135,9 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
                         from,
                         to);
         // ListViewにArrayAdapterを設定する
-        ListView listView = (ListView)findViewById(R.id.double_buttoned_touroku_ryosei_list);
+        ListView listView = (ListView)findViewById(R.id.uketori_ryosei_list);
         listView.setAdapter(blocktoryoseiadapter);
-        ListView listListener = findViewById(R.id.double_buttoned_touroku_ryosei_list);
+        ListView listListener = findViewById(R.id.uketori_ryosei_list);
         listListener.setOnItemClickListener(new ListRyoseiClickListener());
         _helper.close();
     }
@@ -183,9 +182,9 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
                         from,
                         to);
         // ListViewにArrayAdapterを設定する
-        ListView listView = (ListView)findViewById(R.id.double_buttoned_touroku_ryosei_list);
+        ListView listView = (ListView)findViewById(R.id.uketori_ryosei_list);
         listView.setAdapter(adapter);
-        ListView listListener = findViewById(R.id.double_buttoned_touroku_ryosei_list);
+        ListView listListener = findViewById(R.id.uketori_ryosei_list);
         listListener.setOnItemClickListener(new ListRyoseiClickListener());
         _helper.close();
     }
@@ -194,9 +193,9 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
         ArrayAdapter blockadapter = new ArrayAdapter
                 (this,android.R.layout.simple_list_item_1, show_block);
         // ListViewにArrayAdapterを設定する
-        ListView blocklistView = (ListView)findViewById(R.id.double_buttoned_touroku_block_list);
+        ListView blocklistView = (ListView)findViewById(R.id.uketori_block_list);
         blocklistView.setAdapter(blockadapter);
-        ListView blocklistListener = findViewById(R.id.double_buttoned_touroku_block_list);
+        ListView blocklistListener = findViewById(R.id.uketori_block_list);
         blocklistListener.setOnItemClickListener(new ListRyoseiClickListener());
         _helper.close();
     }
@@ -218,9 +217,9 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
         ArrayAdapter blockadapter = new ArrayAdapter
                 (this,android.R.layout.simple_list_item_1, show_room);
         // ListViewにArrayAdapterを設定する
-        ListView roomlistView = (ListView)findViewById(R.id.double_buttoned_touroku_room_list);
+        ListView roomlistView = (ListView)findViewById(R.id.uketori_room_list);
         roomlistView.setAdapter(blockadapter);
-        ListView roomlistListener = findViewById(R.id.double_buttoned_touroku_room_list);
+        ListView roomlistListener = findViewById(R.id.uketori_room_list);
         roomlistListener.setOnItemClickListener(new ListRoomClickListener());
         _helper.close();
     }
@@ -294,9 +293,9 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
                         from,
                         to);
         // ListViewにArrayAdapterを設定する
-        ListView listView = (ListView)findViewById(R.id.double_buttoned_touroku_ryosei_list);
+        ListView listView = (ListView)findViewById(R.id.uketori_ryosei_list);
         listView.setAdapter(adapter);
-        ListView listListener = findViewById(R.id.double_buttoned_touroku_ryosei_list);
+        ListView listListener = findViewById(R.id.uketori_ryosei_list);
         listListener.setOnItemClickListener(new ListRyoseiClickListener());
         _helper.close();
     }
@@ -385,7 +384,7 @@ public class Double_Buttoned_Touroku extends AppCompatActivity {
     private class RyoseiSearchListener implements  View.OnClickListener {
         @Override
         public void onClick(View view) {
-            EditText input = findViewById(R.id.touroku_editTextTextPersonName);
+            EditText input = findViewById(R.id.uketori_search_ryosei_name);
             String input_name = input.getText().toString();
             input_name = input_name.replaceAll("　", "").replaceAll(" ", "");
             input_name = Normalizer.normalize(input_name, Normalizer.Form.NFKC);

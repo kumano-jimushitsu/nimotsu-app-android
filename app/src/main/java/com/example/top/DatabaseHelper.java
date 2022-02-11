@@ -88,14 +88,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb_ryosei.append(" parcels_total_waittime TEXT DEFAULT '0:00:00',");
         sb_ryosei.append(" last_event_id INTEGER,");
         sb_ryosei.append(" last_event_datetime TEXT,");
-        sb_ryosei.append("created_at TEXT,");
-        sb_ryosei.append("updated_at TEXT,");
+        sb_ryosei.append(" created_at TEXT,");
+        sb_ryosei.append(" updated_at TEXT,");
         sb_ryosei.append(" sharing_status INTEGER,");
         sb_ryosei.append(" sharing_time TEXT");
         sb_ryosei.append("); ");
         String sql_ryosei = sb_ryosei.toString();
         db.execSQL(sql_ryosei);
-
         //eventテーブルの登録
         StringBuilder sb_parcel_event = new StringBuilder();
         sb_parcel_event.append("CREATE TABLE parcel_event(");

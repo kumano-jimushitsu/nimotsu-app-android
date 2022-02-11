@@ -12,134 +12,127 @@
         layout="@layout/include_header_main" />
 
     <!-- コンテンツ -->
-    <RelativeLayout
-        android:id="@+id/content_main"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="40dp"
+        android:paddingVertical="20dp"
         app:layout_constraintBottom_toTopOf="@id/include_footer"
         app:layout_constraintTop_toBottomOf="@id/include_header_main">
 
+
+        <!--左側-->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/content_left_column"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingHorizontal="40dp"
-            android:paddingVertical="20dp">
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingHorizontal="50dp">
 
+            <TextView
+                android:id="@+id/qr_result"
+                android:layout_width="249dp"
+                android:layout_height="34dp"
+                android:layout_gravity="left"
+                android:text="" />
 
-            <!--左側-->
-            <LinearLayout
-                android:id="@+id/content_left_column"
+            <Space
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingHorizontal="50dp">
+                android:layout_height="15dp" />
 
-                <TextView
-                    android:id="@+id/qr_result"
-                    android:layout_width="249dp"
-                    android:layout_height="34dp"
-                    android:layout_gravity="left"
-                    android:text="" />
+            <ImageButton
+                android:id="@+id/image_button_uketori"
+                android:layout_width="548dp"
+                android:layout_height="166dp"
+                android:background="@drawable/uketori_v2"
+                tools:ignore="SpeakableTextPresentCheck" />
 
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="15dp"/>
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="40dp" />
+
+            <ImageButton
+                android:id="@+id/image_button_hikiwatashi"
+                android:layout_width="548dp"
+                android:layout_height="170dp"
+                android:background="@drawable/hikiwatashi_v2"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="40dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/image_button_uketori"
-                    android:layout_width="548dp"
-                    android:layout_height="166dp"
-                    android:background="@drawable/uketori_v2"
-                    tools:ignore="SpeakableTextPresentCheck"
-                    />
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"/>
-
-                <ImageButton
-                    android:id="@+id/image_button_hikiwatashi"
-                    android:layout_width="548dp"
-                    android:layout_height="170dp"
-                    android:background="@drawable/hikiwatashi_v2"
+                    android:id="@+id/qr_scanner"
+                    android:layout_width="289dp"
+                    android:layout_height="105dp"
+                    android:background="@drawable/qr_re"
+                    android:contentDescription="QRコードで荷物を引き渡します"
                     tools:ignore="SpeakableTextPresentCheck" />
 
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"/>
+                <ImageButton
+                    android:id="@+id/duty_night_button"
+                    android:layout_width="254dp"
+                    android:layout_height="105dp"
+                    android:background="@drawable/tomari_jimuto_re"
+                    android:contentDescription="泊まり事務当モードに移行します"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageButton
-                        android:id="@+id/qr_scanner"
-                        android:layout_width="289dp"
-                        android:layout_height="105dp"
-                        android:background="@drawable/qr_re"
-                        android:contentDescription="QRコードで荷物を引き渡します"
-                        tools:ignore="SpeakableTextPresentCheck" />
-
-                    <ImageButton
-                        android:id="@+id/duty_night_button"
-                        android:layout_width="254dp"
-                        android:layout_height="105dp"
-                        android:background="@drawable/tomari_jimuto_re"
-                        android:contentDescription="泊まり事務当モードに移行します"
-                        tools:ignore="SpeakableTextPresentCheck" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-
-            <!--右側-->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingHorizontal="30dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/event_history"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="履歴"
-                        android:textSize="20sp" />
-
-                    <ImageButton
-                        android:id="@+id/event_history_refresh_button"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="right"
-                        app:backgroundTint="@android:color/transparent"
-                        app:srcCompat="@drawable/ic_baseline_refresh_24"
-                        tools:ignore="SpeakableTextPresentCheck" />
-                </LinearLayout>
-
-                <ListView
-                    android:id="@+id/event_show"
-                    android:layout_width="497dp"
-                    android:layout_height="546dp"
-                    android:background="#F1F1F1">
-
-                </ListView>
             </LinearLayout>
 
         </LinearLayout>
 
 
-    </RelativeLayout>
+        <!--右側-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingHorizontal="30dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/event_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="履歴"
+                    android:textSize="20sp" />
+
+                <ImageButton
+                    android:id="@+id/event_history_refresh_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="right"
+                    app:backgroundTint="@android:color/transparent"
+                    app:srcCompat="@drawable/ic_baseline_refresh_24"
+                    tools:ignore="SpeakableTextPresentCheck" />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/event_show"
+                android:layout_width="497dp"
+                android:layout_height="546dp"
+                android:background="#F1F1F1">
+
+            </ListView>
+        </LinearLayout>
+
+    </LinearLayout>
+
 
     <!-- フッター -->
     <include

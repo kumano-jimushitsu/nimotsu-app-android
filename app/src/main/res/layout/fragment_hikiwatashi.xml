@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- ヘッダ -->
+    <include
+        android:id="@+id/include_header_hikiwatashi"
+        layout="@layout/include_header_hikiwatashi" />
+
+    <!-- コンテンツ -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="110dp"
+        android:paddingVertical="20dp"
+        app:layout_constraintBottom_toTopOf="@id/include_footer"
+        app:layout_constraintTop_toBottomOf="@id/include_header_hikiwatashi">
+
+        <ListView
+            android:id="@+id/hikiwatashi_block_list"
+            android:layout_width="160dp"
+            android:layout_height="560dp"
+            android:background="@drawable/listboder" />
+
+        <Space
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+
+        <ListView
+            android:id="@+id/hikiwatashi_room_list"
+            android:layout_width="160dp"
+            android:layout_height="560dp"
+            android:background="@drawable/listboder" />
+
+        <Space
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="20dp">
+
+            <ListView
+                android:id="@+id/hikiwatashi_ryosei_list"
+                android:layout_width="540dp"
+                android:layout_height="440dp"
+                android:background="@drawable/listboder" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+                android:paddingTop="10dp">
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/proxy_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="代理受取"
+                    android:textOn="代理受取モード"
+                    android:textSize="25sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/proxy_cahnge_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="代理人選択"
+                        android:textSize="25sp" />
+
+                    <TextView
+                        android:id="@+id/proxy_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="代理受取人："
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+                android:paddingTop="10dp">
+
+                <EditText
+                    android:id="@+id/hikiwatashi_search_ryosei_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="寮生氏名で検索"
+                    android:inputType="textPersonName"
+                    android:maxLength="20"
+                    android:text="" />
+
+                <Button
+                    android:id="@+id/hikiwatashi_search_ryosei_name_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="検索"
+                    android:textSize="25sp" />
+
+                <Space
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/hikiwatashi_go_back_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="戻る"
+                    android:textSize="25sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- フッター -->
+    <include
+        android:id="@+id/include_footer"
+        layout="@layout/include_footer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

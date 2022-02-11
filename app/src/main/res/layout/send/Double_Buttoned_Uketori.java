@@ -52,7 +52,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.double_buttoned_uketori_layout);
+        setContentView(R.layout.fragment_hikiwatashi);
 
         //事務当番の名前を受け取る
         Intent intent = getIntent();
@@ -62,7 +62,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         //事務当番の名前を表示する
         TextView jimuto_name =findViewById(R.id.  double_jimutou_name_show);
         jimuto_name.setText("ただいまの事務当番は " + jimuto_room_Str +" "+jimuto_name_Str+" です。");
-        Button backbutton =(Button)findViewById(R.id.double_uketori_go_back_button);
+        Button backbutton =(Button)findViewById(R.id.hikiwatashi_go_back_button);
         backbutton.setOnClickListener(this::onBackButtonClick);
         selectedBlock = null;
         // DBヘルパーオブジェクトを生成。
@@ -74,9 +74,9 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         Collections.sort(show_room);
         show_room();
         this.show_block_ryosei(null);//nullを渡すと全寮生を表示
-        ListView blocklistListener = findViewById(R.id.double_buttoned_uketori_block_list);
+        ListView blocklistListener = findViewById(R.id.hikiwatashi_block_list);
         blocklistListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListBlockClickListener());
-        ListView roomlistListener = findViewById(R.id.double_buttoned_uketori_room_list);
+        ListView roomlistListener = findViewById(R.id.hikiwatashi_room_list);
         roomlistListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListRoomClickListener());
 
     }
@@ -125,9 +125,9 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
                         to);
 
         // ListViewにArrayAdapterを設定する
-        ListView listView = (ListView)findViewById(R.id.double_buttoned_uketori_ryosei_list);
+        ListView listView = (ListView)findViewById(R.id.hikiwatashi_ryosei_list);
         listView.setAdapter(adapter);
-        ListView listListener = findViewById(R.id.double_buttoned_uketori_ryosei_list);
+        ListView listListener = findViewById(R.id.hikiwatashi_ryosei_list);
         listListener.setOnItemClickListener(new ListItemClickListener());
     }
     public void show_block_ryosei (String block){
@@ -178,9 +178,9 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
                         from,
                         to);
         // ListViewにArrayAdapterを設定する
-        ListView listView = (ListView)findViewById(R.id.double_buttoned_uketori_ryosei_list);
+        ListView listView = (ListView)findViewById(R.id.hikiwatashi_ryosei_list);
         listView.setAdapter(blocktoryoseiadapter);
-        ListView listListener = findViewById(R.id.double_buttoned_uketori_ryosei_list);
+        ListView listListener = findViewById(R.id.hikiwatashi_ryosei_list);
         listListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListRyoseiClickListener());
     }
     public void show_room_ryosei (String room){
@@ -227,9 +227,9 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
                         to);
         // ListViewにArrayAdapterを設定する
         // ListViewにArrayAdapterを設定する
-        ListView listView = (ListView)findViewById(R.id.double_buttoned_uketori_ryosei_list);
+        ListView listView = (ListView)findViewById(R.id.hikiwatashi_ryosei_list);
         listView.setAdapter(roomtoryoseiadapter);
-        ListView listListener = findViewById(R.id.double_buttoned_uketori_ryosei_list);
+        ListView listListener = findViewById(R.id.hikiwatashi_ryosei_list);
         listListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListRyoseiClickListener());
     }
     public void show_block(){
@@ -237,9 +237,9 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         ArrayAdapter blockadapter = new ArrayAdapter
                 (this,android.R.layout.simple_list_item_1, show_block);
         // ListViewにArrayAdapterを設定する
-        ListView blocklistView = (ListView)findViewById(R.id.double_buttoned_uketori_block_list);
+        ListView blocklistView = (ListView)findViewById(R.id.hikiwatashi_block_list);
         blocklistView.setAdapter(blockadapter);
-        ListView blocklistListener = findViewById(R.id.double_buttoned_uketori_block_list);
+        ListView blocklistListener = findViewById(R.id.hikiwatashi_block_list);
         blocklistListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListRyoseiClickListener());
     }
     public void get_block() {
@@ -260,9 +260,9 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         ArrayAdapter blockadapter = new ArrayAdapter
                 (this,android.R.layout.simple_list_item_1, show_room);
         // ListViewにArrayAdapterを設定する
-        ListView roomlistView = (ListView)findViewById(R.id.double_buttoned_uketori_room_list);
+        ListView roomlistView = (ListView)findViewById(R.id.hikiwatashi_room_list);
         roomlistView.setAdapter(blockadapter);
-        ListView roomlistListener = findViewById(R.id.double_buttoned_uketori_room_list);
+        ListView roomlistListener = findViewById(R.id.hikiwatashi_room_list);
         roomlistListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListRoomClickListener());
     }
     public void get_room(String block) {

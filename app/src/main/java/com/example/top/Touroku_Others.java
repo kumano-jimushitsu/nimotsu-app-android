@@ -55,7 +55,7 @@ public class Touroku_Others extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             EditText others_detail = findViewById(R.id.touroku_others_edit);
-            EditText input = findViewById(R.id.touroku_editTextTextPersonName);
+            EditText input = findViewById(R.id.uketori_search_ryosei_name);
             String input_detail = others_detail.getText().toString();
             input_detail = input_detail.replaceAll("　", "").replaceAll(" ", "");
             input_detail = Normalizer.normalize(input_detail, Normalizer.Form.NFKC);
