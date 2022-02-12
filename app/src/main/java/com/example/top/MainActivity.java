@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseHelper _helper;
     private SQLiteDatabase db;
 
-    public static Context getAppContext() {
+    public static Context getMainActivityContext() {
         return MainActivity.context;
     }
 
@@ -334,7 +334,7 @@ public class MainActivity extends AppCompatActivity {
                 this.showMyDialog(null, getString(R.string.main_not_selected_staff), "", getString(R.string.ok), "");
                 touchsound.playsoundTwo();
             } else {
-                Intent intent = new Intent(MainActivity.this, Double_Buttoned_Touroku.class);
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 //intent.putExtra("Jimuto_name", jimuto_name);
@@ -368,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
                 this.showMyDialog(null, getString(R.string.main_not_selected_staff), "", getString(R.string.ok), "");
                 touchsound.playsoundTwo();
             } else {
-                Intent intent = new Intent(MainActivity.this, Double_Buttoned_Uketori.class);
+                Intent intent = new Intent(MainActivity.this, ReceiveActivity.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 //intent.putExtra("Jimuto_name", jimuto_name);
@@ -400,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
             new HttpTask(null, "parcel_event", "create").execute();
 
             //同期処理部分ここまで
-            Intent jimuto_intent = new Intent(MainActivity.this, Double_Jimuto_Change.class);
+            Intent jimuto_intent = new Intent(MainActivity.this, JimutoChangeActivity.class);
             jimuto_intent.putExtra("Jimuto_name", jimuto_room);
             jimuto_intent.putExtra("Jimuto_id", jimuto_id);
             startActivityForResult(jimuto_intent, JIMUTOCHANGE_ACTIVITY);

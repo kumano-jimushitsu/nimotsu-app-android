@@ -73,7 +73,7 @@ public class Nimotsu_Proxy_Uketori_Dialog extends DialogFragment {
                                     "の荷物を"+ String.valueOf(nimotsu_count_sametime) +"個、引き渡しました", Toast.LENGTH_SHORT).show();
                             //荷物引き渡しページを閉じさせる。
                             //呼び出し元のフラグメントに結果を返す
-                            Double_Buttoned_Uketori callingActivity = (Double_Buttoned_Uketori) getActivity();
+                            ReceiveActivity callingActivity = (ReceiveActivity) getActivity();
                             callingActivity.closeActivity();
                         }
                         update_parcels_shearingstatus();

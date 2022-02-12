@@ -73,12 +73,12 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         ListView listListener = findViewById(R.id.double_jimuto_change_ryosei_list);
         listListener.setOnItemClickListener(new ListRyoseiClickListener());
         ListView listenerblock = findViewById(R.id.jimuto_change_block_list);
-        listenerblock.setOnItemClickListener(new Double_Jimuto_Change.ListBlockClickListener());
+        listenerblock.setOnItemClickListener(new JimutoChangeActivity.ListBlockClickListener());
         ListView listenerroom = findViewById(R.id.jimuto_change_room_list);
-        listenerroom.setOnItemClickListener(new Double_Jimuto_Change.ListRoomClickListener());
+        listenerroom.setOnItemClickListener(new JimutoChangeActivity.ListRoomClickListener());
 
         // DBヘルパーオブジェクトを生成。
-        _helper = new DatabaseHelper(Double_Jimuto_Change.this);
+        _helper = new DatabaseHelper(JimutoChangeActivity.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
 
     }
@@ -134,12 +134,12 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.double_jimuto_change_ryosei_list);
         listView.setAdapter(adapter);
         ListView listListener = findViewById(R.id.double_jimuto_change_ryosei_list);
-        listListener.setOnItemClickListener(new Double_Jimuto_Change.ListRyoseiClickListener());
+        listListener.setOnItemClickListener(new JimutoChangeActivity.ListRyoseiClickListener());
     }
     public void show_block_ryosei (String block){
         show_list.clear();
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
-        _helper = new DatabaseHelper(Double_Jimuto_Change.this);
+        _helper = new DatabaseHelper(JimutoChangeActivity.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
         String sql;
         // 主キーによる検索SQL文字列の用意。
@@ -187,7 +187,7 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.double_jimuto_change_ryosei_list);
         listView.setAdapter(blocktoryoseiadapter);
         ListView listListener = findViewById(R.id.double_jimuto_change_ryosei_list);
-        listListener.setOnItemClickListener(new Double_Jimuto_Change.ListRyoseiClickListener());
+        listListener.setOnItemClickListener(new JimutoChangeActivity.ListRyoseiClickListener());
         get_room(block);
         show_room();
     }
@@ -237,7 +237,7 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.double_jimuto_change_ryosei_list);
         listView.setAdapter(roomtoryoseiadapter);
         ListView listListener = findViewById(R.id.double_jimuto_change_ryosei_list);
-        listListener.setOnItemClickListener(new Double_Jimuto_Change.ListRyoseiClickListener());
+        listListener.setOnItemClickListener(new JimutoChangeActivity.ListRyoseiClickListener());
     }
     public void show_block(){
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
@@ -247,7 +247,7 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         ListView blocklistView = (ListView)findViewById(R.id.jimuto_change_block_list);
         blocklistView.setAdapter(blockadapter);
         ListView blocklistListener = findViewById(R.id.jimuto_change_block_list);
-        blocklistListener.setOnItemClickListener(new Double_Jimuto_Change.ListRyoseiClickListener());
+        blocklistListener.setOnItemClickListener(new JimutoChangeActivity.ListRyoseiClickListener());
     }
     public void get_block() {
         addblock("A1");
@@ -270,11 +270,11 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         ListView roomlistView = (ListView)findViewById(R.id.jimuto_change_room_list);
         roomlistView.setAdapter(blockadapter);
         ListView roomlistListener = findViewById(R.id.jimuto_change_room_list);
-        roomlistListener.setOnItemClickListener(new Double_Jimuto_Change.ListRoomClickListener());
+        roomlistListener.setOnItemClickListener(new JimutoChangeActivity.ListRoomClickListener());
     }
     public void get_room(String block) {
         show_room.clear();
-        _helper = new DatabaseHelper(Double_Jimuto_Change.this);
+        _helper = new DatabaseHelper(JimutoChangeActivity.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
         // 主キーによる検索SQL文字列の用意。
         String sql;
@@ -411,7 +411,7 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         if(keyCode == KeyEvent.KEYCODE_BACK) {
             Intent jimuto_intent = new Intent();
             if (jimuto_id == null){
-                Toast.makeText(Double_Jimuto_Change.this, "事務当番を選択してください。", Toast.LENGTH_SHORT).show();
+                Toast.makeText(JimutoChangeActivity.this, "事務当番を選択してください。", Toast.LENGTH_SHORT).show();
             }else{
                 jimuto_intent.putExtra("Jimuto_room_name", jimuto_room_name);
                 jimuto_intent.putExtra("Jimuto_id", jimuto_id);
@@ -425,7 +425,7 @@ public class Double_Jimuto_Change extends AppCompatActivity {
     public void onBackButtonClick(View view){
         Intent jimuto_intent = new Intent();
         if (jimuto_id == null){
-            Toast.makeText(Double_Jimuto_Change.this, "事務当番を選択してください。", Toast.LENGTH_SHORT).show();
+            Toast.makeText(JimutoChangeActivity.this, "事務当番を選択してください。", Toast.LENGTH_SHORT).show();
         }else{
             jimuto_intent.putExtra("Jimuto_room_name", jimuto_room_name);
             jimuto_intent.putExtra("Jimuto_id", jimuto_id);

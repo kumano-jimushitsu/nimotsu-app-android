@@ -22,22 +22,22 @@
             android:name=".Night_Duty_NimotsuFuda"
             android:exported="true" />
         <activity
-            android:name=".Touroku_Others"
+            android:name=".RegistarOthersActivity"
             android:exported="true" />
         <activity
             android:name=".Nimotsu_show"
             android:exported="true" />
         <activity
-            android:name=".Double_Buttoned_Uketori"
+            android:name=".ReceiveActivity"
             android:exported="true" />
         <activity
-            android:name=".Double_Jimuto_Change"
+            android:name=".JimutoChangeActivity"
             android:exported="true" />
         <activity
-            android:name=".Double_Buttoned_Touroku"
+            android:name=".RegisterActivity"
             android:exported="true" />
         <activity
-            android:name=".Double_Proxy_Change"
+            android:name=".ReceiveProxyActivity"
             android:exported="true" />
         <activity android:name=".TextActivity" />
         <activity

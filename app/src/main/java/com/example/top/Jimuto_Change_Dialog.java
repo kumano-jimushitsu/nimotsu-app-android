@@ -27,7 +27,7 @@ public class Jimuto_Change_Dialog extends DialogFragment {
                         Toast.makeText(getActivity(), jimuto_ryosei_room+"に事務当番を交代しました。", Toast.LENGTH_SHORT).show();
 
                         //呼び出し元のフラグメントに結果を返す
-                        Double_Jimuto_Change callingActivity = (Double_Jimuto_Change) getActivity();
+                        JimutoChangeActivity callingActivity = (JimutoChangeActivity) getActivity();
                         callingActivity.onReturnValue(jimuto_ryosei_room,jimuto_ryosei_id);
 
                     }

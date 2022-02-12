@@ -23,6 +23,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.top.ClickListener.OnOneClickListener;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -226,7 +228,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
 
  */
 
-    class CheckResultButtonListener implements View.OnClickListener {
+    class CheckResultButtonListener extends OnOneClickListener {
         public List<Data> dataA = new ArrayList<>();
         public List<Data> dataB = new ArrayList<>();
         public List<Data> dataC = new ArrayList<>();
@@ -253,7 +255,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
         }
 
         @Override
-        public void onClick(View view) {
+        public void onOneClick(View view) {
             //
             Boolean all_checked = false;
             ArrayList<String> outputDataAll = new ArrayList<>();

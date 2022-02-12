@@ -66,7 +66,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         backbutton.setOnClickListener(this::onBackButtonClick);
         selectedBlock = null;
         // DBヘルパーオブジェクトを生成。
-        _helper = new DatabaseHelper(Double_Buttoned_Uketori.this);
+        _helper = new DatabaseHelper(ReceiveActivity.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
         get_block();
         show_block();
@@ -75,9 +75,9 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         show_room();
         this.show_block_ryosei(null);//nullを渡すと全寮生を表示
         ListView blocklistListener = findViewById(R.id.hikiwatashi_block_list);
-        blocklistListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListBlockClickListener());
+        blocklistListener.setOnItemClickListener(new ReceiveActivity.ListBlockClickListener());
         ListView roomlistListener = findViewById(R.id.hikiwatashi_room_list);
-        roomlistListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListRoomClickListener());
+        roomlistListener.setOnItemClickListener(new ReceiveActivity.ListRoomClickListener());
 
     }
     public void show_ryosei (int block){
@@ -181,7 +181,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.hikiwatashi_ryosei_list);
         listView.setAdapter(blocktoryoseiadapter);
         ListView listListener = findViewById(R.id.hikiwatashi_ryosei_list);
-        listListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListRyoseiClickListener());
+        listListener.setOnItemClickListener(new ReceiveActivity.ListRyoseiClickListener());
     }
     public void show_room_ryosei (String room){
         show_list.clear();
@@ -230,7 +230,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.hikiwatashi_ryosei_list);
         listView.setAdapter(roomtoryoseiadapter);
         ListView listListener = findViewById(R.id.hikiwatashi_ryosei_list);
-        listListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListRyoseiClickListener());
+        listListener.setOnItemClickListener(new ReceiveActivity.ListRyoseiClickListener());
     }
     public void show_block(){
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
@@ -240,7 +240,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         ListView blocklistView = (ListView)findViewById(R.id.hikiwatashi_block_list);
         blocklistView.setAdapter(blockadapter);
         ListView blocklistListener = findViewById(R.id.hikiwatashi_block_list);
-        blocklistListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListRyoseiClickListener());
+        blocklistListener.setOnItemClickListener(new ReceiveActivity.ListRyoseiClickListener());
     }
     public void get_block() {
         addblock("A1");
@@ -263,7 +263,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         ListView roomlistView = (ListView)findViewById(R.id.hikiwatashi_room_list);
         roomlistView.setAdapter(blockadapter);
         ListView roomlistListener = findViewById(R.id.hikiwatashi_room_list);
-        roomlistListener.setOnItemClickListener(new Double_Buttoned_Uketori.ListRoomClickListener());
+        roomlistListener.setOnItemClickListener(new ReceiveActivity.ListRoomClickListener());
     }
     public void get_room(String block) {
         show_room.clear();
@@ -356,7 +356,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
             Map<String ,String> item = (Map)parent.getItemAtPosition(position);
             if(Integer.parseInt(item.get("parcels_current_count"))==0){
                 String show = item.get("room_name") + "には現在荷物が一つも登録されていません。";
-                Toast.makeText(Double_Buttoned_Uketori.this, show ,Toast.LENGTH_LONG).show();
+                Toast.makeText(ReceiveActivity.this, show ,Toast.LENGTH_LONG).show();
             }else {
                 this.showDialog(view, item.get("room_name"), item.get("id"));
 
@@ -364,7 +364,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
             }
         }
         public void showDialog(View view,String owner_room_name,String owner_id) {
-            DialogFragment dialogFragment = new Nimotsu_Uketori_Dialog();
+            DialogFragment dialogFragment = new Receive_Dialog();
             String[] newStr = owner_room_name.split("\\s+");
             Bundle args = new Bundle();
             args.putString("owner_room",newStr[0]);
@@ -418,7 +418,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
             Map<String ,String> item = (Map)parent.getItemAtPosition(position);
             if(Integer.parseInt(item.get("parcels_current_count"))==0){
                 String show = item.get("room_name") + "には現在荷物が一つも登録されていません。";
-                Toast.makeText(Double_Buttoned_Uketori.this, show ,Toast.LENGTH_LONG).show();
+                Toast.makeText(ReceiveActivity.this, show ,Toast.LENGTH_LONG).show();
             }else {
                 this.showDialog(view, item.get("room_name"), item.get("id"));
 
@@ -426,7 +426,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
             }
         }
         public void showDialog(View view,String owner_room_name,String owner_id) {
-            DialogFragment dialogFragment = new Nimotsu_Uketori_Dialog();
+            DialogFragment dialogFragment = new Receive_Dialog();
             String[] newStr = owner_room_name.split("\\s+");
             Bundle args = new Bundle();
             args.putString("owner_room",newStr[0]);

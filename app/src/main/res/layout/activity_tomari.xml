@@ -15,17 +15,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:gravity="center_vertical"
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
         android:paddingVertical="10dp"
         app:layout_constraintBottom_toTopOf="@id/include_footer"
         app:layout_constraintTop_toBottomOf="@id/include_header_tomari">
 
-
-            <Space
-                android:layout_width="80dp"
-                android:layout_height="wrap_content" />
+        <Space
+            android:layout_width="80dp"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tomari_explanation_1"

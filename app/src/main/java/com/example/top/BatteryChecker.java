@@ -27,7 +27,7 @@ public class BatteryChecker extends AsyncTask<Integer, Integer, Integer> {
 
             Log.d("debug", "" + params[0]);
             IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-            Context context = MainActivity.getAppContext();
+            Context context = MainActivity.getMainActivityContext();
             Intent batteryStatus = context.registerReceiver(null, ifilter);
             // Are we charging / charged?
             int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);

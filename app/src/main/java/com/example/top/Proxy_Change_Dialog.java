@@ -26,7 +26,7 @@ public class Proxy_Change_Dialog extends DialogFragment {
                         // このボタンを押した時の処理を書きます。
                         Toast.makeText(getActivity(), proxy_ryosei_room+"を代理受取人として設定しました。", Toast.LENGTH_SHORT).show();
                         //呼び出し元のフラグメントに結果を返す
-                        Double_Proxy_Change callingActivity = (Double_Proxy_Change) getActivity();
+                        ReceiveProxyActivity callingActivity = (ReceiveProxyActivity) getActivity();
                         callingActivity.onReturnValue(proxy_ryosei_room,proxy_ryosei_id);
 
                     }
