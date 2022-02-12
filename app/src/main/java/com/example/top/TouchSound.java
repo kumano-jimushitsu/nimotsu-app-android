@@ -30,7 +30,7 @@ public class TouchSound {
                 .build();
 
         soundOne = pool.load(context, R.raw.sound_cursor, 2);
-        soundTwo = pool.load(context, R.raw.tm2_pon001, 2);
+        soundTwo = pool.load(context, R.raw.sound_cursor, 2);
         soundThree = pool.load(context, R.raw.error, 2);
         sound_ooo1 = pool.load(context, R.raw.scan1, 2);
         sound_ooo2 = pool.load(context, R.raw.scan2, 2);

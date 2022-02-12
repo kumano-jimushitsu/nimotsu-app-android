@@ -20,19 +20,11 @@ public class ReleaseIDCheckDialog extends DialogFragment {
         touchsound = new TouchSound(ReleaseActivity.getReceiveActivityContext());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(" の荷物を引き渡します。").setPositiveButton("引き渡し", new DialogInterface.OnClickListener() {
+        builder.setTitle("本人確認").setMessage("身分証明証(学生証、免許証、橙食券等)を確認してください。").setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-
+                touchsound.playsound555pico();
             }
-        })
-
-                .setMultiChoiceItems(rabellist, isCheckedList, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        isCheckedList[which] = isChecked;
-
-                    }
-                });
+        });
         AlertDialog alertDialog = builder.create();
         alertDialog.setCancelable(false);
         return alertDialog;
@@ -45,8 +37,6 @@ public class ReleaseIDCheckDialog extends DialogFragment {
         if (alertDialog != null) {
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackgroundColor(getResources().getColor(R.color.data1D));
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
-            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(getResources().getColor(R.color.data1D));
-            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextSize(20);
         }
 
     }
