@@ -61,12 +61,12 @@ public class Duty_Night_Dialog extends DialogFragment {
                             _helper.night_check_updater(db, allData.get(i));
                         }
                         db.close();
-                        Night_Duty_NimotsuFuda callingActivity = (Night_Duty_NimotsuFuda) getActivity();
-                        //callingActivity.onReturnValue(true);
 
+                        //Night_Duty_NimotsuFudaがnullの時エラーになるが、ここでは想定していない
+                        Night_Duty_NimotsuFuda callingActivity = (Night_Duty_NimotsuFuda) getActivity();
+                        callingActivity.refresh_main_table();
                     }
-                })
-                .setNegativeButton("キャンセル", null);
+                });
         update_parcels_shearingstatus();
         insert_event_shearingstatus();
         return builder.create();

@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         //事務当の名前を表示
         TextView jimuto_name = findViewById(R.id.main_jimutou_show);
         jimuto_name.setText(_helper.jimuto_at_oncreate(db));
+        jimuto_id=_helper.jimuto_id_at_oncreate(db);
 
     }
 

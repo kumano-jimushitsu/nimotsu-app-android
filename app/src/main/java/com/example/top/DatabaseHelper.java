@@ -720,6 +720,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.getCount() == 0) return "登録してください";
         return cursor.getString(cursor.getColumnIndex("room_name")) + " " + cursor.getString(cursor.getColumnIndex("ryosei_name"));
     }
+    public String jimuto_id_at_oncreate(SQLiteDatabase db) {
+        Cursor cursor = db.rawQuery("select ryosei_uid from parcel_event where event_type=10 order by created_at desc limit 1", null);
+        cursor.moveToFirst();
+        if (cursor.getCount() == 0) return null;
+        return cursor.getString(cursor.getColumnIndex("ryosei_uid"));
+    }
 
 
     public String returnStatus(SQLiteDatabase db, String table, String uid) {

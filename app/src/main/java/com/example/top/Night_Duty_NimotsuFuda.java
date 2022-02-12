@@ -34,7 +34,6 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
     public List<Data> dataListB = new ArrayList<>();
     public List<Data> dataListC = new ArrayList<>();
     public List<Data> dataListD = new ArrayList<>();
-    public ArrayList<String> outputDataAll = new ArrayList<>();
     public ListView listViewA;
     public TextView result;
     public String staff_room = "";
@@ -69,12 +68,16 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
         listener.importData(dataListA, dataListB, dataListC, dataListD);
         listener.importList(listViewA, listViewB, listViewC, listViewD);
         resultButton.setOnClickListener(listener);
-        refresh_maintable();
+        refresh_main_table();
         // システムナビゲーションバーの色を変更
         ActivityHelper.enableTransparentFooter(this);
     }
 
-    public void refresh_maintable() {
+    public void refresh_main_table() {
+        dataListA.clear();
+        dataListB.clear();
+        dataListC.clear();
+        dataListD.clear();
         // DBヘルパーオブジェクトを生成。
         _helper = new DatabaseHelper(Night_Duty_NimotsuFuda.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
@@ -118,7 +121,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                     data.setRoomName(roomName);
                     data.setRyoseiName(ryoseiName);
                     data.setParcelUid(onesParcels.get(j).get("parcels_id"));
-                    data.setLostDateTime(onesParcels.get(j).get("lost_datetime"));
+                    data.setLostDateTime(onesParcels.get(j).get("lost_datetime"));//lost_datetimeに最終確認できた時間を入れている　カラム名の変更が手間だったため
                     data.setChecked(false);
                     switch (i) {
                         case 0:
@@ -174,7 +177,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
         setResult(RESULT_OK, event_refresh_intent);
         finish();
     }
-
+/*
     public void onReturnValue(boolean bool) {
         if (bool) {
             SQLiteDatabase db = _helper.getWritableDatabase();
@@ -187,6 +190,8 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
 
         }
     }
+
+ */
 
     class CheckResultButtonListener implements View.OnClickListener {
         public List<Data> dataA = new ArrayList<>();
@@ -216,6 +221,8 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
+
+            ArrayList<String> outputDataAll = new ArrayList<>();
             Boolean buttomCheck = false;
             if (dataA.size() > 0) {
                 boolean[] checkListA = new boolean[dataA.size()];
@@ -295,7 +302,9 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                     _helper.night_check_updater(db, outputDataAll.get(i));
                 }
                 db.close();
+                refresh_main_table();
                 Toast.makeText(Night_Duty_NimotsuFuda.this, R.string.night_duty_short, Toast.LENGTH_SHORT).show();
+
             }
         }
 
@@ -386,6 +395,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
 
         public void setLostDateTime(String lostDateTime) {
             this.lostDateTime = lostDateTime;
+            if(lostDateTime!=null)this.lostDateTime = lostDateTime.replace('-', '/').substring(5);
         }
 
         public Boolean isChecked() {
