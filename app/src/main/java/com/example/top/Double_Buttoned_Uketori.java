@@ -101,11 +101,12 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         ryosei_search_button.setOnClickListener(new Double_Buttoned_Uketori.RyoseiSearchListener());
         Switch proxySwitch = findViewById(R.id.proxy_switch);
         proxySwitch.setOnCheckedChangeListener(new Double_Buttoned_Uketori.ProxySwitchListener());
+
         proxy_room_name_text = findViewById(R.id.proxy_textview);
-        proxy_change_button = findViewById(R.id.proxy_cahnge_button);
+        //proxy_change_button = findViewById(R.id.proxy_cahnge_button);
         proxy_room_name_text.setVisibility(View.GONE);
-        proxy_change_button.setVisibility(View.GONE);
-        proxy_change_button.setOnClickListener(new DoubleProxyChangeListener());
+        //proxy_change_button.setVisibility(View.GONE);
+        //proxy_change_button.setOnClickListener(new DoubleProxyChangeListener());
         if (proxy_name_Str == null && proxy_room_Str == null) {
             proxy_room_name_text.setText("代理受取人が設定されていません。");
         } else {
@@ -116,6 +117,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         ActivityHelper.enableTransparentFooter(this);
     }
 
+    /*
     public void show_ryosei(int block) {
         show_list.clear();
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
@@ -167,6 +169,8 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         listListener.setOnItemClickListener(new ListRyoseiClickListener());
         _helper.close();
     }
+
+     */
 
     public void show_block_ryosei(String block) {
         show_list.clear();
@@ -395,8 +399,8 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
             case PROXYCHANGE_ACTIVITY:
                 proxy_id_Str = intent.getStringExtra("Proxy_id");
                 proxy_room_Str = intent.getStringExtra("Proxy_room");
-                proxy_name_Str = intent.getStringExtra("Proxy_name");
-                proxy_room_name_text.setText("代理受取人: " + proxy_room_Str + " " + proxy_name_Str);
+                //proxy_name_Str = intent.getStringExtra("Proxy_name");
+                proxy_room_name_text.setText("代理受取人: " + proxy_room_Str);
             default:
         }
     }
@@ -651,21 +655,24 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
     }
     */
 
-    public class ProxySwitchListener extends Activity implements CompoundButton.OnCheckedChangeListener {
+    public class ProxySwitchListener implements CompoundButton.OnCheckedChangeListener {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked) {
                 proxy_room_name_text.setVisibility(View.VISIBLE);
-                proxy_change_button.setVisibility(View.VISIBLE);
+                //proxy_change_button.setVisibility(View.VISIBLE);
+                Intent proxy_intent = new Intent(Double_Buttoned_Uketori.this, Double_Proxy_Change.class);
+                proxy_intent.putExtra("Proxy_name", proxy_room_Str + " " + proxy_name_Str);
+                proxy_intent.putExtra("Proxyid", proxy_id_Str);
+                startActivityForResult(proxy_intent, PROXYCHANGE_ACTIVITY);
                 //ConstraintLayout double_buttoned_uketori = (ConstraintLayout)findViewById(R.id.double_buttoned_uketori_constraintlayout);
                 //double_buttoned_uketori.setBackgroundColor(Color.rgb(255,200,180));
                 //titleText.setText("代理人荷物引き渡しの画面です。");
             } else {
                 proxy_room_name_text.setVisibility(View.GONE);
-                proxy_change_button.setVisibility(View.GONE);
+                //proxy_change_button.setVisibility(View.GONE);
                 //ConstraintLayout double_buttoned_uketori = (ConstraintLayout)findViewById(R.id.double_buttoned_uketori_constraintlayout);
                 //double_buttoned_uketori.setBackgroundColor(Color.rgb(255,255,255));
-                titleText.setText("荷物引き渡しの画面です。");
             }
             proxy_check = isChecked;
         }

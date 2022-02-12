@@ -45,8 +45,12 @@
     <string name="rinji_capacity">臨キャパ</string>
     <string name="night_duty_title">泊まり事務当</string>
     <string name="night_duty_short">"荷物確認をしました。表示に沿って荷物札チェックをしてください。"</string>
-    <string name="night_duty_explanation">泊まり事務当の画面です。リストをスクロールして事務室に荷物があるかチェックしてください。
-    チェックが終わったら事務室の荷物札が一致しているか確認してください。</string>
+    <string name="night_duty_explanation">泊まり事務当番では、①荷物の現物確認、②荷物の札確認を行います。</string>
+    <string name="night_duty_1_explanation">現在の画面は①荷物の現物確認です。\n荷物の現物が確認出来たら、リストにチェックを入れてください。\n事務室にあるすべての荷物についてチェックを入れたら、「①現物確認終了」ボタンを押してください。</string>
+    <string name="night_duty_2_explanation">現在の画面は②荷物の札確認です。\n掛札がかかっていることを確認し、リストにチェックを入れてください。\nリストのすべての荷物についてチェックを入れたら、「②札確認終了」ボタンを押してください。</string>
+
+
+
     <string name="copyright">Copyright © 2022 Kumano Dormitory IT Section</string>
 
 </resources>

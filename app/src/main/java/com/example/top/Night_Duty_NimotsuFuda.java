@@ -16,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,14 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
     public String staff_ryosei = "";
     public String staff_id = "";
 
+    //説明文とボタン部分ここから
+    public TextView explain;
+    public TextView explain_sub;
+    public Button button_phase1;
+    public Button button_phase2;
+
+    //説明文とボタン部分ここまで
+
     private DatabaseHelper _helper;
 
 
@@ -63,17 +72,41 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
         go_back_button.setOnClickListener(this::onBackButtonClick);
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
 
-        Button resultButton = findViewById(R.id.tomari_result_show_button);
+
+        explain = findViewById(R.id.tomari_explanation_1);
+        explain_sub = findViewById(R.id.tomari_explanation_2);
+        button_phase1 = findViewById(R.id.tomari_result_show_button_1);//現物確認ボタン
+        button_phase2 = findViewById(R.id.tomari_result_show_button_2);//札確認ボタン
+        //説明文とボタン部分を指定
+        //↓上記ボタンにリスナーを設定
         CheckResultButtonListener listener = new CheckResultButtonListener(result, staff_room, staff_ryosei, staff_id);
         listener.importData(dataListA, dataListB, dataListC, dataListD);
         listener.importList(listViewA, listViewB, listViewC, listViewD);
-        resultButton.setOnClickListener(listener);
-        refresh_main_table();
+        button_phase1.setOnClickListener(listener);
+
         // システムナビゲーションバーの色を変更
+
+        refresh_all(1);
         ActivityHelper.enableTransparentFooter(this);
     }
 
-    public void refresh_main_table() {
+    public void refresh_all(int kakunin_phase) {//確認フェーズは、1:現物確認、2:札確認とする
+        //説明文とボタンのフェーズによる切り替え部分
+        switch (kakunin_phase){
+            case 1:
+                button_phase1.setVisibility(View.VISIBLE);
+                button_phase2.setVisibility(View.GONE);
+                explain_sub.setText(getString(R.string.night_duty_1_explanation));
+                break;
+            case 2:
+                button_phase1.setVisibility(View.GONE);
+                button_phase2.setVisibility(View.VISIBLE);
+                explain_sub.setText(getString(R.string.night_duty_2_explanation));
+        }
+
+
+
+        //テーブルの荷物表示部分の更新
         dataListA.clear();
         dataListB.clear();
         dataListC.clear();
@@ -221,9 +254,10 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
-
+            //
+            Boolean all_checked = false;
             ArrayList<String> outputDataAll = new ArrayList<>();
-            Boolean buttomCheck = false;
+
             if (dataA.size() > 0) {
                 boolean[] checkListA = new boolean[dataA.size()];
                 for (int i = 0; i < dataA.size(); i++) {
@@ -236,7 +270,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                         checkListA[i] = false;
                     }
                     if (i == dataA.size() - 1) {
-                        buttomCheck = !checkListA[i];
+                        all_checked = !checkListA[i];
                     }
                 }
             }
@@ -252,7 +286,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                         checkListB[i] = false;
                     }
                     if (i == dataB.size() - 1) {
-                        buttomCheck = !checkListB[i];
+                        all_checked = !checkListB[i];
                     }
                 }
             }
@@ -269,7 +303,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                     }
 
                     if (i == dataC.size() - 1) {
-                        buttomCheck = !checkListC[i];
+                        all_checked = !checkListC[i];
                     }
                 }
 
@@ -286,7 +320,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                         checkListD[i] = false;
                     }
                     if (i == dataD.size() - 1) {
-                        buttomCheck = !checkListD[i];
+                        all_checked = !checkListD[i];
                     }
                 }
             }
@@ -294,7 +328,9 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
             outputDataAll.addAll(outputDataB);
             outputDataAll.addAll(outputDataC);
             outputDataAll.addAll(outputDataD);
-            if (buttomCheck) {
+        //ここまででbool
+            
+            if (all_checked) {
                 this.showButtomDialog(view, outputDataAll);
             } else {
                 SQLiteDatabase db = _helper.getWritableDatabase();
@@ -302,7 +338,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                     _helper.night_check_updater(db, outputDataAll.get(i));
                 }
                 db.close();
-                refresh_main_table();
+                refresh_all(2);
                 Toast.makeText(Night_Duty_NimotsuFuda.this, R.string.night_duty_short, Toast.LENGTH_SHORT).show();
 
             }

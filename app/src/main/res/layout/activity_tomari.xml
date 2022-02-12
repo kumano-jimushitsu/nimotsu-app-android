@@ -22,34 +22,43 @@
         app:layout_constraintBottom_toTopOf="@id/include_footer"
         app:layout_constraintTop_toBottomOf="@id/include_header_tomari">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
 
             <Space
                 android:layout_width="80dp"
                 android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/tomari_explanation"
-                android:layout_width="900dp"
-                android:layout_height="wrap_content"
-                android:text="@string/night_duty_explanation"
-                android:textSize="20sp" />
+        <TextView
+            android:id="@+id/tomari_explanation_1"
+            android:layout_width="900dp"
+            android:layout_height="wrap_content"
+            android:text="@string/night_duty_explanation"
+            android:textSize="20sp" />
 
-            <Space
+
+        <TextView
+            android:id="@+id/tomari_explanation_2"
+            android:layout_width="964dp"
+            android:layout_height="wrap_content"
+            android:text="@string/night_duty_1_explanation"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/tomari_result_show_button_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="①現物確認終了"
+            android:textSize="@dimen/sp_l" />
+        <Button
+            android:id="@+id/tomari_result_show_button_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="②札確認終了"
+            android:textSize="@dimen/sp_l" />
+
+        <Space
                 android:layout_width="40dp"
                 android:layout_height="wrap_content" />
 
-            <Button
-                android:id="@+id/tomari_result_show_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="確認画面へ"
-                android:textSize="@dimen/sp_l" />
-
-        </LinearLayout>
 
         <HorizontalScrollView
             android:layout_width="wrap_content"

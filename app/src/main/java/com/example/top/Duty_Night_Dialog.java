@@ -64,7 +64,7 @@ public class Duty_Night_Dialog extends DialogFragment {
 
                         //Night_Duty_NimotsuFudaがnullの時エラーになるが、ここでは想定していない
                         Night_Duty_NimotsuFuda callingActivity = (Night_Duty_NimotsuFuda) getActivity();
-                        callingActivity.refresh_main_table();
+                        callingActivity.refresh_all(2);
                     }
                 });
         update_parcels_shearingstatus();

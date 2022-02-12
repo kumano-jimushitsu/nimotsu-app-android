@@ -470,6 +470,11 @@ public class Double_Proxy_Change extends AppCompatActivity {
         proxy_name.setText("ただいまの代理受取人は "+value+" です。");
         proxy_room_name = value;
         proxy_id = id;
+        Intent proxy_intent = new Intent();
+        proxy_intent.putExtra("Proxy_id", proxy_id);
+        proxy_intent.putExtra("Proxy_room", proxy_room_name);
+        setResult(RESULT_OK,proxy_intent);
+        finish();
     }
 
 

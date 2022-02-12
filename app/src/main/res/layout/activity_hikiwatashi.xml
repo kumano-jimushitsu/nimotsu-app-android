@@ -84,16 +84,16 @@
                 android:layout_marginTop="10dp" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="507dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingHorizontal="20dp"
-                android:layout_marginTop="15dp">
+                android:paddingHorizontal="20dp">
 
                 <Space
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="33dp"
+                    android:layout_height="10dp" />
 
                 <Switch
                     android:id="@+id/proxy_switch"
@@ -108,17 +108,10 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/proxy_cahnge_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="代理人選択"
-                        android:textSize="25sp" />
 
                     <TextView
                         android:id="@+id/proxy_textview"
-                        android:layout_width="wrap_content"
+                        android:layout_width="400dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="代理受取人："
