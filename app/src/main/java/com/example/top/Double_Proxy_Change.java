@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -59,7 +60,7 @@ public class Double_Proxy_Change extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.double_proxy_change_layout);
 
-        Button backbutton = (Button) findViewById(R.id.double_proxy_change_go_back_button);
+        ImageButton backbutton = (ImageButton) findViewById(R.id.proxy_hikiwatashi_go_back_button);
         backbutton.setOnClickListener(this::onBackButtonClick);
 
         //代理受取人の名前を受け取る
@@ -85,7 +86,7 @@ public class Double_Proxy_Change extends AppCompatActivity {
         listenerblock.setOnItemClickListener(new Double_Proxy_Change.ListBlockClickListener());
         ListView listenerroom = findViewById(R.id.double_proxy_change_room_list);
         listenerroom.setOnItemClickListener(new Double_Proxy_Change.ListRoomClickListener());
-        Button ryosei_search_button = findViewById(R.id.proxy_name_search);
+        ImageButton ryosei_search_button = findViewById(R.id.proxy_name_search);
         ryosei_search_button.setOnClickListener(new Double_Proxy_Change.RyoseiSearchListener());
 
         // DBヘルパーオブジェクトを生成。

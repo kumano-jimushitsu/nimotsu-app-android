@@ -5,16 +5,15 @@
     android:layout_height="120dp"
     android:background="@color/default_theme"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingHorizontal="30dp">
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="40dp"
         android:layout_centerVertical="true"
+        android:layout_marginStart="70dp"
         android:gravity="center"
         android:text="荷物管理アプリ"
         android:textColor="@color/default_header_font"
@@ -22,8 +21,8 @@
 
     <ImageView
         android:id="@+id/pokke_logo"
-        android:layout_width="401dp"
-        android:layout_height="93dp"
+        android:layout_width="360dp"
+        android:layout_height="90dp"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/textView"
         app:srcCompat="@drawable/pokke" />
@@ -35,42 +34,36 @@
         android:layout_centerVertical="true"
         android:text="" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
+    <ImageButton
+        android:id="@+id/jimuto_change_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/ic_baseline_wifi_protected_setup_24"
+        android:contentDescription="事務当を交代します"
+        app:rippleColor="@color/teal_200"
+        android:layout_toLeftOf="@id/current_jimuto"
+        android:layout_marginEnd="10dp" />
+
+    <TextView
+        android:id="@+id/current_jimuto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/main_jimutou_show"
+        android:text="現在の事務当："
+        android:textColor="@color/default_header_font"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/main_jimutou_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/jimuto_change_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_baseline_wifi_protected_setup_24"
-            android:contentDescription="事務当を交代します"
-            app:rippleColor="@color/teal_200" />
-
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="現在の事務当："
-            android:textColor="@color/default_header_font"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/main_jimutou_show"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:text="設定されていません"
-            android:textColor="@color/default_header_font"
-            android:textSize="20sp" />
-
-    </LinearLayout>
+        android:layout_marginEnd="80dp"
+        android:text="設定されていません"
+        android:textColor="@color/default_header_font"
+        android:textSize="20sp" />
 
 </RelativeLayout>

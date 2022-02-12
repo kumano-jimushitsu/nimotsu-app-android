@@ -6,102 +6,90 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/double_proxy_change_titile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="91dp"
-        android:layout_marginTop="31dp"
-        android:text="引き渡し交代の代理人設定画面です。"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ListView
-        android:id="@+id/double_proxy_change_block_list"
-        android:layout_width="113dp"
-        android:layout_height="559dp"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="100dp"
-        android:background="@drawable/listborder"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/double_proxy_change_titile" />
-
-    <ListView
-        android:id="@+id/double_proxy_change_room_list"
-        android:layout_width="130dp"
-        android:layout_height="553dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="172dp"
-        android:background="@drawable/listborder"
-        app:layout_constraintStart_toEndOf="@+id/double_proxy_change_block_list"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ListView
-        android:id="@+id/double_proxy_change_ryosei_list"
-        android:layout_width="654dp"
-        android:layout_height="507dp"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="168dp"
-        android:background="@drawable/listborder"
-        app:layout_constraintStart_toEndOf="@+id/double_proxy_change_room_list"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/double_proxyu_name_show"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="91dp"
-        android:layout_marginTop="23dp"
-        android:text="TextView"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/double_proxy_change_titile" />
-
-    <Button
-        android:id="@+id/double_proxy_change_go_back_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="948dp"
-        android:layout_marginTop="620dp"
-        android:text="戻る"
-        android:textSize="25sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/double_proxy_change_titile" />
+    <!-- ヘッダ -->
+    <include
+        android:id="@+id/include_header_proxy_hikiwatashi"
+        layout="@layout/include_header_proxy_hikiwatashi" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="200dp"
-        android:layout_marginTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        app:layout_constraintStart_toEndOf="@+id/double_proxy_change_titile"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingHorizontal="110dp"
+        android:paddingVertical="20dp"
+        app:layout_constraintBottom_toTopOf="@id/include_footer_hikiwatashi"
+        app:layout_constraintTop_toBottomOf="@id/include_header_proxy_hikiwatashi">
 
+        <ListView
+            android:id="@+id/double_proxy_change_block_list"
+            android:layout_width="160dp"
+            android:layout_height="560dp"
+            android:background="@drawable/listborder" />
 
-        <EditText
-            android:id="@+id/proxy_editTextTextPersonName"
+        <Space
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+
+        <ListView
+            android:id="@+id/double_proxy_change_room_list"
+            android:layout_width="160dp"
+            android:layout_height="560dp"
+            android:background="@drawable/listborder" />
+
+        <Space
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="検索したい名前を入力"
-            android:inputType="textPersonName"
-            android:maxLength="20"
-            android:text="" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="15dp">
 
-        <Button
-            android:id="@+id/proxy_name_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="寮生検索"
-            android:textSize="25sp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+                android:layout_gravity="end">
+
+
+                <EditText
+                    android:id="@+id/proxy_editTextTextPersonName"
+                    android:layout_width="225dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="検索したい名前を入力"
+                    android:inputType="textPersonName"
+                    android:maxLength="20"
+                    android:text="" />
+
+                <ImageButton
+                    android:id="@+id/proxy_name_search"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_baseline_search_24"
+                    android:textSize="25sp" />
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/double_proxy_change_ryosei_list"
+                android:layout_width="540dp"
+                android:layout_height="497dp"
+                android:background="@drawable/listborder"
+                android:layout_marginTop="10dp" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <!-- フッター -->
     <include
-        android:id="@+id/include_footer"
-        layout="@layout/include_footer" />
+        android:id="@+id/include_footer_hikiwatashi"
+        layout="@layout/include_footer_hikiwatashi" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
