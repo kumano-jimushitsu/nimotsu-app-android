@@ -258,6 +258,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
             Boolean all_checked = false;
             ArrayList<String> outputDataAll = new ArrayList<>();
 
+
             if (dataA.size() > 0) {
                 boolean[] checkListA = new boolean[dataA.size()];
                 for (int i = 0; i < dataA.size(); i++) {
