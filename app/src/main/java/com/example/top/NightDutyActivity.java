@@ -75,7 +75,7 @@ public class NightDutyActivity extends AppCompatActivity {
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
 
         title = findViewById(R.id.night_duty_title);
-        title.setText("泊まり事務当ー荷物確認");
+        title.setText("泊まり事務当ー①現物確認");
         explain = findViewById(R.id.tomari_explanation_1);
         explain_sub = findViewById(R.id.tomari_explanation_2);
         button_phase1 = findViewById(R.id.tomari_result_show_button_1);//現物確認ボタン
@@ -109,7 +109,7 @@ public class NightDutyActivity extends AppCompatActivity {
             case 2:
                 button_phase1.setVisibility(View.GONE);
                 button_phase2.setVisibility(View.VISIBLE);
-                title.setText("泊まり事務当ー荷物札確認");
+                title.setText("泊まり事務当ー②荷物札確認");
                 explain_sub.setText(getString(R.string.night_duty_2_explanation));
         }
         //テーブルの荷物表示部分の更新
