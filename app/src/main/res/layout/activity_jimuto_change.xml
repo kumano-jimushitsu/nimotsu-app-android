@@ -67,7 +67,7 @@
                     android:text="" />
 
                 <ImageButton
-                    android:id="@+id/hikiwatashi_search_ryosei_name_button"
+                    android:id="@+id/jimuto_change_search_ryosei_name_button"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"

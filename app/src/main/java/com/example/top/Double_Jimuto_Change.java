@@ -77,7 +77,7 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         listenerblock.setOnItemClickListener(new Double_Jimuto_Change.ListBlockClickListener());
         ListView listenerroom = findViewById(R.id.jimuto_change_room_list);
         listenerroom.setOnItemClickListener(new Double_Jimuto_Change.ListRoomClickListener());
-        Button ryosei_search_button = findViewById(R.id.jimuto_change_search_ryosei_name_button);
+        ImageButton ryosei_search_button = findViewById(R.id.jimuto_change_search_ryosei_name_button);
         ryosei_search_button.setOnClickListener(new Double_Jimuto_Change.RyoseiSearchListener());
 
         // DBヘルパーオブジェクトを生成。
