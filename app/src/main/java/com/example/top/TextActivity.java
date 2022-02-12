@@ -17,7 +17,7 @@ public class TextActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_text);
+        setContentView(R.layout.outdated_activity_text);
 
         // ビューオブジェクトを取得
         editTitle = findViewById(R.id.editTitle);

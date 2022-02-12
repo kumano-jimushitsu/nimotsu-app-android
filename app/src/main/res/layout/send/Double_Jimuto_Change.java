@@ -51,9 +51,9 @@ public class Double_Jimuto_Change extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.double_jimuto_change_layout);
+        setContentView(R.layout.activity_jimuto_change);
 
-        Button backbutton =(Button)findViewById(R.id.double_jimuto_change_go_back_button);
+        Button backbutton =(Button)findViewById(R.id.jimuto_change_go_back_button);
         backbutton.setOnClickListener(this::onBackButtonClick);
 
         //事務当番の名前を受け取る
@@ -61,7 +61,7 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         jimuto_room_name = intent.getStringExtra("Jimuto_name");
         jimuto_id = intent.getStringExtra("Jimuto_id");
         //事務当番の名前を表示する
-        TextView jimuto_name =findViewById(R.id.double_jimutou_name_show);
+        TextView jimuto_name =findViewById(R.id.jimuto_name_show);
         jimuto_name.setText("ただいまの事務当番は "+jimuto_room_name+" です。");
 
         get_block();
@@ -72,9 +72,9 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         this.show_block_ryosei(null);//nullを渡すと全寮生を表示
         ListView listListener = findViewById(R.id.double_jimuto_change_ryosei_list);
         listListener.setOnItemClickListener(new ListRyoseiClickListener());
-        ListView listenerblock = findViewById(R.id.double_jimuto_change_block_list);
+        ListView listenerblock = findViewById(R.id.jimuto_change_block_list);
         listenerblock.setOnItemClickListener(new Double_Jimuto_Change.ListBlockClickListener());
-        ListView listenerroom = findViewById(R.id.double_jimuto_change_room_list);
+        ListView listenerroom = findViewById(R.id.jimuto_change_room_list);
         listenerroom.setOnItemClickListener(new Double_Jimuto_Change.ListRoomClickListener());
 
         // DBヘルパーオブジェクトを生成。
@@ -244,9 +244,9 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         ArrayAdapter blockadapter = new ArrayAdapter
                 (this,android.R.layout.simple_list_item_1, show_block);
         // ListViewにArrayAdapterを設定する
-        ListView blocklistView = (ListView)findViewById(R.id.double_jimuto_change_block_list);
+        ListView blocklistView = (ListView)findViewById(R.id.jimuto_change_block_list);
         blocklistView.setAdapter(blockadapter);
-        ListView blocklistListener = findViewById(R.id.double_jimuto_change_block_list);
+        ListView blocklistListener = findViewById(R.id.jimuto_change_block_list);
         blocklistListener.setOnItemClickListener(new Double_Jimuto_Change.ListRyoseiClickListener());
     }
     public void get_block() {
@@ -267,9 +267,9 @@ public class Double_Jimuto_Change extends AppCompatActivity {
         ArrayAdapter blockadapter = new ArrayAdapter
                 (this,android.R.layout.simple_list_item_1, show_room);
         // ListViewにArrayAdapterを設定する
-        ListView roomlistView = (ListView)findViewById(R.id.double_jimuto_change_room_list);
+        ListView roomlistView = (ListView)findViewById(R.id.jimuto_change_room_list);
         roomlistView.setAdapter(blockadapter);
-        ListView roomlistListener = findViewById(R.id.double_jimuto_change_room_list);
+        ListView roomlistListener = findViewById(R.id.jimuto_change_room_list);
         roomlistListener.setOnItemClickListener(new Double_Jimuto_Change.ListRoomClickListener());
     }
     public void get_room(String block) {
@@ -435,7 +435,7 @@ public class Double_Jimuto_Change extends AppCompatActivity {
     }
 
     public void onReturnValue(String value,String id) {
-        TextView jimuto_name =findViewById(R.id.double_jimutou_name_show);
+        TextView jimuto_name =findViewById(R.id.jimuto_name_show);
         jimuto_name.setText("ただいまの事務当番は "+value+" です。");
         jimuto_room_name = value;
         jimuto_id = id;

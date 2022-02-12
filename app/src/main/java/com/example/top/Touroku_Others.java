@@ -31,7 +31,7 @@ public class Touroku_Others extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.touroku_others_layout);
+        setContentView(R.layout.activity_parcel_others);
 
         Intent intent = getIntent();
         owner_ryosei_name = intent.getStringExtra("Owner_name");

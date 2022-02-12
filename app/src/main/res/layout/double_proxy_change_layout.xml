@@ -23,7 +23,7 @@
         android:layout_height="559dp"
         android:layout_marginStart="88dp"
         android:layout_marginTop="100dp"
-        android:background="@drawable/listboder"
+        android:background="@drawable/listborder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/double_proxy_change_titile" />
 
@@ -33,7 +33,7 @@
         android:layout_height="553dp"
         android:layout_marginStart="56dp"
         android:layout_marginTop="172dp"
-        android:background="@drawable/listboder"
+        android:background="@drawable/listborder"
         app:layout_constraintStart_toEndOf="@+id/double_proxy_change_block_list"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,7 +43,7 @@
         android:layout_height="507dp"
         android:layout_marginStart="76dp"
         android:layout_marginTop="168dp"
-        android:background="@drawable/listboder"
+        android:background="@drawable/listborder"
         app:layout_constraintStart_toEndOf="@+id/double_proxy_change_room_list"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,5 +99,9 @@
             android:textSize="25sp" />
     </LinearLayout>
 
+    <!-- フッター -->
+    <include
+        android:id="@+id/include_footer"
+        layout="@layout/include_footer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="45dp"
-    android:background="@color/default_theme"
-    android:gravity="end"
+    android:background="@color/hikiwatashi_theme"
+    android:gravity="right"
     android:orientation="horizontal"
     android:paddingHorizontal="50dp"
     app:layout_constraintBottom_toBottomOf="parent">
@@ -15,6 +15,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="@string/copyright"
-        android:textColor="@color/default_footer_font"/>
+        android:textColor="@color/hikiwatashi_footer_font"/>
 
 </LinearLayout>

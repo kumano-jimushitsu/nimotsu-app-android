@@ -95,6 +95,8 @@ public class Double_Proxy_Change extends AppCompatActivity {
         double_proxy_change = findViewById(R.id.double_proxy_constraintlayout);
         double_proxy_change.setBackgroundColor(Color.rgb(255,200,180));
 
+        // システムナビゲーションバーの色を変更
+        ActivityHelper.enableTransparentFooter(this);
     }
     public void show_ryosei (String block){
         show_list.clear();

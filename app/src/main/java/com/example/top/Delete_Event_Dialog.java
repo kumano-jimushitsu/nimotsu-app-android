@@ -138,8 +138,10 @@ public class Delete_Event_Dialog extends DialogFragment {
                 sql = "SELECT uid, room_name, ryosei_name FROM parcel_event WHERE event_type=10 and  created_at<(select created_at from parcel_event where uid ='" + event_id + "') order by created_at desc limit 1;";
                 cursor = db.rawQuery(sql, null);
                 cursor.moveToFirst();
-                message += cursor.getString(cursor.getColumnIndex("room_name")) + "" + cursor.getString(cursor.getColumnIndex("ryosei_name"));
-                message += "→";
+                if (cursor.getCount() > 0) {
+                    message += cursor.getString(cursor.getColumnIndex("room_name")) + "" + cursor.getString(cursor.getColumnIndex("ryosei_name"));
+                    message += "→";
+                }
                 //指定されたイベントで交替した事務当を取得
                 sql = "SELECT uid, room_name, ryosei_name FROM parcel_event where uid ='" + event_id + "';";
                 cursor = db.rawQuery(sql, null);

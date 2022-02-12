@@ -5,14 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Nimotsu_show extends AppCompatActivity {
 
@@ -23,7 +19,7 @@ public class Nimotsu_show extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nimotsu_show);
+        setContentView(R.layout.outdated_activity_nimotsu_show);
         _helper = new com.example.top.DatabaseHelper(Nimotsu_show.this);
 
         SQLiteDatabase db = _helper.getWritableDatabase();

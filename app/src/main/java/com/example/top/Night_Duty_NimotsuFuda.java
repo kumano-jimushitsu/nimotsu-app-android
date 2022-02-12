@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,19 +47,34 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scroll_night_duty_nimotsu_fuda);
+        setContentView(R.layout.activity_tomari);
         //事務当番の名前を受け取る
         Intent intent = getIntent();
         staff_room = intent.getStringExtra("Jimuto_name");
         staff_ryosei = intent.getStringExtra("Jimuto_id");
         staff_id = intent.getStringExtra("Jimuto_room");
+        // 事務当番の名前を表示
+        TextView jimuto_name = findViewById(R.id.main_jimutou_show);
+        jimuto_name.setText(staff_id);
         ListView listViewA = findViewById(R.id.listA);
         ListView listViewB = findViewById(R.id.listB);
         ListView listViewC = findViewById(R.id.listC);
         ListView listViewD = findViewById(R.id.listD);
-        Button go_back_button = findViewById(R.id.go_back_button);
+        ImageButton go_back_button = findViewById(R.id.tomari_go_back_button);
         go_back_button.setOnClickListener(this::onBackButtonClick);
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
+
+        Button resultButton = findViewById(R.id.tomari_result_show_button);
+        CheckResultButtonListener listener = new CheckResultButtonListener(result, staff_room, staff_ryosei, staff_id);
+        listener.importData(dataListA, dataListB, dataListC, dataListD);
+        listener.importList(listViewA, listViewB, listViewC, listViewD);
+        resultButton.setOnClickListener(listener);
+        refresh_maintable();
+        // システムナビゲーションバーの色を変更
+        ActivityHelper.enableTransparentFooter(this);
+    }
+
+    public void refresh_maintable() {
         // DBヘルパーオブジェクトを生成。
         _helper = new DatabaseHelper(Night_Duty_NimotsuFuda.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
@@ -122,6 +138,10 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                 }
             }
         }
+        ListView listViewA = findViewById(R.id.listA);
+        ListView listViewB = findViewById(R.id.listB);
+        ListView listViewC = findViewById(R.id.listC);
+        ListView listViewD = findViewById(R.id.listD);
         // リストにサンプル用のデータを受け渡す
         ListAdapterA adapterA = new ListAdapterA(this, dataListA);
         ListAdapterB adapterB = new ListAdapterB(this, dataListB);
@@ -133,13 +153,40 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
         listViewD.setAdapter(adapterD);
         db.close();
 
-        Button resultButton = findViewById(R.id.resultshowbutton);
-        CheckResultButtonListener listener = new CheckResultButtonListener(result, staff_room, staff_ryosei, staff_id);
-        listener.importData(dataListA, dataListB, dataListC, dataListD);
-        listener.importList(listViewA, listViewB, listViewC, listViewD);
-        resultButton.setOnClickListener(listener);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 戻るボタンの処理
+            Intent event_refresh_intent = new Intent();
+            event_refresh_intent.putExtra("EventRefresh", true);
+            setResult(RESULT_OK, event_refresh_intent);
+            finish();
+        }
+        return true;
+    }
+
+    public void onBackButtonClick(View view) {
+
+        Intent event_refresh_intent = new Intent();
+        event_refresh_intent.putExtra("EventRefresh", true);
+        setResult(RESULT_OK, event_refresh_intent);
+        finish();
+    }
+
+    public void onReturnValue(boolean bool) {
+        if (bool) {
+            SQLiteDatabase db = _helper.getWritableDatabase();
+            for (int i = 0; i < outputDataAll.size(); i++) {
+                _helper.night_check_updater(db, outputDataAll.get(i));
+            }
+            db.close();
+            finish();
+            Toast.makeText(Night_Duty_NimotsuFuda.this, R.string.night_duty_short, Toast.LENGTH_SHORT).show();
+
+        }
+    }
 
     class CheckResultButtonListener implements View.OnClickListener {
         public List<Data> dataA = new ArrayList<>();
@@ -174,14 +221,14 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                 boolean[] checkListA = new boolean[dataA.size()];
                 for (int i = 0; i < dataA.size(); i++) {
                     View listDataView = listViewA.getAdapter().getView(i, null, listViewA);
-                    CheckBox chkDel = (CheckBox) listDataView.findViewById(R.id.parcelcheckbox);
+                    CheckBox chkDel = listDataView.findViewById(R.id.parcelcheckbox);
                     if (chkDel.isChecked()) {
                         checkListA[i] = true;
                         outputDataA.add(dataA.get(i).getParcelsUid());
                     } else {
                         checkListA[i] = false;
                     }
-                    if(i == dataA.size()-1){
+                    if (i == dataA.size() - 1) {
                         buttomCheck = !checkListA[i];
                     }
                 }
@@ -190,14 +237,14 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                 boolean[] checkListB = new boolean[dataB.size()];
                 for (int i = 0; i < dataB.size(); i++) {
                     View listDataView = listViewB.getAdapter().getView(i, null, listViewB);
-                    CheckBox chkDel = (CheckBox) listDataView.findViewById(R.id.parcelcheckbox);
+                    CheckBox chkDel = listDataView.findViewById(R.id.parcelcheckbox);
                     if (chkDel.isChecked()) {
                         checkListB[i] = true;
                         outputDataB.add(dataB.get(i).getParcelsUid());
                     } else {
                         checkListB[i] = false;
                     }
-                    if(i == dataB.size()-1){
+                    if (i == dataB.size() - 1) {
                         buttomCheck = !checkListB[i];
                     }
                 }
@@ -206,7 +253,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                 boolean[] checkListC = new boolean[dataC.size()];
                 for (int i = 0; i < dataC.size(); i++) {
                     View listDataView = listViewC.getAdapter().getView(i, null, listViewC);
-                    CheckBox chkDel = (CheckBox) listDataView.findViewById(R.id.parcelcheckbox);
+                    CheckBox chkDel = listDataView.findViewById(R.id.parcelcheckbox);
                     if (chkDel.isChecked()) {
                         checkListC[i] = true;
                         outputDataC.add(dataC.get(i).getParcelsUid());
@@ -214,7 +261,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                         checkListC[i] = false;
                     }
 
-                    if(i == dataC.size()-1){
+                    if (i == dataC.size() - 1) {
                         buttomCheck = !checkListC[i];
                     }
                 }
@@ -224,14 +271,14 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                 boolean[] checkListD = new boolean[dataD.size()];
                 for (int i = 0; i < dataD.size(); i++) {
                     View listDataView = listViewD.getAdapter().getView(i, null, listViewD);
-                    CheckBox chkDel = (CheckBox) listDataView.findViewById(R.id.parcelcheckbox_rinjicapacity);
+                    CheckBox chkDel = listDataView.findViewById(R.id.parcelcheckbox_rinjicapacity);
                     if (chkDel.isChecked()) {
                         checkListD[i] = true;
                         outputDataD.add(dataD.get(i).getParcelsUid());
                     } else {
                         checkListD[i] = false;
                     }
-                    if(i == dataD.size()-1){
+                    if (i == dataD.size() - 1) {
                         buttomCheck = !checkListD[i];
                     }
                 }
@@ -242,10 +289,10 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
             outputDataAll.addAll(outputDataD);
             if (buttomCheck) {
                 this.showButtomDialog(view, outputDataAll);
-            }else {
+            } else {
                 SQLiteDatabase db = _helper.getWritableDatabase();
-                for(int i = 0; i < outputDataAll.size(); i++) {
-                        _helper.night_check_updater(db, outputDataAll.get(i));
+                for (int i = 0; i < outputDataAll.size(); i++) {
+                    _helper.night_check_updater(db, outputDataAll.get(i));
                 }
                 db.close();
                 Toast.makeText(Night_Duty_NimotsuFuda.this, R.string.night_duty_short, Toast.LENGTH_SHORT).show();
@@ -275,47 +322,16 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
             dialogFragment.setArguments(args);
             dialogFragment.show(getSupportFragmentManager(), "Duty_Night_Dialog");
         }
-        public void showButtomDialog(View view,ArrayList<String> dataAll) {
+
+        public void showButtomDialog(View view, ArrayList<String> dataAll) {
             DialogFragment dialogFragment = new Duty_Night_Dialog();
             Bundle args = new Bundle();
             args.putString("register_staff_room", staff_room);
             args.putString("register_staff_name", staff_ryosei);
             args.putString("register_staff_id", staff_id);
-            args.putStringArrayList("dataAll",dataAll);
+            args.putStringArrayList("dataAll", dataAll);
             dialogFragment.setArguments(args);
             dialogFragment.show(getSupportFragmentManager(), "Duty_Night_Dialog");
-        }
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK) {
-            // 戻るボタンの処理
-            Intent event_refresh_intent = new Intent();
-            event_refresh_intent.putExtra("EventRefresh",true);
-            setResult(RESULT_OK,event_refresh_intent);
-            finish();
-        }
-        return true;
-    }
-
-    public void onBackButtonClick(View view){
-
-        Intent event_refresh_intent = new Intent();
-        event_refresh_intent.putExtra("EventRefresh",true);
-        setResult(RESULT_OK,event_refresh_intent);
-        finish();
-    }
-    public void onReturnValue(boolean bool) {
-        if(bool){
-            SQLiteDatabase db = _helper.getWritableDatabase();
-            for(int i = 0; i < outputDataAll.size(); i++) {
-                _helper.night_check_updater(db, outputDataAll.get(i));
-            }
-            db.close();
-            finish();
-            Toast.makeText(Night_Duty_NimotsuFuda.this, R.string.night_duty_short, Toast.LENGTH_SHORT).show();
-
         }
     }
 
@@ -327,22 +343,6 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
         private String parcelsUid;
         private String lostDateTime;
         private Boolean checkdata;
-
-        public void setRoomName(String room) {
-            this.roomName = room;
-        }
-
-        public void setRyoseiName(String ryosei) {
-            this.ryoseiName = ryosei;
-        }
-
-        public void setParcelsAttribute(String parcels) {
-            this.parcelsAttribute = parcels;
-        }
-
-        public void setLostDateTime(String lostDateTime) {
-            this.lostDateTime = lostDateTime;
-        }
 
         public void setParcelUid(String uid) {
             this.parcelsUid = uid;
@@ -356,12 +356,24 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
             return roomName;
         }
 
+        public void setRoomName(String room) {
+            this.roomName = room;
+        }
+
         public String getRyoseiName() {
             return ryoseiName;
         }
 
+        public void setRyoseiName(String ryosei) {
+            this.ryoseiName = ryosei;
+        }
+
         public String getParcelsAttribute() {
             return parcelsAttribute;
+        }
+
+        public void setParcelsAttribute(String parcels) {
+            this.parcelsAttribute = parcels;
         }
 
         public String getParcelsUid() {
@@ -372,16 +384,20 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
             return lostDateTime;
         }
 
+        public void setLostDateTime(String lostDateTime) {
+            this.lostDateTime = lostDateTime;
+        }
+
         public Boolean isChecked() {
             return checkdata;
         }
     }
 
-     // A棟リスト表示制御用クラス
+    // A棟リスト表示制御用クラス
     class ListAdapterA extends ArrayAdapter<Data> {
-        private LayoutInflater inflater;
+        private final LayoutInflater inflater;
         // values/colors.xmlより設定値を取得するために利用。
-        private Resources r;
+        private final Resources r;
 
         public ListAdapterA(Context context, List<Data> objects) {
             super(context, 0, objects);
@@ -392,21 +408,21 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
 
         @Override
         public View getView(final int position, View view, ViewGroup parent) {
-            Data item = (Data) getItem(position);
+            Data item = getItem(position);
             // layout/raw.xmlを紐付ける
             if (view == null) {
-                view = inflater.inflate(R.layout.nimotsufuda_raw, parent, false);
+                view = inflater.inflate(R.layout.outdated_nimotsufuda_raw, parent, false);
             }
             final Data data = this.getItem(position);
-            TextView tvData1A = (TextView) view.findViewById(R.id.raw1);
+            TextView tvData1A = view.findViewById(R.id.raw1);
             tvData1A.setText(item.getRoomName());
-            TextView tvData2A = (TextView) view.findViewById(R.id.raw2);
+            TextView tvData2A = view.findViewById(R.id.raw2);
             tvData2A.setText(item.getRyoseiName());
-            TextView tvData3A = (TextView) view.findViewById(R.id.raw3);
+            TextView tvData3A = view.findViewById(R.id.raw3);
             tvData3A.setText(item.getParcelsAttribute());
-            TextView tvData4A = (TextView) view.findViewById(R.id.raw4);
+            TextView tvData4A = view.findViewById(R.id.raw4);
             tvData3A.setText(item.getLostDateTime());
-            CheckBox checkBoxA = (CheckBox) view.findViewById(R.id.parcelcheckbox);
+            CheckBox checkBoxA = view.findViewById(R.id.parcelcheckbox);
             checkBoxA.setOnCheckedChangeListener(null);
             checkBoxA.setChecked(item.isChecked());
             checkBoxA.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -447,9 +463,9 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
 
     // B棟リスト表示制御用クラス
     class ListAdapterB extends ArrayAdapter<Data> {
-        private LayoutInflater inflater;
+        private final LayoutInflater inflater;
         // values/colors.xmlより設定値を取得するために利用。
-        private Resources r;
+        private final Resources r;
 
         public ListAdapterB(Context context, List<Data> objects) {
             super(context, 0, objects);
@@ -460,21 +476,21 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
 
         @Override
         public View getView(final int position, View view, ViewGroup parent) {
-            Data item = (Data) getItem(position);
+            Data item = getItem(position);
             // layout/raw.xmlを紐付ける
             if (view == null) {
-                view = inflater.inflate(R.layout.nimotsufuda_raw, parent, false);
+                view = inflater.inflate(R.layout.outdated_nimotsufuda_raw, parent, false);
             }
             final Data data = this.getItem(position);
-            TextView tvData1A = (TextView) view.findViewById(R.id.raw1);
+            TextView tvData1A = view.findViewById(R.id.raw1);
             tvData1A.setText(item.getRoomName());
-            TextView tvData2A = (TextView) view.findViewById(R.id.raw2);
+            TextView tvData2A = view.findViewById(R.id.raw2);
             tvData2A.setText(item.getRyoseiName());
-            TextView tvData3A = (TextView) view.findViewById(R.id.raw3);
+            TextView tvData3A = view.findViewById(R.id.raw3);
             tvData3A.setText(item.getParcelsAttribute());
-            TextView tvData4A = (TextView) view.findViewById(R.id.raw4);
+            TextView tvData4A = view.findViewById(R.id.raw4);
             tvData3A.setText(item.getLostDateTime());
-            CheckBox checkBoxA = (CheckBox) view.findViewById(R.id.parcelcheckbox);
+            CheckBox checkBoxA = view.findViewById(R.id.parcelcheckbox);
             checkBoxA.setOnCheckedChangeListener(null);
             checkBoxA.setChecked(item.isChecked());
             checkBoxA.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -515,9 +531,9 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
 
     // C棟リスト表示制御用クラス
     class ListAdapterC extends ArrayAdapter<Data> {
-        private LayoutInflater inflater;
+        private final LayoutInflater inflater;
         // values/colors.xmlより設定値を取得するために利用。
-        private Resources r;
+        private final Resources r;
 
         public ListAdapterC(Context context, List<Data> objects) {
             super(context, 0, objects);
@@ -528,21 +544,21 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
 
         @Override
         public View getView(final int position, View view, ViewGroup parent) {
-            Data item = (Data) getItem(position);
+            Data item = getItem(position);
             // layout/raw.xmlを紐付ける
             if (view == null) {
-                view = inflater.inflate(R.layout.nimotsufuda_raw, parent, false);
+                view = inflater.inflate(R.layout.outdated_nimotsufuda_raw, parent, false);
             }
             final Data data = this.getItem(position);
-            TextView tvData1A = (TextView) view.findViewById(R.id.raw1);
+            TextView tvData1A = view.findViewById(R.id.raw1);
             tvData1A.setText(item.getRoomName());
-            TextView tvData2A = (TextView) view.findViewById(R.id.raw2);
+            TextView tvData2A = view.findViewById(R.id.raw2);
             tvData2A.setText(item.getRyoseiName());
-            TextView tvData3A = (TextView) view.findViewById(R.id.raw3);
+            TextView tvData3A = view.findViewById(R.id.raw3);
             tvData3A.setText(item.getParcelsAttribute());
-            TextView tvData4A = (TextView) view.findViewById(R.id.raw4);
+            TextView tvData4A = view.findViewById(R.id.raw4);
             tvData4A.setText(item.getLostDateTime());
-            CheckBox checkBoxA = (CheckBox) view.findViewById(R.id.parcelcheckbox);
+            CheckBox checkBoxA = view.findViewById(R.id.parcelcheckbox);
             checkBoxA.setOnCheckedChangeListener(null);
             checkBoxA.setChecked(item.isChecked());
             checkBoxA.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -583,9 +599,9 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
 
     // D棟リスト表示制御用クラス
     class ListAdapterD extends ArrayAdapter<Data> {
-        private LayoutInflater inflater;
+        private final LayoutInflater inflater;
         // values/colors.xmlより設定値を取得するために利用。
-        private Resources r;
+        private final Resources r;
 
         public ListAdapterD(Context context, List<Data> objects) {
             super(context, 0, objects);
@@ -596,21 +612,21 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
 
         @Override
         public View getView(final int position, View view, ViewGroup parent) {
-            Data item = (Data) getItem(position);
+            Data item = getItem(position);
             // layout/raw.xmlを紐付ける
             if (view == null) {
-                view = inflater.inflate(R.layout.nimotsufuda_raw_rinjicapacity, parent, false);
+                view = inflater.inflate(R.layout.outdated_nimotsufuda_raw_rinjicapacity, parent, false);
             }
             final Data data = this.getItem(position);
-            TextView tvData1A = (TextView) view.findViewById(R.id.raw1_rinjicapacity);
+            TextView tvData1A = view.findViewById(R.id.raw1_rinjicapacity);
             tvData1A.setText(item.getRoomName());
-            TextView tvData2A = (TextView) view.findViewById(R.id.raw2_rinjicapacity);
+            TextView tvData2A = view.findViewById(R.id.raw2_rinjicapacity);
             tvData2A.setText(item.getRyoseiName());
-            TextView tvData3A = (TextView) view.findViewById(R.id.raw3_rinjicapacity);
+            TextView tvData3A = view.findViewById(R.id.raw3_rinjicapacity);
             tvData3A.setText(item.getParcelsAttribute());
-            TextView tvData4A = (TextView) view.findViewById(R.id.raw4_rinjicapacity);
+            TextView tvData4A = view.findViewById(R.id.raw4_rinjicapacity);
             tvData3A.setText(item.getLostDateTime());
-            CheckBox checkBoxA = (CheckBox) view.findViewById(R.id.parcelcheckbox_rinjicapacity);
+            CheckBox checkBoxA = view.findViewById(R.id.parcelcheckbox_rinjicapacity);
             checkBoxA.setOnCheckedChangeListener(null);
             checkBoxA.setChecked(item.isChecked());
             checkBoxA.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

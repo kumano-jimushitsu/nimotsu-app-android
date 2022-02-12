@@ -19,14 +19,14 @@
         android:orientation="horizontal"
         android:paddingHorizontal="110dp"
         android:paddingVertical="20dp"
-        app:layout_constraintBottom_toTopOf="@id/include_footer"
+        app:layout_constraintBottom_toTopOf="@id/include_footer_hikiwatashi"
         app:layout_constraintTop_toBottomOf="@id/include_header_hikiwatashi">
 
         <ListView
             android:id="@+id/hikiwatashi_block_list"
             android:layout_width="160dp"
             android:layout_height="560dp"
-            android:background="@drawable/listboder" />
+            android:background="@drawable/listborder" />
 
         <Space
             android:layout_width="100dp"
@@ -36,7 +36,7 @@
             android:id="@+id/hikiwatashi_room_list"
             android:layout_width="160dp"
             android:layout_height="560dp"
-            android:background="@drawable/listboder" />
+            android:background="@drawable/listborder" />
 
         <Space
             android:layout_width="100dp"
@@ -46,13 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingTop="20dp">
-
-            <ListView
-                android:id="@+id/hikiwatashi_ryosei_list"
-                android:layout_width="540dp"
-                android:layout_height="440dp"
-                android:background="@drawable/listboder" />
+            android:paddingTop="15dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -60,7 +54,46 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingHorizontal="20dp"
-                android:paddingTop="10dp">
+                android:layout_gravity="end">
+
+                <EditText
+                    android:id="@+id/hikiwatashi_search_ryosei_name"
+                    android:layout_width="225dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="寮生氏名で検索"
+                    android:inputType="textPersonName"
+                    android:maxLength="20"
+                    android:text="" />
+
+                <ImageButton
+                android:id="@+id/hikiwatashi_search_ryosei_name_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/ic_baseline_search_24"
+                android:textSize="25sp" />
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/hikiwatashi_ryosei_list"
+                android:layout_width="540dp"
+                android:layout_height="440dp"
+                android:background="@drawable/listborder"
+                android:layout_marginTop="10dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+                android:layout_marginTop="15dp">
+
+                <Space
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content" />
 
                 <Switch
                     android:id="@+id/proxy_switch"
@@ -93,52 +126,13 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="20dp"
-                android:paddingTop="10dp">
-
-                <EditText
-                    android:id="@+id/hikiwatashi_search_ryosei_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="寮生氏名で検索"
-                    android:inputType="textPersonName"
-                    android:maxLength="20"
-                    android:text="" />
-
-                <Button
-                    android:id="@+id/hikiwatashi_search_ryosei_name_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="検索"
-                    android:textSize="25sp" />
-
-                <Space
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content" />
-
-                <Button
-                    android:id="@+id/hikiwatashi_go_back_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="戻る"
-                    android:textSize="25sp" />
-
-            </LinearLayout>
-
         </LinearLayout>
 
     </LinearLayout>
 
     <!-- フッター -->
     <include
-        android:id="@+id/include_footer"
-        layout="@layout/include_footer" />
+        android:id="@+id/include_footer_hikiwatashi"
+        layout="@layout/include_footer_hikiwatashi" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

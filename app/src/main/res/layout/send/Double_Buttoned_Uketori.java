@@ -52,7 +52,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_hikiwatashi);
+        setContentView(R.layout.activity_hikiwatashi);
 
         //事務当番の名前を受け取る
         Intent intent = getIntent();
@@ -60,7 +60,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
         jimuto_id_Str = intent.getStringExtra("Jimuto_id");
         jimuto_room_Str = intent.getStringExtra("Jimuto_room");
         //事務当番の名前を表示する
-        TextView jimuto_name =findViewById(R.id.  double_jimutou_name_show);
+        TextView jimuto_name =findViewById(R.id.jimuto_name_show);
         jimuto_name.setText("ただいまの事務当番は " + jimuto_room_Str +" "+jimuto_name_Str+" です。");
         Button backbutton =(Button)findViewById(R.id.hikiwatashi_go_back_button);
         backbutton.setOnClickListener(this::onBackButtonClick);
