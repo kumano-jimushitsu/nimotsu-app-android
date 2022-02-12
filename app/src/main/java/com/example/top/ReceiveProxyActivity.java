@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -62,7 +63,7 @@ public class ReceiveProxyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.double_proxy_change_layout);
 
-        Button backbutton = (Button) findViewById(R.id.double_proxy_change_go_back_button);
+        ImageButton backbutton = (ImageButton) findViewById(R.id.proxy_hikiwatashi_go_back_button);
         backbutton.setOnClickListener(this::onBackButtonClick);
 
         //代理受取人の名前を受け取る
@@ -87,9 +88,15 @@ public class ReceiveProxyActivity extends AppCompatActivity {
         ListView listenerblock = findViewById(R.id.double_proxy_change_block_list);
         listenerblock.setOnItemClickListener(new ReceiveProxyActivity.ListBlockClickListener());
         ListView listenerroom = findViewById(R.id.double_proxy_change_room_list);
+<<<<<<< HEAD:app/src/main/java/com/example/top/ReceiveProxyActivity.java
         listenerroom.setOnItemClickListener(new ReceiveProxyActivity.ListRoomClickListener());
         Button ryosei_search_button = findViewById(R.id.proxy_name_search);
         ryosei_search_button.setOnClickListener(new ReceiveProxyActivity.RyoseiSearchListener());
+=======
+        listenerroom.setOnItemClickListener(new Double_Proxy_Change.ListRoomClickListener());
+        ImageButton ryosei_search_button = findViewById(R.id.proxy_name_search);
+        ryosei_search_button.setOnClickListener(new Double_Proxy_Change.RyoseiSearchListener());
+>>>>>>> bbb97495e8d31289d4cf3d9abe02a6d0fe934583:app/src/main/java/com/example/top/Double_Proxy_Change.java
 
         // DBヘルパーオブジェクトを生成。
         _helper = new DatabaseHelper(ReceiveProxyActivity.this);

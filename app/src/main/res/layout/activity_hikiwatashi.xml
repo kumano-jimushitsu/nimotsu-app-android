@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -51,10 +50,10 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingHorizontal="20dp"
-                android:layout_gravity="end">
+                android:paddingHorizontal="20dp">
 
                 <EditText
                     android:id="@+id/hikiwatashi_search_ryosei_name"
@@ -67,12 +66,12 @@
                     android:text="" />
 
                 <ImageButton
-                android:id="@+id/hikiwatashi_search_ryosei_name_button"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/ic_baseline_search_24"
-                android:textSize="25sp" />
+                    android:id="@+id/hikiwatashi_search_ryosei_name_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_baseline_search_24"
+                    android:textSize="25sp" />
 
             </LinearLayout>
 
@@ -80,44 +79,36 @@
                 android:id="@+id/hikiwatashi_ryosei_list"
                 android:layout_width="540dp"
                 android:layout_height="440dp"
-                android:background="@drawable/listborder"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:background="@drawable/listborder" />
 
-            <LinearLayout
-                android:layout_width="507dp"
+            <RelativeLayout
+                android:layout_width="540dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:paddingHorizontal="20dp">
-
-                <Space
-                    android:layout_width="33dp"
-                    android:layout_height="10dp" />
 
                 <Switch
                     android:id="@+id/proxy_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="代理受取"
+                    android:textColor="#808080"
                     android:textOn="代理受取モード"
+                    android:layout_centerVertical="true"
                     android:textSize="25sp" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/proxy_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_centerVertical="true"
+                    android:text="代理受取人："
+                    android:textSize="20sp"
+                    android:layout_alignParentEnd="true" />
 
-
-                    <TextView
-                        android:id="@+id/proxy_textview"
-                        android:layout_width="400dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="代理受取人："
-                        android:textSize="20sp" />
-                </LinearLayout>
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 
