@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 public abstract class OnOneItemClickListener implements AdapterView.OnItemClickListener {
-    private static final long MIN_CLICK_INTERVAL = 1000; //in millis
+    private static final long MIN_CLICK_INTERVAL = 400; //in millis
     private long lastClickTime = 0;
 
     @Override

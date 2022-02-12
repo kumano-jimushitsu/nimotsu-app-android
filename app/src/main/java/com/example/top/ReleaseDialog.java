@@ -31,7 +31,7 @@ public class ReleaseDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-
+        touchsound = new TouchSound(ReleaseActivity.getReceiveActivityContext());
         //        owner_ryosei_name = getArguments().getString("owner_name","");
         //owner_ryosei_room = getArguments().getString("owner_room","");
         owner_ryosei_id = getArguments().getString("owner_id", "0");
@@ -71,7 +71,6 @@ public class ReleaseDialog extends DialogFragment {
         builder.setTitle(owner_ryosei_room + " " + owner_ryosei_name + " の荷物を引き渡します。").setPositiveButton("引き渡し", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // このボタンを押した時の処理を書きます。
-                touchsound = new TouchSound(ReleaseActivity.getReceiveActivityContext());
                 for (int i = 0; i < choices.size(); i++) {
                     if (isCheckedList[i] == true) {
                         _helper.release(db, owner_ryosei_id, String.valueOf(idlist[i]), release_staff_id, release_staff_room, release_staff_name, "");
@@ -80,14 +79,9 @@ public class ReleaseDialog extends DialogFragment {
                 }
                 if (nimotsu_count_sametime != 0) {
                     Toast.makeText(getActivity(), owner_ryosei_room + " " + owner_ryosei_name + "の荷物を" + String.valueOf(nimotsu_count_sametime) + "個、引き渡しました", Toast.LENGTH_SHORT).show();
+                    touchsound.playsound555complete();
                     //引き渡し音声
-                    try {
-                        //　1sec sleep
-                        touchsound.playsound555complete();
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                    }
+
                     //荷物引き渡しページを閉じさせる。
                     //呼び出し元のフラグメントに結果を返す
                     ReleaseActivity callingActivity = (ReleaseActivity) getActivity();

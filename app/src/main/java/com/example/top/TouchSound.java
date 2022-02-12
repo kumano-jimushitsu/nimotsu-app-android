@@ -1,9 +1,8 @@
 package com.example.top;
-import android.content.DialogInterface;
+
+import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
-import android.media.AudioManager;
-import android.content.Context;
 
 public class TouchSound {
     public SoundPool pool;
@@ -41,7 +40,7 @@ public class TouchSound {
         sound_555_2 = pool.load(context, R.raw.faiz2, 2);
         sound_555_3 = pool.load(context, R.raw.faiz3, 2);
         sound_555_pico = pool.load(context, R.raw.faiz_pico, 2);
-        sound_555_complete = pool.load(context, R.raw.megaraba, 2);
+        sound_555_complete = pool.load(context, R.raw.faiz_complete, 2);
 
 
 
