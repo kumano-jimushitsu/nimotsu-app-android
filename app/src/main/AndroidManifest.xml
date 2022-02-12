@@ -28,7 +28,7 @@
             android:name=".Nimotsu_show"
             android:exported="true" />
         <activity
-            android:name=".ReceiveActivity"
+            android:name=".ReleaseActivity"
             android:exported="true" />
         <activity
             android:name=".JimutoChangeActivity"
@@ -37,7 +37,7 @@
             android:name=".RegisterActivity"
             android:exported="true" />
         <activity
-            android:name=".ReceiveProxyActivity"
+            android:name=".ReleaseProxyActivity"
             android:exported="true" />
         <activity android:name=".TextActivity" />
         <activity

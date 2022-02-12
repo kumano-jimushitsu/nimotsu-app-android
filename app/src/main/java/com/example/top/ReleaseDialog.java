@@ -15,7 +15,7 @@ import androidx.fragment.app.DialogFragment;
 import java.util.List;
 import java.util.Map;
 
-public class Receive_Dialog extends DialogFragment {
+public class ReleaseDialog extends DialogFragment {
 
     String owner_ryosei_name = "";
     String owner_ryosei_room = "";
@@ -71,7 +71,7 @@ public class Receive_Dialog extends DialogFragment {
         builder.setTitle(owner_ryosei_room + " " + owner_ryosei_name + " の荷物を引き渡します。").setPositiveButton("引き渡し", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // このボタンを押した時の処理を書きます。
-                touchsound = new TouchSound(ReceiveActivity.getReceiveActivityContext());
+                touchsound = new TouchSound(ReleaseActivity.getReceiveActivityContext());
                 for (int i = 0; i < choices.size(); i++) {
                     if (isCheckedList[i] == true) {
                         _helper.release(db, owner_ryosei_id, String.valueOf(idlist[i]), release_staff_id, release_staff_room, release_staff_name, "");
@@ -90,7 +90,7 @@ public class Receive_Dialog extends DialogFragment {
                     }
                     //荷物引き渡しページを閉じさせる。
                     //呼び出し元のフラグメントに結果を返す
-                    ReceiveActivity callingActivity = (ReceiveActivity) getActivity();
+                    ReleaseActivity callingActivity = (ReleaseActivity) getActivity();
                     cancel = true;
                     callingActivity.closeActivity();
                 } else {

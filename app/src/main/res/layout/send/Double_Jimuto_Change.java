@@ -453,7 +453,7 @@ public class Double_Jimuto_Change extends AppCompatActivity {
             Bundle args = new Bundle();
             args.putString("room_ryosei",room_name);
             args.putString("id",id);
-            DialogFragment dialogFragment = new Jimuto_Change_Dialog();
+            DialogFragment dialogFragment = new JimutoChangeDialog();
             dialogFragment.setArguments(args);
             dialogFragment.show(getSupportFragmentManager(), "Jimutou_Change_Dialog");
         }

@@ -239,7 +239,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    //受取の関数ポータル。ここからデータベース3つを更新する。agent_uidは、代理受取でない場合は""（空白文字）が来る）
+    //受取の関数ポータル。ここからデータベース3つを更新する。agent_uidは、代理でない場合は""（空白文字）が来る）
     public void release(
             SQLiteDatabase db,
             String owner_id,

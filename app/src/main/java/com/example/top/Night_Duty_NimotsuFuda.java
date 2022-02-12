@@ -16,7 +16,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +63,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
         staff_ryosei = intent.getStringExtra("Jimuto_id");
         staff_id = intent.getStringExtra("Jimuto_room");
         // 事務当番の名前を表示
-        TextView jimuto_name = findViewById(R.id.main_jimutou_show);
+        TextView jimuto_name = findViewById(R.id.main_jimuto_show);
         jimuto_name.setText(staff_id);
         ListView listViewA = findViewById(R.id.listA);
         ListView listViewB = findViewById(R.id.listB);

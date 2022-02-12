@@ -69,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
         jimuto_id_Str = intent.getStringExtra("Jimuto_id");
         jimuto_room_Str = intent.getStringExtra("Jimuto_room");
         //事務当番の名前を表示する
-        TextView jimuto_name = findViewById(R.id.main_jimutou_show);
+        TextView jimuto_name = findViewById(R.id.main_jimuto_show);
         jimuto_name.setText(jimuto_room_Str);
 
         selectedBlock = null;
@@ -416,7 +416,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         public void showDialog(View view, String owner_room_name, String owner_id) {
-            DialogFragment dialogFragment = new Register_Dialog();
+            DialogFragment dialogFragment = new RegisterDialog();
             String[] newStr = owner_room_name.split("\\s+");
             Bundle args = new Bundle();
             args.putString("owner_room", newStr[0]);

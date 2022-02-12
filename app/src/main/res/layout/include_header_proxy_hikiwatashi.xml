@@ -22,7 +22,7 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
         android:layout_toRightOf="@id/proxy_hikiwatashi_go_back_button"
-        android:text="引き渡し交代の代理人設定画面です。"
+        android:text="代理人選択画面です。"
         android:textColor="@color/default_header_font"
         android:textSize="30sp" />
 
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/double_proxyu_name_show"
-        android:text="代理受取人："
+        android:text="代理人："
         android:textColor="@color/default_header_font"
         android:textSize="20sp" />
 

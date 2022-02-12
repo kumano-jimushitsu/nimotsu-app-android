@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 
-public class ReceiveActivity extends AppCompatActivity {
+public class ReleaseActivity extends AppCompatActivity {
 
     private static final int PROXYCHANGE_ACTIVITY = 2001;
     //ArrayListを用意
@@ -68,7 +68,7 @@ public class ReceiveActivity extends AppCompatActivity {
     //private ConstraintLayout double_buttoned_uketori;
 
     public static Context getReceiveActivityContext() {
-        return ReceiveActivity.context;
+        return ReleaseActivity.context;
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,13 +88,13 @@ public class ReceiveActivity extends AppCompatActivity {
         proxy_id_Str = intent.getStringExtra("Proxy_id");
         proxy_room_Str = intent.getStringExtra("Proxy_room");
         //事務当番の名前を表示する
-        TextView jimuto_name = findViewById(R.id.main_jimutou_show);
+        TextView jimuto_name = findViewById(R.id.main_jimuto_show);
         jimuto_name.setText(jimuto_room_Str);
         ImageButton backbutton = findViewById(R.id.hikiwatashi_go_back_button);
         backbutton.setOnClickListener(this::onBackButtonClick);
         selectedBlock = null;
         // DBヘルパーオブジェクトを生成。
-        _helper = new DatabaseHelper(ReceiveActivity.this);
+        _helper = new DatabaseHelper(ReleaseActivity.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
         get_block();
         show_block();
@@ -103,13 +103,13 @@ public class ReceiveActivity extends AppCompatActivity {
         show_room();
         this.show_block_ryosei(null);//nullを渡すと全寮生を表示
         ListView blocklistListener = findViewById(R.id.hikiwatashi_block_list);
-        blocklistListener.setOnItemClickListener(new ReceiveActivity.ListBlockClickListener());
+        blocklistListener.setOnItemClickListener(new ReleaseActivity.ListBlockClickListener());
         ListView roomlistListener = findViewById(R.id.hikiwatashi_room_list);
-        roomlistListener.setOnItemClickListener(new ReceiveActivity.ListRoomClickListener());
+        roomlistListener.setOnItemClickListener(new ReleaseActivity.ListRoomClickListener());
         ImageButton ryosei_search_button = findViewById(R.id.hikiwatashi_search_ryosei_name_button);
-        ryosei_search_button.setOnClickListener(new ReceiveActivity.RyoseiSearchListener());
+        ryosei_search_button.setOnClickListener(new ReleaseActivity.RyoseiSearchListener());
         Switch proxySwitch = findViewById(R.id.proxy_switch);
-        proxySwitch.setOnCheckedChangeListener(new ReceiveActivity.ProxySwitchListener());
+        proxySwitch.setOnCheckedChangeListener(new ReleaseActivity.ProxySwitchListener());
 
         proxy_room_name_text = findViewById(R.id.proxy_textview);
         //proxy_change_button = findViewById(R.id.proxy_cahnge_button);
@@ -117,9 +117,9 @@ public class ReceiveActivity extends AppCompatActivity {
         //proxy_change_button.setVisibility(View.GONE);
         //proxy_change_button.setOnClickListener(new DoubleProxyChangeListener());
         if (proxy_name_Str == null && proxy_room_Str == null) {
-            proxy_room_name_text.setText("代理受取人が設定されていません。");
+            proxy_room_name_text.setText("代理人が設定されていません。");
         } else {
-            proxy_room_name_text.setText("代理受取人: " + proxy_room_Str + " " + proxy_name_Str);
+            proxy_room_name_text.setText("代理人: " + proxy_room_Str + " " + proxy_name_Str);
         }
 
         // システムナビゲーションバーの色を変更
@@ -232,7 +232,7 @@ public class ReceiveActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.hikiwatashi_ryosei_list);
         listView.setAdapter(blocktoryoseiadapter);
         ListView listListener = findViewById(R.id.hikiwatashi_ryosei_list);
-        listListener.setOnItemClickListener(new ReceiveActivity.ListRyoseiClickListener());
+        listListener.setOnItemClickListener(new ReleaseActivity.ListRyoseiClickListener());
         _helper.close();
     }
 
@@ -283,7 +283,7 @@ public class ReceiveActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.hikiwatashi_ryosei_list);
         listView.setAdapter(roomtoryoseiadapter);
         ListView listListener = findViewById(R.id.hikiwatashi_ryosei_list);
-        listListener.setOnItemClickListener(new ReceiveActivity.ListRyoseiClickListener());
+        listListener.setOnItemClickListener(new ReleaseActivity.ListRyoseiClickListener());
         _helper.close();
     }
 
@@ -295,7 +295,7 @@ public class ReceiveActivity extends AppCompatActivity {
         ListView blocklistView = findViewById(R.id.hikiwatashi_block_list);
         blocklistView.setAdapter(blockadapter);
         ListView blocklistListener = findViewById(R.id.hikiwatashi_block_list);
-        blocklistListener.setOnItemClickListener(new ReceiveActivity.ListRyoseiClickListener());
+        blocklistListener.setOnItemClickListener(new ReleaseActivity.ListRyoseiClickListener());
         _helper.close();
     }
 
@@ -321,7 +321,7 @@ public class ReceiveActivity extends AppCompatActivity {
         ListView roomlistView = findViewById(R.id.hikiwatashi_room_list);
         roomlistView.setAdapter(blockadapter);
         ListView roomlistListener = findViewById(R.id.hikiwatashi_room_list);
-        roomlistListener.setOnItemClickListener(new ReceiveActivity.ListRoomClickListener());
+        roomlistListener.setOnItemClickListener(new ReleaseActivity.ListRoomClickListener());
 
         _helper.close();
     }
@@ -409,7 +409,7 @@ public class ReceiveActivity extends AppCompatActivity {
                 proxy_id_Str = intent.getStringExtra("Proxy_id");
                 proxy_room_Str = intent.getStringExtra("Proxy_room");
                 //proxy_name_Str = intent.getStringExtra("Proxy_name");
-                proxy_room_name_text.setText("代理受取人: " + proxy_room_Str);
+                proxy_room_name_text.setText("代理人: " + proxy_room_Str);
             default:
         }
     }
@@ -466,7 +466,7 @@ public class ReceiveActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.hikiwatashi_ryosei_list);
         listView.setAdapter(adapter);
         ListView listListener = findViewById(R.id.hikiwatashi_ryosei_list);
-        listListener.setOnItemClickListener(new ReceiveActivity.ListRyoseiClickListener());
+        listListener.setOnItemClickListener(new ReleaseActivity.ListRyoseiClickListener());
         _helper.close();
     }
 
@@ -552,10 +552,10 @@ public class ReceiveActivity extends AppCompatActivity {
             if (p.matcher(input_name).matches()) {
                 search_show(input_name);
             } else if (count > 5) {
-                Toast.makeText(ReceiveActivity.this, "漢字、ひらがな、カタカナしか使えません。", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReleaseActivity.this, "漢字、ひらがな、カタカナしか使えません。", Toast.LENGTH_SHORT).show();
                 count++;
             } else {
-                Toast.makeText(ReceiveActivity.this, "漢字、ひらがな、カタカナしか使えません。", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReleaseActivity.this, "漢字、ひらがな、カタカナしか使えません。", Toast.LENGTH_SHORT).show();
                 count++;
             }
 
@@ -574,9 +574,9 @@ public class ReceiveActivity extends AppCompatActivity {
             if (proxy_check) {
                 if (Integer.parseInt(item.get("parcels_current_count")) == 0) {
                     String show = item.get("room_name") + "には現在荷物が一つも登録されていません。";
-                    Toast.makeText(ReceiveActivity.this, show, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReleaseActivity.this, show, Toast.LENGTH_LONG).show();
                 } else if (proxy_id_Str == null) {
-                    Toast.makeText(ReceiveActivity.this, "代理受取人を設定してください。", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReleaseActivity.this, "代理人を設定してください。", Toast.LENGTH_LONG).show();
                 } else {
                     this.showProxyDialog(view, item.get("room_name"), item.get("id"), proxy_id_Str, proxy_room_Str, proxy_name_Str);
                     this.showMyDialog(view, "本人確認", "身分証明証(学生証、免許証、橙食券等)を確認してください。", "OK");
@@ -587,7 +587,7 @@ public class ReceiveActivity extends AppCompatActivity {
             else {
                 if (Integer.parseInt(item.get("parcels_current_count")) == 0) {
                     String show = item.get("room_name") + "には現在荷物が一つも登録されていません。";
-                    Toast.makeText(ReceiveActivity.this, show, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReleaseActivity.this, show, Toast.LENGTH_LONG).show();
                 } else {
                     this.showDialog(view, item.get("room_name"), item.get("id"));
                     this.showMyDialog(view, "本人確認", "身分証明証(学生証、免許証、橙食券等)を確認してください。", "OK");
@@ -596,7 +596,7 @@ public class ReceiveActivity extends AppCompatActivity {
         }
 
         public void showDialog(View view, String owner_room_name, String owner_id) {
-            DialogFragment dialogFragment = new Receive_Dialog();
+            DialogFragment dialogFragment = new ReleaseDialog();
             String[] newStr = owner_room_name.split("\\s+");
             Bundle args = new Bundle();
             args.putString("owner_room", newStr[0]);
@@ -620,7 +620,7 @@ public class ReceiveActivity extends AppCompatActivity {
         }
 
         public void showProxyDialog(View view, String owner_room_name, String owner_id, String proxy_id, String proxy_room, String proxy_name) {
-            DialogFragment dialogFragment = new Nimotsu_Proxy_Uketori_Dialog();
+            DialogFragment dialogFragment = new ReleaseProxyDialog();
             String[] newStr = owner_room_name.split("\\s+");
             Bundle args = new Bundle();
             args.putString("owner_room", newStr[0]);
@@ -676,7 +676,7 @@ public class ReceiveActivity extends AppCompatActivity {
             if (isChecked) {
                 proxy_room_name_text.setVisibility(View.VISIBLE);
                 //proxy_change_button.setVisibility(View.VISIBLE);
-                Intent proxy_intent = new Intent(ReceiveActivity.this, ReceiveProxyActivity.class);
+                Intent proxy_intent = new Intent(ReleaseActivity.this, ReleaseProxyActivity.class);
                 proxy_intent.putExtra("Proxy_name", proxy_room_Str + " " + proxy_name_Str);
                 proxy_intent.putExtra("Proxyid", proxy_id_Str);
                 startActivityForResult(proxy_intent, PROXYCHANGE_ACTIVITY);
@@ -696,7 +696,7 @@ public class ReceiveActivity extends AppCompatActivity {
     private class DoubleProxyChangeListener extends OnOneClickListener {
         @Override
         public void onOneClick(View view) {
-            Intent proxy_intent = new Intent(ReceiveActivity.this, ReceiveProxyActivity.class);
+            Intent proxy_intent = new Intent(ReleaseActivity.this, ReleaseProxyActivity.class);
             proxy_intent.putExtra("Proxy_name", proxy_room_Str + " " + proxy_name_Str);
             proxy_intent.putExtra("Proxyid", proxy_id_Str);
             startActivityForResult(proxy_intent, PROXYCHANGE_ACTIVITY);

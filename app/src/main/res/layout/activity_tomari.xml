@@ -21,18 +21,8 @@
         app:layout_constraintBottom_toTopOf="@id/include_footer"
         app:layout_constraintTop_toBottomOf="@id/include_header_tomari">
 
-<<<<<<< HEAD
-        <Space
-            android:layout_width="80dp"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tomari_explanation_1"
-            android:layout_width="900dp"
-=======
         <LinearLayout
             android:layout_width="match_parent"
->>>>>>> bbb97495e8d31289d4cf3d9abe02a6d0fe934583
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 

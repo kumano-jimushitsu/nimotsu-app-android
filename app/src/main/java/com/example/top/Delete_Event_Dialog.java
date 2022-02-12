@@ -7,13 +7,10 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
-
-import androidx.fragment.app.DialogFragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 public class Delete_Event_Dialog extends DialogFragment {
     String event_id = "";
@@ -127,7 +124,7 @@ public class Delete_Event_Dialog extends DialogFragment {
                     sql = "select room_name, ryosei_name from ryosei where uid ='" + cursor.getString(cursor.getColumnIndex("release_agent_uid")) + "';";
                     cursor = db.rawQuery(sql, null);
                     cursor.moveToFirst();
-                    message += "\r\n　・代理受取　　：" + cursor.getString(cursor.getColumnIndex("room_name")) + "　" + cursor.getString(cursor.getColumnIndex("ryosei_name"));
+                    message += "\r\n　・代理　　：" + cursor.getString(cursor.getColumnIndex("room_name")) + "　" + cursor.getString(cursor.getColumnIndex("ryosei_name"));
                 }
 
                 break;

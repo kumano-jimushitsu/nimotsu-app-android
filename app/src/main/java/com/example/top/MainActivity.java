@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         ActivityHelper.enableTransparentFooter(this);
 
         //事務当の名前を表示
-        TextView jimuto_name = findViewById(R.id.main_jimutou_show);
+        TextView jimuto_name = findViewById(R.id.main_jimuto_show);
         jimuto_room = _helper.jimuto_at_oncreate(db);
         jimuto_name.setText(jimuto_room);
         jimuto_id=_helper.jimuto_id_at_oncreate(db);
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
             case JIMUTOCHANGE_ACTIVITY:
                 jimuto_id = intent.getStringExtra("Jimuto_id");
                 jimuto_room = intent.getStringExtra("Jimuto_room_name");
-                TextView jimuto_show = findViewById(R.id.main_jimutou_show);
+                TextView jimuto_show = findViewById(R.id.main_jimuto_show);
                 jimuto_show.setText(jimuto_room);
 
                 _helper.jimuto_change_event(db, jimuto_id);
@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showQRDialog(View view, String owner_room, String owner_name, String owner_id) {
-        DialogFragment dialogFragment = new Nimotsu_Uketori_QR_Dialog();
+        DialogFragment dialogFragment = new ReleaseQRDialog();
         Bundle args = new Bundle();
         args.putString("owner_room", owner_room);
         args.putString("owner_name", owner_name);
@@ -368,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
                 this.showMyDialog(null, getString(R.string.main_not_selected_staff), "", getString(R.string.ok), "");
                 touchsound.playsoundTwo();
             } else {
-                Intent intent = new Intent(MainActivity.this, ReceiveActivity.class);
+                Intent intent = new Intent(MainActivity.this, ReleaseActivity.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 //intent.putExtra("Jimuto_name", jimuto_name);

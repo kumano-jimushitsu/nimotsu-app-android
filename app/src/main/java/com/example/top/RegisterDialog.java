@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-public class Register_Dialog extends DialogFragment {
+public class RegisterDialog extends DialogFragment {
 
     String owner_ryosei_name = "";
     String owner_ryosei_room = "";

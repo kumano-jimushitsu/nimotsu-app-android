@@ -64,7 +64,7 @@ public class JimutoChangeActivity extends AppCompatActivity {
         jimuto_id = intent.getStringExtra("Jimuto_id");
 
         //事務当番の名前を表示する
-        TextView jimuto_name = findViewById(R.id.main_jimutou_show);
+        TextView jimuto_name = findViewById(R.id.main_jimuto_show);
         jimuto_name.setText(jimuto_room_name);
 
         get_block();
@@ -397,7 +397,7 @@ public class JimutoChangeActivity extends AppCompatActivity {
     //Dialogから帰ってきたのをここで受ける
     //使っていないが、jimuto_change_Dialogを参考にするため残している関係で残している
     public void onReturnValue(String value, String id) {
-        TextView jimuto_name = findViewById(R.id.main_jimutou_show);
+        TextView jimuto_name = findViewById(R.id.main_jimuto_show);
         jimuto_name.setText("ただいまの事務当番は " + value + " です。");
         jimuto_room_name = value;
         jimuto_id = id;
@@ -462,7 +462,7 @@ public class JimutoChangeActivity extends AppCompatActivity {
             //参考になるので消さないが、ダイアログでの確認をせず更新するために変更
 
             //2/5ダイアログでの確認を省略する変更の際に追加↓
-            TextView jimuto_name = findViewById(R.id.main_jimutou_show);
+            TextView jimuto_name = findViewById(R.id.main_jimuto_show);
             jimuto_room_name = item.get("room_name");
             jimuto_id = item.get("id");
             jimuto_name.setText(jimuto_room_name);
@@ -481,7 +481,7 @@ public class JimutoChangeActivity extends AppCompatActivity {
             Bundle args = new Bundle();
             args.putString("room_ryosei", room_name);
             args.putString("id", id);
-            DialogFragment dialogFragment = new Jimuto_Change_Dialog();
+            DialogFragment dialogFragment = new JimutoChangeDialog();
             dialogFragment.setArguments(args);
             dialogFragment.show(getSupportFragmentManager(), "Jimutou_Change_Dialog");
         }

@@ -11,17 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-public class Jimuto_Change_Dialog extends DialogFragment {
+public class JimutoChangeDialog extends DialogFragment {
 
     @NonNull
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         //値を受け取る
-        String jimuto_ryosei_room = getArguments().getString("room_ryosei","");
-        String jimuto_ryosei_id = getArguments().getString("id","0");
-        builder.setTitle("事務当番交代")
-                .setMessage(jimuto_ryosei_room+"に事務当番を交代します。")
-                .setPositiveButton("交代する", new DialogInterface.OnClickListener() {
+        String jimuto_ryosei_room = getArguments().getString("room_ryosei", "");
+        String jimuto_ryosei_id = getArguments().getString("id", "0");
+        builder.setTitle("事務当番交代").setMessage(jimuto_ryosei_room + "に事務当番を交代します。").setPositiveButton("交代する", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // このボタンを押した時の処理を書きます。
                         Toast.makeText(getActivity(), jimuto_ryosei_room+"に事務当番を交代しました。", Toast.LENGTH_SHORT).show();

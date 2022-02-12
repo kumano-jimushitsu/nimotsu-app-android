@@ -3,6 +3,7 @@ package com.example.top;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -14,37 +15,44 @@ import androidx.fragment.app.DialogFragment;
 import java.util.List;
 import java.util.Map;
 
-public class Nimotsu_Proxy_Uketori_Dialog extends DialogFragment {
+public class ReleaseQRDialog extends DialogFragment {
 
     String owner_ryosei_name = "";
     String owner_ryosei_room = "";
     String owner_ryosei_id = "";
-    String  release_staff_name = "";
-    String  release_staff_room = "";
-    String  release_staff_id = "";
-    String proxy_name ="";
-    String proxy_room ="";
-    String proxy_id ="";
+    String release_staff_name = "";
+    String release_staff_room = "";
+    String release_staff_id = "";
     int nimotsu_count_sametime = 0;
     private DatabaseHelper _helper;
+    Boolean cancel = true;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
-        owner_ryosei_name = getArguments().getString("owner_name","");
-        owner_ryosei_room = getArguments().getString("owner_room","");
+//        owner_ryosei_name = getArguments().getString("owner_name","");
+        //owner_ryosei_room = getArguments().getString("owner_room","");
         owner_ryosei_id = getArguments().getString("owner_id","0");
-        release_staff_name = getArguments().getString("release_staff_name","");
-        release_staff_room = getArguments().getString("release_staff_room","");
+//         release_staff_name = getArguments().getString("release_staff_name","");
+//         release_staff_room = getArguments().getString("release_staff_room","");
         release_staff_id = getArguments().getString("release_staff_id","0");
-        proxy_name =getArguments().getString("proxy_name","");
-        proxy_room =getArguments().getString("proxy_room","");
-        proxy_id =getArguments().getString("proxy_id","");
-        String br = System.getProperty("line.separator");
-
-        _helper = new DatabaseHelper(requireContext());
+        _helper = new com.example.top.DatabaseHelper(requireContext());
         SQLiteDatabase db = _helper.getWritableDatabase();
+        Cursor cursor;
+        String sql;
+
+        sql = "select room_name, ryosei_name from ryosei where uid ='"+ owner_ryosei_id + "'";
+        cursor = db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        owner_ryosei_room=cursor.getString(cursor.getColumnIndex("room_name"));
+        owner_ryosei_name=cursor.getString(cursor.getColumnIndex("ryosei_name"));
+
+        sql = "select room_name, ryosei_name from ryosei where uid ='"+ release_staff_id + "'";
+        cursor = db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        release_staff_room=cursor.getString(cursor.getColumnIndex("room_name"));
+        release_staff_name=cursor.getString(cursor.getColumnIndex("ryosei_name"));
 
         List<Map<String,String>> choices = _helper.nimotsuCountOfRyosei(db,owner_ryosei_id);
         String[] rabellist = new String[choices.size()];
@@ -53,18 +61,19 @@ public class Nimotsu_Proxy_Uketori_Dialog extends DialogFragment {
         nimotsu_count_sametime = 0;
         for(int i =0;i < choices.size();i++){
             rabellist[i] = choices.get(i).get("rabel");
-            idlist[i] = choices.get(i).get("parcels_id");
+            idlist[i] = (choices.get(i).get("parcels_id"));
             isCheckedList[i] = false;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(owner_ryosei_room+" "+
-                owner_ryosei_name+" の荷物を引き渡します。"+br+"※注意 " + proxy_room + " " + proxy_name + "が代理で受取します。")
+                owner_ryosei_name+" の荷物を引き渡します。")
                 .setPositiveButton("引き渡し", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // このボタンを押した時の処理を書きます。
                         for(int i = 0; i < choices.size(); i++){
                             if(isCheckedList[i] == true){
-                                _helper.release(db,owner_ryosei_id,String.valueOf(idlist[i]),release_staff_id,release_staff_room,release_staff_name,proxy_id);
+                                _helper.release(db,owner_ryosei_id,String.valueOf(idlist[i]),release_staff_id,
+                                release_staff_room,release_staff_name,"");
                                 nimotsu_count_sametime++;
                             }
                         }
@@ -73,15 +82,18 @@ public class Nimotsu_Proxy_Uketori_Dialog extends DialogFragment {
                                     "の荷物を"+ String.valueOf(nimotsu_count_sametime) +"個、引き渡しました", Toast.LENGTH_SHORT).show();
                             //荷物引き渡しページを閉じさせる。
                             //呼び出し元のフラグメントに結果を返す
-                            ReceiveActivity callingActivity = (ReceiveActivity) getActivity();
-                            callingActivity.closeActivity();
+                        }else{
+                            cancel = false;
+                            Toast.makeText(getActivity(), "チェックがされていません。", Toast.LENGTH_SHORT).show();
                         }
-                        update_parcels_shearingstatus();
-                        update_ryosei_shearingstatus();
-                        insert_event_shearingstatus();
                     }
                 })
-                .setNegativeButton("キャンセル", null)
+                .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                cancel = true;
+            }
+        })
+
                 .setMultiChoiceItems(rabellist, isCheckedList, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -89,26 +101,21 @@ public class Nimotsu_Proxy_Uketori_Dialog extends DialogFragment {
 
                     }
                 });
-        return builder.create();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        return alertDialog;
     }
     @Override
     public void onStart() {
         super.onStart();
         AlertDialog alertDialog = (AlertDialog) getDialog();
         if (alertDialog != null) {
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackgroundColor(getResources().getColor(R.color.data1D));
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
+            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(getResources().getColor(R.color.data1D));
             alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextSize(20);
         }
 
     }
 
-    public void update_parcels_shearingstatus (){
-
-    }
-    public void update_ryosei_shearingstatus (){
-
-    }
-    public void insert_event_shearingstatus (){
-
-    }
 }
