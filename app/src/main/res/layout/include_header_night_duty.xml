@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="120dp"
-    android:background="@color/default_theme"
+    android:background="@color/night_duty_theme"
     android:gravity="center_vertical"
     android:orientation="horizontal" >
 
@@ -17,7 +17,7 @@
 
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/night_duty_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"

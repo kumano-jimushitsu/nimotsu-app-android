@@ -59,7 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_uketori);
+        setContentView(R.layout.activity_register);
 
         context = getApplicationContext();
         touchsound = new TouchSound(this);
@@ -69,12 +69,12 @@ public class RegisterActivity extends AppCompatActivity {
         jimuto_id_Str = intent.getStringExtra("Jimuto_id");
         jimuto_room_Str = intent.getStringExtra("Jimuto_room");
         //事務当番の名前を表示する
-        TextView jimuto_name = findViewById(R.id.main_jimuto_show);
+        TextView jimuto_name = findViewById(R.id.register_jimuto_show);
         jimuto_name.setText(jimuto_room_Str);
 
         selectedBlock = null;
 
-        ImageButton backbutton = findViewById(R.id.uketori_go_back_button);
+        ImageButton backbutton = findViewById(R.id.register_go_back_button);
         backbutton.setOnClickListener(this::onBackButtonClick);
 
 
@@ -84,18 +84,18 @@ public class RegisterActivity extends AppCompatActivity {
         SQLiteDatabase db = _helper.getWritableDatabase();
 
         this.show_block_ryosei("");//""を渡すと全寮生を表示
-        ListView ryoseilistListener = findViewById(R.id.uketori_ryosei_list);
+        ListView ryoseilistListener = findViewById(R.id.register_ryosei_list);
         ryoseilistListener.setOnItemClickListener(new ListRyoseiClickListener());
         get_block();
         show_block();
         get_room(" ");
         Collections.sort(show_room);
         show_room();
-        ListView blocklistListener = findViewById(R.id.uketori_block_list);
+        ListView blocklistListener = findViewById(R.id.register_block_list);
         blocklistListener.setOnItemClickListener(new ListBlockClickListener());
-        ListView roomlistListener = findViewById(R.id.uketori_room_list);
+        ListView roomlistListener = findViewById(R.id.register_room_list);
         roomlistListener.setOnItemClickListener(new ListRoomClickListener());
-        ImageButton ryosei_search_listener = findViewById(R.id.uketori_search_ryosei_name_button);
+        ImageButton ryosei_search_listener = findViewById(R.id.register_search_ryosei_name_button);
         ryosei_search_listener.setOnClickListener(new RyoseiSearchListener());
 
         // システムナビゲーションバーの色を変更
@@ -147,9 +147,9 @@ public class RegisterActivity extends AppCompatActivity {
                         from,
                         to);
         // ListViewにArrayAdapterを設定する
-        ListView listView = findViewById(R.id.uketori_ryosei_list);
+        ListView listView = findViewById(R.id.register_ryosei_list);
         listView.setAdapter(blocktoryoseiadapter);
-        ListView listListener = findViewById(R.id.uketori_ryosei_list);
+        ListView listListener = findViewById(R.id.register_ryosei_list);
         listListener.setOnItemClickListener(new ListRyoseiClickListener());
         _helper.close();
     }
@@ -195,9 +195,9 @@ public class RegisterActivity extends AppCompatActivity {
                         from,
                         to);
         // ListViewにArrayAdapterを設定する
-        ListView listView = findViewById(R.id.uketori_ryosei_list);
+        ListView listView = findViewById(R.id.register_ryosei_list);
         listView.setAdapter(adapter);
-        ListView listListener = findViewById(R.id.uketori_ryosei_list);
+        ListView listListener = findViewById(R.id.register_ryosei_list);
         listListener.setOnItemClickListener(new ListRyoseiClickListener());
         _helper.close();
     }
@@ -207,9 +207,9 @@ public class RegisterActivity extends AppCompatActivity {
         ArrayAdapter blockadapter = new ArrayAdapter
                 (this, android.R.layout.simple_list_item_1, show_block);
         // ListViewにArrayAdapterを設定する
-        ListView blocklistView = findViewById(R.id.uketori_block_list);
+        ListView blocklistView = findViewById(R.id.register_block_list);
         blocklistView.setAdapter(blockadapter);
-        ListView blocklistListener = findViewById(R.id.uketori_block_list);
+        ListView blocklistListener = findViewById(R.id.register_block_list);
         blocklistListener.setOnItemClickListener(new ListRyoseiClickListener());
         _helper.close();
     }
@@ -233,9 +233,9 @@ public class RegisterActivity extends AppCompatActivity {
         ArrayAdapter blockadapter = new ArrayAdapter
                 (this, android.R.layout.simple_list_item_1, show_room);
         // ListViewにArrayAdapterを設定する
-        ListView roomlistView = findViewById(R.id.uketori_room_list);
+        ListView roomlistView = findViewById(R.id.register_room_list);
         roomlistView.setAdapter(blockadapter);
-        ListView roomlistListener = findViewById(R.id.uketori_room_list);
+        ListView roomlistListener = findViewById(R.id.register_room_list);
         roomlistListener.setOnItemClickListener(new ListRoomClickListener());
         _helper.close();
     }
@@ -311,9 +311,9 @@ public class RegisterActivity extends AppCompatActivity {
                         from,
                         to);
         // ListViewにArrayAdapterを設定する
-        ListView listView = findViewById(R.id.uketori_ryosei_list);
+        ListView listView = findViewById(R.id.register_ryosei_list);
         listView.setAdapter(adapter);
-        ListView listListener = findViewById(R.id.uketori_ryosei_list);
+        ListView listListener = findViewById(R.id.register_ryosei_list);
         listListener.setOnItemClickListener(new ListRyoseiClickListener());
         _helper.close();
     }
@@ -434,7 +434,7 @@ public class RegisterActivity extends AppCompatActivity {
     private class RyoseiSearchListener extends OnOneClickListener {
         @Override
         public void onOneClick(View view) {
-            EditText input = findViewById(R.id.uketori_search_ryosei_name);
+            EditText input = findViewById(R.id.register_search_ryosei_name);
             String input_name = input.getText().toString();
             input_name = input_name.replaceAll("　", "").replaceAll(" ", "");
             input_name = Normalizer.normalize(input_name, Normalizer.Form.NFKC);

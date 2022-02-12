@@ -42,6 +42,7 @@
     <string name="a_tou">A棟</string>
     <string name="b_tou">B棟</string>
     <string name="c_tou">C棟</string>
+    <string name="others_parcels_titile">その他荷物受取</string>
     <string name="rinji_capacity">臨キャパ</string>
     <string name="night_duty_title">泊まり事務当</string>
     <string name="night_duty_short">"荷物確認をしました。表示に沿って荷物札チェックをしてください。"</string>

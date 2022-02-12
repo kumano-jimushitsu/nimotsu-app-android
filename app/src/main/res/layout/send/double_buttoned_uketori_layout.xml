@@ -1,45 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/double_buttoned_uketori_titile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="91dp"
-        android:layout_marginTop="31dp"
-        android:text="荷物登録の画面です。"
+    <TextView android:id="@+id/double_buttoned_register_titile" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_marginStart="91dp"
+        android:layout_marginTop="31dp" android:text="荷物登録の画面です。"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ListView
-        android:id="@+id/double_buttoned_uketori_block_list"
-        android:layout_width="113dp"
-        android:layout_height="559dp"
-        android:layout_marginStart="91dp"
-        android:layout_marginTop="31dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/double_buttoned_uketori_titile" />
+    <ListView android:id="@+id/double_buttoned_register_block_list" android:layout_width="113dp"
+        android:layout_height="559dp" android:layout_marginStart="91dp"
+        android:layout_marginTop="31dp" app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/double_buttoned_register_titile" />
 
-    <ListView
-        android:id="@+id/double_buttoned_uketori_room_list"
-        android:layout_width="130dp"
+    <ListView android:id="@+id/double_buttoned_register_room_list" android:layout_width="130dp"
         android:layout_height="553dp"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="81dp"
-        app:layout_constraintStart_toEndOf="@+id/double_buttoned_uketori_block_list"
+        android:layout_marginStart="43dp" android:layout_marginTop="81dp"
+        app:layout_constraintStart_toEndOf="@+id/double_buttoned_register_block_list"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ListView
-        android:id="@+id/double_buttoned_uketori_ryosei_list"
-        android:layout_width="587dp"
+    <ListView android:id="@+id/double_buttoned_register_ryosei_list" android:layout_width="587dp"
         android:layout_height="444dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="93dp"
-        app:layout_constraintStart_toEndOf="@+id/double_buttoned_uketori_room_list"
+        android:layout_marginStart="70dp" android:layout_marginTop="93dp"
+        app:layout_constraintStart_toEndOf="@+id/double_buttoned_register_room_list"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -47,18 +32,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="68dp"
-        android:layout_marginTop="34dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/double_buttoned_uketori_titile"
+        android:layout_marginTop="34dp" android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/double_buttoned_register_titile"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/double_uketori_go_back_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="484dp"
-        android:layout_marginTop="508dp"
-        android:text="go back"
+    <Button android:id="@+id/double_register_go_back_button" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_marginStart="484dp"
+        android:layout_marginTop="508dp" android:text="go back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/double_buttoned_uketori_titile" />
+        app:layout_constraintTop_toBottomOf="@+id/double_buttoned_register_titile" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -63,7 +63,7 @@ public class Duty_Night_Dialog extends DialogFragment {
                         db.close();
 
                         //Night_Duty_NimotsuFudaがnullの時エラーになるが、ここでは想定していない
-                        Night_Duty_NimotsuFuda callingActivity = (Night_Duty_NimotsuFuda) getActivity();
+                        NightDutyActivity callingActivity = (NightDutyActivity) getActivity();
                         callingActivity.refresh_all(2);
                     }
                 });

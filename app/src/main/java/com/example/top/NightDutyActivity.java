@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Night_Duty_NimotsuFuda extends AppCompatActivity {
+public class NightDutyActivity extends AppCompatActivity {
 
     // データを準備
     public List<Data> dataListA = new ArrayList<>();
@@ -43,6 +43,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
     public String staff_id = "";
 
     //説明文とボタン部分ここから
+    public TextView title;
     public TextView explain;
     public TextView explain_sub;
     public Button button_phase1;
@@ -56,7 +57,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tomari);
+        setContentView(R.layout.activity_night_duty);
         //事務当番の名前を受け取る
         Intent intent = getIntent();
         staff_room = intent.getStringExtra("Jimuto_name");
@@ -73,17 +74,22 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
         go_back_button.setOnClickListener(this::onBackButtonClick);
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
 
-
+        title = findViewById(R.id.night_duty_title);
+        title.setText("泊まり事務当ー①現物確認");
         explain = findViewById(R.id.tomari_explanation_1);
         explain_sub = findViewById(R.id.tomari_explanation_2);
         button_phase1 = findViewById(R.id.tomari_result_show_button_1);//現物確認ボタン
         button_phase2 = findViewById(R.id.tomari_result_show_button_2);//札確認ボタン
         //説明文とボタン部分を指定
-        //↓上記ボタンにリスナーを設定
-        CheckResultButtonListener listener = new CheckResultButtonListener(result, staff_room, staff_ryosei, staff_id);
-        listener.importData(dataListA, dataListB, dataListC, dataListD);
-        listener.importList(listViewA, listViewB, listViewC, listViewD);
-        button_phase1.setOnClickListener(listener);
+
+        //ボタンにリスナーを設定、荷物チェック
+        NimotsuCheckResultButtonListener nimotsulistener = new NimotsuCheckResultButtonListener(result, staff_room, staff_ryosei, staff_id);
+        nimotsulistener.importData(dataListA, dataListB, dataListC, dataListD);
+        nimotsulistener.importList(listViewA, listViewB, listViewC, listViewD);
+        button_phase1.setOnClickListener(nimotsulistener);
+        //ボタンにリスナーを設定、荷物札チェック
+        FudaCheckResultButtonListener fudalistener = new FudaCheckResultButtonListener();
+        button_phase2.setOnClickListener(fudalistener);
 
         // システムナビゲーションバーの色を変更
 
@@ -91,9 +97,10 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
         ActivityHelper.enableTransparentFooter(this);
     }
 
-    public void refresh_all(int kakunin_phase) {//確認フェーズは、1:現物確認、2:札確認とする
+    public void refresh_all(int kakunin_phase) {
+        //確認フェーズは、1:現物確認、2:札確認とする
         //説明文とボタンのフェーズによる切り替え部分
-        switch (kakunin_phase){
+        switch (kakunin_phase) {
             case 1:
                 button_phase1.setVisibility(View.VISIBLE);
                 button_phase2.setVisibility(View.GONE);
@@ -102,18 +109,16 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
             case 2:
                 button_phase1.setVisibility(View.GONE);
                 button_phase2.setVisibility(View.VISIBLE);
+                title.setText("泊まり事務当ー②荷物札確認");
                 explain_sub.setText(getString(R.string.night_duty_2_explanation));
         }
-
-
-
         //テーブルの荷物表示部分の更新
         dataListA.clear();
         dataListB.clear();
         dataListC.clear();
         dataListD.clear();
         // DBヘルパーオブジェクトを生成。
-        _helper = new DatabaseHelper(Night_Duty_NimotsuFuda.this);
+        _helper = new DatabaseHelper(NightDutyActivity.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
         for (int i = 0; i < 4; i++) {
             String sql = null;
@@ -189,8 +194,8 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
         listViewC.setAdapter(adapterC);
         listViewD.setAdapter(adapterD);
         db.close();
-
     }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -227,7 +232,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
 
  */
 
-    class CheckResultButtonListener extends OnOneClickListener {
+    class NimotsuCheckResultButtonListener extends OnOneClickListener {
         public List<Data> dataA = new ArrayList<>();
         public List<Data> dataB = new ArrayList<>();
         public List<Data> dataC = new ArrayList<>();
@@ -245,7 +250,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
         public String staff_ryosei;
         public String staff_id;
 
-        public CheckResultButtonListener(TextView resultA, String staff_room, String staff_ryosei, String staff_id) {
+        public NimotsuCheckResultButtonListener(TextView resultA, String staff_room, String staff_ryosei, String staff_id) {
             super();
             this.result = result;
             this.staff_room = staff_room;
@@ -330,8 +335,8 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
             outputDataAll.addAll(outputDataB);
             outputDataAll.addAll(outputDataC);
             outputDataAll.addAll(outputDataD);
-        //ここまででbool
-            
+            //ここまででbool
+
             if (all_checked) {
                 this.showButtomDialog(view, outputDataAll);
             } else {
@@ -341,7 +346,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                 }
                 db.close();
                 refresh_all(2);
-                Toast.makeText(Night_Duty_NimotsuFuda.this, R.string.night_duty_short, Toast.LENGTH_SHORT).show();
+                Toast.makeText(NightDutyActivity.this, R.string.night_duty_short, Toast.LENGTH_SHORT).show();
 
             }
         }
@@ -381,6 +386,20 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
             dialogFragment.show(getSupportFragmentManager(), "Duty_Night_Dialog");
         }
     }
+
+    class FudaCheckResultButtonListener extends OnOneClickListener {
+        @Override
+        public void onOneClick(View view) {
+            ArrayList<String> outputDataAll = new ArrayList<>();
+            Intent event_refresh_intent = new Intent();
+            event_refresh_intent.putExtra("EventRefresh", true);
+            setResult(RESULT_OK, event_refresh_intent);
+            finish();
+            Toast.makeText(NightDutyActivity.this, "荷物札の確認を行いました。泊まり事務当番が完了しました。", Toast.LENGTH_LONG).show();
+
+        }
+    }
+
 
     // データ格納用クラス
     class Data {
@@ -433,7 +452,8 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
 
         public void setLostDateTime(String lostDateTime) {
             this.lostDateTime = lostDateTime;
-            if(lostDateTime!=null)this.lostDateTime = lostDateTime.replace('-', '/').substring(5);
+            if (lostDateTime != null)
+                this.lostDateTime = lostDateTime.replace('-', '/').substring(5);
         }
 
         public Boolean isChecked() {
@@ -487,7 +507,11 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                 tvData2A.setText(data.getRyoseiName());
                 //3列目は荷物札の種類
                 tvData3A.setText(data.getParcelsAttribute());
-                tvData4A.setText(data.getLostDateTime());
+                if (data.getLostDateTime() == null) {
+                    tvData4A.setText("未チェック");
+                } else {
+                    tvData4A.setText(data.getLostDateTime());
+                }
             }
             //偶数行の場合の背景色を設定
             if (position % 2 == 0) {
@@ -555,7 +579,11 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                 tvData2A.setText(data.getRyoseiName());
                 //3列目は荷物札の種類
                 tvData3A.setText(data.getParcelsAttribute());
-                tvData4A.setText(data.getLostDateTime());
+                if (data.getLostDateTime() == null) {
+                    tvData4A.setText("未チェック");
+                } else {
+                    tvData4A.setText(data.getLostDateTime());
+                }
             }
             //偶数行の場合の背景色を設定
             if (position % 2 == 0) {
@@ -623,7 +651,11 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                 tvData2A.setText(data.getRyoseiName());
                 //3列目は荷物札の種類
                 tvData3A.setText(data.getParcelsAttribute());
-                tvData4A.setText(data.getLostDateTime());
+                if (data.getLostDateTime() == null) {
+                    tvData4A.setText("未チェック");
+                } else {
+                    tvData4A.setText(data.getLostDateTime());
+                }
             }
             //偶数行の場合の背景色を設定
             if (position % 2 == 0) {
@@ -691,7 +723,11 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                 tvData2A.setText(data.getRyoseiName());
                 //3列目は荷物札の種類
                 tvData3A.setText(data.getParcelsAttribute());
-                tvData4A.setText(data.getLostDateTime());
+                if (data.getLostDateTime() == null) {
+                    tvData4A.setText("未チェック");
+                } else {
+                    tvData4A.setText(data.getLostDateTime());
+                }
             }
             //偶数行の場合の背景色を設定
             if (position % 2 == 0) {

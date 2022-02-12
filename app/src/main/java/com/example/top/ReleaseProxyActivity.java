@@ -62,7 +62,7 @@ public class ReleaseProxyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.double_proxy_change_layout);
 
-        ImageButton backbutton = (ImageButton) findViewById(R.id.proxy_hikiwatashi_go_back_button);
+        ImageButton backbutton = (ImageButton) findViewById(R.id.proxy_release_go_back_button);
         backbutton.setOnClickListener(this::onBackButtonClick);
 
         //代理人の名前を受け取る

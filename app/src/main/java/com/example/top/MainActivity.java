@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         db = _helper.getWritableDatabase();
         touchsound = new TouchSound(this);
 
-        ImageButton image_button_touroku = findViewById(R.id.image_button_uketori);
+        ImageButton image_button_touroku = findViewById(R.id.image_button_register);
         DoubleTourokuListener listener3 = new DoubleTourokuListener();
         image_button_touroku.setOnClickListener(listener3);
 
@@ -69,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
         DoubleJimutoChangeListener listener4 = new DoubleJimutoChangeListener();
         jimutou_change.setOnClickListener(listener4);
 
-        ImageButton image_button_uketori = findViewById(R.id.image_button_hikiwatashi);
-        DoubleUketoriListener listener5 = new DoubleUketoriListener();
-        image_button_uketori.setOnClickListener(listener5);
+        ImageButton image_button_register = findViewById(R.id.image_button_release);
+        DoubleRegisterListener listener5 = new DoubleRegisterListener();
+        image_button_register.setOnClickListener(listener5);
 
 
         ListView eventLogshower = findViewById(R.id.event_show);
@@ -261,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
         //args.putString("release_staff_name", jimuto_name);
         args.putString("release_staff_id", jimuto_id);
         dialogFragment.setArguments(args);
-        dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Uketori_Dialog");
+        dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Register_Dialog");
     }
 
     public void showMyDialog(View view, String title, String mainText, String positiveButton, String negativeButton) {
@@ -281,8 +281,8 @@ public class MainActivity extends AppCompatActivity {
     class buttonClick extends OnOneClickListener {
         @Override
         public void onClick(View view) {
-            //if (view.getId() == R.id.jimuto_change_button || view.getId() == R.id.image_button_touroku || view.getId() == R.id.image_button_uketori || view.getId() == R.id.event_show || view.getId() == R.id.ryosei_insert_button || view.getId() == R.id.parcel_insert_button || view.getId() == R.id.parcel_event_insert_button || view.getId() == R.id.duty_night_button) {
-            if (view.getId() == R.id.jimuto_change_button || view.getId() == R.id.image_button_hikiwatashi || view.getId() == R.id.image_button_uketori || view.getId() == R.id.event_show || view.getId() == R.id.duty_night_button) {
+            //if (view.getId() == R.id.jimuto_change_button || view.getId() == R.id.image_button_touroku || view.getId() == R.id.image_button_register || view.getId() == R.id.event_show || view.getId() == R.id.ryosei_insert_button || view.getId() == R.id.parcel_insert_button || view.getId() == R.id.parcel_event_insert_button || view.getId() == R.id.duty_night_button) {
+            if (view.getId() == R.id.jimuto_change_button || view.getId() == R.id.image_button_release || view.getId() == R.id.image_button_register || view.getId() == R.id.event_show || view.getId() == R.id.duty_night_button) {
                 final Button button = findViewById(view.getId());
                 button.setEnabled(false);
                 new Handler().postDelayed(new Runnable() {
@@ -355,7 +355,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class DoubleUketoriListener extends OnOneClickListener {
+    private class DoubleRegisterListener extends OnOneClickListener {
         @Override
         public void onOneClick(View view) {
             //同期処理部分
@@ -431,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
                 this.showMyDialog(null, getString(R.string.main_not_selected_staff), "", getString(R.string.ok), "");
                 touchsound.playsoundTwo();
             } else {
-                Intent intent = new Intent(MainActivity.this, Night_Duty_NimotsuFuda.class);
+                Intent intent = new Intent(MainActivity.this, NightDutyActivity.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 //intent.putExtra("Jimuto_name", jimuto_name);

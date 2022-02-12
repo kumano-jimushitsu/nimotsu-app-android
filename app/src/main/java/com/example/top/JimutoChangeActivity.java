@@ -100,8 +100,10 @@ public class JimutoChangeActivity extends AppCompatActivity {
         // 主キーによる検索SQL文字列の用意。
         if (block == null) {
             //sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei order by room_name asc;";
-            sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei where status<10 order by random() LIMIT 50;";
+            //sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei where status<10 order by random() LIMIT 50;";
             //キチガイなのでランダムに取得
+            sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei where status<10 order by room_name asc";
+            //キチガイじゃないので
         } else {
             sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE status<10 and block_id = '" + block_to_id(block) + "' order by room_name asc;";
         }// SQLの実行。

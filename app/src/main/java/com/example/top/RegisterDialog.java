@@ -27,7 +27,9 @@ public class RegisterDialog extends DialogFragment {
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {//owner_idとjimuto_idさえあれば行ける
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        touchsound = new TouchSound(RegisterActivity.getRegisterActivityContext());
+        //owner_idとjimuto_idさえあれば行ける
         _helper = new com.example.top.DatabaseHelper(requireContext());
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         SQLiteDatabase db = _helper.getWritableDatabase();
@@ -72,7 +74,7 @@ public class RegisterDialog extends DialogFragment {
                           register_staff_id,register_staff_room,register_staff_name,placement,"");
                         _helper.close();}
                         else{
-                            Intent others_intent = new Intent(getActivity(), RegistarOthersActivity.class);
+                            Intent others_intent = new Intent(getActivity(), RegisterOthersActivity.class);
                             others_intent.putExtra("Jimuto_id", register_staff_id);
                             others_intent.putExtra("Jimuto_room", register_staff_room);
                             others_intent.putExtra("Jimuto_name", register_staff_name);
@@ -87,7 +89,6 @@ public class RegisterDialog extends DialogFragment {
                         if(placement != 5) {
                             String show = "事務当番" + register_staff_room + register_staff_name + "が" + owner_ryosei_room + " " +
                                     owner_ryosei_name + "に荷物を受け取りしました。";
-                            touchsound = new TouchSound(RegisterActivity.getRegisterActivityContext());
                             touchsound.playsoundOOOscan();
                             Toast.makeText(getActivity(), show, Toast.LENGTH_LONG).show();
                         }
