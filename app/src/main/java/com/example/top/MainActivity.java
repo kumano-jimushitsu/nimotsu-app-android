@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -18,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.top.ClickListener.OnOneClickListener;
+import com.example.top.ClickListener.OnOneItemClickListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int JIMUTOCHANGE_ACTIVITY = 1001;
     private static final int EVENT_REFRESH_ACTIVITY = 1002;
+    private static final int INVALID_POINTER_ID = -1;
+    private static int mActivePointerId = INVALID_POINTER_ID;
     private static Context context;
     final String[] from = {"id", "text"};
     final int[] to = {android.R.id.text2, android.R.id.text1};
@@ -125,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
     public void onReturnValue() {
         eventLogshow();
@@ -273,7 +276,8 @@ public class MainActivity extends AppCompatActivity {
         dialogFragment.show(getSupportFragmentManager(), "myDialog");
     }
 
-    class buttonClick implements View.OnClickListener {
+    /*これをいじれば複数ボタンの同時押しおよび連続タップを防げそう。ただし拡張性はなさそう。
+    class buttonClick extends OnOneClickListener {
         @Override
         public void onClick(View view) {
             //if (view.getId() == R.id.jimuto_change_button || view.getId() == R.id.image_button_touroku || view.getId() == R.id.image_button_uketori || view.getId() == R.id.event_show || view.getId() == R.id.ryosei_insert_button || view.getId() == R.id.parcel_insert_button || view.getId() == R.id.parcel_event_insert_button || view.getId() == R.id.duty_night_button) {
@@ -288,11 +292,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-    }
+    }*/
 
-    private class QRScanListener implements View.OnClickListener {
+    private class QRScanListener extends OnOneClickListener {
         @Override
-        public void onClick(View view) {
+        public void onOneClick(View view) {
             if (jimuto_id == null) {
                 this.showMyDialog(null, getString(R.string.main_not_selected_staff), "", getString(R.string.ok), "");
                 touchsound.playsoundTwo();
@@ -316,9 +320,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private class DoubleTourokuListener implements View.OnClickListener {
+    private class DoubleTourokuListener extends OnOneClickListener {
         @Override
-        public void onClick(View view) {
+        public void onOneClick(View view) {
             //同期処理部分
             new HttpTask(null, "parcels", "create").execute();
             new HttpTask(null, "ryosei", "create").execute();
@@ -350,9 +354,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class DoubleUketoriListener implements View.OnClickListener {
+    private class DoubleUketoriListener extends OnOneClickListener {
         @Override
-        public void onClick(View view) {
+        public void onOneClick(View view) {
             //同期処理部分
             new HttpTask(null, "parcels", "create").execute();
             new HttpTask(null, "ryosei", "create").execute();
@@ -386,9 +390,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private class DoubleJimutoChangeListener implements AdapterView.OnClickListener {
+    private class DoubleJimutoChangeListener extends OnOneClickListener {
         @Override
-        public void onClick(View view) {
+        public void onOneClick(View view) {
             //同期処理部分
             new HttpTask(null, "parcels", "create").execute();
             new HttpTask(null, "ryosei", "create").execute();
@@ -403,18 +407,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class NightDutyNimotsufudaListener implements AdapterView.OnClickListener {
+    private class RefreshListener extends OnOneClickListener {
         @Override
-        public void onClick(View view) {
-            Intent nimotsufuda_intent = new Intent(MainActivity.this, Night_Duty_NimotsuFuda.class);
-            startActivity(nimotsufuda_intent);
-            touchsound.playsoundTwo();
-        }
-    }
-
-    private class RefreshListener implements AdapterView.OnClickListener {
-        @Override
-        public void onClick(View view) {
+        public void onOneClick(View view) {
 
             eventLogshow();
 
@@ -428,6 +423,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public class duty_night_listener extends OnOneClickListener {
+        @Override
         public void onOneClick(View view) {
             //enableWaitHandler(1000L,view);
             if (jimuto_id == null) {
@@ -466,8 +462,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class EventShowListener implements AdapterView.OnItemClickListener {
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    private class EventShowListener extends OnOneItemClickListener {
+        @Override
+        public void onOneItemClick(AdapterView<?> parent, View view, int position, long id) {
             //同期処理部分
             new HttpTask(null, "parcels", "create").execute();
             new HttpTask(null, "ryosei", "create").execute();

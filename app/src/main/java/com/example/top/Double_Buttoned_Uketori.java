@@ -560,6 +560,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
                     Toast.makeText(Double_Buttoned_Uketori.this, "代理受取人を設定してください。", Toast.LENGTH_LONG).show();
                 } else {
                     this.showProxyDialog(view, item.get("room_name"), item.get("id"), proxy_id_Str, proxy_room_Str, proxy_name_Str);
+                    this.showMyDialog(view, "本人確認", "身分証明証(学生証、免許証、橙食券等)を確認してください。", "OK");
 
                 }
             }
@@ -570,6 +571,7 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
                     Toast.makeText(Double_Buttoned_Uketori.this, show, Toast.LENGTH_LONG).show();
                 } else {
                     this.showDialog(view, item.get("room_name"), item.get("id"));
+                    this.showMyDialog(view, "本人確認", "身分証明証(学生証、免許証、橙食券等)を確認してください。", "OK");
                 }
             }
         }
@@ -586,6 +588,16 @@ public class Double_Buttoned_Uketori extends AppCompatActivity {
             args.putString("release_staff_id", jimuto_id_Str);
             dialogFragment.setArguments(args);
             dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Uketori_Dialog");
+        }
+
+        public void showMyDialog(View view, String title, String mainText, String positiveButton) {
+            DialogFragment dialogFragment = new myDialog();
+            Bundle args = new Bundle();
+            args.putString("positivebutton", positiveButton);
+            args.putString("title", title);
+            args.putString("maintext", mainText);
+            dialogFragment.setArguments(args);
+            dialogFragment.show(getSupportFragmentManager(), "myDialog");
         }
 
         public void showProxyDialog(View view, String owner_room_name, String owner_id, String proxy_id, String proxy_room, String proxy_name) {

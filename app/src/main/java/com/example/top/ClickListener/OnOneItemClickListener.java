@@ -4,18 +4,18 @@ import android.os.SystemClock;
 import android.view.View;
 import android.widget.AdapterView;
 
-public abstract class OnOneClickListener implements AdapterView.OnClickListener {
+public abstract class OnOneItemClickListener implements AdapterView.OnItemClickListener {
     private static final long MIN_CLICK_INTERVAL = 1000; //in millis
     private long lastClickTime = 0;
 
     @Override
-    public final void onClick(View v) {
+    public final void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         long currentTime = SystemClock.elapsedRealtime();
         if (currentTime - lastClickTime > MIN_CLICK_INTERVAL) {
             lastClickTime = currentTime;
-            onOneClick(v);
+            onOneItemClick(parent, view, position, id);
         }
     }
 
-    public abstract void onOneClick(View v);
+    public abstract void onOneItemClick(AdapterView<?> parent, View view, int position, long id);
 }
