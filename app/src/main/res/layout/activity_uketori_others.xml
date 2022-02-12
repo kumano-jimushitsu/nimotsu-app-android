@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterOthersActivity">
+
+    <!-- ヘッダ -->
+    <include
+        android:id="@+id/include_header_uketori_others"
+        layout="@layout/include_header_uketori_others" />
+
+    <TextView
+        android:id="@+id/touroku_others_title"
+        android:layout_width="1009dp"
+        android:layout_height="214dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="260dp"
+        android:text="荷物種類：その他の場合、以下で説明を加えてください。\n(荷物を複数登録する場合は、「その他」を用いてまとめて登録するのではなく。一つずつ登録してください）、\nテキストの200文字以降の部分は削除されます。"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/touroku_others_edit"
+        android:layout_width="658dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="68dp"
+        android:ems="10"
+        android:hint="その他の情報を入力"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/touroku_others_title" />
+
+    <Button
+        android:id="@+id/touroku_others_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="183dp"
+        android:layout_marginTop="66dp"
+        android:text="追加"
+        app:layout_constraintStart_toEndOf="@+id/touroku_others_edit"
+        app:layout_constraintTop_toBottomOf="@+id/touroku_others_title" />
+
+    <TextView
+        android:id="@+id/touroku_others_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="75dp"
+        android:text="TextView"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include_header_uketori_others" />
+
+    <!-- フッター -->
+    <include
+        android:id="@+id/include_footer"
+        layout="@layout/include_footer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

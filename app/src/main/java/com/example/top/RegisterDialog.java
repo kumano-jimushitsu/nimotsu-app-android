@@ -74,7 +74,7 @@ public class RegisterDialog extends DialogFragment {
                           register_staff_id,register_staff_room,register_staff_name,placement,"");
                         _helper.close();}
                         else{
-                            Intent others_intent = new Intent(getActivity(), RegistarOthersActivity.class);
+                            Intent others_intent = new Intent(getActivity(), RegisterOthersActivity.class);
                             others_intent.putExtra("Jimuto_id", register_staff_id);
                             others_intent.putExtra("Jimuto_room", register_staff_room);
                             others_intent.putExtra("Jimuto_name", register_staff_name);

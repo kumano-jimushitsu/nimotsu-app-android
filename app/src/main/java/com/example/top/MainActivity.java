@@ -431,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
                 this.showMyDialog(null, getString(R.string.main_not_selected_staff), "", getString(R.string.ok), "");
                 touchsound.playsoundTwo();
             } else {
-                Intent intent = new Intent(MainActivity.this, Night_Duty_NimotsuFuda.class);
+                Intent intent = new Intent(MainActivity.this, NightDutyActivity.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 //intent.putExtra("Jimuto_name", jimuto_name);

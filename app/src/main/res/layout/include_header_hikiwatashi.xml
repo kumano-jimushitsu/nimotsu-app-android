@@ -30,13 +30,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/main_jimuto_show"
+        android:layout_toLeftOf="@id/hikiwatashi_jimuto_show"
         android:text="現在の事務当："
         android:textColor="@color/hikiwatashi_header_font"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/main_jimuto_show"
+        android:id="@+id/hikiwatashi_jimuto_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

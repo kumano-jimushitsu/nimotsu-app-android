@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Night_Duty_NimotsuFuda extends AppCompatActivity {
+public class NightDutyActivity extends AppCompatActivity {
 
     // データを準備
     public List<Data> dataListA = new ArrayList<>();
@@ -113,7 +113,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
         dataListC.clear();
         dataListD.clear();
         // DBヘルパーオブジェクトを生成。
-        _helper = new DatabaseHelper(Night_Duty_NimotsuFuda.this);
+        _helper = new DatabaseHelper(NightDutyActivity.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
         for (int i = 0; i < 4; i++) {
             String sql = null;
@@ -341,7 +341,7 @@ public class Night_Duty_NimotsuFuda extends AppCompatActivity {
                 }
                 db.close();
                 refresh_all(2);
-                Toast.makeText(Night_Duty_NimotsuFuda.this, R.string.night_duty_short, Toast.LENGTH_SHORT).show();
+                Toast.makeText(NightDutyActivity.this, R.string.night_duty_short, Toast.LENGTH_SHORT).show();
 
             }
         }

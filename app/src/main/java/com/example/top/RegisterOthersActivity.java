@@ -1,7 +1,5 @@
 package com.example.top;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -9,23 +7,26 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.top.ClickListener.OnOneClickListener;
 
 import java.text.Normalizer;
 import java.util.regex.Pattern;
 
-public class RegistarOthersActivity extends AppCompatActivity {
+public class RegisterOthersActivity extends AppCompatActivity {
 
     private DatabaseHelper _helper;
     String owner_ryosei_name = "";
     String owner_ryosei_room = "";
     String owner_ryosei_id = "";
-    String register_staff_name = "";
-    String register_staff_room = "";
-    String register_staff_id = "";
+    String staff_name = "";
+    String staff_room = "";
+    String staff_id = "";
     String placement = "";
     String detail = null;
     String showtext = "";
@@ -33,23 +34,30 @@ public class RegistarOthersActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_parcel_others);
+        setContentView(R.layout.activity_uketori_others);
 
         Intent intent = getIntent();
         owner_ryosei_name = intent.getStringExtra("Owner_name");
         owner_ryosei_room = intent.getStringExtra("Owner_room");
         owner_ryosei_id = intent.getStringExtra("Owner_id");
-        register_staff_name = intent.getStringExtra("Jimuto_name");
-        register_staff_room = intent.getStringExtra("Jimuto_room");
-        register_staff_id = intent.getStringExtra("Jimuto_id");
+        staff_name = intent.getStringExtra("Jimuto_name");
+        staff_room = intent.getStringExtra("Jimuto_room");
+        staff_id = intent.getStringExtra("Jimuto_id");
         placement = intent.getStringExtra("placement");
         Button buttonAdd = findViewById(R.id.touroku_others_add);
-        buttonAdd.setOnClickListener(new RegistarOthersActivity.buttonAddListener());
-        Button buttonCancel = findViewById(R.id.touroku_others_cancel);
-        buttonCancel.setOnClickListener(new RegistarOthersActivity.buttonCancelListener());
+        buttonAdd.setOnClickListener(new RegisterOthersActivity.buttonAddListener());
+        ImageButton buttonCancel = findViewById(R.id.uketori_others_go_back_button);
+        TextView titletext = findViewById(R.id.uketori_others_go_back_text);
+        buttonCancel.setOnClickListener(new RegisterOthersActivity.buttonCancelListener());
+        //titletext.setOnClickListener(new RegisterOthersActivity.buttonCancelListener());
         TextView ShowRyoseiText = findViewById(R.id.touroku_others_text);
-        showtext = owner_ryosei_room + " " +owner_ryosei_name + "にその他で荷物登録します。";
+        showtext = owner_ryosei_room + " " + owner_ryosei_name + "にその他で荷物登録します。";
         ShowRyoseiText.setText(showtext);
+        //事務当番の名前を表示する
+        TextView jimuto_name = findViewById(R.id.uketori_others_jimuto_show);
+        jimuto_name.setText(staff_room + staff_name);
+
+        ActivityHelper.enableTransparentFooter(this);
 
     }
 
@@ -71,12 +79,12 @@ public class RegistarOthersActivity extends AppCompatActivity {
                 //その他の荷物を追加
                 _helper = new com.example.top.DatabaseHelper(getApplicationContext());
                 SQLiteDatabase db = _helper.getWritableDatabase();
-                _helper.register(db,owner_ryosei_id,register_staff_id,register_staff_room,register_staff_name,Integer.parseInt(placement),input_detail);
+                _helper.register(db, owner_ryosei_id, staff_id, staff_room, staff_name, Integer.parseInt(placement), input_detail);
                 _helper.close();
-                Toast.makeText(RegistarOthersActivity.this, owner_ryosei_room +" "+owner_ryosei_name +"に"+input_detail+"の荷物を登録しました。", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterOthersActivity.this, owner_ryosei_room + " " + owner_ryosei_name + "に" + input_detail + "の荷物を登録しました。", Toast.LENGTH_SHORT).show();
                 finish();
             }else{
-                Toast.makeText(RegistarOthersActivity.this, "漢字、ひらがな、カタカナしか使えません。", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterOthersActivity.this, "漢字、ひらがな、カタカナしか使えません。", Toast.LENGTH_SHORT).show();
             }
         }
         private String trim_text(String text){

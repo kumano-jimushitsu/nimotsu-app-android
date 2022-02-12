@@ -93,9 +93,9 @@
                     android:id="@+id/proxy_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="代理引き渡し"
+                    android:text="代理受渡"
                     android:textColor="#808080"
-                    android:textOn="代理モード"
+                    android:textOn="代理受取モード"
                     android:layout_centerVertical="true"
                     android:textSize="25sp" />
 
@@ -104,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="代理人："
+                    android:text="代理受取人："
                     android:textSize="20sp"
                     android:layout_alignParentEnd="true" />
 

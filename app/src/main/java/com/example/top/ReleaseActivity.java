@@ -88,7 +88,7 @@ public class ReleaseActivity extends AppCompatActivity {
         proxy_id_Str = intent.getStringExtra("Proxy_id");
         proxy_room_Str = intent.getStringExtra("Proxy_room");
         //事務当番の名前を表示する
-        TextView jimuto_name = findViewById(R.id.main_jimuto_show);
+        TextView jimuto_name = findViewById(R.id.hikiwatashi_jimuto_show);
         jimuto_name.setText(jimuto_room_Str);
         ImageButton backbutton = findViewById(R.id.hikiwatashi_go_back_button);
         backbutton.setOnClickListener(this::onBackButtonClick);
