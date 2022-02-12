@@ -14,12 +14,13 @@
     <color name="default_header_font">#FFFFFF</color>
     <color name="default_footer_font">#A9A9A9</color>
     <color name="default_theme">#333C5E</color>
-    <color name="uketori_header_font">#000000</color>
-    <color name="uketori_footer_font">#000000</color>
-    <color name="uketori_theme">#add8e6</color>
-    <color name="hikiwatashi_header_font">#FFFFFF</color>
-    <color name="hikiwatashi_footer_font">#FFFFFF</color>
-    <color name="hikiwatashi_theme">#DAA186</color>
+    <color name="register_header_font">#000000</color>
+    <color name="register_footer_font">#000000</color>
+    <color name="register_theme">#add8e6</color>
+    <color name="release_header_font">#FFFFFF</color>
+    <color name="release_footer_font">#FFFFFF</color>
+    <color name="release_theme">#DAA186</color>
+    <color name="night_duty_theme">#4B0082</color>
     <!-- タイトル背景 -->
     <color name="titleA">#ff6767</color>
     <!-- データ1背景 -->

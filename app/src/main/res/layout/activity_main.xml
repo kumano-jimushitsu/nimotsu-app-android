@@ -39,10 +39,10 @@
                 android:layout_height="40dp" />
 
             <ImageButton
-                android:id="@+id/image_button_uketori"
+                android:id="@+id/image_button_register"
                 android:layout_width="548dp"
                 android:layout_height="166dp"
-                android:background="@drawable/uketori_v2"
+                android:background="@drawable/register_v2"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <Space
@@ -50,10 +50,10 @@
                 android:layout_height="40dp" />
 
             <ImageButton
-                android:id="@+id/image_button_hikiwatashi"
+                android:id="@+id/image_button_release"
                 android:layout_width="548dp"
                 android:layout_height="170dp"
-                android:background="@drawable/hikiwatashi_v2"
+                android:background="@drawable/release_v2"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <Space

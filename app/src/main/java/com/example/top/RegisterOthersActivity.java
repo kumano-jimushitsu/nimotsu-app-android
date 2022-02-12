@@ -34,7 +34,7 @@ public class RegisterOthersActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_uketori_others);
+        setContentView(R.layout.activity_register_others);
 
         Intent intent = getIntent();
         owner_ryosei_name = intent.getStringExtra("Owner_name");
@@ -46,15 +46,15 @@ public class RegisterOthersActivity extends AppCompatActivity {
         placement = intent.getStringExtra("placement");
         Button buttonAdd = findViewById(R.id.touroku_others_add);
         buttonAdd.setOnClickListener(new RegisterOthersActivity.buttonAddListener());
-        ImageButton buttonCancel = findViewById(R.id.uketori_others_go_back_button);
-        TextView titletext = findViewById(R.id.uketori_others_go_back_text);
+        ImageButton buttonCancel = findViewById(R.id.register_others_go_back_button);
+        TextView titletext = findViewById(R.id.register_others_go_back_text);
         buttonCancel.setOnClickListener(new RegisterOthersActivity.buttonCancelListener());
         //titletext.setOnClickListener(new RegisterOthersActivity.buttonCancelListener());
         TextView ShowRyoseiText = findViewById(R.id.touroku_others_text);
         showtext = owner_ryosei_room + " " + owner_ryosei_name + "にその他で荷物登録します。";
         ShowRyoseiText.setText(showtext);
         //事務当番の名前を表示する
-        TextView jimuto_name = findViewById(R.id.uketori_others_jimuto_show);
+        TextView jimuto_name = findViewById(R.id.register_others_jimuto_show);
         jimuto_name.setText(staff_room + staff_name);
 
         ActivityHelper.enableTransparentFooter(this);
@@ -65,7 +65,7 @@ public class RegisterOthersActivity extends AppCompatActivity {
         @Override
         public void onOneClick(View view) {
             EditText others_detail = findViewById(R.id.touroku_others_edit);
-            EditText input = findViewById(R.id.uketori_search_ryosei_name);
+            EditText input = findViewById(R.id.register_search_ryosei_name);
             String input_detail = others_detail.getText().toString();
             input_detail = input_detail.replaceAll("　", "").replaceAll(" ", "");
             input_detail = Normalizer.normalize(input_detail, Normalizer.Form.NFKC);

@@ -65,7 +65,7 @@ public class ReleaseActivity extends AppCompatActivity {
     private boolean proxy_check = false;
     public  TouchSound touchsound;
     private static Context context;
-    //private ConstraintLayout double_buttoned_uketori;
+    //private ConstraintLayout double_buttoned_register;
 
     public static Context getReceiveActivityContext() {
         return ReleaseActivity.context;
@@ -73,11 +73,11 @@ public class ReleaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hikiwatashi);
+        setContentView(R.layout.activity_release);
 
         context = getApplicationContext();
         touchsound = new TouchSound(this);
-        // double_buttoned_uketori = findViewById(R.id.fragment_hi);
+        // double_buttoned_register = findViewById(R.id.fragment_hi);
         //事務当番の名前を受け取る
         Intent intent = getIntent();
         //jimuto_name_Str = intent.getStringExtra("Jimuto_name");
@@ -88,9 +88,9 @@ public class ReleaseActivity extends AppCompatActivity {
         proxy_id_Str = intent.getStringExtra("Proxy_id");
         proxy_room_Str = intent.getStringExtra("Proxy_room");
         //事務当番の名前を表示する
-        TextView jimuto_name = findViewById(R.id.hikiwatashi_jimuto_show);
+        TextView jimuto_name = findViewById(R.id.release_jimuto_show);
         jimuto_name.setText(jimuto_room_Str);
-        ImageButton backbutton = findViewById(R.id.hikiwatashi_go_back_button);
+        ImageButton backbutton = findViewById(R.id.release_go_back_button);
         backbutton.setOnClickListener(this::onBackButtonClick);
         selectedBlock = null;
         // DBヘルパーオブジェクトを生成。
@@ -102,11 +102,11 @@ public class ReleaseActivity extends AppCompatActivity {
         Collections.sort(show_room);
         show_room();
         this.show_block_ryosei(null);//nullを渡すと全寮生を表示
-        ListView blocklistListener = findViewById(R.id.hikiwatashi_block_list);
+        ListView blocklistListener = findViewById(R.id.release_block_list);
         blocklistListener.setOnItemClickListener(new ReleaseActivity.ListBlockClickListener());
-        ListView roomlistListener = findViewById(R.id.hikiwatashi_room_list);
+        ListView roomlistListener = findViewById(R.id.release_room_list);
         roomlistListener.setOnItemClickListener(new ReleaseActivity.ListRoomClickListener());
-        ImageButton ryosei_search_button = findViewById(R.id.hikiwatashi_search_ryosei_name_button);
+        ImageButton ryosei_search_button = findViewById(R.id.release_search_ryosei_name_button);
         ryosei_search_button.setOnClickListener(new ReleaseActivity.RyoseiSearchListener());
         Switch proxySwitch = findViewById(R.id.proxy_switch);
         proxySwitch.setOnCheckedChangeListener(new ReleaseActivity.ProxySwitchListener());
@@ -172,9 +172,9 @@ public class ReleaseActivity extends AppCompatActivity {
                         to);
 
         // ListViewにArrayAdapterを設定する
-        ListView listView = findViewById(R.id.hikiwatashi_ryosei_list);
+        ListView listView = findViewById(R.id.release_ryosei_list);
         listView.setAdapter(adapter);
-        ListView listListener = findViewById(R.id.hikiwatashi_ryosei_list);
+        ListView listListener = findViewById(R.id.release_ryosei_list);
         listListener.setOnItemClickListener(new ListRyoseiClickListener());
         _helper.close();
     }
@@ -229,9 +229,9 @@ public class ReleaseActivity extends AppCompatActivity {
                         from,
                         to);
         // ListViewにArrayAdapterを設定する
-        ListView listView = findViewById(R.id.hikiwatashi_ryosei_list);
+        ListView listView = findViewById(R.id.release_ryosei_list);
         listView.setAdapter(blocktoryoseiadapter);
-        ListView listListener = findViewById(R.id.hikiwatashi_ryosei_list);
+        ListView listListener = findViewById(R.id.release_ryosei_list);
         listListener.setOnItemClickListener(new ReleaseActivity.ListRyoseiClickListener());
         _helper.close();
     }
@@ -280,9 +280,9 @@ public class ReleaseActivity extends AppCompatActivity {
                         to);
         // ListViewにArrayAdapterを設定する
         // ListViewにArrayAdapterを設定する
-        ListView listView = findViewById(R.id.hikiwatashi_ryosei_list);
+        ListView listView = findViewById(R.id.release_ryosei_list);
         listView.setAdapter(roomtoryoseiadapter);
-        ListView listListener = findViewById(R.id.hikiwatashi_ryosei_list);
+        ListView listListener = findViewById(R.id.release_ryosei_list);
         listListener.setOnItemClickListener(new ReleaseActivity.ListRyoseiClickListener());
         _helper.close();
     }
@@ -292,9 +292,9 @@ public class ReleaseActivity extends AppCompatActivity {
         ArrayAdapter blockadapter = new ArrayAdapter
                 (this, android.R.layout.simple_list_item_1, show_block);
         // ListViewにArrayAdapterを設定する
-        ListView blocklistView = findViewById(R.id.hikiwatashi_block_list);
+        ListView blocklistView = findViewById(R.id.release_block_list);
         blocklistView.setAdapter(blockadapter);
-        ListView blocklistListener = findViewById(R.id.hikiwatashi_block_list);
+        ListView blocklistListener = findViewById(R.id.release_block_list);
         blocklistListener.setOnItemClickListener(new ReleaseActivity.ListRyoseiClickListener());
         _helper.close();
     }
@@ -318,9 +318,9 @@ public class ReleaseActivity extends AppCompatActivity {
         ArrayAdapter blockadapter = new ArrayAdapter
                 (this, android.R.layout.simple_list_item_1, show_room);
         // ListViewにArrayAdapterを設定する
-        ListView roomlistView = findViewById(R.id.hikiwatashi_room_list);
+        ListView roomlistView = findViewById(R.id.release_room_list);
         roomlistView.setAdapter(blockadapter);
-        ListView roomlistListener = findViewById(R.id.hikiwatashi_room_list);
+        ListView roomlistListener = findViewById(R.id.release_room_list);
         roomlistListener.setOnItemClickListener(new ReleaseActivity.ListRoomClickListener());
 
         _helper.close();
@@ -463,9 +463,9 @@ public class ReleaseActivity extends AppCompatActivity {
                         from,
                         to);
         // ListViewにArrayAdapterを設定する
-        ListView listView = findViewById(R.id.hikiwatashi_ryosei_list);
+        ListView listView = findViewById(R.id.release_ryosei_list);
         listView.setAdapter(adapter);
-        ListView listListener = findViewById(R.id.hikiwatashi_ryosei_list);
+        ListView listListener = findViewById(R.id.release_ryosei_list);
         listListener.setOnItemClickListener(new ReleaseActivity.ListRyoseiClickListener());
         _helper.close();
     }
@@ -540,7 +540,7 @@ public class ReleaseActivity extends AppCompatActivity {
         @Override
         public void onOneClick(View view) {
             int count = 0;
-            EditText input = findViewById(R.id.hikiwatashi_search_ryosei_name);
+            EditText input = findViewById(R.id.release_search_ryosei_name);
             String input_name = input.getText().toString();
             input_name = input_name.replaceAll("　", "").replaceAll(" ", "");
             input_name = Normalizer.normalize(input_name, Normalizer.Form.NFKC);
@@ -606,14 +606,14 @@ public class ReleaseActivity extends AppCompatActivity {
             args.putString("release_staff_name", jimuto_name_Str);
             args.putString("release_staff_id", jimuto_id_Str);
             dialogFragment.setArguments(args);
-            dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Uketori_Dialog");
+            dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Register_Dialog");
         }
 
         public void showIDCheckDialog(View view) {
             DialogFragment dialogFragment = new ReleaseIDCheckDialog();
             Bundle args = new Bundle();
             dialogFragment.setArguments(args);
-            dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Uketori_Dialog");
+            dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Register_Dialog");
         }
 
         public void showProxyDialog(View view, String owner_room_name, String owner_id, String proxy_id, String proxy_room, String proxy_name) {
@@ -630,7 +630,7 @@ public class ReleaseActivity extends AppCompatActivity {
             args.putString("proxy_name", proxy_name);
             args.putString("proxy_id", proxy_id);
             dialogFragment.setArguments(args);
-            dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Proxy_Uketori_Dialog");
+            dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Proxy_Register_Dialog");
         }
 
     }
@@ -640,7 +640,7 @@ public class ReleaseActivity extends AppCompatActivity {
             Map<String ,String> item = (Map)parent.getItemAtPosition(position);
             if(Integer.parseInt(item.get("parcels_current_count"))==0){
                 String show = item.get("room_name") + "には現在荷物が一つも登録されていません。";
-                Toast.makeText(Double_Buttoned_Uketori.this, show ,Toast.LENGTH_LONG).show();
+                Toast.makeText(Double_Buttoned_Register.this, show ,Toast.LENGTH_LONG).show();
             }else {
                 this.showDialog(view, item.get("room_name"), item.get("id"));
 
@@ -648,7 +648,7 @@ public class ReleaseActivity extends AppCompatActivity {
             }
         }
         public void showDialog(View view,String owner_room_name,String owner_id) {
-            DialogFragment dialogFragment = new Nimotsu_Uketori_Dialog();
+            DialogFragment dialogFragment = new Nimotsu_Register_Dialog();
             String[] newStr = owner_room_name.split("\\s+");
             Bundle args = new Bundle();
             args.putString("owner_room",newStr[0]);
@@ -659,7 +659,7 @@ public class ReleaseActivity extends AppCompatActivity {
             args.putString("release_staff_id",jimuto_id_Str);
 
             dialogFragment.setArguments(args);
-            dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Uketori_Dialog");
+            dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Register_Dialog");
 
 
         }
@@ -677,14 +677,14 @@ public class ReleaseActivity extends AppCompatActivity {
                 proxy_intent.putExtra("Proxy_name", proxy_room_Str + " " + proxy_name_Str);
                 proxy_intent.putExtra("Proxyid", proxy_id_Str);
                 startActivityForResult(proxy_intent, PROXYCHANGE_ACTIVITY);
-                //ConstraintLayout double_buttoned_uketori = (ConstraintLayout)findViewById(R.id.double_buttoned_uketori_constraintlayout);
-                //double_buttoned_uketori.setBackgroundColor(Color.rgb(255,200,180));
+                //ConstraintLayout double_buttoned_register = (ConstraintLayout)findViewById(R.id.double_buttoned_register_constraintlayout);
+                //double_buttoned_register.setBackgroundColor(Color.rgb(255,200,180));
                 //titleText.setText("代理人荷物引き渡しの画面です。");
             } else {
                 proxy_room_name_text.setVisibility(View.GONE);
                 //proxy_change_button.setVisibility(View.GONE);
-                //ConstraintLayout double_buttoned_uketori = (ConstraintLayout)findViewById(R.id.double_buttoned_uketori_constraintlayout);
-                //double_buttoned_uketori.setBackgroundColor(Color.rgb(255,255,255));
+                //ConstraintLayout double_buttoned_register = (ConstraintLayout)findViewById(R.id.double_buttoned_register_constraintlayout);
+                //double_buttoned_register.setBackgroundColor(Color.rgb(255,255,255));
             }
             proxy_check = isChecked;
         }

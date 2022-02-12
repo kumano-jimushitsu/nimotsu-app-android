@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/double_proxy_constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <!-- ヘッダ -->
     <include
-        android:id="@+id/include_header_proxy_hikiwatashi"
-        layout="@layout/include_header_proxy_hikiwatashi" />
+        android:id="@+id/include_header_release_proxy"
+        layout="@layout/include_header_release_proxy" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,8 +17,8 @@
         android:orientation="horizontal"
         android:paddingHorizontal="110dp"
         android:paddingVertical="20dp"
-        app:layout_constraintBottom_toTopOf="@id/include_footer_hikiwatashi"
-        app:layout_constraintTop_toBottomOf="@id/include_header_proxy_hikiwatashi">
+        app:layout_constraintBottom_toTopOf="@id/include_footer_release"
+        app:layout_constraintTop_toBottomOf="@id/include_header_release_proxy">
 
         <ListView
             android:id="@+id/double_proxy_change_block_list"
@@ -89,7 +88,7 @@
 
     <!-- フッター -->
     <include
-        android:id="@+id/include_footer_hikiwatashi"
-        layout="@layout/include_footer_hikiwatashi" />
+        android:id="@+id/include_footer_release"
+        layout="@layout/include_footer_release" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

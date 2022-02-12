@@ -9,7 +9,7 @@
     <!-- ヘッダ -->
     <include
         android:id="@+id/include_header_tomari"
-        layout="@layout/include_header_tomari" />
+        layout="@layout/include_header_night_duty" />
 
     <!-- コンテンツ -->
     <LinearLayout
@@ -18,7 +18,7 @@
         android:orientation="vertical"
         android:paddingHorizontal="30dp"
         android:paddingVertical="10dp"
-        app:layout_constraintBottom_toTopOf="@id/include_footer"
+        app:layout_constraintBottom_toTopOf="@id/include_footer_night_duty"
         app:layout_constraintTop_toBottomOf="@id/include_header_tomari">
 
         <LinearLayout
@@ -483,7 +483,7 @@
 
     <!-- フッター -->
     <include
-        android:id="@+id/include_footer"
-        layout="@layout/include_footer" />
+        android:id="@+id/include_footer_night_duty"
+        layout="@layout/include_footer_night_duty" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

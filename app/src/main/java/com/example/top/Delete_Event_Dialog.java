@@ -193,7 +193,7 @@ public class Delete_Event_Dialog extends DialogFragment {
 
     /*
         public void showDialog(View view, String owner_room_name, String owner_id) {
-            DialogFragment dialogFragment = new Nimotsu_Uketori_Dialog();
+            DialogFragment dialogFragment = new Nimotsu_Register_Dialog();
             String[] newStr = owner_room_name.split("\\s+");
             Bundle args = new Bundle();
             args.putString("owner_room",newStr[0]);
@@ -203,7 +203,7 @@ public class Delete_Event_Dialog extends DialogFragment {
             //args.putString("release_staff_name",jimuto_name_Str);
             args.putString("release_staff_id",jimuto_id_Str);
             dialogFragment.setArguments(args);
-            dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Uketori_Dialog");
+            dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Register_Dialog");
         }
         */
     public void update_parcels_shearingstatus() {
