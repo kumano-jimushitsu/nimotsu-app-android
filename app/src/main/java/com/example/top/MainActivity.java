@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     final int[] to = {android.R.id.text2, android.R.id.text1};
     final Handler handler = new Handler();
     String jimuto_room = "";
-    String jimuto_name = "";
+    //String jimuto_name = "";
     String jimuto_id = null;
     String qr_uuid = "";
     private TouchSound touchsound;
@@ -108,7 +108,8 @@ public class MainActivity extends AppCompatActivity {
 
         //事務当の名前を表示
         TextView jimuto_name = findViewById(R.id.main_jimutou_show);
-        jimuto_name.setText(_helper.jimuto_at_oncreate(db));
+        jimuto_room = _helper.jimuto_at_oncreate(db);
+        jimuto_name.setText(jimuto_room);
         jimuto_id=_helper.jimuto_id_at_oncreate(db);
 
     }
@@ -256,8 +257,8 @@ public class MainActivity extends AppCompatActivity {
         args.putString("owner_room", owner_room);
         args.putString("owner_name", owner_name);
         args.putString("owner_id", owner_id);
-        args.putString("release_staff_room", jimuto_room);
-        args.putString("release_staff_name", jimuto_name);
+        //args.putString("release_staff_room", jimuto_room);
+        //args.putString("release_staff_name", jimuto_name);
         args.putString("release_staff_id", jimuto_id);
         dialogFragment.setArguments(args);
         dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Uketori_Dialog");

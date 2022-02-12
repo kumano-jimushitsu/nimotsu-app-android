@@ -66,13 +66,15 @@
                     android:maxLength="20"
                     android:text="" />
 
-                <Button
-                    android:id="@+id/jimuto_change_search_ryosei_name_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <ImageButton
+                    android:id="@+id/hikiwatashi_search_ryosei_name_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:text="寮生検索"
+                    android:background="@drawable/ic_baseline_search_24"
                     android:textSize="25sp" />
+
+
 
             </LinearLayout>
 
