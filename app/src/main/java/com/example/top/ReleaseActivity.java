@@ -523,7 +523,7 @@ public class ReleaseActivity extends AppCompatActivity {
             show_block_ryosei(selectedBlock);
             get_room(selectedBlock);
             show_room();
-            touchsound.playsound5551();
+            touchsound.releasecursorblock();
         }
     }
 
@@ -532,7 +532,7 @@ public class ReleaseActivity extends AppCompatActivity {
         public void onOneItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectedRoom = (String) parent.getItemAtPosition(position);
             show_room_ryosei(selectedRoom);
-            touchsound.playsound5552();
+            touchsound.releasecursorroom();
         }
     }
 
@@ -569,7 +569,7 @@ public class ReleaseActivity extends AppCompatActivity {
         public void onOneItemClick(AdapterView<?> parent, View view, int position, long id) {
             Map<String, String> item = (Map) parent.getItemAtPosition(position);
             //音声再生
-            touchsound.playsound5553();
+            touchsound.releasecursorryosei();
             //代理受け取りモード
             if (proxy_check) {
                 if (Integer.parseInt(item.get("parcels_current_count")) == 0) {

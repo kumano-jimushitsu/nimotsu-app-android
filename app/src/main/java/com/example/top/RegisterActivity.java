@@ -394,7 +394,7 @@ public class RegisterActivity extends AppCompatActivity {
             show_block_ryosei(selectedBlock);
             get_room(selectedBlock);
             show_room();
-            touchsound.playsoundOOO1();
+            touchsound.registercursorblock();
         }
     }
 
@@ -403,7 +403,7 @@ public class RegisterActivity extends AppCompatActivity {
         public void onOneItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectedRoom = (String) parent.getItemAtPosition(position);
             show_room_ryosei(selectedRoom);
-            touchsound.playsoundOOO2();
+            touchsound.registercursorroom();
         }
     }
 
@@ -412,7 +412,7 @@ public class RegisterActivity extends AppCompatActivity {
         public void onOneItemClick(AdapterView<?> parent, View view, int position, long id) {
             Map<String, String> item = (Map) parent.getItemAtPosition(position);
             this.showDialog(view, item.get("room_name"), item.get("id"));
-            touchsound.playsoundOOO3();
+            touchsound.registercursorryosei();
         }
 
         public void showDialog(View view, String owner_room_name, String owner_id) {
@@ -445,8 +445,10 @@ public class RegisterActivity extends AppCompatActivity {
             //if(input_name.matches( "^[A-zぁ-んァ-ヶｱ-ﾝﾞﾟ\u4E00-\u9FFF\u3005-\u3007]*$") ) {
             if (p.matcher(input_name).matches()) {
                 search_show(input_name);
+                touchsound.playsoundsearch();
             } else {
                 Toast.makeText(RegisterActivity.this, "漢字、ひらがな、カタカナしか使えません。", Toast.LENGTH_SHORT).show();
+                touchsound.playsounderror();
             }
 
         }

@@ -157,7 +157,7 @@ public class JimutoChangeActivity extends AppCompatActivity {
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         SQLiteDatabase db = _helper.getWritableDatabase();
         // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE status<10 room_name = '" + room + "' order by room_name asc;";
+        String sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE status<10 AND room_name = '" + room + "' order by room_name asc;";
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加

@@ -39,7 +39,7 @@ public class ReleaseProxyActivity extends AppCompatActivity {
 
     public DatabaseHelper _helper;
     Cursor cursor;
-
+    public TouchSound touchsound;
     //ArrayListを用意
     private ArrayList<String> blocks_roomname_name = new ArrayList<>();
     private ArrayList<String> blocks_ryosei_id = new ArrayList<>();
@@ -64,7 +64,7 @@ public class ReleaseProxyActivity extends AppCompatActivity {
 
         ImageButton backbutton = (ImageButton) findViewById(R.id.proxy_release_go_back_button);
         backbutton.setOnClickListener(this::onBackButtonClick);
-
+        touchsound = new TouchSound(this);
         //代理人の名前を受け取る
         Intent intent = getIntent();
         proxy_room_name = intent.getStringExtra("proxy_name");
@@ -424,6 +424,7 @@ public class ReleaseProxyActivity extends AppCompatActivity {
             show_block_ryosei(selectedBlock);
             get_room(selectedBlock);
             show_room();
+            touchsound.registercursorblock();
         }
     }
     public class ListRoomClickListener extends OnOneItemClickListener {
@@ -431,6 +432,7 @@ public class ReleaseProxyActivity extends AppCompatActivity {
         public void onOneItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectedRoom = (String) parent.getItemAtPosition(position);
             show_room_ryosei(selectedRoom);
+            touchsound.registercursorroom();
         }
     }
 
@@ -499,12 +501,10 @@ public class ReleaseProxyActivity extends AppCompatActivity {
             //if(input_name.matches( "^[A-zぁ-んァ-ヶｱ-ﾝﾞﾟ\u4E00-\u9FFF\u3005-\u3007]*$") ) {
             if(p.matcher(input_name).matches()) {
                 search_show(input_name);
-            }else if(count > 5){
-                Toast.makeText(ReleaseProxyActivity.this, "漢字、ひらがな、カタカナしか使えません。", Toast.LENGTH_SHORT).show();
-                count++;
+                touchsound.playsoundsearch();
             }else{
                 Toast.makeText(ReleaseProxyActivity.this, "漢字、ひらがな、カタカナしか使えません。", Toast.LENGTH_SHORT).show();
-                count++;
+                touchsound.playsounderror();
             }
 
         }
@@ -515,8 +515,8 @@ public class ReleaseProxyActivity extends AppCompatActivity {
         @Override
         public void onOneItemClick(AdapterView<?> parent, View view, int position, long id){
                 Map<String ,String> item = (Map)parent.getItemAtPosition(position);
-            this.showDialog(view,item.get("room_name"),item.get("id"));
-
+            this.showDialog(view, item.get("room_name"), item.get("id"));
+            touchsound.registercursorryosei();
         }
         public void showDialog(View view,String room_name,String id) {
             Bundle args = new Bundle();

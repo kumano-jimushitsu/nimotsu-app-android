@@ -18,31 +18,29 @@ public class TouchSound {
     public int sound_555_3;
     public int sound_555_pico;
     public int sound_555_complete;
+    public int sound_cursor2;
+    public int sound_transition;
+    public int sound_search;
 
-    public TouchSound (Context context) {
-        AudioAttributes attr = new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_MEDIA)
-                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .build();
-        pool = new SoundPool.Builder()
-                .setAudioAttributes(attr)
-                .setMaxStreams(1)
-                .build();
+    public TouchSound(Context context) {
+        AudioAttributes attr = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
+        pool = new SoundPool.Builder().setAudioAttributes(attr).setMaxStreams(1).build();
 
-        soundOne = pool.load(context, R.raw.sound_cursor, 2);
-        soundTwo = pool.load(context, R.raw.sound_cursor, 2);
+        soundOne = pool.load(context, R.raw.cursor, 2);
+        soundTwo = pool.load(context, R.raw.cursor, 2);
         soundThree = pool.load(context, R.raw.error, 2);
         sound_ooo1 = pool.load(context, R.raw.scan1, 2);
         sound_ooo2 = pool.load(context, R.raw.scan2, 2);
-        sound_ooo3= pool.load(context, R.raw.scan3, 2);
-        sound_scan = pool.load(context, R.raw.scaned, 2);
+        sound_ooo3 = pool.load(context, R.raw.scan3, 2);
+        sound_scan = pool.load(context, R.raw.done, 2);
         sound_555_1 = pool.load(context, R.raw.faiz1, 2);
         sound_555_2 = pool.load(context, R.raw.faiz2, 2);
         sound_555_3 = pool.load(context, R.raw.faiz3, 2);
         sound_555_pico = pool.load(context, R.raw.faiz_pico, 2);
-        sound_555_complete = pool.load(context, R.raw.faiz_complete, 2);
-
-
+        sound_555_complete = pool.load(context, R.raw.done, 2);
+        sound_cursor2 = pool.load(context, R.raw.cursor2, 2);
+        sound_transition = pool.load(context, R.raw.transition, 2);
+        sound_search = pool.load(context, R.raw.search, 2);
 
 
     }
@@ -50,16 +48,57 @@ public class TouchSound {
     public void playsoundOne() {
         pool.play(soundOne, 1.0f, 1.0f, 2, 0, 1.0f);
     }
-    public  void playsoundTwo() {pool.play(soundTwo, 1.0f, 1.0f, 2, 0, 1.0f);}
-    public  void playsoundThree() {pool.play(soundThree, 1.0f, 1.0f, 2, 0, 1.0f);}
-    public  void playsoundOOO1() {pool.play(sound_ooo1, 1.0f, 1.0f, 2, 0, 1.0f);}
-    public  void playsoundOOO2() {pool.play(sound_ooo2, 1.0f, 1.0f, 2, 0, 1.0f);}
-    public  void playsoundOOO3() {pool.play(sound_ooo3, 1.0f, 1.0f, 2, 0, 1.0f);}
-    public  void playsoundOOOscan() {pool.play(sound_scan, 1.0f, 1.0f, 2, 0, 1.0f);}
-    public  void playsound5551() {pool.play(sound_555_1, 1.0f, 1.0f, 2, 0, 1.0f);}
-    public  void playsound5552() {pool.play(sound_555_2, 1.0f, 1.0f, 2, 0, 1.0f);}
-    public  void playsound5553() {pool.play(sound_555_3, 1.0f, 1.0f, 2, 0, 1.0f);}
-    public  void playsound555pico() {pool.play(sound_555_pico, 1.0f, 1.0f, 2, 0, 1.0f);}
-    public  void playsound555complete() {pool.play(sound_555_complete, 1.0f, 1.0f, 2, 0, 1.0f);}
+
+    public void playsoundTwo() {
+        pool.play(soundTwo, 1.0f, 1.0f, 2, 0, 1.0f);
+    }
+
+    public void playsounderror() {
+        pool.play(soundThree, 1.0f, 1.0f, 2, 0, 1.0f);
+    }
+
+    public void registercursorblock() {
+        pool.play(sound_cursor2, 1.0f, 1.0f, 2, 0, 1.0f);
+    }
+
+    public void registercursorroom() {
+        pool.play(sound_cursor2, 1.0f, 1.0f, 2, 0, 1.1f);
+    }
+
+    public void registercursorryosei() {
+        pool.play(sound_cursor2, 1.0f, 1.0f, 2, 0, 1.2f);
+    }
+
+    public void playsoundOOOscan() {
+        pool.play(sound_scan, 1.0f, 1.0f, 2, 0, 1.0f);
+    }
+
+    public void releasecursorblock() {
+        pool.play(sound_cursor2, 1.0f, 1.0f, 2, 0, 1.0f);
+    }
+
+    public void releasecursorroom() {
+        pool.play(sound_cursor2, 1.0f, 1.0f, 2, 0, 1.1f);
+    }
+
+    public void releasecursorryosei() {
+        pool.play(sound_cursor2, 1.0f, 1.0f, 2, 0, 1.2f);
+    }
+
+    public void playsound555pico() {
+        pool.play(sound_555_pico, 1.0f, 1.0f, 2, 0, 1.0f);
+    }
+
+    public void playsound555complete() {
+        pool.play(sound_555_complete, 1.0f, 1.0f, 2, 0, 1.0f);
+    }
+
+    public void playsoundtransition() {
+        pool.play(sound_transition, 1.0f, 1.0f, 2, 0, 1.0f);
+    }
+
+    public void playsoundsearch() {
+        pool.play(sound_search, 1.0f, 1.0f, 2, 0, 1.0f);
+    }
 
 }
