@@ -21,8 +21,8 @@
 
     <ImageView
         android:id="@+id/pokke_logo"
-        android:layout_width="360dp"
-        android:layout_height="90dp"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/textView"
         app:srcCompat="@drawable/pokke_clear" />
@@ -34,16 +34,17 @@
         android:layout_centerVertical="true"
         android:text="" />
 
+
     <ImageButton
         android:id="@+id/jimuto_change_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:layout_toLeftOf="@id/current_jimuto"
         android:background="@drawable/ic_baseline_wifi_protected_setup_24"
         android:contentDescription="事務当を交代します"
-        app:rippleColor="@color/teal_200"
-        android:layout_toLeftOf="@id/current_jimuto"
-        android:layout_marginEnd="10dp" />
+        app:rippleColor="@color/teal_200" />
 
     <TextView
         android:id="@+id/current_jimuto"
@@ -57,7 +58,7 @@
 
     <TextView
         android:id="@+id/main_jimuto_show"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
@@ -65,5 +66,6 @@
         android:text="設定されていません"
         android:textColor="@color/default_header_font"
         android:textSize="20sp" />
+
 
 </RelativeLayout>

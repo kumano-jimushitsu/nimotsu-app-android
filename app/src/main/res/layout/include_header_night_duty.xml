@@ -38,7 +38,7 @@
 
     <TextView
         android:id="@+id/main_jimuto_show"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
