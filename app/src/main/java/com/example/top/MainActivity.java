@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -129,6 +130,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void event_delete_failed_toast(){
+
+        Toast.makeText(this, "5分経過しているため削除できませんでした。", Toast.LENGTH_SHORT).show();
+    }
 
     public void onReturnValue() {
         eventLogshow();
@@ -188,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
         ListView listListener = findViewById(R.id.event_show);
         listListener.setOnItemClickListener(new EventShowListener());
     }
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         //インテント終了後、メイン画面に戻ったときの処理を記載する部分

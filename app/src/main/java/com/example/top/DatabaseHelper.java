@@ -478,8 +478,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void event_add_night_duty(SQLiteDatabase db, String staffid, String staffroom, String staffname) {
 
     }
-
-
+    public int check_isFinished(SQLiteDatabase db, String event_id){
+        String sql = "SELECT is_finished FROM parcel_event where uid='" + event_id + "'";
+        // SQLの実行。
+        Cursor cursor = db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        int is_finished = cursor.getInt(cursor.getColumnIndex("is_finished"));
+        return is_finished;
+    }
     public void delete_event(SQLiteDatabase db, String event_id, String ryosei_id, String parcel_id, String jimuto_id, String event_type) {
         //event idは1 or 2が入る　1が登録のイベントを消し込むとき、2が受取のイベントを消し込むとき
 
