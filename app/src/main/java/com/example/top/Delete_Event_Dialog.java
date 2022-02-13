@@ -20,6 +20,7 @@ public class Delete_Event_Dialog extends DialogFragment {
     String event_type = "";
     private DatabaseHelper _helper;
     private static final int EVENT_REFRESH_ACTIVITY = 1002;
+    private static final int EVENT_REFRESH_ACTIVITY_DELETE_FAILED = 1003;
 
     //int placement = 0;
     @NonNull
@@ -154,7 +155,7 @@ public class Delete_Event_Dialog extends DialogFragment {
         builder.setTitle("操作履歴　詳細情報").setMessage(message);
 
 
-        //受取か引渡で、is_finished=0ならば削除可能　削除ボタンを表示させる
+        //event_typeが1or2(受取か引渡)で、is_finished=0ならば削除可能　削除ボタンを表示させる
         if (event_type.equals("1") || event_type.equals("2")) {
             sql = "SELECT is_finished FROM parcel_event where uid ='" + event_id + "';";
             cursor = db.rawQuery(sql, null);
@@ -162,9 +163,16 @@ public class Delete_Event_Dialog extends DialogFragment {
             if (cursor.getInt(cursor.getColumnIndex("is_finished")) == 0) {
                 builder.setPositiveButton("操作取り消し", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        SQLiteDatabase db = _helper.getWritableDatabase();
-                        _helper.delete_event(db, event_id, ryosei_id, parcel_id, jimuto_id, event_type);
                         MainActivity callingActivity = (MainActivity) getActivity();
+
+                        SQLiteDatabase db = _helper.getWritableDatabase();
+                        if(_helper.check_isFinished(db,event_id)==0){//is_finishedが0なら削除可能　ここで改めてチェック
+                            _helper.delete_event(db, event_id, ryosei_id, parcel_id, jimuto_id, event_type);
+                        }else{//削除ボタンが表示されていても、タイミングによってはis_finished=1になっているときもある。通知を出したい。
+                            callingActivity.event_delete_failed_toast();
+                        }
+
+
                         callingActivity.eventLogshow();
                         // update_parcels_shearingstatus();
                         // update_ryosei_shearingstatus();
