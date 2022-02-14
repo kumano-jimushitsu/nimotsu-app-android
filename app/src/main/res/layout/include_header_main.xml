@@ -91,8 +91,8 @@
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:format12Hour=" hh:mm:ss"
-            android:format24Hour=" HH:mm:ss"
+            android:format12Hour=" hh:mm"
+            android:format24Hour=" HH:mm"
             android:textColor="@color/default_header_font"
             android:textSize="14sp"
             android:timeZone="GMT+900" />
