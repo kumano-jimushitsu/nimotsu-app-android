@@ -46,4 +46,34 @@
         android:textColor="@color/release_header_font"
         android:textSize="20sp" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="top"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal">
+
+        <TextClock
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:format12Hour="MM/dd"
+            android:format24Hour="MM/dd"
+            android:textColor="@color/default_header_font"
+            android:textSize="14sp"
+            android:timeZone="Asia/Tokyo" />
+
+        <TextClock
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:format12Hour=" hh:mm"
+            android:format24Hour=" HH:mm"
+            android:textColor="@color/default_header_font"
+            android:textSize="14sp"
+            android:timeZone="GMT+900" />
+    </LinearLayout>
+
 </RelativeLayout>
