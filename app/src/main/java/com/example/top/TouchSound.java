@@ -69,7 +69,7 @@ public class TouchSound {
         pool.play(sound_cursor2, 1.0f, 1.0f, 2, 0, 1.2f);
     }
 
-    public void playsoundOOOscan() {
+    public void playsoundone() {
         pool.play(sound_scan, 1.0f, 1.0f, 2, 0, 1.0f);
     }
 

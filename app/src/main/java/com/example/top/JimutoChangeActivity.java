@@ -48,12 +48,14 @@ public class JimutoChangeActivity extends AppCompatActivity {
     Cursor cursor;
     private String jimuto_room_name = "";
     private String jimuto_id = null;
-
+    private TouchSound touchsound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jimuto_change);
+
+        touchsound = new TouchSound(this);
 
         ImageButton backbutton = findViewById(R.id.jimuto_change_go_back_button);
         backbutton.setOnClickListener(this::onBackButtonClick);
@@ -418,6 +420,7 @@ public class JimutoChangeActivity extends AppCompatActivity {
             show_block_ryosei(selectedBlock);
             get_room(selectedBlock);
             show_room();
+            touchsound.registercursorblock();
         }
     }
 
@@ -426,6 +429,7 @@ public class JimutoChangeActivity extends AppCompatActivity {
         public void onOneItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectedRoom = (String) parent.getItemAtPosition(position);
             show_room_ryosei(selectedRoom);
+            touchsound.registercursorroom();
         }
     }
 
@@ -444,12 +448,10 @@ public class JimutoChangeActivity extends AppCompatActivity {
             //if(input_name.matches( "^[A-zぁ-んァ-ヶｱ-ﾝﾞﾟ\u4E00-\u9FFF\u3005-\u3007]*$") ) {
             if (p.matcher(input_name).matches()) {
                 search_show(input_name);
-            } else if (count > 5) {
-                Toast.makeText(JimutoChangeActivity.this, "漢字、ひらがな、カタカナしか使えません。", Toast.LENGTH_SHORT).show();
-                count++;
+                touchsound.playsoundsearch();
             } else {
                 Toast.makeText(JimutoChangeActivity.this, "漢字、ひらがな、カタカナしか使えません。", Toast.LENGTH_SHORT).show();
-                count++;
+                touchsound.playsounderror();
             }
 
         }
@@ -459,6 +461,7 @@ public class JimutoChangeActivity extends AppCompatActivity {
     private class ListRyoseiClickListener extends OnOneItemClickListener {
         @Override
         public void onOneItemClick(AdapterView<?> parent, View view, int position, long id) {
+            touchsound.registercursorryosei();
             Map<String, String> item = (Map) parent.getItemAtPosition(position);
             //this.showDialog(view,item.get("room_name"),item.get("id"));
             //参考になるので消さないが、ダイアログでの確認をせず更新するために変更

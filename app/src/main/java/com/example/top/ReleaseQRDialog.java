@@ -26,11 +26,13 @@ public class ReleaseQRDialog extends DialogFragment {
     int nimotsu_count_sametime = 0;
     private DatabaseHelper _helper;
     Boolean cancel = true;
+    private TouchSound touchsound;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
+        touchsound = new TouchSound(MainActivity.getMainActivityContext());
 //        owner_ryosei_name = getArguments().getString("owner_name","");
         //owner_ryosei_room = getArguments().getString("owner_room","");
         owner_ryosei_id = getArguments().getString("owner_id","0");
@@ -78,11 +80,12 @@ public class ReleaseQRDialog extends DialogFragment {
                             }
                         }
                         if(nimotsu_count_sametime != 0){
-                            Toast.makeText(getActivity(), owner_ryosei_room+ " " + owner_ryosei_name+
-                                    "の荷物を"+ String.valueOf(nimotsu_count_sametime) +"個、引き渡しました", Toast.LENGTH_SHORT).show();
+                            touchsound.playsoundone();
+                            Toast.makeText(getActivity(), owner_ryosei_room + " " + owner_ryosei_name + "の荷物を" + String.valueOf(nimotsu_count_sametime) + "個、引き渡しました", Toast.LENGTH_SHORT).show();
                             //荷物引き渡しページを閉じさせる。
                             //呼び出し元のフラグメントに結果を返す
                         }else{
+                            touchsound.playsounderror();
                             cancel = false;
                             Toast.makeText(getActivity(), "チェックがされていません。", Toast.LENGTH_SHORT).show();
                         }

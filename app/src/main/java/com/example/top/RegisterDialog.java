@@ -89,7 +89,7 @@ public class RegisterDialog extends DialogFragment {
                         if(placement != 5) {
                             String show = "事務当番" + register_staff_room + register_staff_name + "が" + owner_ryosei_room + " " +
                                     owner_ryosei_name + "に荷物を受け取りしました。";
-                            touchsound.playsoundOOOscan();
+                            touchsound.playsoundone();
                             Toast.makeText(getActivity(), show, Toast.LENGTH_LONG).show();
                         }
 //                        insert_parcels_shearingstatus();

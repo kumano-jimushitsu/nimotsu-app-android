@@ -79,7 +79,7 @@ public class ReleaseDialog extends DialogFragment {
                 }
                 if (nimotsu_count_sametime != 0) {
                     Toast.makeText(getActivity(), owner_ryosei_room + " " + owner_ryosei_name + "の荷物を" + String.valueOf(nimotsu_count_sametime) + "個、引き渡しました", Toast.LENGTH_SHORT).show();
-                    touchsound.playsound555complete();
+                    touchsound.playsoundone();
                     //引き渡し音声
 
                     //荷物引き渡しページを閉じさせる。
@@ -90,6 +90,7 @@ public class ReleaseDialog extends DialogFragment {
                 } else {
                     cancel = false;
                     Toast.makeText(getActivity(), "チェックがされていません。", Toast.LENGTH_SHORT).show();
+                    touchsound.playsounderror();
                 }
             }
         }).setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {

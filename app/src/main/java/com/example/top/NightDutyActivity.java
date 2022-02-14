@@ -50,7 +50,7 @@ public class NightDutyActivity extends AppCompatActivity {
     public Button button_phase2;
 
     //説明文とボタン部分ここまで
-
+    private TouchSound touchsound;
     private DatabaseHelper _helper;
 
 
@@ -58,6 +58,8 @@ public class NightDutyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_night_duty);
+
+        touchsound = new TouchSound(this);
         //事務当番の名前を受け取る
         Intent intent = getIntent();
         staff_room = intent.getStringExtra("Jimuto_name");
@@ -263,6 +265,7 @@ public class NightDutyActivity extends AppCompatActivity {
             //
             Boolean all_checked = false;
             ArrayList<String> outputDataAll = new ArrayList<>();
+            touchsound.playsoundone();
 
 
             if (dataA.size() > 0) {
@@ -394,9 +397,9 @@ public class NightDutyActivity extends AppCompatActivity {
             Intent event_refresh_intent = new Intent();
             event_refresh_intent.putExtra("EventRefresh", true);
             setResult(RESULT_OK, event_refresh_intent);
-            finish();
             Toast.makeText(NightDutyActivity.this, "荷物札の確認を行いました。泊まり事務当番が完了しました。", Toast.LENGTH_LONG).show();
-
+            touchsound.playsoundtransition();
+            finish();
         }
     }
 
