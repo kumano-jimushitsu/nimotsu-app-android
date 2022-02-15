@@ -778,9 +778,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
  */
 
-    public void jimuto_change_event(SQLiteDatabase db, String ryosei_id) {
+    public void jimuto_change_event(SQLiteDatabase db, String jimuto_id) {
         //先にryosei_idから部屋番号と氏名を取得
-        Cursor cursor = db.rawQuery("SELECT room_name,ryosei_name FROM ryosei where uid='" + ryosei_id + "';", null);
+        Cursor cursor = db.rawQuery("SELECT room_name,ryosei_name FROM ryosei where uid='" + jimuto_id + "';", null);
         String room_name;
         String ryosei_name;
         try {
@@ -799,7 +799,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String created_at = format.format(dateObj);
             String sql = "insert into parcel_event(uid,created_at,event_type,ryosei_uid,room_name,ryosei_name,target_event_uid,is_finished,sharing_status)";
             sql += "values('";
-            sql += event_id + "','" + created_at + "',10,'" + ryosei_id + "',";
+            sql += event_id + "','" + created_at + "',10,'" + jimuto_id + "',";
             sql += "'" + room_name + "',";
             sql += "'" + ryosei_name + "','";
             sql += event_id + "',1,10);";
@@ -810,11 +810,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public void night_duty_enter_event(SQLiteDatabase db, String jimuto_id) {
+        String sql = getSqlInsertEvent(db, jimuto_id, "11");
+        db.execSQL(sql);
+    }
+
+    public void night_duty_exit_event(SQLiteDatabase db, String jimuto_id) {
+        String sql = getSqlInsertEvent(db, jimuto_id, "12");
+        db.execSQL(sql);
+    }
+
+    // ryosei
+    public String getSqlInsertEvent(SQLiteDatabase db, String jimuto_id, String event_type) {
+        //先にryosei_idから部屋番号と氏名を取得
+        Cursor cursor = db.rawQuery("SELECT room_name,ryosei_name FROM ryosei where uid='" + jimuto_id + "';", null);
+        String room_name;
+        String ryosei_name;
+        try {
+            cursor.moveToNext();
+            // カラムのインデックス値を取得。
+            // カラムのインデックス値を元に実際のデータを取得。
+            room_name = cursor.getString(cursor.getColumnIndex("room_name"));
+            ryosei_name = cursor.getString(cursor.getColumnIndex("ryosei_name"));
+
+
+            //
+            // 現在日時情報で初期化されたインスタンスの生成
+            Date dateObj = new Date();
+            String event_id = UUID.randomUUID().toString();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String created_at = format.format(dateObj);
+            String sql = "insert into parcel_event(uid,created_at,event_type,ryosei_uid,room_name,ryosei_name,target_event_uid,is_finished,sharing_status)";
+            sql += "values('";
+            sql += event_id + "','" + created_at + "'," + event_type + ",'" + jimuto_id + "',";
+            sql += "'" + room_name + "',";
+            sql += "'" + ryosei_name + "','";
+            sql += event_id + "',1,10);";
+            return sql;
+        } finally {
+            cursor.close();
+        }
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
 }
-
-
-

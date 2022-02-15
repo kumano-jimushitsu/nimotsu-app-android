@@ -32,7 +32,8 @@ import java.util.concurrent.Executors;
 public class MainActivity extends AppCompatActivity {
 
     private static final int JIMUTOCHANGE_ACTIVITY = 1001;
-    private static final int EVENT_REFRESH_ACTIVITY = 1002;
+    private static final int NIGHT_DUTY_ACTIVITY = 1002;
+    private static final int EVENT_REFRESH_ACTIVITY = 1003;
     private static final int INVALID_POINTER_ID = -1;
     private static int mActivePointerId = INVALID_POINTER_ID;
     private static Context context;
@@ -162,14 +163,24 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 2://荷物受取
                     text += "引き渡し       ";
-
                     break;
                 case 3://イベント削除：表示しなくてもいいかもね→上の方で分岐
                     //text="イベントが削除されました";
                     break;
+                case 4: // 発見
+                    text += "荷物発見     ";
+                    break;
+                case 5: // 紛失
+                    text += "荷物確認     ";
+                    break;
                 case 10:
                     text += "事務当交代     ";
-
+                    break;
+                case 11:
+                    text += "泊まり事務当モード開始     ";
+                    break;
+                case 12:
+                    text += "泊まり事務当モード終了     ";
             }
             text += cursor.getString(cursor.getColumnIndex("room_name"));
             text += "    ";
@@ -202,13 +213,22 @@ public class MainActivity extends AppCompatActivity {
             case JIMUTOCHANGE_ACTIVITY:
                 jimuto_id = intent.getStringExtra("Jimuto_id");
                 jimuto_room = intent.getStringExtra("Jimuto_room_name");
-                TextView jimuto_show = findViewById(R.id.main_jimuto_show);
-                jimuto_show.setText(jimuto_room);
 
-                _helper.jimuto_change_event(db, jimuto_id);
+                // jimuto_idがnull出ないときのみ事務当の表示変更
+                if (jimuto_id != null) {
+                    TextView jimuto_show = findViewById(R.id.main_jimuto_show);
+                    jimuto_show.setText(jimuto_room);
+                    _helper.jimuto_change_event(db, jimuto_id);
+                }
+                eventLogshow();
+                break;
+            case NIGHT_DUTY_ACTIVITY:
+                _helper.night_duty_exit_event(db, jimuto_id);
+                eventLogshow();
             case EVENT_REFRESH_ACTIVITY:
                 boolean event_update = intent.getBooleanExtra("EventRefresh", false);
                 eventLogshow();
+                break;
             default:
                 //ここにケースを追加！
         }
@@ -442,7 +462,8 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 //intent.putExtra("Jimuto_name", jimuto_name);
-                startActivityForResult(intent, EVENT_REFRESH_ACTIVITY);
+                startActivityForResult(intent, NIGHT_DUTY_ACTIVITY);
+                _helper.night_duty_enter_event(db, jimuto_id);
                 touchsound.playsoundtransition();
             }
         }
