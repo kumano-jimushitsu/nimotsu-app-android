@@ -388,14 +388,12 @@ public class JimutoChangeActivity extends AppCompatActivity {
 
     public void onBackButtonClick(View view) {
         Intent jimuto_intent = new Intent();
-        if (jimuto_id == null) {
-            Toast.makeText(JimutoChangeActivity.this, "事務当番を選択してください。", Toast.LENGTH_SHORT).show();
-        } else {
+        if (jimuto_id != null) {
             jimuto_intent.putExtra("Jimuto_room_name", jimuto_room_name);
             jimuto_intent.putExtra("Jimuto_id", jimuto_id);
-            setResult(RESULT_OK, jimuto_intent);
-            finish();
         }
+        setResult(RESULT_OK, jimuto_intent);
+        finish();
     }
 
     //Dialogから帰ってきたのをここで受ける
