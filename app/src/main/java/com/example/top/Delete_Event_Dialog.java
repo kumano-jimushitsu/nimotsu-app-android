@@ -13,14 +13,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 public class Delete_Event_Dialog extends DialogFragment {
+    private static final int EVENT_REFRESH_ACTIVITY = 1002;
+    private static final int EVENT_REFRESH_ACTIVITY_DELETE_FAILED = 1003;
     String event_id = "";
     String ryosei_id = "";
     String parcel_id = "";
     String jimuto_id = "";
     String event_type = "";
     private DatabaseHelper _helper;
-    private static final int EVENT_REFRESH_ACTIVITY = 1002;
-    private static final int EVENT_REFRESH_ACTIVITY_DELETE_FAILED = 1003;
 
     //int placement = 0;
     @NonNull
@@ -136,15 +136,20 @@ public class Delete_Event_Dialog extends DialogFragment {
                 sql = "SELECT uid, room_name, ryosei_name FROM parcel_event WHERE event_type=10 and  created_at<(select created_at from parcel_event where uid ='" + event_id + "') order by created_at desc limit 1;";
                 cursor = db.rawQuery(sql, null);
                 cursor.moveToFirst();
+
                 if (cursor.getCount() > 0) {
                     message += cursor.getString(cursor.getColumnIndex("room_name")) + "" + cursor.getString(cursor.getColumnIndex("ryosei_name"));
                     message += "→";
                 }
+
                 //指定されたイベントで交替した事務当を取得
-                sql = "SELECT uid, room_name, ryosei_name FROM parcel_event where uid ='" + event_id + "';";
-                cursor = db.rawQuery(sql, null);
-                cursor.moveToFirst();
-                message += cursor.getString(cursor.getColumnIndex("room_name")) + "" + cursor.getString(cursor.getColumnIndex("ryosei_name"));
+                message += getJimutoAtEvent(db, event_id);
+                break;
+            case "11": // 泊まり事務当モード開始
+                message = "泊まり事務当モード開始　" + getJimutoAtEvent(db, event_id);
+                break;
+            case "12": // 泊まり事務当モード終了
+                message = "泊まり事務当モード終了　" + getJimutoAtEvent(db, event_id);
                 break;
             default:
                 message = "unknown event type";
@@ -166,9 +171,9 @@ public class Delete_Event_Dialog extends DialogFragment {
                         MainActivity callingActivity = (MainActivity) getActivity();
 
                         SQLiteDatabase db = _helper.getWritableDatabase();
-                        if(_helper.check_isFinished(db,event_id)==0){//is_finishedが0なら削除可能　ここで改めてチェック
+                        if (_helper.check_isFinished(db, event_id) == 0) {//is_finishedが0なら削除可能　ここで改めてチェック
                             _helper.delete_event(db, event_id, ryosei_id, parcel_id, jimuto_id, event_type);
-                        }else{//削除ボタンが表示されていても、タイミングによってはis_finished=1になっているときもある。通知を出したい。
+                        } else {//削除ボタンが表示されていても、タイミングによってはis_finished=1になっているときもある。通知を出したい。
                             callingActivity.event_delete_failed_toast();
                         }
 
@@ -214,17 +219,12 @@ public class Delete_Event_Dialog extends DialogFragment {
             dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Register_Dialog");
         }
         */
-    public void update_parcels_shearingstatus() {
 
+    private String getJimutoAtEvent(SQLiteDatabase db, String event_id) {
+        String sql = "SELECT uid, room_name, ryosei_name FROM parcel_event where uid ='" + event_id + "';";
+        Cursor cursor = db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        return cursor.getString(cursor.getColumnIndex("room_name")) + "" + cursor.getString(cursor.getColumnIndex("ryosei_name"));
     }
-
-    public void update_ryosei_shearingstatus() {
-
-    }
-
-    public void update_event_shearingstatus() {
-
-    }
-
 
 }
