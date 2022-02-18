@@ -190,11 +190,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void register_ryosei(SQLiteDatabase db, String owner_id, int parcels_current_count, int parcels_total_count, String updated_at) {
         //寮生に荷物カウントを追加する.
-        String sql = "UPDATE ryosei SET " +
-                "parcels_current_count =" + (parcels_current_count + 1) + ", " +
-                " parcels_total_count =" + (parcels_total_count + 1) + ", " +
-                " updated_at ='" + updated_at + "', " +
-                " sharing_status =10 WHERE uid ='" + owner_id + "'";
+        String sql = "UPDATE ryosei SET " + "parcels_current_count =" + (parcels_current_count + 1) + ", " + " parcels_total_count =" + (parcels_total_count + 1) + ", " + " updated_at ='" + updated_at + "'" + "  WHERE uid ='" + owner_id + "';";
         db.execSQL(sql);
     }
 
@@ -290,11 +286,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void release_ryosei(SQLiteDatabase db, String owner_id, int parcels_current_count, String updated_at) {
-        String sql = "UPDATE ryosei SET " +
-                "parcels_current_count =" + (parcels_current_count - 1) + ", " +
-                "updated_at = '" + updated_at + "', " +
-                "sharing_status =10  " +
-                "WHERE uid ='" + owner_id + "'";
+        String sql = "UPDATE ryosei SET " + "parcels_current_count =" + (parcels_current_count - 1) + ", " + "updated_at = '" + updated_at + "' " + "WHERE uid ='" + owner_id + "'";
         db.execSQL(sql);
     }
 
@@ -304,7 +296,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String parcel_id,
             String ryosei_id,
             String room_name,
-
             String ryosei_name) {
         //単にinsertするだけではなく、target_event_uidに入るregisterのeventのuidを取得し、
         //さらに取得したregisterのレコードのis_finishedを1にupdateする必要がある
@@ -544,11 +535,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
         //ryosei
-        sql = "update ryosei set parcels_total_count=" +
-                parcels_total_count +
-                ",parcels_current_count=" +
-                parcels_current_count +
-                ",sharing_status= 10 where uid='" + ryosei_id + "'";
+        sql = "update ryosei set parcels_total_count=" + parcels_total_count + ",parcels_current_count=" + parcels_current_count + " where uid='" + ryosei_id + "'";
         db.execSQL(sql);
 
         //parcels

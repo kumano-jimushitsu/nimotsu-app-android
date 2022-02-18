@@ -54,7 +54,7 @@ public class ReleaseProxyActivity extends AppCompatActivity {
     private String proxy_id = null;
     private static final int PROXYCHANGE_ACTIVITY = 2001;
     private ConstraintLayout double_proxy_change;
-
+    public Cursor all_cursor;//ここに荷物のある全ての寮生を入れる。
 
 
     @Override
@@ -163,34 +163,38 @@ public class ReleaseProxyActivity extends AppCompatActivity {
         SQLiteDatabase db = _helper.getWritableDatabase();
         String sql;
         // 主キーによる検索SQL文字列の用意。
-        if (block == null){
-            sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei order by room_name asc;";
-        }else {
-            sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE block_id = '" + block_to_id(block) + "' order by room_name asc;";
+        if (block == null) {
+            sql = "SELECT uid, room_name, ryosei_name FROM ryosei order by room_name asc;";
+        } else {
+            sql = "SELECT uid, room_name, ryosei_name FROM ryosei WHERE block_id = '" + block_to_id(block) + "' order by room_name asc;";
         }// SQLの実行。
-        Cursor cursor = db.rawQuery(sql, null);
+        all_cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
-        while(cursor.moveToNext()) {
-            Map<String,String> ryosei_raw = new HashMap<>();
+        while (all_cursor.moveToNext()) {
+            Map<String, String> ryosei_raw = new HashMap<>();
             // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
             String note = "";
             String ryosei_id = "";
             // カラムのインデックス値を取得。
-            int idNote = cursor.getColumnIndex("uid");
+            int idNote = all_cursor.getColumnIndex("uid");
             // カラムのインデックス値を元に実際のデータを取得。
-            ryosei_id = cursor.getString(idNote);
-            ryosei_raw.put("id",cursor.getString(idNote));
+            ryosei_id = all_cursor.getString(idNote);
+            ryosei_raw.put("id", all_cursor.getString(idNote));
             // カラムのインデックス値を取得。
-            int roomNameNote = cursor.getColumnIndex("room_name");
+            int roomNameNote = all_cursor.getColumnIndex("room_name");
             // カラムのインデックス値を元に実際のデータを取得。
-            note += cursor.getString(roomNameNote);
+            note += all_cursor.getString(roomNameNote);
             note += " ";
-            int ryouseiNote = cursor.getColumnIndex("ryosei_name");
-            note += cursor.getString(ryouseiNote);
-            ryosei_raw.put("room_name",note);
-            int index_parcels_current_count = cursor.getColumnIndex("parcels_current_count");
-            int parcels_count = cursor.getInt(index_parcels_current_count);
-            ryosei_raw.put("parcels_current_count",String.valueOf(parcels_count));
+            int ryouseiNote = all_cursor.getColumnIndex("ryosei_name");
+            note += all_cursor.getString(ryouseiNote);
+            ryosei_raw.put("room_name", note);
+            //従来の荷物カウントを削除
+            //int index_parcels_current_count = all_cursor.getColumnIndex("parcels_current_count");
+            //int parcels_count = all_cursor.getInt(index_parcels_current_count);
+            //parcelsテーブルからIDで荷物を検索
+            String sql_parcels_count = "select count(uid) from parcels where owner_uid ='" + ryosei_id + "' AND is_released = 1;";
+            Cursor parcels_count = db.rawQuery(sql_parcels_count, null);
+            ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count.getInt(0)));
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
             show_list.add(ryosei_raw);
