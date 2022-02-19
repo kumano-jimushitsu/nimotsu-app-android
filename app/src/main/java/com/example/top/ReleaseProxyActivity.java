@@ -140,8 +140,8 @@ public class ReleaseProxyActivity extends AppCompatActivity {
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
             show_list.add(ryosei_raw);
-
         }
+        cursor.close();
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter adapter = new SimpleAdapter
                 (this,
@@ -192,14 +192,14 @@ public class ReleaseProxyActivity extends AppCompatActivity {
             //int index_parcels_current_count = all_cursor.getColumnIndex("parcels_current_count");
             //int parcels_count = all_cursor.getInt(index_parcels_current_count);
             //parcelsテーブルからIDで荷物を検索
-            String sql_parcels_count = "select count(uid) from parcels where owner_uid ='" + ryosei_id + "' AND is_released = 1;";
-            Cursor parcels_count = db.rawQuery(sql_parcels_count, null);
-            ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count.getInt(0)));
+            //String sql_parcels_count = "select count(uid) from parcels where owner_uid ='" + ryosei_id + "' AND is_released = 1;";
+            //Cursor parcels_count = db.rawQuery(sql_parcels_count, null);
+            //ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count.getInt(0)));
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
             show_list.add(ryosei_raw);
-
         }
+        all_cursor.close();
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter blocktoryoseiadapter = new SimpleAdapter
                 (this,
@@ -250,6 +250,7 @@ public class ReleaseProxyActivity extends AppCompatActivity {
             blocks_ryosei_id.add(ryosei_id);
             show_list.add(ryosei_raw);
         }
+        cursor.close();
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter roomtoryoseiadapter = new SimpleAdapter
                 (this,
@@ -320,6 +321,7 @@ public class ReleaseProxyActivity extends AppCompatActivity {
             show_room.add(cursor.getString(roomNameNote));
             room_raw.clear();
         }
+        cursor.close();
     }
     public int block_to_id(String block){
         int id = 0;
@@ -404,8 +406,8 @@ public class ReleaseProxyActivity extends AppCompatActivity {
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
             show_ryosei.add(ryosei_raw);
-
         }
+        cursor.close();
 
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter blocktoryoseiadapter = new SimpleAdapter

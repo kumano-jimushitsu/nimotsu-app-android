@@ -181,6 +181,7 @@ public class NightDutyActivity extends AppCompatActivity {
                     }
                 }
             }
+            cursor.close();
         }
         ListView listViewA = findViewById(R.id.listA);
         ListView listViewB = findViewById(R.id.listB);

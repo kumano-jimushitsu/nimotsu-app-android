@@ -1,12 +1,12 @@
 package com.example.top;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
@@ -70,10 +70,9 @@ public class Nimotsu_show extends AppCompatActivity {
             row = cursor.getColumnIndex("register_staff_parcels_name");
             putter = String.valueOf(cursor.getString(row));
             note += putter ;
-
-
             nimotsu_list.add(note);
         }
+        cursor.close();
 
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, nimotsu_list.toArray(new String[nimotsu_list.size()]));

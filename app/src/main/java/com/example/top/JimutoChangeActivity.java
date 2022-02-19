@@ -135,15 +135,10 @@ public class JimutoChangeActivity extends AppCompatActivity {
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
             show_list.add(ryosei_raw);
-
         }
+        cursor.close();
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
-        SimpleAdapter blocktoryoseiadapter = new SimpleAdapter
-                (this,
-                        show_list,
-                        android.R.layout.simple_list_item_1,
-                        from,
-                        to);
+        SimpleAdapter blocktoryoseiadapter = new SimpleAdapter(this, show_list, android.R.layout.simple_list_item_1, from, to);
         // ListViewにArrayAdapterを設定する
         ListView listView = findViewById(R.id.double_jimuto_change_ryosei_list);
         listView.setAdapter(blocktoryoseiadapter);
@@ -201,6 +196,7 @@ public class JimutoChangeActivity extends AppCompatActivity {
         listView.setAdapter(roomtoryoseiadapter);
         ListView listListener = findViewById(R.id.double_jimuto_change_ryosei_list);
         listListener.setOnItemClickListener(new JimutoChangeActivity.ListRyoseiClickListener());
+        cursor.close();
     }
 
     public void show_block() {
@@ -262,6 +258,7 @@ public class JimutoChangeActivity extends AppCompatActivity {
             show_room.add(cursor.getString(roomNameNote));
             room_raw.clear();
         }
+        cursor.close();
     }
 
     public int block_to_id(String block) {
@@ -352,8 +349,8 @@ public class JimutoChangeActivity extends AppCompatActivity {
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
             show_ryosei.add(ryosei_raw);
-
         }
+        cursor.close();
 
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter blocktoryoseiadapter = new SimpleAdapter

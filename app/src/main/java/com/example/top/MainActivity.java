@@ -190,8 +190,8 @@ public class MainActivity extends AppCompatActivity {
             event_raw.put("id", event_id);
             event_raw.put("text", text);
             show_eventlist.add(event_raw);
-
         }
+        cursor.close();
         SimpleAdapter adapter = new SimpleAdapter(
                 this,
                 show_eventlist,
@@ -526,6 +526,7 @@ public class MainActivity extends AppCompatActivity {
                 target_event_uid = cursor.getString(cursor.getColumnIndex("target_event_uid"));
                 ryosei_uid = cursor.getString(cursor.getColumnIndex("ryosei_uid"));
             }
+            cursor.close();
 
             if (event_id == "") {
                 return;

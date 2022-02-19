@@ -225,8 +225,8 @@ public class ReleaseActivity extends AppCompatActivity {
             blocks_ryosei_id.add(ryosei_id);
             //ryosei_parcels_count.add(parcels_count);
             show_list.add(ryosei_raw);
-
         }
+        cursor.close();
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter blocktoryoseiadapter = new SimpleAdapter
                 (this,
@@ -285,8 +285,8 @@ public class ReleaseActivity extends AppCompatActivity {
             blocks_ryosei_id.add(ryosei_id);
             ryosei_parcels_count.add(parcels_count);
             show_list.add(ryosei_raw);
-
         }
+        cursor.close();
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter blocktoryoseiadapter = new SimpleAdapter
                 (this,
@@ -347,6 +347,7 @@ public class ReleaseActivity extends AppCompatActivity {
             //ryosei_parcels_count.add(parcels_count);
             show_list.add(ryosei_raw);
         }
+        cursor.close();
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter roomtoryoseiadapter = new SimpleAdapter
                 (this,
@@ -426,6 +427,7 @@ public class ReleaseActivity extends AppCompatActivity {
             room_raw.clear();
         }
 
+        cursor.close();
         _helper.close();
     }
 
@@ -533,8 +535,8 @@ public class ReleaseActivity extends AppCompatActivity {
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
             show_ryosei.add(ryosei_raw);
-
         }
+        cursor.close();
 
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter adapter = new SimpleAdapter

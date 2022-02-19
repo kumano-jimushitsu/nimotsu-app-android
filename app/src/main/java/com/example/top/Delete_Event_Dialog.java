@@ -90,6 +90,7 @@ public class Delete_Event_Dialog extends DialogFragment {
                 if (cursor.getInt(cursor.getColumnIndex("placement")) == 5) {
                     message += "その他 memo:" + cursor.getString(cursor.getColumnIndex("note"));
                 }
+                cursor.close();
                 break;
             case "2"://引渡
                 message = "寮生に荷物を引き渡しました。";
@@ -128,6 +129,7 @@ public class Delete_Event_Dialog extends DialogFragment {
                     message += "\r\n　・代理　　：" + cursor.getString(cursor.getColumnIndex("room_name")) + "　" + cursor.getString(cursor.getColumnIndex("ryosei_name"));
                 }
 
+                cursor.close();
                 break;
             case "10"://事務当交代
                 message = "事務当番交代　";
@@ -141,6 +143,8 @@ public class Delete_Event_Dialog extends DialogFragment {
                     message += cursor.getString(cursor.getColumnIndex("room_name")) + "" + cursor.getString(cursor.getColumnIndex("ryosei_name"));
                     message += "→";
                 }
+
+                cursor.close();
 
                 //指定されたイベントで交替した事務当を取得
                 message += getJimutoAtEvent(db, event_id);
@@ -187,6 +191,8 @@ public class Delete_Event_Dialog extends DialogFragment {
                 });
             }
             //.setNegativeButton("確認終了　", null);
+
+            cursor.close();
         }
         return builder.create();
     }
@@ -224,7 +230,9 @@ public class Delete_Event_Dialog extends DialogFragment {
         String sql = "SELECT uid, room_name, ryosei_name FROM parcel_event where uid ='" + event_id + "';";
         Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
-        return cursor.getString(cursor.getColumnIndex("room_name")) + "" + cursor.getString(cursor.getColumnIndex("ryosei_name"));
+        String getjimutoatevent = cursor.getString(cursor.getColumnIndex("room_name")) + "" + cursor.getString(cursor.getColumnIndex("ryosei_name"));
+        cursor.close();
+        return getjimutoatevent;
     }
 
 }

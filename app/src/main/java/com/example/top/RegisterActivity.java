@@ -139,6 +139,7 @@ public class RegisterActivity extends AppCompatActivity {
             show_ryosei.add(ryosei_raw);
 
         }
+        cursor.close();
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter blocktoryoseiadapter = new SimpleAdapter
                 (this,
@@ -185,8 +186,8 @@ public class RegisterActivity extends AppCompatActivity {
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
             show_ryosei.add(ryosei_raw);
-
         }
+        cursor.close();
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter adapter = new SimpleAdapter
                 (this,
@@ -263,6 +264,7 @@ public class RegisterActivity extends AppCompatActivity {
             show_room.add(cursor.getString(roomNameNote));
             room_raw.clear();
         }
+        cursor.close();
         _helper.close();
     }
 
@@ -302,6 +304,7 @@ public class RegisterActivity extends AppCompatActivity {
             show_ryosei.add(ryosei_raw);
 
         }
+        cursor.close();
 
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter adapter = new SimpleAdapter

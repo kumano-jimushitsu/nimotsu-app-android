@@ -55,9 +55,8 @@ public class RegisterDialog extends DialogFragment {
         cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
         register_staff_room=cursor.getString(cursor.getColumnIndex("room_name"));
-        register_staff_name=cursor.getString(cursor.getColumnIndex("ryosei_name"));
-
-
+        register_staff_name = cursor.getString(cursor.getColumnIndex("ryosei_name"));
+        cursor.close();
         String[] choices = {"普通", "冷蔵", "冷凍","大型","不在票","その他"};
         boolean[] choicesChecked = {true, false, false, false, false,false};
 

@@ -334,6 +334,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         sql = "update parcel_event set is_finished=1,sharing_status=10 where uid = '" + target_event_uid + "'";
         db.execSQL(sql);
+        db.close();
+        cursor.close();
 
     }
 
@@ -397,6 +399,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             parcels_raw.put("lost_datetime", lost_datetime);
             show_owners_parcels.add(parcels_raw);
         }
+        cursor.close();
         return show_owners_parcels;
     }
 
@@ -452,6 +455,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             parcels_raw.put("parcels_id", parcels_id);
             show_owners_parcels.add(parcels_raw);
         }
+        cursor.close();
         return show_owners_parcels;
     }
 
@@ -475,6 +479,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
         int is_finished = cursor.getInt(cursor.getColumnIndex("is_finished"));
+        cursor.close();
         return is_finished;
     }
     public void delete_event(SQLiteDatabase db, String event_id, String ryosei_id, String parcel_id, String jimuto_id, String event_type) {
@@ -550,6 +555,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             sql = "update parcels set is_released=0,release_agent_uid=null,release_datetime=null, release_staff_uid=null, sharing_status=10 where uid ='" + parcel_id + "'";
             db.execSQL(sql);
         }
+        db.close();
+        cursor.close();
     }
 
     public ArrayList<String> select_for_sync(SQLiteDatabase db, String table, int length) {
@@ -558,6 +565,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
             uids.add(cursor.getString(cursor.getColumnIndex("uid")));
         }
+        cursor.close();
         return uids;
     }
 
@@ -607,11 +615,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     if (column.getCode() == 1 && val != null) json_str += "\"";
                     json_str += ",\n";
                 }
+
             }
             //末尾からカンマを削除
             json_str = json_str.substring(0, json_str.length() - 2);
             json_str += "\n";
             json_str += "},\n";
+            cursor.close();
         }
         if (json_str.length() > 3) {
             json_str = json_str.substring(0, json_str.length() - 2);
@@ -692,6 +702,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         json_str += "\n";
         json_str += "]";
+        cursor.close();
         return json_str;
     }
 
@@ -710,14 +721,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public String jimuto_at_oncreate(SQLiteDatabase db) {
         Cursor cursor = db.rawQuery("select room_name,ryosei_name from parcel_event where event_type=10 order by created_at desc limit 1", null);
         cursor.moveToFirst();
-        if (cursor.getCount() == 0) return "登録してください";
-        return cursor.getString(cursor.getColumnIndex("room_name")) + " " + cursor.getString(cursor.getColumnIndex("ryosei_name"));
+        if (cursor.getCount() == 0)
+            return "登録してください";
+        String result = cursor.getString(cursor.getColumnIndex("room_name")) + " " + cursor.getString(cursor.getColumnIndex("ryosei_name"));
+        cursor.close();
+        return result;
     }
     public String jimuto_id_at_oncreate(SQLiteDatabase db) {
         Cursor cursor = db.rawQuery("select ryosei_uid from parcel_event where event_type=10 order by created_at desc limit 1", null);
         cursor.moveToFirst();
-        if (cursor.getCount() == 0) return null;
-        return cursor.getString(cursor.getColumnIndex("ryosei_uid"));
+        if (cursor.getCount() == 0)
+            return null;
+        String result = cursor.getString(cursor.getColumnIndex("ryosei_uid"));
+        cursor.close();
+        return result;
     }
 
 
@@ -733,7 +750,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } finally {
             cursor.close();
         }
-
+        cursor.close();
         return result_sharing_status;
     }
 /*
@@ -811,17 +828,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public String getSqlInsertEvent(SQLiteDatabase db, String jimuto_id, String event_type) {
         //先にryosei_idから部屋番号と氏名を取得
         Cursor cursor = db.rawQuery("SELECT room_name,ryosei_name FROM ryosei where uid='" + jimuto_id + "';", null);
-        String room_name;
-        String ryosei_name;
         try {
+            String room_name;
+            String ryosei_name;
             cursor.moveToNext();
             // カラムのインデックス値を取得。
             // カラムのインデックス値を元に実際のデータを取得。
             room_name = cursor.getString(cursor.getColumnIndex("room_name"));
             ryosei_name = cursor.getString(cursor.getColumnIndex("ryosei_name"));
-
-
-            //
             // 現在日時情報で初期化されたインスタンスの生成
             Date dateObj = new Date();
             String event_id = UUID.randomUUID().toString();

@@ -54,8 +54,8 @@ public class ReleaseQRDialog extends DialogFragment {
         cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
         release_staff_room=cursor.getString(cursor.getColumnIndex("room_name"));
-        release_staff_name=cursor.getString(cursor.getColumnIndex("ryosei_name"));
-
+        release_staff_name = cursor.getString(cursor.getColumnIndex("ryosei_name"));
+        cursor.close();
         List<Map<String,String>> choices = _helper.nimotsuCountOfRyosei(db,owner_ryosei_id);
         String[] rabellist = new String[choices.size()];
         String[] idlist = new String[choices.size()];
