@@ -44,7 +44,7 @@ public class ReleaseQRDialog extends DialogFragment {
         Cursor cursor;
         String sql;
 
-        sql = "select room_name, ryosei_name from ryosei where uid ='"+ owner_ryosei_id + "'";
+        sql = "select room_name, ryosei_name,status from ryosei where uid ='" + owner_ryosei_id + "'";
         cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
         owner_ryosei_room=cursor.getString(cursor.getColumnIndex("room_name"));

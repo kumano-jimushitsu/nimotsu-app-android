@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         return MainActivity.context;
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         TextView jimuto_name = findViewById(R.id.main_jimuto_show);
         jimuto_room = _helper.jimuto_at_oncreate(db);
         jimuto_name.setText(jimuto_room);
-        jimuto_id=_helper.jimuto_id_at_oncreate(db);
+        jimuto_id = _helper.jimuto_id_at_oncreate(db);
 
     }
 
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void event_delete_failed_toast(){
+    public void event_delete_failed_toast() {
 
         Toast.makeText(this, "5分経過しているため削除できませんでした。", Toast.LENGTH_SHORT).show();
     }
@@ -181,6 +182,10 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 12:
                     text += "泊まり事務当モード終了     ";
+                    break;
+                case 20:
+                    text += "本人確認完了     ";
+                    break;
             }
             text += cursor.getString(cursor.getColumnIndex("room_name"));
             text += "    ";
@@ -192,13 +197,7 @@ public class MainActivity extends AppCompatActivity {
             show_eventlist.add(event_raw);
         }
         cursor.close();
-        SimpleAdapter adapter = new SimpleAdapter(
-                this,
-                show_eventlist,
-                android.R.layout.simple_list_item_1,
-                from,
-                to
-        );
+        SimpleAdapter adapter = new SimpleAdapter(this, show_eventlist, android.R.layout.simple_list_item_1, from, to);
         ListView listView = findViewById(R.id.event_show);
         listView.setAdapter(adapter);
         ListView listListener = findViewById(R.id.event_show);
@@ -247,8 +246,35 @@ public class MainActivity extends AppCompatActivity {
             String owner_ryosei_name = "";
             String owner_room_name = "";
             int fragile = 0;
-            if (cursor.getCount() == 0) {//QRコードがデータベースにない場合
-                this.showMyDialog(null, getString(R.string.error), getString(R.string.qr_no_qr), getString(R.string.ok), "");
+            if (cursor.getCount() == 0) {//QRコードがparcelsテーブルにない場合
+                //uuidがryoseiテーブルにある場合は本人確認
+                String identify_sql = "SELECT uid, room_name, ryosei_name,status FROM ryosei WHERE uid ='" + qr_uuid + "'";
+                Cursor identify_cursor = db.rawQuery(identify_sql, null);
+                if (identify_cursor.getCount() == 0) {
+                    this.showMyDialog(null, getString(R.string.error), getString(R.string.qr_no_qr), getString(R.string.ok), "");
+                } else if (identify_cursor.getCount() == 1) {
+                    identify_cursor.moveToFirst();
+                    String identify_uid = identify_cursor.getString(identify_cursor.getColumnIndex("uid"));
+                    String identify_name = identify_cursor.getString(identify_cursor.getColumnIndex("ryosei_name"));
+                    String identify_room = identify_cursor.getString(identify_cursor.getColumnIndex("room_name"));
+                    int identify_status = identify_cursor.getInt(identify_cursor.getColumnIndex("status"));
+                    if (identify_status == 1) {
+                        this.showMyDialog(null, "確認済み", "すでに本人確認が済んでおります。", getString(R.string.ok), "");
+                    } else if (identify_status == 5) {
+                        MainActivity.context = getApplicationContext();
+                        DialogFragment dialogFragment = new IdentifyDialog();
+                        Bundle args = new Bundle();
+                        args.putString("id", identify_uid);
+                        args.putString("room", identify_room);
+                        args.putString("name", identify_name);
+                        dialogFragment.setArguments(args);
+                        dialogFragment.show(getSupportFragmentManager(), "identify_dialog");
+                    } else {
+                        this.showMyDialog(null, "えっ。。。", "どうしよこの場合、、、詳しい人呼んで", getString(R.string.ok), "");
+                    }
+                } else {
+                    this.showMyDialog(null, getString(R.string.error), "寮生が重複登録されてる場合があります。開発者に連絡してください。", getString(R.string.ok), "");
+                }
             } else if (cursor.getCount() == 1) {//QRコードがデータベースに一つある場合
                 while (cursor.moveToNext()) {
                     uid = cursor.getString(cursor.getColumnIndex("owner_uid"));
@@ -513,8 +539,7 @@ public class MainActivity extends AppCompatActivity {
             //TextView configshow = findViewById(R.id.showText);
             //configshow.setText(item.get("id"));
             item.get("id");
-            String sql = "SELECT uid, created_at, event_type,ryosei_uid, parcel_uid, room_name, ryosei_name, target_event_uid FROM parcel_event WHERE uid = '" +
-                    item.get("id") + "'";
+            String sql = "SELECT uid, created_at, event_type,ryosei_uid, parcel_uid, room_name, ryosei_name, target_event_uid FROM parcel_event WHERE uid = '" + item.get("id") + "'";
             Cursor cursor = db.rawQuery(sql, null);
             while (cursor.moveToNext()) {
                 event_id = cursor.getString(cursor.getColumnIndex("uid"));
@@ -621,7 +646,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                 }
-                if (c == 1000) return;
+                if (c == 1000)
+                    return;
 
             }
         }

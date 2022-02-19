@@ -334,8 +334,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         sql = "update parcel_event set is_finished=1,sharing_status=10 where uid = '" + target_event_uid + "'";
         db.execSQL(sql);
-        db.close();
-        cursor.close();
+        //db.close();
+        //cursor.close();
 
     }
 
@@ -821,6 +821,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void night_duty_exit_event(SQLiteDatabase db, String jimuto_id) {
         String sql = getSqlInsertEvent(db, jimuto_id, "12");
+        db.execSQL(sql);
+    }
+
+    public void identify_event(SQLiteDatabase db, String ryosei_id) {
+        String sql = getSqlInsertEvent(db, ryosei_id, "20");
         db.execSQL(sql);
     }
 
