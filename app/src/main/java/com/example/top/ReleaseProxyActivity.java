@@ -500,9 +500,9 @@ public class ReleaseProxyActivity extends AppCompatActivity {
             String input_name = input.getText().toString();
             input_name = input_name.replaceAll("　", "").replaceAll(" ", "");
             input_name = Normalizer.normalize(input_name, Normalizer.Form.NFKC);
-            Pattern p = Pattern.compile("([0-9A-zぁ-んァ-ヶｱ-ﾝ\\u4E00-\\u9FFF\\u3005-\\u3007]+)"
-                   // + " \\p{InHiragana}|" + " \\p{InKatakana}|"
-                   // + " \\p{InCJKUnifiedIdeographs}+)"
+            Pattern p = Pattern.compile("([0-9A-zぁ-ゖァ-ヶｱ-ﾝ\\u4E00-\\u9FFF\\u3005-\\u3007]+)"
+                    // + " \\p{InHiragana}|" + " \\p{InKatakana}|"
+                    // + " \\p{InCJKUnifiedIdeographs}+)"
                     , Pattern.COMMENTS);
             //if(input_name.matches( "^[A-zぁ-んァ-ヶｱ-ﾝﾞﾟ\u4E00-\u9FFF\u3005-\u3007]*$") ) {
             if(p.matcher(input_name).matches()) {

@@ -70,7 +70,7 @@ public class RegisterOthersActivity extends AppCompatActivity {
             input_detail = input_detail.replaceAll("　", "").replaceAll(" ", "");
             input_detail = Normalizer.normalize(input_detail, Normalizer.Form.NFKC);
             input_detail = trim_text(input_detail);
-            Pattern p = Pattern.compile("([0-9A-zぁ-んァ-ヶｱ-ﾝ\\u4E00-\\u9FFF\\u3005-\\u3007]+)"
+            Pattern p = Pattern.compile("([0-9A-zぁ-ゖァ-ヶｱ-ﾝ\\u4E00-\\u9FFF\\u3005-\\u3007]+)"
                     // + " \\p{InHiragana}|" + " \\p{InKatakana}|"
                     // + " \\p{InCJKUnifiedIdeographs}+)"
                     , Pattern.COMMENTS);

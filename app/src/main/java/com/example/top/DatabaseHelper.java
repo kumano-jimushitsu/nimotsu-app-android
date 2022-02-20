@@ -798,7 +798,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     sql += event_id + "','" + created_at + "'," + event_type + ",'" + target_ryosei_id + "',";
                     sql += "'" + room_name + "',";
                     sql += "'" + ryosei_name + "','";
-                    sql += event_id + "',1,10);";
+                    sql += event_id + "',1,11);";
+                    break;
+                case "12":
+                    sql = "insert into parcel_event(uid,created_at,event_type,ryosei_uid,room_name,ryosei_name,target_event_uid,is_finished,sharing_status)";
+                    sql += "values('";
+                    sql += event_id + "','" + created_at + "'," + event_type + ",'" + target_ryosei_id + "',";
+                    sql += "'" + room_name + "',";
+                    sql += "'" + ryosei_name + "','";
+                    sql += event_id + "',1,12);";
                     break;
                 case "20"://本人確認完了のイベントのsql文の作成
                     sql = "insert into parcel_event(uid,created_at,event_type,ryosei_uid,room_name,ryosei_name,target_event_uid,is_finished,sharing_status)";

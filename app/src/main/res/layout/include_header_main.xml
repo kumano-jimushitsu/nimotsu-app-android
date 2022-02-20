@@ -35,22 +35,12 @@
         android:text="" />
 
 
-    <ImageButton
-        android:id="@+id/jimuto_change_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="10dp"
-        android:layout_toLeftOf="@id/current_jimuto"
-        android:background="@drawable/ic_baseline_wifi_protected_setup_24"
-        android:contentDescription="事務当を交代します"
-        app:rippleColor="@color/teal_200" />
-
     <TextView
         android:id="@+id/current_jimuto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp"
         android:layout_toLeftOf="@id/main_jimuto_show"
         android:text="現在の事務当："
         android:textColor="@color/default_header_font"
@@ -62,11 +52,22 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="80dp"
+        android:layout_marginEnd="140dp"
+        android:layout_toLeftOf="@id/jimuto_change_button"
         android:text="設定されていません"
         android:textColor="@color/default_header_font"
         android:textSize="20sp" />
 
+    <ImageButton
+        android:id="@+id/jimuto_change_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="60dp"
+        android:background="@drawable/change_jimuto"
+        android:contentDescription="事務当を交代します"
+        app:rippleColor="@color/teal_200" />
 
     <LinearLayout
         android:layout_width="wrap_content"
