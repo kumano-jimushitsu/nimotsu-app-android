@@ -155,6 +155,12 @@ public class Delete_Event_Dialog extends DialogFragment {
             case "12": // 泊まり事務当モード終了
                 message = "泊まり事務当モード終了　" + getJimutoAtEvent(db, event_id);
                 break;
+            case "20": // 本人確認完了
+                sql = "select ryosei_name from ryosei where uid ='" + ryosei_id + "'";
+                cursor = db.rawQuery(sql, null);
+                cursor.moveToFirst();
+                message = "本人確認完了　" + cursor.getString(cursor.getColumnIndex("ryosei_name")) + "　5分後に登録完了通知が来ます。";
+                break;
             default:
                 message = "unknown event type";
                 break;

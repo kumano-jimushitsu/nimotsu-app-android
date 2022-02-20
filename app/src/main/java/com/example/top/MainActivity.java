@@ -251,7 +251,11 @@ public class MainActivity extends AppCompatActivity {
                 String identify_sql = "SELECT uid, room_name, ryosei_name,status FROM ryosei WHERE uid ='" + qr_uuid + "'";
                 Cursor identify_cursor = db.rawQuery(identify_sql, null);
                 if (identify_cursor.getCount() == 0) {
-                    this.showMyDialog(null, getString(R.string.error), getString(R.string.qr_no_qr), getString(R.string.ok), "");
+                    if (qr_uuid.contains("発送")) {
+                        this.showMyDialog(null, "持ち主", qr_uuid, getString(R.string.ok), "");
+                    } else {
+                        this.showMyDialog(null, getString(R.string.error), getString(R.string.qr_no_qr), getString(R.string.ok), "");
+                    }
                 } else if (identify_cursor.getCount() == 1) {
                     identify_cursor.moveToFirst();
                     String identify_uid = identify_cursor.getString(identify_cursor.getColumnIndex("uid"));

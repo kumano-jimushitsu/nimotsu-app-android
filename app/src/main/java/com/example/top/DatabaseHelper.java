@@ -120,14 +120,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public void register(
-            SQLiteDatabase db,
-            String owner_uid,
-            String register_staff_uid,
-            String register_staff_room_name,
-            String register_staff_ryosei_name,
-            int placement,
-            String note) {
+    public void register(SQLiteDatabase db, String owner_uid, String register_staff_uid, String register_staff_room_name, String register_staff_ryosei_name, int placement, String note) {
         String uuid = UUID.randomUUID().toString();//parcelsのuid
 
         // 現在日時情報で初期化されたインスタンスの生成
@@ -152,24 +145,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         register_event(db, register_time, uuid, owner_uid, owner_room, owner_ryosei_name, note);//eventテーブルの更新(update)
     }
 
-    public void register_parcels(
-            SQLiteDatabase db,
-            String uid,
-            String owner_uid,
-            String owner_room,
-            String owner_ryosei_name,
-            String register_time,
-            String register_staff_uid,
-            String register_staff_room_name,
-            String register_staff_ryosei_name,
-            int placement,
-            String note) {
+    public void register_parcels(SQLiteDatabase db, String uid, String owner_uid, String owner_room, String owner_ryosei_name, String register_time, String register_staff_uid, String register_staff_room_name, String register_staff_ryosei_name, int placement, String note) {
         StringBuilder sb_insert_Parcel = new StringBuilder();
-        sb_insert_Parcel.append("insert into parcels (" +
-                "uid,owner_uid,owner_room_name,owner_ryosei_name," +
-                "register_datetime," +
-                "register_staff_uid,register_staff_room_name,register_staff_ryosei_name,placement,sharing_status" +
-                ") values (");
+        sb_insert_Parcel.append("insert into parcels (" + "uid,owner_uid,owner_room_name,owner_ryosei_name," + "register_datetime," + "register_staff_uid,register_staff_room_name,register_staff_ryosei_name,placement,sharing_status" + ") values (");
         sb_insert_Parcel.append("'" + uid + "',");
         sb_insert_Parcel.append("'" + owner_uid + "',");
         sb_insert_Parcel.append("'" + owner_room + "',");
@@ -195,29 +173,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public void register_event(
-            SQLiteDatabase db,
-            String created_at,
-            String parcel_uid,
-            String ryosei_id,
-            String room_name,
-            String ryosei_name,
-            String note
-    ) {
+    public void register_event(SQLiteDatabase db, String created_at, String parcel_uid, String ryosei_id, String room_name, String ryosei_name, String note) {
         StringBuilder sb_insert_Parcel = new StringBuilder();
 
         String uuid = UUID.randomUUID().toString();
-        sb_insert_Parcel.append("insert into parcel_event (" +
-                "uid," +
-                "created_at," +
-                "event_type," +
-                "parcel_uid," +
-                "ryosei_uid," +
-                "room_name," +
-                "ryosei_name," +
-                "note," +
-                "sharing_status" +
-                ") values (");
+        sb_insert_Parcel.append("insert into parcel_event (" + "uid," + "created_at," + "event_type," + "parcel_uid," + "ryosei_uid," + "room_name," + "ryosei_name," + "note," + "sharing_status" + ") values (");
 
         sb_insert_Parcel.append("'" + uuid + "',");
         sb_insert_Parcel.append("'" + created_at + "',");
@@ -236,14 +196,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     //受取の関数ポータル。ここからデータベース3つを更新する。agent_uidは、代理でない場合は""（空白文字）が来る）
-    public void release(
-            SQLiteDatabase db,
-            String owner_id,
-            String parcels_uid,
-            String release_staff_uid,
-            String release_staff_room_name,
-            String release_staff_ryosei_name,
-            String agent_uid) {
+    public void release(SQLiteDatabase db, String owner_id, String parcels_uid, String release_staff_uid, String release_staff_room_name, String release_staff_ryosei_name, String agent_uid) {
 
         //owner_idの寮生を取得
         String sql = "SELECT room_name,ryosei_name, parcels_current_count FROM ryosei  WHERE uid = '" + owner_id + "'";
@@ -266,21 +219,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         release_event(db, release_time, parcels_uid, owner_id, owner_room, owner_ryosei_name);
     }
 
-    public void release_parcels(
-            SQLiteDatabase db,
-            String parcels_uid,
-            String release_staff_uid,
-            String release_staff_room_name,
-            String release_staff_ryosei_name,
-            String release_time,
-            String agent_uid) {
-        String sql = "UPDATE parcels SET " +
-                " release_staff_uid = '" + release_staff_uid + "'," +
-                " release_staff_room_name = '" + release_staff_room_name + "' ," +
-                " release_staff_ryosei_name = '" + release_staff_ryosei_name + "' ," +
-                " is_released = 1," +
-                " release_datetime =" + "'" + release_time + "',";
-        if (agent_uid != "") sql += "release_agent_uid='" + agent_uid + "',";
+    public void release_parcels(SQLiteDatabase db, String parcels_uid, String release_staff_uid, String release_staff_room_name, String release_staff_ryosei_name, String release_time, String agent_uid) {
+        String sql = "UPDATE parcels SET " + " release_staff_uid = '" + release_staff_uid + "'," + " release_staff_room_name = '" + release_staff_room_name + "' ," + " release_staff_ryosei_name = '" + release_staff_ryosei_name + "' ," + " is_released = 1," + " release_datetime =" + "'" + release_time + "',";
+        if (agent_uid != "")
+            sql += "release_agent_uid='" + agent_uid + "',";
         sql += "sharing_status = 10 WHERE uid = '" + parcels_uid + "';";
         db.execSQL(sql);
     }
@@ -290,13 +232,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
     }
 
-    public void release_event(
-            SQLiteDatabase db,
-            String created_at,
-            String parcel_id,
-            String ryosei_id,
-            String room_name,
-            String ryosei_name) {
+    public void release_event(SQLiteDatabase db, String created_at, String parcel_id, String ryosei_id, String room_name, String ryosei_name) {
         //単にinsertするだけではなく、target_event_uidに入るregisterのeventのuidを取得し、
         //さらに取得したregisterのレコードのis_finishedを1にupdateする必要がある
 
@@ -309,17 +245,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String uuid = UUID.randomUUID().toString();
         StringBuilder sb_insert_Parcel = new StringBuilder();
-        sb_insert_Parcel.append("insert into parcel_event (" +
-                "uid," +
-                "created_at," +
-                "event_type," +
-                "parcel_uid," +
-                "ryosei_uid," +
-                "room_name," +
-                "ryosei_name," +
-                "target_event_uid," +
-                "sharing_status" +
-                ") values (");
+        sb_insert_Parcel.append("insert into parcel_event (" + "uid," + "created_at," + "event_type," + "parcel_uid," + "ryosei_uid," + "room_name," + "ryosei_name," + "target_event_uid," + "sharing_status" + ") values (");
         sb_insert_Parcel.append("'" + uuid + "',");
         sb_insert_Parcel.append("'" + created_at + "',");
         sb_insert_Parcel.append("2,");
@@ -343,9 +269,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Map<String, String>> nimotsuCountOfRyosei(SQLiteDatabase db, String owner_id) {
         //荷物IDとラベル(日時、受け取り事務当、場所）を返す。
         List<Map<String, String>> show_owners_parcels = new ArrayList<>();
-        String sql = "SELECT uid, placement, register_datetime," +
-                "register_staff_room_name, register_staff_ryosei_name,note, lost_datetime " +
-                "FROM parcels WHERE is_released = 0 AND owner_uid ='" + owner_id + "' and is_deleted=0";
+        String sql = "SELECT uid, placement, register_datetime," + "register_staff_room_name, register_staff_ryosei_name,note, lost_datetime " + "FROM parcels WHERE is_released = 0 AND owner_uid ='" + owner_id + "' and is_deleted=0";
         Cursor cursor = db.rawQuery(sql, null);
         while (cursor.moveToNext()) {
             Map<String, String> parcels_raw = new HashMap<>();
@@ -406,9 +330,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Map<String, String>> nightdutylist(SQLiteDatabase db) {
         //荷物IDとラベル(日時、受け取り事務当、場所）を返す。
         List<Map<String, String>> show_owners_parcels = new ArrayList<>();
-        String sql = "SELECT uid, placement, register_datetime,lost_datetime," +
-                "register_staff_room_name, register_staff_ryosei_name,owner_room_name,owner_ryosei_name " +
-                "FROM parcels WHERE is_released = 0 and is_deleted=0  order by owner_room_name asc,owner_ryosei_name asc";
+        String sql = "SELECT uid, placement, register_datetime,lost_datetime," + "register_staff_room_name, register_staff_ryosei_name,owner_room_name,owner_ryosei_name " + "FROM parcels WHERE is_released = 0 and is_deleted=0  order by owner_room_name asc,owner_ryosei_name asc";
         Cursor cursor = db.rawQuery(sql, null);
         while (cursor.moveToNext()) {
             Map<String, String> parcels_raw = new HashMap<>();
@@ -465,15 +387,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Date dateObj = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String string_register_time = format.format(dateObj);
-        String sql = "UPDATE parcels SET " +
-                " lost_datetime =" + "'" + string_register_time + "'" + ", sharing_status =10 WHERE uid ='" + parcels_uid + "'";
+        String sql = "UPDATE parcels SET " + " lost_datetime =" + "'" + string_register_time + "'" + ", sharing_status =10 WHERE uid ='" + parcels_uid + "'";
         db.execSQL(sql);
     }
 
     public void event_add_night_duty(SQLiteDatabase db, String staffid, String staffroom, String staffname) {
 
     }
-    public int check_isFinished(SQLiteDatabase db, String event_id){
+
+    public int check_isFinished(SQLiteDatabase db, String event_id) {
         String sql = "SELECT is_finished FROM parcel_event where uid='" + event_id + "'";
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
@@ -482,6 +404,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return is_finished;
     }
+
     public void delete_event(SQLiteDatabase db, String event_id, String ryosei_id, String parcel_id, String jimuto_id, String event_type) {
         //event idは1 or 2が入る　1が登録のイベントを消し込むとき、2が受取のイベントを消し込むとき
 
@@ -585,9 +508,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     json_str += "\"";
                     json_str += col;
                     json_str += "\": ";
-                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    if (column.getCode() == 1 && val != null)
+                        json_str += "\"";
                     json_str += val;
-                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    if (column.getCode() == 1 && val != null)
+                        json_str += "\"";
                     json_str += ",\n";
                 }
             } else if (table == "parcels") {
@@ -598,9 +523,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     json_str += col;
                     json_str += "\": ";
 
-                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    if (column.getCode() == 1 && val != null)
+                        json_str += "\"";
                     json_str += val;
-                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    if (column.getCode() == 1 && val != null)
+                        json_str += "\"";
                     json_str += ",\n";
                 }
             } else if (table == "parcel_event") {
@@ -610,9 +537,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     json_str += "\"";
                     json_str += col;
                     json_str += "\": ";
-                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    if (column.getCode() == 1 && val != null)
+                        json_str += "\"";
                     json_str += val;
-                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    if (column.getCode() == 1 && val != null)
+                        json_str += "\"";
                     json_str += ",\n";
                 }
 
@@ -660,9 +589,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     json_str += "\"";
                     json_str += col;
                     json_str += "\": ";
-                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    if (column.getCode() == 1 && val != null)
+                        json_str += "\"";
                     json_str += val;
-                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    if (column.getCode() == 1 && val != null)
+                        json_str += "\"";
                     json_str += ",\n";
                 }
             } else if (table == "parcels") {
@@ -673,9 +604,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     json_str += col;
                     json_str += "\": ";
 
-                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    if (column.getCode() == 1 && val != null)
+                        json_str += "\"";
                     json_str += val;
-                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    if (column.getCode() == 1 && val != null)
+                        json_str += "\"";
                     json_str += ",\n";
                 }
             } else if (table == "parcel_event") {
@@ -685,9 +618,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     json_str += "\"";
                     json_str += col;
                     json_str += "\": ";
-                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    if (column.getCode() == 1 && val != null)
+                        json_str += "\"";
                     json_str += val;
-                    if (column.getCode() == 1 && val != null) json_str += "\"";
+                    if (column.getCode() == 1 && val != null)
+                        json_str += "\"";
                     json_str += ",\n";
                 }
             }
@@ -727,6 +662,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return result;
     }
+
     public String jimuto_id_at_oncreate(SQLiteDatabase db) {
         Cursor cursor = db.rawQuery("select ryosei_uid from parcel_event where event_type=10 order by created_at desc limit 1", null);
         cursor.moveToFirst();
@@ -830,9 +766,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // ryosei
-    public String getSqlInsertEvent(SQLiteDatabase db, String jimuto_id, String event_type) {
+    public String getSqlInsertEvent(SQLiteDatabase db, String target_ryosei_id, String event_type) {
         //先にryosei_idから部屋番号と氏名を取得
-        Cursor cursor = db.rawQuery("SELECT room_name,ryosei_name FROM ryosei where uid='" + jimuto_id + "';", null);
+        Cursor cursor = db.rawQuery("SELECT room_name,ryosei_name FROM ryosei where uid='" + target_ryosei_id + "';", null);
         try {
             String room_name;
             String ryosei_name;
@@ -846,12 +782,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String event_id = UUID.randomUUID().toString();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String created_at = format.format(dateObj);
-            String sql = "insert into parcel_event(uid,created_at,event_type,ryosei_uid,room_name,ryosei_name,target_event_uid,is_finished,sharing_status)";
-            sql += "values('";
-            sql += event_id + "','" + created_at + "'," + event_type + ",'" + jimuto_id + "',";
-            sql += "'" + room_name + "',";
-            sql += "'" + ryosei_name + "','";
-            sql += event_id + "',1,10);";
+            String sql = "";
+            switch (event_type) {
+                case "10":
+                    sql = "insert into parcel_event(uid,created_at,event_type,ryosei_uid,room_name,ryosei_name,target_event_uid,is_finished,sharing_status)";
+                    sql += "values('";
+                    sql += event_id + "','" + created_at + "'," + event_type + ",'" + target_ryosei_id + "',";
+                    sql += "'" + room_name + "',";
+                    sql += "'" + ryosei_name + "','";
+                    sql += event_id + "',1,10);";
+                    break;
+                case "11":
+                    sql = "insert into parcel_event(uid,created_at,event_type,ryosei_uid,room_name,ryosei_name,target_event_uid,is_finished,sharing_status)";
+                    sql += "values('";
+                    sql += event_id + "','" + created_at + "'," + event_type + ",'" + target_ryosei_id + "',";
+                    sql += "'" + room_name + "',";
+                    sql += "'" + ryosei_name + "','";
+                    sql += event_id + "',1,10);";
+                    break;
+                case "20"://本人確認完了のイベントのsql文の作成
+                    sql = "insert into parcel_event(uid,created_at,event_type,ryosei_uid,room_name,ryosei_name,target_event_uid,is_finished,sharing_status)";
+                    sql += "values('";
+                    sql += event_id + "','" + created_at + "'," + event_type + ",'" + target_ryosei_id + "',";
+                    sql += "'" + room_name + "',";
+                    sql += "'" + ryosei_name + "','";
+                    sql += event_id + "',0,10);";
+                    break;
+                default:
+                    sql = "このイベントタイプは設定されていません。";
+                    break;
+            }
             return sql;
         } finally {
             cursor.close();
