@@ -93,7 +93,7 @@ public class ReleaseDialog extends DialogFragment {
                     touchsound.playsounderror();
                 }
             }
-        }).setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+        }).setNeutralButton("キャンセル", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 cancel = true;
             }

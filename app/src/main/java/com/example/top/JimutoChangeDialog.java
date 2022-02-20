@@ -20,17 +20,16 @@ public class JimutoChangeDialog extends DialogFragment {
         String jimuto_ryosei_room = getArguments().getString("room_ryosei", "");
         String jimuto_ryosei_id = getArguments().getString("id", "0");
         builder.setTitle("事務当番交代").setMessage(jimuto_ryosei_room + "に事務当番を交代します。").setPositiveButton("交代する", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // このボタンを押した時の処理を書きます。
-                        Toast.makeText(getActivity(), jimuto_ryosei_room+"に事務当番を交代しました。", Toast.LENGTH_SHORT).show();
+            public void onClick(DialogInterface dialog, int id) {
+                // このボタンを押した時の処理を書きます。
+                Toast.makeText(getActivity(), jimuto_ryosei_room + "に事務当番を交代しました。", Toast.LENGTH_SHORT).show();
 
-                        //呼び出し元のフラグメントに結果を返す
-                        JimutoChangeActivity callingActivity = (JimutoChangeActivity) getActivity();
-                        callingActivity.onReturnValue(jimuto_ryosei_room,jimuto_ryosei_id);
+                //呼び出し元のフラグメントに結果を返す
+                JimutoChangeActivity callingActivity = (JimutoChangeActivity) getActivity();
+                callingActivity.onReturnValue(jimuto_ryosei_room, jimuto_ryosei_id);
 
-                    }
-                })
-                .setNegativeButton("キャンセル", null);
+            }
+        }).setNeutralButton("キャンセル", null);
         return builder.create();
     }
     @Override

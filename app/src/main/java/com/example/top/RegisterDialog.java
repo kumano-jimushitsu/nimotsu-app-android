@@ -86,18 +86,16 @@ public class RegisterDialog extends DialogFragment {
 
 
                         if(placement != 5) {
-                            String show = "事務当番" + register_staff_room + register_staff_name + "が" + owner_ryosei_room + " " +
-                                    owner_ryosei_name + "に荷物を受け取りしました。";
+                            String show = "事務当番" + register_staff_room + register_staff_name + "が" + owner_ryosei_room + " " + owner_ryosei_name + "に荷物を受け取りしました。";
                             touchsound.playsoundone();
                             Toast.makeText(getActivity(), show, Toast.LENGTH_LONG).show();
                         }
-//                        insert_parcels_shearingstatus();
-//                        update_ryosei_shearingstatus();
-//                        insert_event_shearingstatus();
+                        //                        insert_parcels_shearingstatus();
+                        //                        update_ryosei_shearingstatus();
+                        //                        insert_event_shearingstatus();
 
                     }
-                })
-                .setNegativeButton("キャンセル", null)
+                }).setNeutralButton("キャンセル", null)
                 .setSingleChoiceItems(choices, 0, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

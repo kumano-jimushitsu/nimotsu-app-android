@@ -31,7 +31,7 @@ public class Jimuto_Change_Dialog extends DialogFragment {
 
                     }
                 })
-                .setNegativeButton("キャンセル", null);
+                .setNeutralButton("キャンセル", null);
         return builder.create();
     }
 

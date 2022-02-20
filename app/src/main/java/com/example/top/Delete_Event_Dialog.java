@@ -196,7 +196,7 @@ public class Delete_Event_Dialog extends DialogFragment {
                     }
                 });
             }
-            //.setNegativeButton("確認終了　", null);
+            //.setNeutralButton("確認終了　", null);
 
             cursor.close();
         }

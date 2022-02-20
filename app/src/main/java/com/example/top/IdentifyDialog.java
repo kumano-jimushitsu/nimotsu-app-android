@@ -46,7 +46,7 @@ public class IdentifyDialog extends DialogFragment {
                     Toast.makeText(MainActivity.getMainActivityContext(), "チェックがされていません。", Toast.LENGTH_SHORT).show();
                 }
             }
-        }).setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+        }).setNeutralButton("キャンセル", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
             }

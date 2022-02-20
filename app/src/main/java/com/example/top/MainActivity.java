@@ -322,13 +322,13 @@ public class MainActivity extends AppCompatActivity {
         dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Register_Dialog");
     }
 
-    public void showMyDialog(View view, String title, String mainText, String positiveButton, String negativeButton) {
+    public void showMyDialog(View view, String title, String mainText, String positiveButton, String neutralButton) {
         DialogFragment dialogFragment = new myDialog();
 
 
         Bundle args = new Bundle();
         args.putString("positivebutton", positiveButton);
-        args.putString("negativebutton", negativeButton);
+        args.putString("neutralbutton", neutralButton);
         args.putString("title", title);
         args.putString("maintext", mainText);
         dialogFragment.setArguments(args);
@@ -367,11 +367,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        public void showMyDialog(View view, String title, String mainText, String positiveButton, String negativeButton) {
+        public void showMyDialog(View view, String title, String mainText, String positiveButton, String neutralButton) {
             DialogFragment dialogFragment = new myDialog();
             Bundle args = new Bundle();
             args.putString("positivebutton", positiveButton);
-            args.putString("negativebutton", negativeButton);
+            args.putString("neutralbutton", neutralButton);
             args.putString("title", title);
             args.putString("maintext", mainText);
             dialogFragment.setArguments(args);
@@ -402,11 +402,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        public void showMyDialog(View view, String title, String mainText, String positiveButton, String negativeButton) {
+        public void showMyDialog(View view, String title, String mainText, String positiveButton, String neutralButton) {
             DialogFragment dialogFragment = new myDialog();
             Bundle args = new Bundle();
             args.putString("positivebutton", positiveButton);
-            args.putString("negativebutton", negativeButton);
+            args.putString("neutralbutton", neutralButton);
             args.putString("title", title);
             args.putString("maintext", mainText);
             dialogFragment.setArguments(args);
@@ -437,11 +437,11 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        public void showMyDialog(View view, String title, String mainText, String positiveButton, String negativeButton) {
+        public void showMyDialog(View view, String title, String mainText, String positiveButton, String neutralButton) {
             DialogFragment dialogFragment = new myDialog();
             Bundle args = new Bundle();
             args.putString("positivebutton", positiveButton);
-            args.putString("negativebutton", negativeButton);
+            args.putString("neutralbutton", neutralButton);
             args.putString("title", title);
             args.putString("maintext", mainText);
             dialogFragment.setArguments(args);
@@ -500,11 +500,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        public void showMyDialog(View view, String title, String mainText, String positiveButton, String negativeButton) {
+        public void showMyDialog(View view, String title, String mainText, String positiveButton, String neutralButton) {
             DialogFragment dialogFragment = new myDialog();
             Bundle args = new Bundle();
             args.putString("positivebutton", positiveButton);
-            args.putString("negativebutton", negativeButton);
+            args.putString("neutralbutton", neutralButton);
             args.putString("title", title);
             args.putString("maintext", mainText);
             dialogFragment.setArguments(args);

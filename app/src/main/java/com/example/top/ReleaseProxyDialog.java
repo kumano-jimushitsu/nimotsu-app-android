@@ -79,8 +79,7 @@ public class ReleaseProxyDialog extends DialogFragment {
                         update_ryosei_shearingstatus();
                         insert_event_shearingstatus();
                     }
-                })
-                .setNegativeButton("キャンセル", null)
+                }).setNeutralButton("キャンセル", null)
                 .setMultiChoiceItems(rabellist, isCheckedList, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
