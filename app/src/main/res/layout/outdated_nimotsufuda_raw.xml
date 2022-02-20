@@ -38,7 +38,7 @@
         android:layout_marginRight="@dimen/dp_s"
         android:layout_marginBottom="@dimen/dp_s"
         android:padding="@dimen/dp_s"
-        android:textSize="@dimen/sp_m" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/raw4"

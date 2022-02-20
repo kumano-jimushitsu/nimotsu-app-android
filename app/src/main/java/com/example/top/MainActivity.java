@@ -494,6 +494,7 @@ public class MainActivity extends AppCompatActivity {
                 this.showMyDialog(null, getString(R.string.main_not_selected_staff), "", getString(R.string.ok), "");
                 touchsound.playsounderror();
             } else {
+                Toast.makeText(getMainActivityContext(), "Now Loading...", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.this, NightDutyActivity.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);

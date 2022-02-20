@@ -122,6 +122,144 @@ public class NightDutyActivity extends AppCompatActivity {
         // DBヘルパーオブジェクトを生成。
         _helper = new DatabaseHelper(NightDutyActivity.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
+        /*for (int i = 0; i < 4; i++) {
+            String sql = null;
+            switch (i) {
+                case 0:
+                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 0 AND block_id <= 4 order by room_name asc,ryosei_name asc";
+                    break;
+                case 1:
+                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 4 AND block_id <= 7 order by room_name asc,ryosei_name asc";
+                    break;
+                case 2:
+                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 7 AND block_id <= 9 order by room_name asc,ryosei_name asc";
+                    break;
+                case 3:
+                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 9 AND block_id <= 10 order by room_name asc,ryosei_name asc";
+                    break;
+            }
+            // 検索結果を保存
+            // SQLの実行。
+            Cursor cursor = db.rawQuery(sql, null);
+            String roomName;
+            String ryoseiName;
+            String ryoseiUid;
+            List<Map<String, String>> onesParcels = null;
+
+
+            // サンプル用のデータを詰め込む
+            while (cursor.moveToNext()) {
+                int roomNameIndex = cursor.getColumnIndex("room_name");
+                roomName = cursor.getString(roomNameIndex);
+                int ryoseiNameIndex = cursor.getColumnIndex("ryosei_name");
+                ryoseiName = cursor.getString(ryoseiNameIndex);
+                int ryoseiUidIndex = cursor.getColumnIndex("uid");
+                ryoseiUid = cursor.getString(ryoseiUidIndex);
+                onesParcels = _helper.nimotsuCountOfRyosei(db, ryoseiUid);
+                for (int j = 0; j < onesParcels.size(); j++) {
+                    Data data = new Data();
+                    data.setParcelsAttribute(onesParcels.get(j).get("attribute"));
+                    data.setRoomName(roomName);
+                    data.setRyoseiName(ryoseiName);
+                    data.setParcelUid(onesParcels.get(j).get("parcels_id"));
+                    data.setLostDateTime(onesParcels.get(j).get("lost_datetime"));//lost_datetimeに最終確認できた時間を入れている　カラム名の変更が手間だったため
+                    data.setChecked(false);
+                    switch (i) {
+                        case 0:
+                            dataListA.add(data);
+
+                            break;
+                        case 1:
+                            dataListB.add(data);
+                            break;
+                        case 2:
+                            dataListC.add(data);
+                            break;
+                        case 3:
+                            dataListD.add(data);
+                            break;
+                    }
+                }
+            }
+            cursor.close();
+        }*/
+        for (int i = 0; i < 4; i++) {
+            String sql = "select * from parcels where is_released = 0 ORDER BY owner_room_name asc,owner_ryosei_name asc ;";
+
+            // 検索結果を保存
+            // SQLの実行。
+            Cursor cursor = db.rawQuery(sql, null);
+            String roomName;
+            String ryoseiName;
+            String ryoseiUid;
+            int placement_id;
+            String placement;
+            String lostdatetime;
+            String parcelsUid;
+            List<Map<String, String>> onesParcels = null;
+            Cursor blockCursor;
+            int block_id;
+
+
+            // サンプル用のデータを詰め込む
+            while (cursor.moveToNext()) {
+                ryoseiUid = cursor.getString(cursor.getColumnIndex("owner_uid"));
+                String sql_get_block_from_owneruid = "SELECT block_id FROM ryosei WHERE uid ='" + ryoseiUid + "';";
+                blockCursor = db.rawQuery(sql_get_block_from_owneruid, null);
+                blockCursor.moveToFirst();
+                block_id = blockCursor.getInt(blockCursor.getColumnIndex("block_id"));
+
+                roomName = cursor.getString(cursor.getColumnIndex("owner_room_name"));
+                ryoseiName = cursor.getString(cursor.getColumnIndex("owner_ryosei_name"));
+                parcelsUid = cursor.getString(cursor.getColumnIndex("uid"));
+                placement_id = cursor.getInt(cursor.getColumnIndex("placement"));
+                switch (placement_id) {
+                    case 0:
+                        placement = "普通";
+                        break;
+                    case 1:
+                        placement = "冷蔵";
+                        break;
+                    case 2:
+                        placement = "冷凍";
+                        break;
+                    case 3:
+                        placement = "大型";
+                        break;
+                    case 4:
+                        placement = "不在票";
+                        break;
+                    case 5:
+                        placement = "その他";
+                        break;
+                    default:
+                        placement = "unknown";
+                }
+
+
+                lostdatetime = cursor.getString(cursor.getColumnIndex("lost_datetime"));
+                onesParcels = _helper.nimotsuCountOfRyosei(db, ryoseiUid);
+                Data data = new Data();
+                data.setParcelsAttribute(placement);
+                data.setRoomName(roomName);
+                data.setRyoseiName(ryoseiName);
+                data.setParcelUid(parcelsUid);
+                data.setLostDateTime(lostdatetime);//lost_datetimeに最終確認できた時間を入れている　カラム名の変更が手間だったため
+                data.setChecked(false);
+                if (block_id >= 1 && block_id < 5) {
+                    dataListA.add(data);
+                } else if (block_id >= 5 && block_id < 8) {
+                    dataListB.add(data);
+                } else if (block_id >= 8 && block_id < 10) {
+                    dataListC.add(data);
+                } else if (block_id == 10) {
+                    dataListD.add(data);
+                }
+
+
+            }
+            cursor.close();
+        }
         for (int i = 0; i < 4; i++) {
             String sql = null;
             switch (i) {
