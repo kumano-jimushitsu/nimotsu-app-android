@@ -14,6 +14,7 @@
     <color name="default_header_font">#FFFFFF</color>
     <color name="default_footer_font">#A9A9A9</color>
     <color name="default_theme">#333C5E</color>
+    <color name="jimuto_theme">#60DEA0</color>
     <color name="register_header_font">#000000</color>
     <color name="register_footer_font">#000000</color>
     <color name="register_theme">#add8e6</color>
