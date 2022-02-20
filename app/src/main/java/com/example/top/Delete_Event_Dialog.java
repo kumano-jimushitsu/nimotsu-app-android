@@ -86,7 +86,7 @@ public class Delete_Event_Dialog extends DialogFragment {
                 if (cursor.getInt(cursor.getColumnIndex("placement")) == 3)
                     message += "大型";
                 if (cursor.getInt(cursor.getColumnIndex("placement")) == 4)
-                    message += "不在表";
+                    message += "不在票";
                 if (cursor.getInt(cursor.getColumnIndex("placement")) == 5) {
                     message += "その他 memo:" + cursor.getString(cursor.getColumnIndex("note"));
                 }
@@ -110,7 +110,7 @@ public class Delete_Event_Dialog extends DialogFragment {
 
                 message += "　・荷物の種類　：";//{"普通", "冷蔵", "冷凍","大型","不在票","その他"};
                 if (cursor.getInt(cursor.getColumnIndex("placement")) == 0)
-                    message += "一般";
+                    message += "普通";
                 if (cursor.getInt(cursor.getColumnIndex("placement")) == 1)
                     message += "冷蔵";
                 if (cursor.getInt(cursor.getColumnIndex("placement")) == 2)
@@ -118,7 +118,7 @@ public class Delete_Event_Dialog extends DialogFragment {
                 if (cursor.getInt(cursor.getColumnIndex("placement")) == 3)
                     message += "大型";
                 if (cursor.getInt(cursor.getColumnIndex("placement")) == 4)
-                    message += "不在表";
+                    message += "不在票";
                 if (cursor.getInt(cursor.getColumnIndex("placement")) == 5) {
                     message += "その他 memo:" + cursor.getString(cursor.getColumnIndex("note"));
                 }
