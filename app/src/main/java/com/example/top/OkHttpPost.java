@@ -8,20 +8,19 @@ import android.os.Handler;
 import android.util.Log;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import okhttp3.FormBody;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class OkHttpPost extends AsyncTask<String,String,String> {
+public class OkHttpPost extends AsyncTask<String, String, String> {
     String json;
-    String url = "http://192.168.0.100:8080";
+    String url = "http://192.168.11.10:8080";
+    //POKKE_LANに繋がれたPCのipアドレス
     //String url = "http://192.168.100.:8080";
+
     Context context;
     Handler handler;
     SQLiteDatabase db;
