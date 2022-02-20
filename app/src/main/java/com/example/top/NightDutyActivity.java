@@ -183,7 +183,7 @@ public class NightDutyActivity extends AppCompatActivity {
             }
             cursor.close();
         }*/
-        for (int i = 0; i < 4; i++) {
+
             String sql = "select * from parcels where is_released = 0 ORDER BY owner_room_name asc,owner_ryosei_name asc ;";
 
             // 検索結果を保存
@@ -208,6 +208,7 @@ public class NightDutyActivity extends AppCompatActivity {
                 blockCursor = db.rawQuery(sql_get_block_from_owneruid, null);
                 blockCursor.moveToFirst();
                 block_id = blockCursor.getInt(blockCursor.getColumnIndex("block_id"));
+                blockCursor.close();
 
                 roomName = cursor.getString(cursor.getColumnIndex("owner_room_name"));
                 ryoseiName = cursor.getString(cursor.getColumnIndex("owner_ryosei_name"));
@@ -255,72 +256,10 @@ public class NightDutyActivity extends AppCompatActivity {
                 } else if (block_id == 10) {
                     dataListD.add(data);
                 }
-
-
             }
             cursor.close();
-        }
-        for (int i = 0; i < 4; i++) {
-            String sql = null;
-            switch (i) {
-                case 0:
-                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 0 AND block_id <= 4 order by room_name asc,ryosei_name asc";
-                    break;
-                case 1:
-                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 4 AND block_id <= 7 order by room_name asc,ryosei_name asc";
-                    break;
-                case 2:
-                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 7 AND block_id <= 9 order by room_name asc,ryosei_name asc";
-                    break;
-                case 3:
-                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 9 AND block_id <= 10 order by room_name asc,ryosei_name asc";
-                    break;
-            }
-            // 検索結果を保存
-            // SQLの実行。
-            Cursor cursor = db.rawQuery(sql, null);
-            String roomName;
-            String ryoseiName;
-            String ryoseiUid;
-            List<Map<String, String>> onesParcels = null;
 
 
-            // サンプル用のデータを詰め込む
-            while (cursor.moveToNext()) {
-                int roomNameIndex = cursor.getColumnIndex("room_name");
-                roomName = cursor.getString(roomNameIndex);
-                int ryoseiNameIndex = cursor.getColumnIndex("ryosei_name");
-                ryoseiName = cursor.getString(ryoseiNameIndex);
-                int ryoseiUidIndex = cursor.getColumnIndex("uid");
-                ryoseiUid = cursor.getString(ryoseiUidIndex);
-                onesParcels = _helper.nimotsuCountOfRyosei(db, ryoseiUid);
-                for (int j = 0; j < onesParcels.size(); j++) {
-                    Data data = new Data();
-                    data.setParcelsAttribute(onesParcels.get(j).get("attribute"));
-                    data.setRoomName(roomName);
-                    data.setRyoseiName(ryoseiName);
-                    data.setParcelUid(onesParcels.get(j).get("parcels_id"));
-                    data.setLostDateTime(onesParcels.get(j).get("lost_datetime"));//lost_datetimeに最終確認できた時間を入れている　カラム名の変更が手間だったため
-                    data.setChecked(false);
-                    switch (i) {
-                        case 0:
-                            dataListA.add(data);
-
-                            break;
-                        case 1:
-                            dataListB.add(data);
-                            break;
-                        case 2:
-                            dataListC.add(data);
-                            break;
-                        case 3:
-                            dataListD.add(data);
-                            break;
-                    }
-                }
-            }
-            cursor.close();
-        }
         ListView listViewA = findViewById(R.id.listA);
         ListView listViewB = findViewById(R.id.listB);
         ListView listViewC = findViewById(R.id.listC);
