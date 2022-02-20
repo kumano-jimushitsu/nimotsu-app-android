@@ -84,6 +84,8 @@ public class ReleaseQRDialog extends DialogFragment {
                             Toast.makeText(getActivity(), owner_ryosei_room + " " + owner_ryosei_name + "の荷物を" + String.valueOf(nimotsu_count_sametime) + "個、引き渡しました", Toast.LENGTH_SHORT).show();
                             //荷物引き渡しページを閉じさせる。
                             //呼び出し元のフラグメントに結果を返す
+                            MainActivity callingActivity = (MainActivity) getActivity();
+                            callingActivity.eventLogshow();//履歴の更新
                         } else {
                             touchsound.playsounderror();
                             cancel = false;

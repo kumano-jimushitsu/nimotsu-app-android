@@ -52,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
         return MainActivity.context;
     }
 
+    public void eventRefresher() {
+        eventLogshow();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

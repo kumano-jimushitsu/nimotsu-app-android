@@ -29,7 +29,7 @@ public class IdentifyDialog extends DialogFragment {
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle(ryosei_name + " " + ryosei_room + " の本人確認を行います。事務当番は身分証明証を提示してもらってください。").setPositiveButton("引き渡し", new DialogInterface.OnClickListener() {
+        builder.setTitle(ryosei_name + " " + ryosei_room + " の本人確認を行います。事務当番は身分証明証を提示してもらってください。").setPositiveButton("本人確認", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // このボタンを押した時の処理を書きます。
 
