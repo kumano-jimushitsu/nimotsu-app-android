@@ -46,4 +46,10 @@
     <color name="data1C">#fde9cb</color>
     <!-- データ2背景 -->
     <color name="data2C">#fdf4e7</color>
+    <!-- タイトル背景 -->
+    <color name="titleE">#c0c0c0</color>
+    <!-- データ1背景 -->
+    <color name="data1E">#d1d1d1</color>
+    <!-- データ2背景 -->
+    <color name="data2E">#e1e1e1</color>
 </resources>

@@ -475,6 +475,104 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/all_fresh_component"
+                    android:layout_width="600dp"
+                    android:layout_height="475dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/rabel_freshmen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dp_s"
+                        android:layout_marginBottom="@dimen/dp_s"
+                        android:gravity="left"
+                        android:padding="@dimen/dp_s"
+                        android:singleLine="true"
+                        android:text="@string/freshmen"
+                        android:textSize="@dimen/sp_l" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/titleE1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/dp_s"
+                            android:layout_marginBottom="@dimen/dp_s"
+                            android:layout_weight="4"
+                            android:background="@color/titleE"
+                            android:gravity="center"
+                            android:padding="@dimen/dp_m"
+                            android:text="@string/title1"
+                            android:textSize="@dimen/sp_m" />
+
+                        <TextView
+                            android:id="@+id/titleE2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/dp_s"
+                            android:layout_marginBottom="@dimen/dp_s"
+                            android:layout_weight="3"
+                            android:background="@color/titleE"
+                            android:gravity="center"
+                            android:padding="@dimen/dp_m"
+                            android:text="@string/title2"
+                            android:textSize="@dimen/sp_m" />
+
+                        <TextView
+                            android:id="@+id/titleE3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dp_s"
+                            android:layout_weight="4"
+                            android:background="@color/titleE"
+                            android:gravity="center"
+                            android:padding="@dimen/dp_m"
+                            android:text="番号"
+                            android:textSize="@dimen/sp_m" />
+
+                        <TextView
+                            android:id="@+id/titleE4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dp_s"
+                            android:layout_weight="3"
+                            android:background="@color/titleE"
+                            android:gravity="center"
+                            android:padding="@dimen/dp_m"
+                            android:text="@string/title4"
+                            android:textSize="@dimen/sp_m" />
+
+                        <TextView
+                            android:id="@+id/titleE5"
+                            android:layout_width="49dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dp_s"
+                            android:background="@color/titleE"
+                            android:gravity="center"
+                            android:padding="@dimen/dp_m"
+                            android:text="@string/title5"
+                            android:textSize="@dimen/sp_m" />
+                    </LinearLayout>
+
+
+                    <ListView
+                        android:id="@+id/listE"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </HorizontalScrollView>

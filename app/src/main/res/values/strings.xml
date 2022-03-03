@@ -44,6 +44,7 @@
     <string name="c_tou">C棟</string>
     <string name="others_parcels_titile">その他荷物受取</string>
     <string name="rinji_capacity">臨キャパ</string>
+    <string name="freshmen">新入寮生</string>
     <string name="night_duty_title">泊まり事務当</string>
     <string name="night_duty_short">"荷物確認をしました。表示に沿って荷物札チェックをしてください。"</string>
     <string name="night_duty_explanation">泊まり事務当番では、①荷物の現物確認、②荷物の札確認を行います。</string>
