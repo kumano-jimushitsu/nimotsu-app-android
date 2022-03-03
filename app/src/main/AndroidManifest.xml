@@ -22,6 +22,9 @@
             android:name=".NightDutyActivity"
             android:exported="true" />
         <activity
+            android:name=".RegisterFreshMenParcelsActivity"
+            android:exported="true" />
+        <activity
             android:name=".RegisterOthersActivity"
             android:exported="true" />
         <activity

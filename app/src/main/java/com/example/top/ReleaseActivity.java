@@ -215,7 +215,7 @@ public class ReleaseActivity extends AppCompatActivity {
             //ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count));
 
             //parcelsテーブルからIDで荷物を検索
-            //String sql_parcels_count = "select count(*) from parcels where owner_uid ='" + ryosei_id + "' AND is_released = 0;";
+            //String sql_parcels_count = "select count(*) from parcels where owner_uid ='" + ryosei_id + "' AND is_released = 0 AND is_deleted = 0;";
             //cursor_parcels_count = db.rawQuery(sql_parcels_count, null);
             //cursor_parcels_count.moveToFirst();
             //int parcels_count = cursor_parcels_count.getInt(0);
@@ -275,7 +275,7 @@ public class ReleaseActivity extends AppCompatActivity {
             //ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count));
 
             //parcelsテーブルからIDで荷物を検索
-            String sql_parcels_count = "select count(*) from parcels where owner_uid ='" + ryosei_id + "' AND is_released = 0;";
+            String sql_parcels_count = "select count(*) from parcels where owner_uid ='" + ryosei_id + "' AND is_released = 0 AND is_deleted = 0;";
             cursor_parcels_count = db.rawQuery(sql_parcels_count, null);
             cursor_parcels_count.moveToFirst();
             int parcels_count = cursor_parcels_count.getInt(0);
@@ -335,7 +335,7 @@ public class ReleaseActivity extends AppCompatActivity {
             //ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count));
 
             //parcelsテーブルからIDで荷物を検索
-            String sql_parcels_count = "select count(*) from parcels where owner_uid ='" + ryosei_id + "' AND is_released = 0;";
+            String sql_parcels_count = "select count(*) from parcels where owner_uid ='" + ryosei_id + "' AND is_released = 0 AND is_deleted = 0;";
             cursor_parcels_count = db.rawQuery(sql_parcels_count, null);
             cursor_parcels_count.moveToFirst();
             int parcels_count = cursor_parcels_count.getInt(0);
@@ -525,7 +525,7 @@ public class ReleaseActivity extends AppCompatActivity {
             //ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count));
 
             //parcelsテーブルからIDで荷物を検索
-            //String sql_parcels_count = "select count(*) from parcels where owner_uid ='" + ryosei_id + "' AND is_released = 0;";
+            //String sql_parcels_count = "select count(*) from parcels where owner_uid ='" + ryosei_id + "' AND is_released = 0 AND is_deleted = 0;";
             //cursor_parcels_count = db.rawQuery(sql_parcels_count, null);
             //cursor_parcels_count.moveToFirst();
             //int parcels_count = cursor_parcels_count.getInt(0);
@@ -658,7 +658,7 @@ public class ReleaseActivity extends AppCompatActivity {
             // show_all_ryosei()で表示されたところはViewにparcels_current_countが設定されていない
             if (item.get("parcels_current_count") == null) {
                 SQLiteDatabase db_to_get_parcels_count = _helper.getWritableDatabase();
-                String sql_parcels_count = "select count(*) from parcels where owner_uid ='" + item.get("id") + "' AND is_released = 0;";
+                String sql_parcels_count = "select count(*) from parcels where owner_uid ='" + item.get("id") + "' AND is_released = 0　AND is_deleted = 0;";
                 cursor_parcels_count = db_to_get_parcels_count.rawQuery(sql_parcels_count, null);
                 cursor_parcels_count.moveToFirst();
                 parcels_count = cursor_parcels_count.getInt(0);

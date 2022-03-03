@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterOthersActivity">
+
+    <!-- ヘッダ -->
+    <include
+        android:id="@+id/include_header_register_freshmen"
+        layout="@layout/include_header_register_freshmen" />
+
+    <TextView
+        android:id="@+id/touroku_others_title"
+        android:layout_width="1129dp"
+        android:layout_height="87dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="208dp"
+        android:text="荷物に 「新入寮生○○」と書いてある場合は面接番号を入力してください。 \n荷物が複数ある場合はプルダウンから個数を選んで同時に登録できます"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/touroku_others_edit"
+        android:layout_width="263dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:hint="面接番号を入力"
+        android:inputType="number"
+        android:maxLength="3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/touroku_others_title" />
+
+    <!-- フッター -->
+    <Button
+        android:id="@+id/touroku_others_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="632dp"
+        android:layout_marginTop="44dp"
+        android:text="追加"
+        app:layout_constraintStart_toEndOf="@+id/touroku_others_edit"
+        app:layout_constraintTop_toBottomOf="@+id/touroku_others_title" />
+
+    <TextView
+        android:id="@+id/touroku_others_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="28dp"
+        android:text="TextView"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include_header_register_freshmen" />
+
+    <include
+        android:id="@+id/include_footer_register"
+        layout="@layout/include_footer_register" />
+
+    <Spinner
+        android:id="@+id/spinner_add_times"
+        android:layout_width="180dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="560dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/touroku_others_title" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

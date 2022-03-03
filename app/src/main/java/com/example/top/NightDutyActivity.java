@@ -184,7 +184,7 @@ public class NightDutyActivity extends AppCompatActivity {
             cursor.close();
         }*/
 
-            String sql = "select * from parcels where is_released = 0 ORDER BY owner_room_name asc,owner_ryosei_name asc ;";
+            String sql = "select * from parcels where is_released = 0 AND is_deleted = 0 ORDER BY owner_room_name asc,owner_ryosei_name asc ;";
 
             // 検索結果を保存
             // SQLの実行。
@@ -537,7 +537,7 @@ public class NightDutyActivity extends AppCompatActivity {
         public void setLostDateTime(String lostDateTime) {
             this.lostDateTime = lostDateTime;
             if (lostDateTime != null)
-                this.lostDateTime = lostDateTime.replace('-', '/').substring(5);
+                this.lostDateTime = lostDateTime.replace('-', '/').substring(5, 10) + " 確認済み";
         }
 
         public Boolean isChecked() {

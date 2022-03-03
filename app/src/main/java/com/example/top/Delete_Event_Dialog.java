@@ -77,7 +77,7 @@ public class Delete_Event_Dialog extends DialogFragment {
                 message += "\r\n";
 
                 message += "　・荷物の種類　：";//{"普通", "冷蔵", "冷凍","大型","不在票","その他"};
-                switch (cursor.getColumnIndex("placement")){
+                switch (cursor.getInt(cursor.getColumnIndex("placement"))) {
                     case 0:
                         message += "一般";
                         break;
@@ -97,7 +97,7 @@ public class Delete_Event_Dialog extends DialogFragment {
                         message += "その他 memo:" + cursor.getString(cursor.getColumnIndex("note"));
                         break;
                     case 6:
-                        message += "新入寮生";
+                        message += "新入寮生(面接番号:" + cursor.getString(cursor.getColumnIndex("note")) + ")";
                         break;
                     default:
                         message += "unknown";
@@ -123,7 +123,7 @@ public class Delete_Event_Dialog extends DialogFragment {
                 message += "\r\n";
 
                 message += "　・荷物の種類　：";//{"普通", "冷蔵", "冷凍","大型","不在票","その他"};
-                switch (cursor.getColumnIndex("placement")){
+                switch (cursor.getInt(cursor.getColumnIndex("placement"))) {
                     case 0:
                         message += "一般";
                         break;
@@ -143,7 +143,7 @@ public class Delete_Event_Dialog extends DialogFragment {
                         message += "その他 memo:" + cursor.getString(cursor.getColumnIndex("note"));
                         break;
                     case 6:
-                        message += "新入寮生";
+                        message += "新入寮生(面接番号:" + cursor.getString(cursor.getColumnIndex("note")) + ")";
                         break;
                     default:
                         message += "unknown";

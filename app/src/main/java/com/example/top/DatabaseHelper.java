@@ -308,7 +308,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     parcels_attribute = "その他";
                     break;
                 case 6:
-                    placement += "新入寮生";
+                    placement += "新入寮生(面接番号:" + cursor.getString(index_note) + ")";
                     parcels_attribute = "新入寮生";
                     break;
                 default:
