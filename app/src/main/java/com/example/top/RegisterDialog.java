@@ -57,8 +57,7 @@ public class RegisterDialog extends DialogFragment {
         register_staff_room=cursor.getString(cursor.getColumnIndex("room_name"));
         register_staff_name = cursor.getString(cursor.getColumnIndex("ryosei_name"));
         cursor.close();
-        String[] choices = {"普通", "冷蔵", "冷凍","大型","不在票","その他"};
-        boolean[] choicesChecked = {true, false, false, false, false,false};
+        String[] choices = {"普通", "冷蔵", "冷凍","大型","不在票","新入寮生","その他"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(owner_ryosei_room+" "+

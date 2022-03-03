@@ -307,6 +307,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     placement += "その他（memo:" + cursor.getString(index_note) + ")";
                     parcels_attribute = "その他";
                     break;
+                case 6:
+                    placement += "新入寮生";
+                    parcels_attribute = "新入寮生";
+                    break;
+                default:
+                    placement += "unknown";
+                    parcels_attribute = "unknown";
             }
             String rabel = "";
 
@@ -364,6 +371,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     break;
                 case 5:
                     rabel += "その他";
+                    break;
+                case 6:
+                    rabel += "新入寮生";
+                    break;
+                default:
+                    rabel += "unknown";
                     break;
             }
             rabel += " ";

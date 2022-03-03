@@ -77,19 +77,33 @@ public class Delete_Event_Dialog extends DialogFragment {
                 message += "\r\n";
 
                 message += "　・荷物の種類　：";//{"普通", "冷蔵", "冷凍","大型","不在票","その他"};
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 0)
-                    message += "一般";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 1)
-                    message += "冷蔵";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 2)
-                    message += "冷凍";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 3)
-                    message += "大型";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 4)
-                    message += "不在票";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 5) {
-                    message += "その他 memo:" + cursor.getString(cursor.getColumnIndex("note"));
+                switch (cursor.getColumnIndex("placement")){
+                    case 0:
+                        message += "一般";
+                        break;
+                    case 1:
+                        message += "冷蔵";
+                        break;
+                    case 2:
+                        message += "冷凍";
+                        break;
+                    case 3:
+                        message += "大型";
+                        break;
+                    case 4:
+                        message += "不在票";
+                        break;
+                    case 5:
+                        message += "その他 memo:" + cursor.getString(cursor.getColumnIndex("note"));
+                        break;
+                    case 6:
+                        message += "新入寮生";
+                        break;
+                    default:
+                        message += "unknown";
+                        break;
                 }
+
                 cursor.close();
                 break;
             case "2"://引渡
@@ -109,18 +123,31 @@ public class Delete_Event_Dialog extends DialogFragment {
                 message += "\r\n";
 
                 message += "　・荷物の種類　：";//{"普通", "冷蔵", "冷凍","大型","不在票","その他"};
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 0)
-                    message += "普通";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 1)
-                    message += "冷蔵";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 2)
-                    message += "冷凍";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 3)
-                    message += "大型";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 4)
-                    message += "不在票";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 5) {
-                    message += "その他 memo:" + cursor.getString(cursor.getColumnIndex("note"));
+                switch (cursor.getColumnIndex("placement")){
+                    case 0:
+                        message += "一般";
+                        break;
+                    case 1:
+                        message += "冷蔵";
+                        break;
+                    case 2:
+                        message += "冷凍";
+                        break;
+                    case 3:
+                        message += "大型";
+                        break;
+                    case 4:
+                        message += "不在票";
+                        break;
+                    case 5:
+                        message += "その他 memo:" + cursor.getString(cursor.getColumnIndex("note"));
+                        break;
+                    case 6:
+                        message += "新入寮生";
+                        break;
+                    default:
+                        message += "unknown";
+                        break;
                 }
                 if (cursor.getString(cursor.getColumnIndex("release_agent_uid")) != null) {
                     sql = "select room_name, ryosei_name from ryosei where uid ='" + cursor.getString(cursor.getColumnIndex("release_agent_uid")) + "';";

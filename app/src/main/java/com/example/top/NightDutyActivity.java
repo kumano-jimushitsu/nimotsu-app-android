@@ -233,6 +233,9 @@ public class NightDutyActivity extends AppCompatActivity {
                     case 5:
                         placement = "その他";
                         break;
+                    case 6:
+                        placement = "新入寮生";
+                        break;
                     default:
                         placement = "unknown";
                 }
