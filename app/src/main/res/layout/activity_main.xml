@@ -83,6 +83,12 @@
 
             </LinearLayout>
 
+            <Button
+                android:id="@+id/old_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="old note" />
+
         </LinearLayout>
 
 

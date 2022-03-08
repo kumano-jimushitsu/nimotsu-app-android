@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -96,6 +97,10 @@ public class MainActivity extends AppCompatActivity {
         ImageButton nimotsufuda = findViewById(R.id.event_history_refresh_button);
         RefreshListener listenerNimotsufuda = new RefreshListener();
         nimotsufuda.setOnClickListener(listenerNimotsufuda);
+
+        Button oldnote = findViewById(R.id.old_note);
+        OldNoteListener oldnotelistener = new OldNoteListener();
+        oldnote.setOnClickListener(oldnotelistener);
 
         //   ButteryChecker butterychecker = new ButteryChecker();
         // Listenerを設定
@@ -583,6 +588,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private class OldNoteListener extends OnOneClickListener {
+        @Override
+        public void onOneClick(View view) {
+            Intent intent = new Intent(MainActivity.this, OldNoteActivity.class);
+            startActivityForResult(intent, EVENT_REFRESH_ACTIVITY);
+        }
     }
 
     public class HttpTask {
