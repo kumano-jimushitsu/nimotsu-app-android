@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class OldNoteActivity extends AppCompatActivity {
 
-    String[] caption = {"aaa", "bbb"};
+    String[] caption = {"aaa", "bcb"};
     int[] haiten = {3, 5};
     int[] categoryPoint = {32, 15};
     int[] averagePoint = {4, 52};
