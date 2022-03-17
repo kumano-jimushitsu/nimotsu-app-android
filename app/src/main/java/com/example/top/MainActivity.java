@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         Button oldnote = findViewById(R.id.old_note);
         OldNoteListener oldnotelistener = new OldNoteListener();
         oldnote.setOnClickListener(oldnotelistener);
+        oldnote.setVisibility(View.GONE);
 
         //   ButteryChecker butterychecker = new ButteryChecker();
         // Listenerを設定
@@ -594,7 +595,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onOneClick(View view) {
             Intent intent = new Intent(MainActivity.this, OldNoteActivity.class);
-            startActivityForResult(intent, EVENT_REFRESH_ACTIVITY);
+            startActivity(intent);
         }
     }
 

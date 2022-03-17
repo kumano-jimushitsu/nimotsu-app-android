@@ -4,14 +4,14 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/rowtext1"
+        android:id="@+id/old_note_table_row_register_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:text="aaa" />
 
     <TextView
-        android:id="@+id/rowtext2"
+        android:id="@+id/old_note_table_row_owner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
@@ -20,7 +20,7 @@
         android:text="0" />
 
     <TextView
-        android:id="@+id/rowtext3"
+        android:id="@+id/old_note_table_row_register_staff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
@@ -29,7 +29,43 @@
         android:text="0" />
 
     <TextView
-        android:id="@+id/rowtext4"
+        android:id="@+id/old_note_table_row_placement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/old_note_table_row_release_datetime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/old_note_table_row_receiver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/old_note_table_row_release_staff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/old_note_table_row_lost_datetime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"

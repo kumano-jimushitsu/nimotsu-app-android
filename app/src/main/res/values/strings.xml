@@ -54,4 +54,13 @@
 
     <string name="copyright">Copyright © 2022 Kumano Dormitory IT Section</string>
 
+
+    <string-array name="oldnote_buildinfs_list">
+
+        <item>ALL</item>
+        <item>A棟</item>
+        <item>B棟</item>
+        <item>C棟</item>
+        <item>臨時キャパ</item>
+    </string-array>
 </resources>

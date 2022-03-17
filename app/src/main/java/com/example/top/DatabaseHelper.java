@@ -7,11 +7,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.NonNull;
 
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -482,13 +485,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //parcels
         //①受取の削除の場合、is_deleted=1にする
         //②引渡の削除の場合、is_released=0, release_agent_uid,release_datetime, release_staff_uidをnullにする
+        // 2022 3/18 旧型ノート表示のために release_agent_uid=nullを追加
         //      release_staff_room_nameとrelease_staff_ryosei_nameはnullにせずに残しておく。一回受取されたことがそこからも分かるかもしれない(sql分を短くしたい)
         if (event_type.equals("1")) {
             sql = "update parcels set is_deleted=1, sharing_status=10 where uid ='" + parcel_id + "'";
             db.execSQL(sql);
 
         } else {
-            sql = "update parcels set is_released=0,release_agent_uid=null,release_datetime=null, release_staff_uid=null, sharing_status=10 where uid ='" + parcel_id + "'";
+            sql = "update parcels set is_released=0,release_agent_uid=null,release_datetime=null, release_staff_uid=null, release_agent_uid=null, sharing_status=10 where uid ='" + parcel_id + "'";
             db.execSQL(sql);
         }
         db.close();
@@ -837,6 +841,103 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } finally {
             cursor.close();
         }
+    }
+
+    public ArrayList<Map<String, String>> showOldNote(int building, String fromDate, String toDate, SQLiteDatabase db) {
+        ArrayList<Map<String, String>> result = new ArrayList<Map<String, String>>();
+        String date_condition = "";
+        String block_condition;
+        if (building == 1) {//index順に場合わけ、党で分ける
+            block_condition = "1<= ryosei.block_id AND ryosei.block_id <5";
+        } else if (building == 2) {
+            block_condition = "4< ryosei.block_id AND ryosei.block_id <8";
+        } else if (building == 3) {
+            block_condition = "8<= ryosei.block_id AND ryosei.block_id <10";
+        } else if (building == 4) {
+            block_condition = " ryosei.block_id =10";
+        } else {
+            block_condition = "1<= ryosei.block_id";
+        }
+        //範囲の開始日がなぜだか1日ずれるバグをここで修正
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Calendar calendar = Calendar.getInstance();
+        ParsePosition pos = new ParsePosition(0);
+        calendar.setTime(sdf.parse(fromDate, pos));
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        Date newFromDate = calendar.getTime();
+        String newFromDateStr = sdf.format(newFromDate);
+        date_condition = "'" + fromDate + " 00:00:00' <= register_datetime AND '" + toDate + " 23:59:59' >= register_datetime";
+
+        String sql = "SELECT * FROM parcels INNER JOIN ryosei on parcels.owner_uid = ryosei.uid where " + block_condition + " AND " + date_condition + " ORDER BY register_datetime";
+        Cursor cursor = db.rawQuery(sql, null);
+        //mapに荷物の情報を打ち込む
+        //is_released=0で引き渡し日時は未引き渡し 1の時agent_uidにデータがあれば受け渡し人をそのuidの人にする
+        while (cursor.moveToNext()) {
+            int is_released = cursor.getInt(cursor.getColumnIndex("parcels.is_released"));
+            int is_lost = cursor.getInt(cursor.getColumnIndex("parcels.is_lost"));
+            Map<String, String> old_note_raw = new HashMap<>();
+            old_note_raw.clear();
+            old_note_raw.put("register_datetime", cursor.getString(cursor.getColumnIndex("parcels.register_datetime")));
+            old_note_raw.put("owner", cursor.getString(cursor.getColumnIndex("parcels.owner_room_name")) + " " + cursor.getString(cursor.getColumnIndex("parcels.owner_ryosei_name")));
+            old_note_raw.put("register_staff", cursor.getString(cursor.getColumnIndex("parcels.register_staff_room_name")) + " " + cursor.getString(cursor.getColumnIndex("parcels.register_staff_ryosei_name")));
+            switch (cursor.getInt(cursor.getColumnIndex("parcels.fragile"))) {
+                case 0:
+                    old_note_raw.put("placement", "普通");
+                    break;
+                case 1:
+                    old_note_raw.put("placement", "冷蔵");
+                    break;
+                case 2:
+                    old_note_raw.put("placement", "冷凍");
+                    break;
+                case 3:
+                    old_note_raw.put("placement", "大型");
+                    break;
+                case 4:
+                    old_note_raw.put("placement", "不在票");
+                    break;
+                case 5:
+                    old_note_raw.put("placement", "その他");
+                    break;
+                case 6:
+                    old_note_raw.put("placement", "新入寮生");
+                    break;
+                default:
+                    old_note_raw.put("placement", "unknown");
+            }
+            if (is_released == 0) {
+                old_note_raw.put("release_datetime", "未引渡");
+                old_note_raw.put("release_staff", "");
+                if (cursor.getString(cursor.getColumnIndex("parcels.lost_datetime")) == null) {//未引き渡しの時だけ最終確認日時を書く
+                    if (is_lost == 0) {
+                        old_note_raw.put("lost_datetime", "未チェック");
+                    } else {
+                        old_note_raw.put("lost_datetime", "(紛失中)未チェック");
+                    }
+                } else {
+                    if (is_lost == 0) {
+                        old_note_raw.put("lost_datetime", cursor.getString(cursor.getColumnIndex("parcels.lost_datetime")).replace('-', '/').substring(5, 10));
+                    } else {
+                        old_note_raw.put("lost_datetime", "(紛失中)" + cursor.getString(cursor.getColumnIndex("lost_datetime")).replace('-', '/').substring(5, 10));
+                    }
+                }
+            } else {
+                old_note_raw.put("release_staff", cursor.getString(cursor.getColumnIndex("parcels.release_staff_room_name")) + " " + cursor.getString(cursor.getColumnIndex("parcels.release_staff_ryosei_name")));
+                old_note_raw.put("release_datetime", cursor.getString(cursor.getColumnIndex("parcels.release_datetime")));
+                old_note_raw.put("lost_datetime", "");//引き渡し済みの時は最終確認日時は表示しない
+                if (cursor.getString(cursor.getColumnIndex("parcels.release_agent_uid")) != null) {//代理で受け渡しされたかの確認
+                    String proxy_name_sql = "select room_name, ryosei_name from ryosei where uid ='" + cursor.getString(cursor.getColumnIndex("parcels.release_agent_uid")) + "';";
+                    Cursor proxy_cursor = db.rawQuery(sql, null);
+                    proxy_cursor.moveToFirst();
+                    old_note_raw.put("receiver", "代 " + cursor.getString(cursor.getColumnIndex("parcels.room_name")) + " " + cursor.getString(cursor.getColumnIndex("parcels.ryosei_name")));
+                } else {
+                    old_note_raw.put("receiver", cursor.getString(cursor.getColumnIndex("parcels.owner_room_name")) + " " + cursor.getString(cursor.getColumnIndex("parcels.owner_ryosei_name")));
+
+                }
+            }
+            result.add(old_note_raw);
+        }
+        return result;
     }
 
     @Override
