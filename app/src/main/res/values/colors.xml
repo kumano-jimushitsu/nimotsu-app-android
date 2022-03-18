@@ -21,6 +21,7 @@
     <color name="release_header_font">#FFFFFF</color>
     <color name="release_footer_font">#FFFFFF</color>
     <color name="release_theme">#DAA186</color>
+    <color name="oldnote_theme">#CCCCCC</color>
     <color name="night_duty_theme">#4B0082</color>
     <!-- タイトル背景 -->
     <color name="titleA">#ff6767</color>

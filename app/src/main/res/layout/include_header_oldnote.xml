@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:background="@color/oldnote_theme"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/old_note_go_back_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="70dp"
+        android:background="@drawable/ic_baseline_arrow_back_white_ios_24" />
+
+
+    <TextView
+        android:id="@+id/old_note_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:layout_toRightOf="@id/old_note_go_back_button"
+        android:text="履歴一覧表示の画面です。   "
+        android:textColor="@color/default_header_font"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/block_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="33dp"
+        android:layout_toRightOf="@id/old_note_title"
+        android:text="ブロック:"
+        android:textColor="@color/default_header_font"
+        android:textSize="20sp" />
+
+    <Spinner
+        android:id="@+id/spinner_buildings"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginLeft="-493dp"
+        android:layout_marginTop="35dp"
+        android:layout_toRightOf="@id/block_message"
+        android:textColor="@color/default_header_font"
+        android:entries="@array/oldnote_buildinfs_list" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="top"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal">
+
+        <TextClock
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:format12Hour="MM/dd"
+            android:format24Hour="MM/dd"
+            android:textColor="@color/default_header_font"
+            android:textSize="14sp"
+            android:timeZone="Asia/Tokyo" />
+
+        <TextClock
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:format12Hour=" hh:mm"
+            android:format24Hour=" HH:mm"
+            android:textColor="@color/default_header_font"
+            android:textSize="14sp"
+            android:timeZone="GMT+900" />
+    </LinearLayout>
+
+</RelativeLayout>
