@@ -1,6 +1,8 @@
 package com.example.top;
 
+
 import android.annotation.SuppressLint;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 
 import com.example.top.ClickListener.OnOneClickListener;
+import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
@@ -36,6 +39,8 @@ public class OldNoteActivity extends AppCompatActivity {
     private Spinner buildings;
 
     private DatabaseHelper _helper;
+    // values/colors.xmlより設定値を取得するために利用。
+    private Resources r;
 
 
     @Override
@@ -43,6 +48,8 @@ public class OldNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_old_note);
 
+
+        r = getApplicationContext().getResources();
 
         _helper = new DatabaseHelper(OldNoteActivity.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
@@ -98,6 +105,11 @@ public class OldNoteActivity extends AppCompatActivity {
             TextView lost_datetime = (TextView) tableRow.findViewById(R.id.old_note_table_row_lost_datetime);
             lost_datetime.setText(row_data.get("lost_datetime"));
             tableLayout.addView(tableRow);
+            if (i % 2 == 0) {
+                registertime.setBackgroundColor(r.getColor(R.color.data1A));
+            } else {
+
+            }
         }
 
     }
@@ -184,6 +196,35 @@ public class OldNoteActivity extends AppCompatActivity {
             ArrayList<Map<String, String>> result = _helper.showOldNote(buildings.getSelectedItemPosition(), mShowSelectedDateTextFrom.getText().toString(), mShowSelectedDateTextTo.getText().toString(), db);
 
             showNote(result);
+        }
+
+    }
+
+    public void showNote(int building, String fromData, String toData, DatabaseHelper db) {
+        String date_condition = "";
+        String block_condition;
+        if (building <= 4) {
+            block_condition = "1<= ryosei.block_id AND ryosei.block_id <5";
+        } else if (4 < building && building <= 7) {
+            block_condition = "4< ryosei.block_id AND ryosei.block_id <8";
+        } else if (4 < building && building <= 7) {
+            block_condition = "8<= ryosei.block_id AND ryosei.block_id <10";
+        } else {
+            block_condition = " ryosei.block_id =10";
+        }
+        String sql = "SELECT * FROM parcels WHERE block inner join ryosei on parcels.owner_uid" + "= ryosei.uid where " + block_condition + " AND " + date_condition;
+    }
+
+    public class dataSelectListener extends OnOneClickListener {
+        @Override
+        public void onOneClick(View view) {
+            MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
+            CalendarConstraints.Builder constraintsBuilder = new CalendarConstraints.Builder();
+            //constraintsBuilder.setStart(CalendarConstraints.Builder.DEFAULT_START);
+            //constraintsBuilder.setEnd(CalendarConstraints.Builder.DEFAULT_END);
+            builder.setCalendarConstraints(constraintsBuilder.build());
+            MaterialDatePicker<?> picker = builder.build();
+            picker.show(getSupportFragmentManager(), picker.toString());
         }
 
     }

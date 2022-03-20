@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="120dp"
     android:background="@color/oldnote_theme"
@@ -46,8 +47,69 @@
         android:layout_marginLeft="-493dp"
         android:layout_marginTop="35dp"
         android:layout_toRightOf="@id/block_message"
-        android:textColor="@color/default_header_font"
-        android:entries="@array/oldnote_buildinfs_list" />
+        android:entries="@array/oldnote_buildinfs_list"
+        android:textColor="@color/default_header_font" />
+
+    <LinearLayout
+        android:id="@+id/span"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="30dp"
+        android:layout_toRightOf="@id/spinner_buildings"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/show_selected_date_from"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="0dp"
+            android:text="2022-02-23"
+            android:textColor="@color/default_header_font"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textview15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:text=" 〜 "
+            android:textColor="@color/default_header_font"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/show_selected_date_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:text="2022-02-20"
+            android:textColor="@color/default_header_font"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/datebutton"
+        android:layout_width="71dp"
+        android:layout_height="60dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_toRightOf="@id/span"
+        app:srcCompat="@android:drawable/ic_menu_month" />
+
+    <Button
+        android:id="@+id/search_show_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
+        android:layout_toRightOf="@id/datebutton"
+        android:text="検索" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -78,5 +140,6 @@
             android:textSize="14sp"
             android:timeZone="GMT+900" />
     </LinearLayout>
+
 
 </RelativeLayout>

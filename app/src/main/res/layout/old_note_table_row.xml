@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/darkgray">
 
     <TextView
         android:id="@+id/old_note_table_row_register_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:text="aaa" />
+        android:text="aaa"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/old_note_table_row_owner"
@@ -17,7 +19,8 @@
         android:layout_marginLeft="1dp"
         android:background="@color/white"
         android:gravity="center"
-        android:text="0" />
+        android:text="0"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/old_note_table_row_register_staff"
@@ -26,7 +29,8 @@
         android:layout_marginLeft="1dp"
         android:background="@color/white"
         android:gravity="center"
-        android:text="0" />
+        android:text="0"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/old_note_table_row_placement"
@@ -35,7 +39,8 @@
         android:layout_marginLeft="1dp"
         android:background="@color/white"
         android:gravity="center"
-        android:text="0" />
+        android:text="0"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/old_note_table_row_release_datetime"
@@ -44,7 +49,8 @@
         android:layout_marginLeft="1dp"
         android:background="@color/white"
         android:gravity="center"
-        android:text="0" />
+        android:text="0"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/old_note_table_row_receiver"
@@ -53,7 +59,8 @@
         android:layout_marginLeft="1dp"
         android:background="@color/white"
         android:gravity="center"
-        android:text="0" />
+        android:text="0"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/old_note_table_row_release_staff"
@@ -62,7 +69,8 @@
         android:layout_marginLeft="1dp"
         android:background="@color/white"
         android:gravity="center"
-        android:text="0" />
+        android:text="0"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/old_note_table_row_lost_datetime"
@@ -71,5 +79,6 @@
         android:layout_marginLeft="1dp"
         android:background="@color/white"
         android:gravity="center"
-        android:text="0" />
+        android:text="0"
+        android:textSize="20sp" />
 </TableRow>
