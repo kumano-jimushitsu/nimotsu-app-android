@@ -426,6 +426,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return is_finished;
     }
 
+    public void setAllSharingStatus10(SQLiteDatabase db) {
+        setEventsSharingStatus10(db);
+        setParcelsSharingStatus10(db);
+        setRyoseiSharingStatus10(db);
+    }
+
+    public void setRyoseiSharingStatus10(SQLiteDatabase db) {
+        String sql = "update ryosei set sharing_status = 10;";
+        db.execSQL(sql, null);
+    }
+
+    public void setParcelsSharingStatus10(SQLiteDatabase db) {
+        String sql = "update parcels set sharing_status = 10;";
+        db.execSQL(sql, null);
+    }
+
+    public void setEventsSharingStatus10(SQLiteDatabase db) {
+        String sql = "update parcel_event set sharing_status = 10;";
+        db.execSQL(sql, null);
+    }
+
+    public void setAllSharingStatus30(SQLiteDatabase db) {
+        setEventsSharingStatus30(db);
+        setParcelsSharingStatus30(db);
+        setRyoseiSharingStatus30(db);
+    }
+
+    public void setRyoseiSharingStatus30(SQLiteDatabase db) {
+        String sql = "update ryosei set sharing_status = 30;";
+        db.execSQL(sql, null);
+    }
+
+    public void setParcelsSharingStatus30(SQLiteDatabase db) {
+        String sql = "update parcels set sharing_status = 30;";
+        db.execSQL(sql, null);
+    }
+
+    public void setEventsSharingStatus30(SQLiteDatabase db) {
+        String sql = "update parcel_event set sharing_status = 30;";
+        db.execSQL(sql, null);
+    }
+
+
     public void delete_event(SQLiteDatabase db, String event_id, String ryosei_id, String parcel_id, String jimuto_id, String event_type) {
         //event idは1 or 2が入る　1が登録のイベントを消し込むとき、2が受取のイベントを消し込むとき
 

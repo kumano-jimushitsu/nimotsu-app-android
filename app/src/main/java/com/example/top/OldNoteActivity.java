@@ -2,7 +2,7 @@ package com.example.top;
 
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.app.ProgressDialog;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -34,7 +34,7 @@ import java.util.Map;
 
 public class OldNoteActivity extends AppCompatActivity {
 
-
+    ProgressDialog progressDialog;
     TextView mShowSelectedDateTextFrom;
     TextView mShowSelectedDateTextTo;
     private ImageButton mPickDateButton;
@@ -88,6 +88,8 @@ public class OldNoteActivity extends AppCompatActivity {
     }
 
     public void showNote(ArrayList<Map<String, String>> input) {
+
+
         TableLayout tableLayout = (TableLayout) findViewById(R.id.old_note_tableLayout);
         for (int i = tableLayout.getChildCount(); i > 1; i--) {
             tableLayout.removeViewAt(i - 1);
@@ -126,6 +128,7 @@ public class OldNoteActivity extends AppCompatActivity {
                 //色は塗らない
             }
         }
+
 
     }
 
@@ -207,10 +210,19 @@ public class OldNoteActivity extends AppCompatActivity {
     public class searchAndShowListener extends OnOneClickListener {
         @Override
         public void onOneClick(View v) {
+            progressDialog = new ProgressDialog(OldNoteActivity.this);
+            progressDialog.setTitle("タイトル");
+            progressDialog.setMessage("メッセージ");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+
             SQLiteDatabase db = _helper.getWritableDatabase();
             ArrayList<Map<String, String>> result = _helper.showOldNote(buildings.getSelectedItemPosition(), mShowSelectedDateTextFrom.getText().toString(), mShowSelectedDateTextTo.getText().toString(), db);
 
             showNote(result);
+            // 時間のかかる処理
+
+            progressDialog.dismiss();
         }
 
     }

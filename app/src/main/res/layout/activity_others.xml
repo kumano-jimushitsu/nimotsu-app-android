@@ -7,37 +7,98 @@
     tools:context=".OthersActivity">
 
     <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="409dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="80dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/set_ALL_sharing_status10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="set_ALL_sharing_status101" />
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="409dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="80dp"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/set_ryosei_sharing_status10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="set_ryosei_sharing_status10" />
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:breakStrategy="simple"
+                android:text="SharingStatusを10にできます。Sharingstatus10はタブレット側のデータをパソコンに送信します、完了すると30になります。" />
 
-        <Button
-            android:id="@+id/set_parcels_sharing_status10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="set_parcels_sharing_status10" />
+            <Button
+                android:id="@+id/set_ALL_sharing_status10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="set_ALL_sharing_status101"
+                app:backgroundTint="#22ff22" />
 
-        <Button
-            android:id="@+id/set_events_sharing_status10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="set_event_sharing_status10" />
+            <Button
+                android:id="@+id/set_ryosei_sharing_status10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="set_ryosei_sharing_status10"
+                app:backgroundTint="#22ff22" />
+
+            <Button
+                android:id="@+id/set_parcels_sharing_status10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="set_parcels_sharing_status10"
+                app:backgroundTint="#22ff22" />
+
+            <Button
+                android:id="@+id/set_events_sharing_status10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="set_event_sharing_status10"
+                app:backgroundTint="#22ff22" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="409dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="80dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:breakStrategy="simple"
+                android:text="SharingStatusを30にできます。基本的に使わないでください。" />
+
+            <Button
+                android:id="@+id/set_ALL_sharing_status30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="set_ALL_sharing_status30"
+                app:backgroundTint="#ff2222" />
+
+            <Button
+                android:id="@+id/set_ryosei_sharing_status30"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="set_ryosei_sharing_status30"
+                app:backgroundTint="#ff2222" />
+
+            <Button
+                android:id="@+id/set_parcels_sharing_status30"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="set_parcels_sharing_status30"
+                app:backgroundTint="#ff2222" />
+
+            <Button
+                android:id="@+id/set_events_sharing_status30"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="set_event_sharing_status30"
+                app:backgroundTint="#ff2222" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
