@@ -120,6 +120,8 @@ public class NightDutyActivity extends AppCompatActivity {
                 title.setText("泊まり事務当ー②荷物札確認");
                 explain_sub.setText(getString(R.string.night_duty_2_explanation));
                 freshmenLinear.setVisibility(View.GONE);
+
+
         }
         //テーブルの荷物表示部分の更新
         dataListA.clear();
@@ -205,71 +207,79 @@ public class NightDutyActivity extends AppCompatActivity {
         String lostdatetime;
         String parcelsUid;
         String note;
+        int is_lost;
         List<Map<String, String>> onesParcels = null;
-            Cursor blockCursor;
-            int block_id;
+        Cursor blockCursor;
+        int block_id;
 
 
         // A棟から臨キャパの処理を行う。
-            while (cursor.moveToNext()) {
-                ryoseiUid = cursor.getString(cursor.getColumnIndex("owner_uid"));
-                String sql_get_block_from_owneruid = "SELECT block_id FROM ryosei WHERE uid ='" + ryoseiUid + "';";
-                blockCursor = db.rawQuery(sql_get_block_from_owneruid, null);
-                blockCursor.moveToFirst();
-                block_id = blockCursor.getInt(blockCursor.getColumnIndex("block_id"));
-                blockCursor.close();
+        while (cursor.moveToNext()) {
+            ryoseiUid = cursor.getString(cursor.getColumnIndex("owner_uid"));
+            String sql_get_block_from_owneruid = "SELECT block_id FROM ryosei WHERE uid ='" + ryoseiUid + "';";
+            blockCursor = db.rawQuery(sql_get_block_from_owneruid, null);
+            blockCursor.moveToFirst();
+            block_id = blockCursor.getInt(blockCursor.getColumnIndex("block_id"));
+            blockCursor.close();
 
-                roomName = cursor.getString(cursor.getColumnIndex("owner_room_name"));
-                ryoseiName = cursor.getString(cursor.getColumnIndex("owner_ryosei_name"));
-                parcelsUid = cursor.getString(cursor.getColumnIndex("uid"));
-                placement_id = cursor.getInt(cursor.getColumnIndex("placement"));
-                switch (placement_id) {
-                    case 0:
-                        placement = "普通";
-                        break;
-                    case 1:
-                        placement = "冷蔵";
-                        break;
-                    case 2:
-                        placement = "冷凍";
-                        break;
-                    case 3:
-                        placement = "大型";
-                        break;
-                    case 4:
-                        placement = "不在票";
-                        break;
-                    case 5:
-                        placement = "その他";
-                        break;
-                    case 6:
-                        placement = "新入寮生";
-                        break;
-                    default:
-                        placement = "unknown";
-                }
-
-
-                lostdatetime = cursor.getString(cursor.getColumnIndex("lost_datetime"));
-                onesParcels = _helper.nimotsuCountOfRyosei(db, ryoseiUid);
-                Data data = new Data();
-                data.setParcelsAttribute(placement);
-                data.setRoomName(roomName);
-                data.setRyoseiName(ryoseiName);
-                data.setParcelUid(parcelsUid);
-                data.setLostDateTime(lostdatetime);//lost_datetimeに最終確認できた時間を入れている　カラム名の変更が手間だったため
-                data.setChecked(false);
-                if (block_id >= 1 && block_id < 5) {
-                    dataListA.add(data);
-                } else if (block_id >= 5 && block_id < 8) {
-                    dataListB.add(data);
-                } else if (block_id >= 8 && block_id < 10) {
-                    dataListC.add(data);
-                } else if (block_id == 10) {
-                    dataListD.add(data);
-                }
+            roomName = cursor.getString(cursor.getColumnIndex("owner_room_name"));
+            ryoseiName = cursor.getString(cursor.getColumnIndex("owner_ryosei_name"));
+            parcelsUid = cursor.getString(cursor.getColumnIndex("uid"));
+            placement_id = cursor.getInt(cursor.getColumnIndex("placement"));
+            is_lost = cursor.getInt(cursor.getColumnIndex("is_lost"));
+            switch (placement_id) {
+                case 0:
+                    placement = "普通";
+                    break;
+                case 1:
+                    placement = "冷蔵";
+                    break;
+                case 2:
+                    placement = "冷凍";
+                    break;
+                case 3:
+                    placement = "大型";
+                    break;
+                case 4:
+                    placement = "不在票";
+                    break;
+                case 5:
+                    placement = "その他";
+                    break;
+                case 6:
+                    placement = "新入寮生";
+                    break;
+                default:
+                    placement = "unknown";
             }
-            cursor.close();
+
+
+            lostdatetime = cursor.getString(cursor.getColumnIndex("lost_datetime"));
+            onesParcels = _helper.nimotsuCountOfRyosei(db, ryoseiUid);
+            Data data = new Data();
+            data.setParcelsAttribute(placement);
+            data.setRoomName(roomName);
+            data.setRyoseiName(ryoseiName);
+            data.setParcelUid(parcelsUid);
+            data.setLostDateTime(lostdatetime);//lost_datetimeに最終確認できた時間を入れている　カラム名の変更が手間だったため
+            data.setChecked(false);
+            if(kakunin_phase==1) {// 0現物あり(荷物確認中)  1紛失中(荷物確認中) 10現物あり(札確認中)　11紛失中(札確認中)
+                data.setIs_lost(is_lost);
+            }else{
+                data.setIs_lost(is_lost+10);
+            }
+            //ブロックごとに仕分けをする。
+            if (block_id >= 1 && block_id < 5) {
+                dataListA.add(data);
+            } else if (block_id >= 5 && block_id < 8) {
+                dataListB.add(data);
+            } else if (block_id >= 8 && block_id < 10) {
+                dataListC.add(data);
+            } else if (block_id == 10) {
+                dataListD.add(data);
+            }
+        }
+        cursor.close();
 
 
         ListView listViewA = findViewById(R.id.listA);
@@ -277,15 +287,17 @@ public class NightDutyActivity extends AppCompatActivity {
         ListView listViewC = findViewById(R.id.listC);
         ListView listViewD = findViewById(R.id.listD);
         // リストにサンプル用のデータを受け渡す
-        ListAdapterA adapterA = new ListAdapterA(this, dataListA);
-        ListAdapterB adapterB = new ListAdapterB(this, dataListB);
-        ListAdapterC adapterC = new ListAdapterC(this, dataListC);
-        ListAdapterD adapterD = new ListAdapterD(this, dataListD);
+        ListAdapter adapterA = new ListAdapter(this, dataListA,"A");
+        ListAdapter adapterB = new ListAdapter(this, dataListB,"B");
+        ListAdapter adapterC = new ListAdapter(this, dataListC,"C");
+        ListAdapter adapterD = new ListAdapter(this, dataListD,"D");
         listViewA.setAdapter(adapterA);
         listViewB.setAdapter(adapterB);
         listViewC.setAdapter(adapterC);
         listViewD.setAdapter(adapterD);
 
+
+        //新入寮生の荷物に関しては別個で扱う。
         String sql_freshmen = "select * from parcels where is_released = 0 AND is_deleted = 0 AND placement = 6 ORDER BY note asc ;";
         Cursor cursor_freshmen = db.rawQuery(sql_freshmen, null);
         if (cursor_freshmen.moveToNext()) {//新入寮生の荷物が一件でもあった場合
@@ -303,6 +315,7 @@ public class NightDutyActivity extends AppCompatActivity {
                 parcelsUid = cursor_freshmen.getString(cursor_freshmen.getColumnIndex("uid"));
                 note = cursor_freshmen.getString(cursor_freshmen.getColumnIndex("note"));
                 lostdatetime = cursor_freshmen.getString(cursor_freshmen.getColumnIndex("lost_datetime"));
+                is_lost = cursor_freshmen.getInt(cursor_freshmen.getColumnIndex("is_lost"));
                 onesParcels = _helper.nimotsuCountOfRyosei(db, ryoseiUid);
                 Data data = new Data();
                 data.setParcelsAttribute(note);//札が一意に定まるのでここでは番号とする。
@@ -311,13 +324,14 @@ public class NightDutyActivity extends AppCompatActivity {
                 data.setParcelUid(parcelsUid);
                 data.setLostDateTime(lostdatetime);//lost_datetimeに最終確認できた時間を入れている　カラム名の変更が手間だったため
                 data.setChecked(false);
+                data.setIs_lost(is_lost);
                 dataListE.add(data);
             }
 
 
             ListView listViewE = findViewById(R.id.listE);
             // リストにサンプル用のデータを受け渡す
-            ListAdapterE adapterE = new ListAdapterE(this, dataListE);
+            ListAdapter adapterE = new ListAdapter(this, dataListE,"E");
             listViewE.setAdapter(adapterE);
         } else {
             freshmenLinear.setVisibility(View.GONE);
@@ -454,7 +468,7 @@ public class NightDutyActivity extends AppCompatActivity {
                 boolean[] checkListD = new boolean[dataD.size()];
                 for (int i = 0; i < dataD.size(); i++) {
                     View listDataView = listViewD.getAdapter().getView(i, null, listViewD);
-                    CheckBox chkDel = listDataView.findViewById(R.id.parcelcheckbox_rinjicapacity);
+                    CheckBox chkDel = listDataView.findViewById(R.id.parcelcheckbox);
                     if (chkDel.isChecked()) {
                         checkListD[i] = true;
                         outputDataD.add(dataD.get(i).getParcelsUid());
@@ -470,7 +484,7 @@ public class NightDutyActivity extends AppCompatActivity {
                 boolean[] checkListE = new boolean[dataE.size()];
                 for (int i = 0; i < dataE.size(); i++) {
                     View listDataView = listViewE.getAdapter().getView(i, null, listViewE);
-                    CheckBox chkDel = listDataView.findViewById(R.id.parcelcheckbox_rinjicapacity);
+                    CheckBox chkDel = listDataView.findViewById(R.id.parcelcheckbox);
                     if (chkDel.isChecked()) {
                         checkListE[i] = true;
                         outputDataE.add(dataE.get(i).getParcelsUid());
@@ -564,6 +578,7 @@ public class NightDutyActivity extends AppCompatActivity {
         private String lostDateTime;
         private Boolean checkdata;
         private String note;
+        private int is_lost;
 
         public void setParcelUid(String uid) {
             this.parcelsUid = uid;
@@ -585,6 +600,10 @@ public class NightDutyActivity extends AppCompatActivity {
             return ryoseiName;
         }
 
+        public int getIs_lost() {
+            return is_lost;
+        }
+
         public void setRyoseiName(String ryosei) {
             this.ryoseiName = ryosei;
         }
@@ -599,6 +618,10 @@ public class NightDutyActivity extends AppCompatActivity {
 
         public void setParcelsAttribute(String parcels) {
             this.parcelsAttribute = parcels;
+        }
+
+        public void setIs_lost(int islost) {
+            this.is_lost = islost;
         }
 
         public String getParcelsUid() {
@@ -624,17 +647,17 @@ public class NightDutyActivity extends AppCompatActivity {
         }
     }
 
-    // A棟リスト表示制御用クラス
-    class ListAdapterA extends ArrayAdapter<Data> {
+    // リスト表示制御用クラス
+    class ListAdapter extends ArrayAdapter<Data> {
         private final LayoutInflater inflater;
         // values/colors.xmlより設定値を取得するために利用。
         private final Resources r;
-
-        public ListAdapterA(Context context, List<Data> objects) {
+        private String building ="";
+        public ListAdapter(Context context, List<Data> objects,String building) {
             super(context, 0, objects);
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             r = context.getResources();
-
+            this.building = building;
         }
 
         @Override
@@ -645,272 +668,183 @@ public class NightDutyActivity extends AppCompatActivity {
                 view = inflater.inflate(R.layout.outdated_nimotsufuda_raw, parent, false);
             }
             final Data data = this.getItem(position);
-            TextView tvData1A = view.findViewById(R.id.raw1);
-            tvData1A.setText(item.getRoomName());
-            TextView tvData2A = view.findViewById(R.id.raw2);
-            tvData2A.setText(item.getRyoseiName());
-            TextView tvData3A = view.findViewById(R.id.raw3);
-            tvData3A.setText(item.getParcelsAttribute());
-            TextView tvData4A = view.findViewById(R.id.raw4);
-            tvData3A.setText(item.getLostDateTime());
-            CheckBox checkBoxA = view.findViewById(R.id.parcelcheckbox);
-            checkBoxA.setOnCheckedChangeListener(null);
-            checkBoxA.setChecked(item.isChecked());
-            checkBoxA.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            TextView tvData1 = view.findViewById(R.id.raw1);
+            tvData1.setText(item.getRoomName());
+            TextView tvData2 = view.findViewById(R.id.raw2);
+            tvData2.setText(item.getRyoseiName());
+            TextView tvData3 = view.findViewById(R.id.raw3);
+            tvData3.setText(item.getParcelsAttribute());
+            TextView tvData4 = view.findViewById(R.id.raw4);
+            tvData4.setText(item.getLostDateTime());
+            CheckBox checkBox = view.findViewById(R.id.parcelcheckbox);
+            checkBox.setOnCheckedChangeListener(null);
+            checkBox.setChecked(item.isChecked());
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     Data MyData = getItem(position);
                     MyData.setChecked(isChecked);
                 }
             });
-            if (data != null) {
-                //1列目は部屋番号
-                tvData1A.setText(data.getRoomName());
-                //2列目は名前
-                tvData2A.setText(data.getRyoseiName());
-                //3列目は荷物札の種類
-                tvData3A.setText(data.getParcelsAttribute());
-                if (data.getLostDateTime() == null) {
-                    tvData4A.setText("未チェック");
-                } else {
-                    tvData4A.setText(data.getLostDateTime());
-                }
-            }
-            //偶数行の場合の背景色を設定
-            if (position % 2 == 0) {
-                tvData1A.setBackgroundColor(r.getColor(R.color.data1A));
-                tvData2A.setBackgroundColor(r.getColor(R.color.data1A));
-                tvData3A.setBackgroundColor(r.getColor(R.color.data1A));
-                tvData4A.setBackgroundColor(r.getColor(R.color.data1A));
-                //checkBoxA.setBackgroundColor(r.getColor(R.color.data1A));
-            }
-            //奇数行の場合の背景色を設定
-            else {
-                tvData1A.setBackgroundColor(r.getColor(R.color.data2A));
-                tvData2A.setBackgroundColor(r.getColor(R.color.data2A));
-                tvData3A.setBackgroundColor(r.getColor(R.color.data2A));
-                tvData4A.setBackgroundColor(r.getColor(R.color.data2A));
-                // checkBoxA.setBackgroundColor(r.getColor(R.color.data2A));
-            }
-            return view;
-        }
-    }
 
-    // B棟リスト表示制御用クラス
-    class ListAdapterB extends ArrayAdapter<Data> {
-        private final LayoutInflater inflater;
-        // values/colors.xmlより設定値を取得するために利用。
-        private final Resources r;
-
-        public ListAdapterB(Context context, List<Data> objects) {
-            super(context, 0, objects);
-            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            r = context.getResources();
-
-        }
-
-        @Override
-        public View getView(final int position, View view, ViewGroup parent) {
-            Data item = getItem(position);
-            // layout/raw.xmlを紐付ける
-            if (view == null) {
-                view = inflater.inflate(R.layout.outdated_nimotsufuda_raw, parent, false);
-            }
-            final Data data = this.getItem(position);
-            TextView tvData1A = view.findViewById(R.id.raw1);
-            tvData1A.setText(item.getRoomName());
-            TextView tvData2A = view.findViewById(R.id.raw2);
-            tvData2A.setText(item.getRyoseiName());
-            TextView tvData3A = view.findViewById(R.id.raw3);
-            tvData3A.setText(item.getParcelsAttribute());
-            TextView tvData4A = view.findViewById(R.id.raw4);
-            tvData4A.setText(item.getLostDateTime());
-            CheckBox checkBoxA = view.findViewById(R.id.parcelcheckbox);
-            checkBoxA.setOnCheckedChangeListener(null);
-            checkBoxA.setChecked(item.isChecked());
-            checkBoxA.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            ImageButton is_foundButton = view.findViewById(R.id.is_found);
+            ImageButton is_lostButton = view.findViewById(R.id.is_lost);
+            is_foundButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Data MyData = getItem(position);
-                    MyData.setChecked(isChecked);
+                public void onClick(View v) {
+                    is_foundButton.setVisibility(View.GONE);
+                    is_lostButton.setVisibility(View.VISIBLE);
+                    Data MyData =getItem(position);
+                    SQLiteDatabase db = _helper.getWritableDatabase();
+                    _helper.is_lost_updater(db,MyData.getParcelsUid(),1);
+
                 }
             });
-            if (data != null) {
-                //1列目は部屋番号
-                tvData1A.setText(data.getRoomName());
-                //2列目は名前
-                tvData2A.setText(data.getRyoseiName());
-                //3列目は荷物札の種類
-                tvData3A.setText(data.getParcelsAttribute());
-                if (data.getLostDateTime() == null) {
-                    tvData4A.setText("未チェック");
-                } else {
-                    tvData4A.setText(data.getLostDateTime());
-                }
-            }
-            //偶数行の場合の背景色を設定
-            if (position % 2 == 0) {
-                tvData1A.setBackgroundColor(r.getColor(R.color.data1B));
-                tvData2A.setBackgroundColor(r.getColor(R.color.data1B));
-                tvData3A.setBackgroundColor(r.getColor(R.color.data1B));
-                tvData4A.setBackgroundColor(r.getColor(R.color.data1B));
-                //checkBoxA.setBackgroundColor(r.getColor(R.color.data1A));
-            }
-            //奇数行の場合の背景色を設定
-            else {
-                tvData1A.setBackgroundColor(r.getColor(R.color.data2B));
-                tvData2A.setBackgroundColor(r.getColor(R.color.data2B));
-                tvData3A.setBackgroundColor(r.getColor(R.color.data2B));
-                tvData4A.setBackgroundColor(r.getColor(R.color.data2B));
-                // checkBoxA.setBackgroundColor(r.getColor(R.color.data2A));
-            }
-            return view;
-        }
-    }
-
-    // C棟リスト表示制御用クラス
-    class ListAdapterC extends ArrayAdapter<Data> {
-        private final LayoutInflater inflater;
-        // values/colors.xmlより設定値を取得するために利用。
-        private final Resources r;
-
-        public ListAdapterC(Context context, List<Data> objects) {
-            super(context, 0, objects);
-            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            r = context.getResources();
-
-        }
-
-        @Override
-        public View getView(final int position, View view, ViewGroup parent) {
-            Data item = getItem(position);
-            // layout/raw.xmlを紐付ける
-            if (view == null) {
-                view = inflater.inflate(R.layout.outdated_nimotsufuda_raw, parent, false);
-            }
-            final Data data = this.getItem(position);
-            TextView tvData1A = view.findViewById(R.id.raw1);
-            tvData1A.setText(item.getRoomName());
-            TextView tvData2A = view.findViewById(R.id.raw2);
-            tvData2A.setText(item.getRyoseiName());
-            TextView tvData3A = view.findViewById(R.id.raw3);
-            tvData3A.setText(item.getParcelsAttribute());
-            TextView tvData4A = view.findViewById(R.id.raw4);
-            tvData4A.setText(item.getLostDateTime());
-            CheckBox checkBoxA = view.findViewById(R.id.parcelcheckbox);
-            checkBoxA.setOnCheckedChangeListener(null);
-            checkBoxA.setChecked(item.isChecked());
-            checkBoxA.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            is_lostButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Data MyData = getItem(position);
-                    MyData.setChecked(isChecked);
+                public void onClick(View v) {
+                    is_foundButton.setVisibility(View.VISIBLE);
+                    is_lostButton.setVisibility(View.GONE);
+                    SQLiteDatabase db = _helper.getWritableDatabase();
+                    Data MyData =getItem(position);
+                    _helper.is_lost_updater(db,MyData.getParcelsUid(),0);
                 }
             });
+            // 0現物あり(荷物確認中)  1紛失中(荷物確認中) 10現物あり(札確認中)　11紛失中(札確認中)
+            if (data.getIs_lost() == 0) {
+                is_lostButton.setVisibility(View.GONE);
+            } else if (data.getIs_lost() == 1){
+                is_foundButton.setVisibility(View.GONE);
+            }else if (data.getIs_lost() == 10){//ボタンを無効化し、紛失状況を表示するだけ
+                is_lostButton.setVisibility(View.GONE);
+                is_lostButton.setEnabled(false);
+                is_foundButton.setEnabled(false);
+            }else if (data.getIs_lost() == 11){//ボタンを無効化し、紛失状況を表示するだけ
+                is_foundButton.setVisibility(View.GONE);
+                is_lostButton.setEnabled(false);
+                is_foundButton.setEnabled(false);
+            }
+
+
             if (data != null) {
                 //1列目は部屋番号
-                tvData1A.setText(data.getRoomName());
+                tvData1.setText(data.getRoomName());
                 //2列目は名前
-                tvData2A.setText(data.getRyoseiName());
+                tvData2.setText(data.getRyoseiName());
                 //3列目は荷物札の種類
-                tvData3A.setText(data.getParcelsAttribute());
+                tvData3.setText(data.getParcelsAttribute());
                 if (data.getLostDateTime() == null) {
-                    tvData4A.setText("未チェック");
+                    tvData4.setText("未チェック");
                 } else {
-                    tvData4A.setText(data.getLostDateTime());
+                    tvData4.setText(data.getLostDateTime());
                 }
             }
-            //偶数行の場合の背景色を設定
-            if (position % 2 == 0) {
-                tvData1A.setBackgroundColor(r.getColor(R.color.data1C));
-                tvData2A.setBackgroundColor(r.getColor(R.color.data1C));
-                tvData3A.setBackgroundColor(r.getColor(R.color.data1C));
-                tvData4A.setBackgroundColor(r.getColor(R.color.data1C));
-                //checkBoxA.setBackgroundColor(r.getColor(R.color.data1A));
+            switch (building){
+                case "A":{
+                    //偶数行の場合の背景色を設定
+                    if (position % 2 == 0) {
+                        tvData1.setBackgroundColor(r.getColor(R.color.data1A));
+                        tvData2.setBackgroundColor(r.getColor(R.color.data1A));
+                        tvData3.setBackgroundColor(r.getColor(R.color.data1A));
+                        tvData4.setBackgroundColor(r.getColor(R.color.data1A));
+                        //checkBoxA.setBackgroundColor(r.getColor(R.color.data1A));
+                    }
+                    //奇数行の場合の背景色を設定
+                    else {
+                        tvData1.setBackgroundColor(r.getColor(R.color.data2A));
+                        tvData2.setBackgroundColor(r.getColor(R.color.data2A));
+                        tvData3.setBackgroundColor(r.getColor(R.color.data2A));
+                        tvData4.setBackgroundColor(r.getColor(R.color.data2A));
+                        // checkBoxA.setBackgroundColor(r.getColor(R.color.data2A));
+                    }
+                    break;
+                }
+                case "B":{
+                    //偶数行の場合の背景色を設定
+                    if (position % 2 == 0) {
+                        tvData1.setBackgroundColor(r.getColor(R.color.data1B));
+                        tvData2.setBackgroundColor(r.getColor(R.color.data1B));
+                        tvData3.setBackgroundColor(r.getColor(R.color.data1B));
+                        tvData4.setBackgroundColor(r.getColor(R.color.data1B));
+                        //checkBoxB.setBackgroundColor(r.getColor(R.color.data1B));
+                    }
+                    //奇数行の場合の背景色を設定
+                    else {
+                        tvData1.setBackgroundColor(r.getColor(R.color.data2B));
+                        tvData2.setBackgroundColor(r.getColor(R.color.data2B));
+                        tvData3.setBackgroundColor(r.getColor(R.color.data2B));
+                        tvData4.setBackgroundColor(r.getColor(R.color.data2B));
+                    }
+                    break;
+                }
+                case "C":{
+                    //偶数行の場合の背景色を設定
+                    if (position % 2 == 0) {
+                        tvData1.setBackgroundColor(r.getColor(R.color.data1C));
+                        tvData2.setBackgroundColor(r.getColor(R.color.data1C));
+                        tvData3.setBackgroundColor(r.getColor(R.color.data1C));
+                        tvData4.setBackgroundColor(r.getColor(R.color.data1C));
+                        //checkCoxC.setCackgroundColor(r.getColor(R.color.data1C));
+                    }
+                    //奇数行の場合の背景色を設定
+                    else {
+                        tvData1.setBackgroundColor(r.getColor(R.color.data2C));
+                        tvData2.setBackgroundColor(r.getColor(R.color.data2C));
+                        tvData3.setBackgroundColor(r.getColor(R.color.data2C));
+                        tvData4.setBackgroundColor(r.getColor(R.color.data2C));
+                    }
+                    break;
+
+                }
+                case "D":{
+                    //偶数行の場合の背景色を設定
+                    if (position % 2 == 0) {
+                        tvData1.setBackgroundColor(r.getColor(R.color.data1D));
+                        tvData2.setBackgroundColor(r.getColor(R.color.data1D));
+                        tvData3.setBackgroundColor(r.getColor(R.color.data1D));
+                        tvData4.setBackgroundColor(r.getColor(R.color.data1D));
+                        //checkBoxD.setBackgroundColor(r.getColor(R.color.data1D));
+                    }
+                    //奇数行の場合の背景色を設定
+                    else {
+                        tvData1.setBackgroundColor(r.getColor(R.color.data2D));
+                        tvData2.setBackgroundColor(r.getColor(R.color.data2D));
+                        tvData3.setBackgroundColor(r.getColor(R.color.data2D));
+                        tvData4.setBackgroundColor(r.getColor(R.color.data2D));
+                        // checkBoxD.setBackgroundColor(r.getColor(R.color.data2D));
+                    }
+                    break;
+                }
+                case "E":{
+                    //偶数行の場合の背景色を設定
+                    if (position % 2 == 0) {
+                        tvData1.setBackgroundColor(r.getColor(R.color.data1E));
+                        tvData2.setBackgroundColor(r.getColor(R.color.data1E));
+                        tvData3.setBackgroundColor(r.getColor(R.color.data1E));
+                        tvData4.setBackgroundColor(r.getColor(R.color.data1E));
+                        //checkBoxE.setBackgroundColor(r.getColor(R.color.data1E));
+                    }
+                    //奇数行の場合の背景色を設定
+                    else {
+                        tvData1.setBackgroundColor(r.getColor(R.color.data2E));
+                        tvData2.setBackgroundColor(r.getColor(R.color.data2E));
+                        tvData3.setBackgroundColor(r.getColor(R.color.data2E));
+                        tvData4.setBackgroundColor(r.getColor(R.color.data2E));
+                        // checkBoxE.setBackgroundColor(r.getColor(R.color.data2E));
+                    }
+                    break;
+                }
+                default:{break;}
+
+
+
             }
-            //奇数行の場合の背景色を設定
-            else {
-                tvData1A.setBackgroundColor(r.getColor(R.color.data2C));
-                tvData2A.setBackgroundColor(r.getColor(R.color.data2C));
-                tvData3A.setBackgroundColor(r.getColor(R.color.data2C));
-                tvData4A.setBackgroundColor(r.getColor(R.color.data2C));
-                // checkBoxA.setBackgroundColor(r.getColor(R.color.data2A));
-            }
+
+
             return view;
         }
     }
 
-    // 臨キャパリスト表示制御用クラス
-    class ListAdapterD extends ArrayAdapter<Data> {
-        private final LayoutInflater inflater;
-        // values/colors.xmlより設定値を取得するために利用。
-        private final Resources r;
-
-        public ListAdapterD(Context context, List<Data> objects) {
-            super(context, 0, objects);
-            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            r = context.getResources();
-
-        }
-
-        @Override
-        public View getView(final int position, View view, ViewGroup parent) {
-            Data item = getItem(position);
-            // layout/raw.xmlを紐付ける
-            if (view == null) {
-                view = inflater.inflate(R.layout.outdated_nimotsufuda_raw_rinjicapacity, parent, false);
-            }
-            final Data data = this.getItem(position);
-            TextView tvData1A = view.findViewById(R.id.raw1_rinjicapacity);
-            tvData1A.setText(item.getRoomName());
-            TextView tvData2A = view.findViewById(R.id.raw2_rinjicapacity);
-            tvData2A.setText(item.getRyoseiName());
-            TextView tvData3A = view.findViewById(R.id.raw3_rinjicapacity);
-            tvData3A.setText(item.getParcelsAttribute());
-            TextView tvData4A = view.findViewById(R.id.raw4_rinjicapacity);
-            tvData3A.setText(item.getLostDateTime());
-            CheckBox checkBoxA = view.findViewById(R.id.parcelcheckbox_rinjicapacity);
-            checkBoxA.setOnCheckedChangeListener(null);
-            checkBoxA.setChecked(item.isChecked());
-            checkBoxA.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Data MyData = getItem(position);
-                    MyData.setChecked(isChecked);
-                }
-            });
-            if (data != null) {
-                //1列目は部屋番号
-                tvData1A.setText(data.getRoomName());
-                //2列目は名前
-                tvData2A.setText(data.getRyoseiName());
-                //3列目は荷物札の種類
-                tvData3A.setText(data.getParcelsAttribute());
-                if (data.getLostDateTime() == null) {
-                    tvData4A.setText("未チェック");
-                } else {
-                    tvData4A.setText(data.getLostDateTime());
-                }
-            }
-            //偶数行の場合の背景色を設定
-            if (position % 2 == 0) {
-                tvData1A.setBackgroundColor(r.getColor(R.color.data1D));
-                tvData2A.setBackgroundColor(r.getColor(R.color.data1D));
-                tvData3A.setBackgroundColor(r.getColor(R.color.data1D));
-                tvData4A.setBackgroundColor(r.getColor(R.color.data1D));
-                //checkBoxA.setBackgroundColor(r.getColor(R.color.data1A));
-            }
-            //奇数行の場合の背景色を設定
-            else {
-                tvData1A.setBackgroundColor(r.getColor(R.color.data2D));
-                tvData2A.setBackgroundColor(r.getColor(R.color.data2D));
-                tvData3A.setBackgroundColor(r.getColor(R.color.data2D));
-                tvData4A.setBackgroundColor(r.getColor(R.color.data2D));
-                // checkBoxA.setBackgroundColor(r.getColor(R.color.data2A));
-            }
-            return view;
-        }
-    }
 
     // 新入寮生リスト表示制御用クラス
     class ListAdapterE extends ArrayAdapter<Data> {
@@ -930,18 +864,18 @@ public class NightDutyActivity extends AppCompatActivity {
             Data item = getItem(position);
             // layout/raw.xmlを紐付ける
             if (view == null) {
-                view = inflater.inflate(R.layout.outdated_nimotsufuda_raw_rinjicapacity, parent, false);
+                view = inflater.inflate(R.layout.outdated_nimotsufuda_raw, parent, false);
             }
             final Data data = this.getItem(position);
-            TextView tvData1A = view.findViewById(R.id.raw1_rinjicapacity);
+            TextView tvData1A = view.findViewById(R.id.raw1);
             tvData1A.setText(item.getRoomName());
-            TextView tvData2A = view.findViewById(R.id.raw2_rinjicapacity);
+            TextView tvData2A = view.findViewById(R.id.raw2);
             tvData2A.setText(item.getRyoseiName());
-            TextView tvData3A = view.findViewById(R.id.raw3_rinjicapacity);
+            TextView tvData3A = view.findViewById(R.id.raw3);
             tvData3A.setText(item.getParcelsAttribute());
-            TextView tvData4A = view.findViewById(R.id.raw4_rinjicapacity);
+            TextView tvData4A = view.findViewById(R.id.raw4);
             tvData3A.setText(item.getLostDateTime());
-            CheckBox checkBoxA = view.findViewById(R.id.parcelcheckbox_rinjicapacity);
+            CheckBox checkBoxA = view.findViewById(R.id.parcelcheckbox);
             checkBoxA.setOnCheckedChangeListener(null);
             checkBoxA.setChecked(item.isChecked());
             checkBoxA.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

@@ -2,11 +2,14 @@ package com.example.top;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -34,7 +37,7 @@ public class OldNoteActivity extends AppCompatActivity {
 
     TextView mShowSelectedDateTextFrom;
     TextView mShowSelectedDateTextTo;
-    private Button mPickDateButton;
+    private ImageButton mPickDateButton;
     private Button searchShowButton;
     private Spinner buildings;
 
@@ -77,7 +80,11 @@ public class OldNoteActivity extends AppCompatActivity {
         mPickDateButton.setOnClickListener(dateListener);
         searchAndShowListener searchandshowlistener = new searchAndShowListener();
         searchShowButton.setOnClickListener(searchandshowlistener);
-
+        ImageButton go_back_button = findViewById(R.id.old_note_go_back_button);
+        go_back_button.setOnClickListener(this::onBackButtonClick);
+        //最初の表示
+        ArrayList<Map<String, String>> result = _helper.showOldNote(buildings.getSelectedItemPosition(), mShowSelectedDateTextFrom.getText().toString(), mShowSelectedDateTextTo.getText().toString(), db);
+        showNote(result);
     }
 
     public void showNote(ArrayList<Map<String, String>> input) {
@@ -105,10 +112,18 @@ public class OldNoteActivity extends AppCompatActivity {
             TextView lost_datetime = (TextView) tableRow.findViewById(R.id.old_note_table_row_lost_datetime);
             lost_datetime.setText(row_data.get("lost_datetime"));
             tableLayout.addView(tableRow);
-            if (i % 2 == 0) {
-                registertime.setBackgroundColor(r.getColor(R.color.data1A));
+            if ((i+1)%2 == 0) {
+                int color = getResources().getColor(R.color.verylightgray);
+                registertime.setBackgroundColor(color);
+                owner.setBackgroundColor(color);
+                register_staff.setBackgroundColor(color);
+                placement.setBackgroundColor(color);
+                release_datetime.setBackgroundColor(color);
+                receiver.setBackgroundColor(color);
+                release_staff.setBackgroundColor(color);
+                lost_datetime.setBackgroundColor(color);
             } else {
-
+                //色は塗らない
             }
         }
 
@@ -226,7 +241,18 @@ public class OldNoteActivity extends AppCompatActivity {
             MaterialDatePicker<?> picker = builder.build();
             picker.show(getSupportFragmentManager(), picker.toString());
         }
+    }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+        }
+        return true;
+    }
+
+    public void onBackButtonClick(View view) {
+        finish();
     }
 
 

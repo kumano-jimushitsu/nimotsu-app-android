@@ -407,6 +407,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
     }
 
+    public void is_lost_updater(SQLiteDatabase db, String parcels_uid,int value) {
+        String sql = "UPDATE parcels SET " + " is_lost =" + "'" + value + "'" + ", sharing_status =10 WHERE uid ='" + parcels_uid + "'";
+        db.execSQL(sql);
+    }
+
     public void event_add_night_duty(SQLiteDatabase db, String staffid, String staffroom, String staffname) {
 
     }
@@ -873,14 +878,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //mapに荷物の情報を打ち込む
         //is_released=0で引き渡し日時は未引き渡し 1の時agent_uidにデータがあれば受け渡し人をそのuidの人にする
         while (cursor.moveToNext()) {
-            int is_released = cursor.getInt(cursor.getColumnIndex("parcels.is_released"));
-            int is_lost = cursor.getInt(cursor.getColumnIndex("parcels.is_lost"));
+            int is_released = cursor.getInt(cursor.getColumnIndex("is_released"));
+            int is_lost = cursor.getInt(cursor.getColumnIndex("is_lost"));
             Map<String, String> old_note_raw = new HashMap<>();
             old_note_raw.clear();
-            old_note_raw.put("register_datetime", cursor.getString(cursor.getColumnIndex("parcels.register_datetime")));
-            old_note_raw.put("owner", cursor.getString(cursor.getColumnIndex("parcels.owner_room_name")) + " " + cursor.getString(cursor.getColumnIndex("parcels.owner_ryosei_name")));
-            old_note_raw.put("register_staff", cursor.getString(cursor.getColumnIndex("parcels.register_staff_room_name")) + " " + cursor.getString(cursor.getColumnIndex("parcels.register_staff_ryosei_name")));
-            switch (cursor.getInt(cursor.getColumnIndex("parcels.fragile"))) {
+            old_note_raw.put("register_datetime", (cursor.getString(cursor.getColumnIndex("register_datetime"))).substring(2, 16));
+            old_note_raw.put("owner", cursor.getString(cursor.getColumnIndex("owner_room_name")) + " " + cursor.getString(cursor.getColumnIndex("owner_ryosei_name")));
+            old_note_raw.put("register_staff", cursor.getString(cursor.getColumnIndex("register_staff_room_name")) + " " + cursor.getString(cursor.getColumnIndex("register_staff_ryosei_name")));
+            switch (cursor.getInt(cursor.getColumnIndex("fragile"))) {
                 case 0:
                     old_note_raw.put("placement", "普通");
                     break;
@@ -908,7 +913,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (is_released == 0) {
                 old_note_raw.put("release_datetime", "未引渡");
                 old_note_raw.put("release_staff", "");
-                if (cursor.getString(cursor.getColumnIndex("parcels.lost_datetime")) == null) {//未引き渡しの時だけ最終確認日時を書く
+                if (cursor.getString(cursor.getColumnIndex("lost_datetime")) == null) {//未引き渡しの時だけ最終確認日時を書く
                     if (is_lost == 0) {
                         old_note_raw.put("lost_datetime", "未チェック");
                     } else {
@@ -916,22 +921,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     }
                 } else {
                     if (is_lost == 0) {
-                        old_note_raw.put("lost_datetime", cursor.getString(cursor.getColumnIndex("parcels.lost_datetime")).replace('-', '/').substring(5, 10));
+                        old_note_raw.put("lost_datetime", cursor.getString(cursor.getColumnIndex("lost_datetime")).replace('-', '/').substring(5, 10));
                     } else {
                         old_note_raw.put("lost_datetime", "(紛失中)" + cursor.getString(cursor.getColumnIndex("lost_datetime")).replace('-', '/').substring(5, 10));
                     }
                 }
             } else {
-                old_note_raw.put("release_staff", cursor.getString(cursor.getColumnIndex("parcels.release_staff_room_name")) + " " + cursor.getString(cursor.getColumnIndex("parcels.release_staff_ryosei_name")));
-                old_note_raw.put("release_datetime", cursor.getString(cursor.getColumnIndex("parcels.release_datetime")));
+                old_note_raw.put("release_staff", cursor.getString(cursor.getColumnIndex("release_staff_room_name")) + " " + cursor.getString(cursor.getColumnIndex("release_staff_ryosei_name")));
+                old_note_raw.put("release_datetime", cursor.getString(cursor.getColumnIndex("release_datetime")).substring(2, 16));
                 old_note_raw.put("lost_datetime", "");//引き渡し済みの時は最終確認日時は表示しない
-                if (cursor.getString(cursor.getColumnIndex("parcels.release_agent_uid")) != null) {//代理で受け渡しされたかの確認
-                    String proxy_name_sql = "select room_name, ryosei_name from ryosei where uid ='" + cursor.getString(cursor.getColumnIndex("parcels.release_agent_uid")) + "';";
+                if (cursor.getString(cursor.getColumnIndex("release_agent_uid")) != null) {//代理で受け渡しされたかの確認
+                    String proxy_name_sql = "select room_name, ryosei_name from ryosei where uid ='" + cursor.getString(cursor.getColumnIndex("release_agent_uid")) + "';";
                     Cursor proxy_cursor = db.rawQuery(sql, null);
                     proxy_cursor.moveToFirst();
-                    old_note_raw.put("receiver", "代 " + cursor.getString(cursor.getColumnIndex("parcels.room_name")) + " " + cursor.getString(cursor.getColumnIndex("parcels.ryosei_name")));
+                    old_note_raw.put("receiver", "代 " + cursor.getString(cursor.getColumnIndex("room_name")) + " " + cursor.getString(cursor.getColumnIndex("ryosei_name")));
                 } else {
-                    old_note_raw.put("receiver", cursor.getString(cursor.getColumnIndex("parcels.owner_room_name")) + " " + cursor.getString(cursor.getColumnIndex("parcels.owner_ryosei_name")));
+                    old_note_raw.put("receiver", cursor.getString(cursor.getColumnIndex("owner_room_name")) + " " + cursor.getString(cursor.getColumnIndex("owner_ryosei_name")));
 
                 }
             }

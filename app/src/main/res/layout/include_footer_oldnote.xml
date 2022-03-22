@@ -15,6 +15,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="@string/copyright"
-        android:textColor="@color/release_footer_font" />
+        android:textColor="@color/default_header_font_oldnote" />
 
 </LinearLayout>

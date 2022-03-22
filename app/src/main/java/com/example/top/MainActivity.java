@@ -1,6 +1,7 @@
 package com.example.top;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,12 +10,14 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -101,7 +104,11 @@ public class MainActivity extends AppCompatActivity {
         Button oldnote = findViewById(R.id.old_note);
         OldNoteListener oldnotelistener = new OldNoteListener();
         oldnote.setOnClickListener(oldnotelistener);
-        oldnote.setVisibility(View.GONE);
+        //oldnote.setVisibility(View.GONE);
+
+        Button othersbutton = findViewById(R.id.others_button);
+        OthersButtonListener othersbuttonlistener = new OthersButtonListener();
+        othersbutton.setOnClickListener(othersbuttonlistener);
 
         //   ButteryChecker butterychecker = new ButteryChecker();
         // Listenerを設定
@@ -596,6 +603,32 @@ public class MainActivity extends AppCompatActivity {
         public void onOneClick(View view) {
             Intent intent = new Intent(MainActivity.this, OldNoteActivity.class);
             startActivity(intent);
+        }
+    }
+
+    private class OthersButtonListener extends OnOneClickListener{
+        @Override
+        public void onOneClick(View view){
+            final EditText editText = new EditText(MainActivity.this);
+            editText.setHint("enter password");
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("管理用画面")
+                    .setMessage("パスワードを入力してください。")
+                    .setView(editText)
+                    .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String input = editText.getText().toString();
+                            if(input.equals("PassworD")) {
+                                Toast.makeText(MainActivity.this, editText.getText(), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(MainActivity.this, OthersActivity.class);
+                                startActivity(intent);
+                            }else{
+                                Toast.makeText(MainActivity.this, "パスワードが違います。", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .show();
         }
     }
 

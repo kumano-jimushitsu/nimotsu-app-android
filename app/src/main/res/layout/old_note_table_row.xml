@@ -1,84 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    
     android:layout_height="match_parent"
+    android:layout_width="1143dp"
     android:background="@color/darkgray">
 
     <TextView
         android:id="@+id/old_note_table_row_register_time"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:text="aaa"
-        android:textSize="20sp" />
+        android:layout_weight="10"
+        android:textSize="15sp"
+        android:maxLines="1"
+        android:ellipsize="end"/>
 
     <TextView
         android:id="@+id/old_note_table_row_owner"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
         android:background="@color/white"
         android:gravity="center"
         android:text="0"
-        android:textSize="20sp" />
+        android:layout_weight="7"
+        android:textSize="15sp"
+        android:maxLines="1"
+        android:ellipsize="end" />
 
     <TextView
         android:id="@+id/old_note_table_row_register_staff"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
         android:background="@color/white"
         android:gravity="center"
         android:text="0"
-        android:textSize="20sp" />
+        android:layout_weight="7"
+        android:textSize="15sp"
+        android:maxLines="1"
+        android:ellipsize="end" />
 
     <TextView
         android:id="@+id/old_note_table_row_placement"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
         android:background="@color/white"
         android:gravity="center"
+        android:layout_weight="4"
         android:text="0"
-        android:textSize="20sp" />
+        android:textSize="15sp"
+        android:maxLines="1"
+        android:ellipsize="end" />
 
     <TextView
         android:id="@+id/old_note_table_row_release_datetime"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
         android:background="@color/white"
         android:gravity="center"
         android:text="0"
-        android:textSize="20sp" />
+        android:layout_weight="6"
+        android:textSize="15sp"
+        android:maxLines="1"
+        android:ellipsize="end"/>
 
     <TextView
         android:id="@+id/old_note_table_row_receiver"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
         android:background="@color/white"
         android:gravity="center"
         android:text="0"
-        android:textSize="20sp" />
+        android:layout_weight="7"
+        android:textSize="15sp"
+        android:maxLines="1"
+        android:ellipsize="end" />
 
     <TextView
         android:id="@+id/old_note_table_row_release_staff"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
         android:background="@color/white"
         android:gravity="center"
         android:text="0"
-        android:textSize="20sp" />
+        android:layout_weight="7"
+        android:textSize="15sp"
+        android:maxLines="1"
+        android:ellipsize="end"/>
 
     <TextView
         android:id="@+id/old_note_table_row_lost_datetime"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
         android:background="@color/white"
         android:gravity="center"
         android:text="0"
-        android:textSize="20sp" />
+        android:layout_weight="10"
+        android:textSize="15sp"
+        android:maxLines="1"
+        android:ellipsize="end" />
 </TableRow>

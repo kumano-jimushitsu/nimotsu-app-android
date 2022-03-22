@@ -5,23 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".OldNoteActivity">
+    <!-- ヘッダ -->
+    <include
+        android:id="@+id/include_header_oldnote"
+        layout="@layout/include_header_oldnote" />
 
-    <Spinner
-        android:id="@+id/spinner_buildings"
-        android:layout_width="189dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="181dp"
-        android:layout_marginTop="105dp"
+    <!-- コンテンツ -->
 
-        android:entries="@array/oldnote_buildinfs_list"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+    <!-- フッター -->
     <ScrollView
-        android:layout_width="1147dp"
-        android:layout_height="613dp"
-        android:layout_marginStart="67dp"
-        android:layout_marginTop="224dp"
+        android:layout_width="1136dp"
+        android:layout_height="524dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="176dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -42,14 +38,13 @@
                     android:id="@+id/textView2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
-                    android:gravity="center"
                     android:layout_weight="10"
-                    android:paddingTop="2dp"
+                    android:gravity="center"
                     android:paddingLeft="2dp"
+                    android:paddingTop="2dp"
+                    android:paddingRight="2dp"
                     android:paddingBottom="2dp"
                     android:text="受取日時"
-                    android:paddingRight="2dp"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -59,13 +54,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
+                    android:layout_weight="7"
                     android:gravity="center"
-                    android:layout_weight="6"
-                    android:paddingTop="2dp"
                     android:paddingLeft="2dp"
-                    android:paddingBottom="2dp"
-                    android:text="持ち主名前"
+                    android:paddingTop="2dp"
                     android:paddingRight="2dp"
+                    android:paddingBottom="2dp"
+                    android:text="持ち主"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -80,7 +75,7 @@
                     android:paddingTop="2dp"
                     android:paddingRight="2dp"
                     android:paddingBottom="2dp"
-                    android:text="受取事務当名前"
+                    android:text="受取事務当"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -89,13 +84,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
+                    android:layout_weight="4"
                     android:gravity="center"
-                    android:layout_weight="3"
-                    android:paddingTop="2dp"
                     android:paddingLeft="2dp"
+                    android:paddingTop="2dp"
+                    android:paddingRight="2dp"
                     android:paddingBottom="2dp"
                     android:text="種類"
-                    android:paddingRight="2dp"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -103,13 +98,13 @@
                     android:id="@+id/textView8"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_weight="6"
-                    android:paddingTop="2dp"
+                    android:gravity="center"
                     android:paddingLeft="2dp"
+                    android:paddingTop="2dp"
+                    android:paddingRight="2dp"
                     android:paddingBottom="2dp"
                     android:text="引渡日時"
-                    android:paddingRight="2dp"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -117,13 +112,13 @@
                     android:id="@+id/textView9"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="7"
                     android:gravity="center"
-                    android:layout_weight="6"
-                    android:paddingTop="2dp"
                     android:paddingLeft="2dp"
+                    android:paddingTop="2dp"
+                    android:paddingRight="2dp"
                     android:paddingBottom="2dp"
                     android:text="引渡人"
-                    android:paddingRight="2dp"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -138,7 +133,7 @@
                     android:paddingTop="2dp"
                     android:paddingRight="2dp"
                     android:paddingBottom="2dp"
-                    android:text="引渡事務当名前"
+                    android:text="引渡事務当"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -147,13 +142,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
-                    android:gravity="center"
                     android:layout_weight="10"
-                    android:paddingTop="2dp"
+                    android:gravity="center"
                     android:paddingLeft="2dp"
+                    android:paddingTop="2dp"
+                    android:paddingRight="2dp"
                     android:paddingBottom="2dp"
                     android:text="荷物確認日"
-                    android:paddingRight="2dp"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -161,43 +156,8 @@
         </TableLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/datebutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="360dp"
-        android:layout_marginTop="68dp"
-        android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/spinner_buildings"
-        app:layout_constraintTop_toTopOf="parent" />
+    <include
+        android:id="@+id/include_footer_oldnote"
+        layout="@layout/include_footer_oldnote" />
 
-    <TextView
-        android:id="@+id/show_selected_date_from"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="144dp"
-        android:layout_marginTop="96dp"
-        android:text="期間を選択してください。"
-        app:layout_constraintStart_toEndOf="@+id/spinner_buildings"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/show_selected_date_to"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="141dp"
-        android:layout_marginTop="22dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/spinner_buildings"
-        app:layout_constraintTop_toBottomOf="@+id/show_selected_date_from" />
-
-    <Button
-        android:id="@+id/search_show_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="173dp"
-        android:layout_marginTop="40dp"
-        android:text="検索"
-        app:layout_constraintStart_toEndOf="@+id/datebutton"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

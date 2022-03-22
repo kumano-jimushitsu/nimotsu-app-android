@@ -19,6 +19,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Top">
         <activity
+            android:name=".ui.login.LoginOthersActivity"
+            android:exported="true"
+            android:label="@string/title_activity_login_others" />
+        <activity
+            android:name=".OthersActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true"
             android:label="@string/title_activity_login" />
