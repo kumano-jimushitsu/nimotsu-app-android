@@ -14,9 +14,10 @@
 
     <!-- フッター -->
     <ScrollView
-        android:layout_width="1136dp"
-        android:layout_height="524dp"
-        android:layout_marginStart="64dp"
+        android:id="@+id/scrollView2"
+        android:layout_width="1141dp"
+        android:layout_height="519dp"
+        android:layout_marginStart="34dp"
         android:layout_marginTop="176dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -159,5 +160,17 @@
     <include
         android:id="@+id/include_footer_oldnote"
         layout="@layout/include_footer_oldnote" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="54dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toEndOf="@+id/scrollView2"
+        app:layout_constraintTop_toBottomOf="@+id/include_header_oldnote"
+        app:srcCompat="@drawable/az_za_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

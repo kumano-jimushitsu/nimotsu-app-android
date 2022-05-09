@@ -713,16 +713,22 @@ public class NightDutyActivity extends AppCompatActivity {
             // 0現物あり(荷物確認中)  1紛失中(荷物確認中) 10現物あり(札確認中)　11紛失中(札確認中)
             if (data.getIs_lost() == 0) {
                 is_lostButton.setVisibility(View.GONE);
+                is_foundButton.setVisibility(View.VISIBLE);
             } else if (data.getIs_lost() == 1){
                 is_foundButton.setVisibility(View.GONE);
+                is_lostButton.setVisibility(View.VISIBLE);
             }else if (data.getIs_lost() == 10){//ボタンを無効化し、紛失状況を表示するだけ
                 is_lostButton.setVisibility(View.GONE);
+                is_foundButton.setVisibility(View.VISIBLE);
                 is_lostButton.setEnabled(false);
                 is_foundButton.setEnabled(false);
             }else if (data.getIs_lost() == 11){//ボタンを無効化し、紛失状況を表示するだけ
                 is_foundButton.setVisibility(View.GONE);
+                is_lostButton.setVisibility(View.VISIBLE);
                 is_lostButton.setEnabled(false);
                 is_foundButton.setEnabled(false);
+            }else{
+
             }
 
 
