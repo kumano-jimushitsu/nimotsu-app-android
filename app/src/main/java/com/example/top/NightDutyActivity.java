@@ -208,6 +208,7 @@ public class NightDutyActivity extends AppCompatActivity {
             } else {
                 data.setIs_lost(is_lost + 10);
             }
+
             //ブロックごとに仕分けをする。
             if (block_id >= 1 && block_id < 5) {
                 dataListA.add(data);
@@ -621,7 +622,7 @@ public class NightDutyActivity extends AppCompatActivity {
                 is_lost_switch.setEnabled(false);
                 is_lost.setText("荷物あり");
             } else if (data.getIs_lost() == 11) {//ボタンを無効化し、紛失状況を表示するだけ
-                is_lost_switch.setEnabled(false);
+                is_lost_switch.setEnabled(true);
                 is_lost.setText("紛失中");
             } else {
 
