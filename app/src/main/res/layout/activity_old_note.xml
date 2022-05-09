@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:splitMotionEvents="false"
     tools:context=".OldNoteActivity">
     <!-- ヘッダ -->
     <include
@@ -12,165 +13,176 @@
 
     <!-- コンテンツ -->
 
-    <!-- フッター -->
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="1141dp"
-        android:layout_height="519dp"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="176dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TableLayout
-            android:id="@+id/old_note_tableLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="0">
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="1141dp"
+            android:layout_height="519dp"
+            android:layout_marginStart="34dp"
+            android:layout_marginTop="176dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TableRow
-                android:id="@+id/tableRow1"
+            <TableLayout
+                android:id="@+id/old_note_tableLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp">
+                android:stretchColumns="0">
 
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="0dp"
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="10"
-                    android:gravity="center"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="2dp"
-                    android:paddingRight="2dp"
-                    android:paddingBottom="2dp"
-                    android:text="受取日時"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:layout_marginBottom="5dp">
 
 
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_weight="7"
-                    android:gravity="center"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="2dp"
-                    android:paddingRight="2dp"
-                    android:paddingBottom="2dp"
-                    android:text="持ち主"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10"
+                        android:gravity="center"
+                        android:paddingLeft="2dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="2dp"
+                        android:paddingBottom="2dp"
+                        android:text="受取日時"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/textView6"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_weight="7"
-                    android:gravity="center"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="2dp"
-                    android:paddingRight="2dp"
-                    android:paddingBottom="2dp"
-                    android:text="受取事務当"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_weight="4"
-                    android:gravity="center"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="2dp"
-                    android:paddingRight="2dp"
-                    android:paddingBottom="2dp"
-                    android:text="種類"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:layout_weight="7"
+                        android:gravity="center"
+                        android:paddingLeft="2dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="2dp"
+                        android:paddingBottom="2dp"
+                        android:text="持ち主"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:gravity="center"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="2dp"
-                    android:paddingRight="2dp"
-                    android:paddingBottom="2dp"
-                    android:text="引渡日時"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:layout_weight="7"
+                        android:gravity="center"
+                        android:paddingLeft="2dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="2dp"
+                        android:paddingBottom="2dp"
+                        android:text="受取事務当"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="7"
-                    android:gravity="center"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="2dp"
-                    android:paddingRight="2dp"
-                    android:paddingBottom="2dp"
-                    android:text="引渡人"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:layout_weight="4"
+                        android:gravity="center"
+                        android:paddingLeft="2dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="2dp"
+                        android:paddingBottom="2dp"
+                        android:text="種類"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_weight="7"
-                    android:gravity="center"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="2dp"
-                    android:paddingRight="2dp"
-                    android:paddingBottom="2dp"
-                    android:text="引渡事務当"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:gravity="center"
+                        android:paddingLeft="2dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="2dp"
+                        android:paddingBottom="2dp"
+                        android:text="引渡日時"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_weight="10"
-                    android:gravity="center"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="2dp"
-                    android:paddingRight="2dp"
-                    android:paddingBottom="2dp"
-                    android:text="荷物確認日"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:gravity="center"
+                        android:paddingLeft="2dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="2dp"
+                        android:paddingBottom="2dp"
+                        android:text="引渡人"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
 
-            </TableRow>
-        </TableLayout>
-    </ScrollView>
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:layout_weight="7"
+                        android:gravity="center"
+                        android:paddingLeft="2dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="2dp"
+                        android:paddingBottom="2dp"
+                        android:text="引渡事務当"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
 
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:layout_weight="10"
+                        android:gravity="center"
+                        android:paddingLeft="2dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="2dp"
+                        android:paddingBottom="2dp"
+                        android:text="荷物確認日"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+                </TableRow>
+            </TableLayout>
+        </ScrollView>
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="176dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            app:layout_constraintStart_toEndOf="@+id/scrollView2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/az_za_button" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- フッター -->
     <include
         android:id="@+id/include_footer_oldnote"
         layout="@layout/include_footer_oldnote" />
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="54dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        app:layout_constraintStart_toEndOf="@+id/scrollView2"
-        app:layout_constraintTop_toBottomOf="@+id/include_header_oldnote"
-        app:srcCompat="@drawable/az_za_button" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

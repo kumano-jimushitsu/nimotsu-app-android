@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Duty_Night_Dialog extends DialogFragment {
+public class Night_Duty_AllCheck_Dialog extends DialogFragment {
 
 
     String staffName = "";

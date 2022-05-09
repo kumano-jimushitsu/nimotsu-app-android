@@ -36,6 +36,9 @@
             android:name=".NightDutyActivity"
             android:exported="true" />
         <activity
+            android:name=".UnusedNightDutyActivity"
+            android:exported="true" />
+        <activity
             android:name=".RegisterFreshMenParcelsActivity"
             android:exported="true" />
         <activity

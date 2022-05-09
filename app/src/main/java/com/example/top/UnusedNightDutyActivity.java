@@ -17,7 +17,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class NightDutyActivity extends AppCompatActivity {
+public class UnusedNightDutyActivity extends AppCompatActivity {
 
     // データを準備
     public List<Data> dataListA = new ArrayList<>();
@@ -131,9 +130,70 @@ public class NightDutyActivity extends AppCompatActivity {
         dataListD.clear();
         dataListE.clear();
         // DBヘルパーオブジェクトを生成。
-        _helper = new DatabaseHelper(NightDutyActivity.this);
+        _helper = new DatabaseHelper(UnusedNightDutyActivity.this);
         SQLiteDatabase db = _helper.getWritableDatabase();
-        //新入寮生以外の荷物をデータベースから取得する。
+        /*for (int i = 0; i < 4; i++) {
+            String sql = null;
+            switch (i) {
+                case 0:
+                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 0 AND block_id <= 4 order by room_name asc,ryosei_name asc";
+                    break;
+                case 1:
+                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 4 AND block_id <= 7 order by room_name asc,ryosei_name asc";
+                    break;
+                case 2:
+                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 7 AND block_id <= 9 order by room_name asc,ryosei_name asc";
+                    break;
+                case 3:
+                    sql = "SELECT uid, block_id,room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id > 9 AND block_id <= 10 order by room_name asc,ryosei_name asc";
+                    break;
+            }
+            // 検索結果を保存
+            // SQLの実行。
+            Cursor cursor = db.rawQuery(sql, null);
+            String roomName;
+            String ryoseiName;
+            String ryoseiUid;
+            List<Map<String, String>> onesParcels = null;
+
+
+            // サンプル用のデータを詰め込む
+            while (cursor.moveToNext()) {
+                int roomNameIndex = cursor.getColumnIndex("room_name");
+                roomName = cursor.getString(roomNameIndex);
+                int ryoseiNameIndex = cursor.getColumnIndex("ryosei_name");
+                ryoseiName = cursor.getString(ryoseiNameIndex);
+                int ryoseiUidIndex = cursor.getColumnIndex("uid");
+                ryoseiUid = cursor.getString(ryoseiUidIndex);
+                onesParcels = _helper.nimotsuCountOfRyosei(db, ryoseiUid);
+                for (int j = 0; j < onesParcels.size(); j++) {
+                    Data data = new Data();
+                    data.setParcelsAttribute(onesParcels.get(j).get("attribute"));
+                    data.setRoomName(roomName);
+                    data.setRyoseiName(ryoseiName);
+                    data.setParcelUid(onesParcels.get(j).get("parcels_id"));
+                    data.setLostDateTime(onesParcels.get(j).get("lost_datetime"));//lost_datetimeに最終確認できた時間を入れている　カラム名の変更が手間だったため
+                    data.setChecked(false);
+                    switch (i) {
+                        case 0:
+                            dataListA.add(data);
+
+                            break;
+                        case 1:
+                            dataListB.add(data);
+                            break;
+                        case 2:
+                            dataListC.add(data);
+                            break;
+                        case 3:
+                            dataListD.add(data);
+                            break;
+                    }
+                }
+            }
+            cursor.close();
+        }*/
+        //新入寮生以外の荷物をやる。
         String sql = "select * from parcels where is_released = 0 AND is_deleted = 0 AND placement != 6 ORDER BY owner_room_name asc,owner_ryosei_name asc ;";
 
         // 検索結果を保存
@@ -203,10 +263,10 @@ public class NightDutyActivity extends AppCompatActivity {
             data.setParcelUid(parcelsUid);
             data.setLostDateTime(lostdatetime);//lost_datetimeに最終確認できた時間を入れている　カラム名の変更が手間だったため
             data.setChecked(false);
-            if (kakunin_phase == 1) {// 0現物あり(荷物確認中)  1紛失中(荷物確認中) 10現物あり(札確認中)　11紛失中(札確認中)
+            if(kakunin_phase==1) {// 0現物あり(荷物確認中)  1紛失中(荷物確認中) 10現物あり(札確認中)　11紛失中(札確認中)
                 data.setIs_lost(is_lost);
-            } else {
-                data.setIs_lost(is_lost + 10);
+            }else{
+                data.setIs_lost(is_lost+10);
             }
             //ブロックごとに仕分けをする。
             if (block_id >= 1 && block_id < 5) {
@@ -227,10 +287,10 @@ public class NightDutyActivity extends AppCompatActivity {
         ListView listViewC = findViewById(R.id.listC);
         ListView listViewD = findViewById(R.id.listD);
         // リストにサンプル用のデータを受け渡す
-        ListAdapter adapterA = new ListAdapter(this, dataListA, "A");
-        ListAdapter adapterB = new ListAdapter(this, dataListB, "B");
-        ListAdapter adapterC = new ListAdapter(this, dataListC, "C");
-        ListAdapter adapterD = new ListAdapter(this, dataListD, "D");
+        ListAdapter adapterA = new ListAdapter(this, dataListA,"A");
+        ListAdapter adapterB = new ListAdapter(this, dataListB,"B");
+        ListAdapter adapterC = new ListAdapter(this, dataListC,"C");
+        ListAdapter adapterD = new ListAdapter(this, dataListD,"D");
         listViewA.setAdapter(adapterA);
         listViewB.setAdapter(adapterB);
         listViewC.setAdapter(adapterC);
@@ -271,7 +331,7 @@ public class NightDutyActivity extends AppCompatActivity {
 
             ListView listViewE = findViewById(R.id.listE);
             // リストにサンプル用のデータを受け渡す
-            ListAdapter adapterE = new ListAdapter(this, dataListE, "E");
+            ListAdapter adapterE = new ListAdapter(this, dataListE,"E");
             listViewE.setAdapter(adapterE);
         } else {
             freshmenLinear.setVisibility(View.GONE);
@@ -301,6 +361,21 @@ public class NightDutyActivity extends AppCompatActivity {
         setResult(RESULT_OK, event_refresh_intent);
         finish();
     }
+/*
+    public void onReturnValue(boolean bool) {
+        if (bool) {
+            SQLiteDatabase db = _helper.getWritableDatabase();
+            for (int i = 0; i < outputDataAll.size(); i++) {
+                _helper.night_check_updater(db, outputDataAll.get(i));
+            }
+            db.close();
+            finish();
+            Toast.makeText(Night_Duty_NimotsuFuda.this, R.string.night_duty_short, Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+ */
 
     class NimotsuCheckResultButtonListener extends OnOneClickListener {
         public List<Data> dataA = new ArrayList<>();
@@ -323,7 +398,6 @@ public class NightDutyActivity extends AppCompatActivity {
         public String staff_ryosei;
         public String staff_id;
 
-        //荷物確認のチェックされているものを取得し、最終確認日時を更新する。
         public NimotsuCheckResultButtonListener(TextView resultA, String staff_room, String staff_ryosei, String staff_id) {
             super();
             this.result = result;
@@ -342,7 +416,6 @@ public class NightDutyActivity extends AppCompatActivity {
 
             if (dataA.size() > 0) {
                 boolean[] checkListA = new boolean[dataA.size()];
-                boolean[] lostListA = new boolean[dataA.size()];
                 for (int i = 0; i < dataA.size(); i++) {
                     View listDataView = listViewA.getAdapter().getView(i, null, listViewA);
                     CheckBox chkDel = listDataView.findViewById(R.id.parcelcheckbox);
@@ -430,7 +503,6 @@ public class NightDutyActivity extends AppCompatActivity {
             outputDataAll.addAll(outputDataE);
             //ここまででbool
 
-
             if (all_checked) {
                 this.showButtomDialog(view, outputDataAll);
             } else {
@@ -440,7 +512,7 @@ public class NightDutyActivity extends AppCompatActivity {
                 }
                 db.close();
                 refresh_all(2);
-                Toast.makeText(NightDutyActivity.this, R.string.night_duty_short, Toast.LENGTH_SHORT).show();
+                Toast.makeText(UnusedNightDutyActivity.this, R.string.night_duty_short, Toast.LENGTH_SHORT).show();
 
             }
         }
@@ -461,7 +533,15 @@ public class NightDutyActivity extends AppCompatActivity {
             this.listViewE = listE;
         }
 
-
+        public void showDialog(View view) {
+            DialogFragment dialogFragment = new Night_Duty_AllCheck_Dialog();
+            Bundle args = new Bundle();
+            args.putString("register_staff_room", staff_room);
+            args.putString("register_staff_name", staff_ryosei);
+            args.putString("register_staff_id", staff_id);
+            dialogFragment.setArguments(args);
+            dialogFragment.show(getSupportFragmentManager(), "Duty_Night_Dialog");
+        }
 
         public void showButtomDialog(View view, ArrayList<String> dataAll) {
             DialogFragment dialogFragment = new Night_Duty_AllCheck_Dialog();
@@ -482,7 +562,7 @@ public class NightDutyActivity extends AppCompatActivity {
             Intent event_refresh_intent = new Intent();
             event_refresh_intent.putExtra("EventRefresh", true);
             setResult(RESULT_OK, event_refresh_intent);
-            Toast.makeText(NightDutyActivity.this, "荷物札の確認を行いました。泊まり事務当番が完了しました。", Toast.LENGTH_LONG).show();
+            Toast.makeText(UnusedNightDutyActivity.this, "荷物札の確認を行いました。泊まり事務当番が完了しました。", Toast.LENGTH_LONG).show();
             touchsound.playsoundtransition();
             finish();
         }
@@ -572,9 +652,8 @@ public class NightDutyActivity extends AppCompatActivity {
         private final LayoutInflater inflater;
         // values/colors.xmlより設定値を取得するために利用。
         private final Resources r;
-        private String building = "";
-
-        public ListAdapter(Context context, List<Data> objects, String building) {
+        private String building ="";
+        public ListAdapter(Context context, List<Data> objects,String building) {
             super(context, 0, objects);
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             r = context.getResources();
@@ -586,7 +665,7 @@ public class NightDutyActivity extends AppCompatActivity {
             Data item = getItem(position);
             // layout/raw.xmlを紐付ける
             if (view == null) {
-                view = inflater.inflate(R.layout.outdated_nimotsufuda_raw, parent, false);
+                view = inflater.inflate(R.layout.unused_outdated_nimotsufuda_raw, parent, false);
             }
             final Data data = this.getItem(position);
             TextView tvData1 = view.findViewById(R.id.raw1);
@@ -607,41 +686,50 @@ public class NightDutyActivity extends AppCompatActivity {
                     MyData.setChecked(isChecked);
                 }
             });
-            TextView is_lost = view.findViewById(R.id.lost_status_text);
-            Switch is_lost_switch = view.findViewById(R.id.is_lost_switch);
-            // 0現物あり(荷物確認中)  1紛失中(荷物確認中) 10現物あり(札確認中)　11紛失中(札確認中)
-            is_lost_switch.setOnCheckedChangeListener(null);
-            if (data.getIs_lost() == 0) {
-                is_lost_switch.setChecked(false);
-                is_lost.setText("荷物あり");
-            } else if (data.getIs_lost() == 1) {
-                is_lost_switch.setChecked(true);
-                is_lost.setText("紛失中");
-            } else if (data.getIs_lost() == 10) {//ボタンを無効化し、紛失状況を表示するだけ
-                is_lost_switch.setEnabled(false);
-                is_lost.setText("荷物あり");
-            } else if (data.getIs_lost() == 11) {//ボタンを無効化し、紛失状況を表示するだけ
-                is_lost_switch.setEnabled(false);
-                is_lost.setText("紛失中");
-            } else {
 
-            }
-            is_lost_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            ImageButton is_foundButton = view.findViewById(R.id.is_found);
+            ImageButton is_lostButton = view.findViewById(R.id.is_lost);
+            is_foundButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Data MyData = getItem(position);
-                    if(isChecked){
-                        MyData.setIs_lost(1);
-                        is_lost.setText("紛失中");
-                        showLostDialog(item.getRoomName(), item.getRyoseiName(),item.getParcelsUid(),true);
-                    }
-                    else{
-                        MyData.setIs_lost(0);
-                        is_lost.setText("荷物あり");
-                        showLostDialog(item.getRoomName(), item.getRyoseiName(),item.getParcelsUid(),false);
-                    }
+                public void onClick(View v) {
+                    is_foundButton.setVisibility(View.GONE);
+                    is_lostButton.setVisibility(View.VISIBLE);
+                    Data MyData =getItem(position);
+                    SQLiteDatabase db = _helper.getWritableDatabase();
+                    _helper.is_lost_updater(db,MyData.getParcelsUid(),1);
+
                 }
             });
+            is_lostButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    is_foundButton.setVisibility(View.VISIBLE);
+                    is_lostButton.setVisibility(View.GONE);
+                    SQLiteDatabase db = _helper.getWritableDatabase();
+                    Data MyData =getItem(position);
+                    _helper.is_lost_updater(db,MyData.getParcelsUid(),0);
+                }
+            });
+            // 0現物あり(荷物確認中)  1紛失中(荷物確認中) 10現物あり(札確認中)　11紛失中(札確認中)
+            if (data.getIs_lost() == 0) {
+                is_lostButton.setVisibility(View.GONE);
+                is_foundButton.setVisibility(View.VISIBLE);
+            } else if (data.getIs_lost() == 1){
+                is_foundButton.setVisibility(View.GONE);
+                is_lostButton.setVisibility(View.VISIBLE);
+            }else if (data.getIs_lost() == 10){//ボタンを無効化し、紛失状況を表示するだけ
+                is_lostButton.setVisibility(View.GONE);
+                is_foundButton.setVisibility(View.VISIBLE);
+                is_lostButton.setEnabled(false);
+                is_foundButton.setEnabled(false);
+            }else if (data.getIs_lost() == 11){//ボタンを無効化し、紛失状況を表示するだけ
+                is_foundButton.setVisibility(View.GONE);
+                is_lostButton.setVisibility(View.VISIBLE);
+                is_lostButton.setEnabled(false);
+                is_foundButton.setEnabled(false);
+            }else{
+
+            }
 
 
             if (data != null) {
@@ -657,8 +745,8 @@ public class NightDutyActivity extends AppCompatActivity {
                     tvData4.setText(data.getLostDateTime());
                 }
             }
-            switch (building) {
-                case "A": {
+            switch (building){
+                case "A":{
                     //偶数行の場合の背景色を設定
                     if (position % 2 == 0) {
                         tvData1.setBackgroundColor(r.getColor(R.color.data1A));
@@ -677,7 +765,7 @@ public class NightDutyActivity extends AppCompatActivity {
                     }
                     break;
                 }
-                case "B": {
+                case "B":{
                     //偶数行の場合の背景色を設定
                     if (position % 2 == 0) {
                         tvData1.setBackgroundColor(r.getColor(R.color.data1B));
@@ -695,7 +783,7 @@ public class NightDutyActivity extends AppCompatActivity {
                     }
                     break;
                 }
-                case "C": {
+                case "C":{
                     //偶数行の場合の背景色を設定
                     if (position % 2 == 0) {
                         tvData1.setBackgroundColor(r.getColor(R.color.data1C));
@@ -714,7 +802,7 @@ public class NightDutyActivity extends AppCompatActivity {
                     break;
 
                 }
-                case "D": {
+                case "D":{
                     //偶数行の場合の背景色を設定
                     if (position % 2 == 0) {
                         tvData1.setBackgroundColor(r.getColor(R.color.data1D));
@@ -733,7 +821,7 @@ public class NightDutyActivity extends AppCompatActivity {
                     }
                     break;
                 }
-                case "E": {
+                case "E":{
                     //偶数行の場合の背景色を設定
                     if (position % 2 == 0) {
                         tvData1.setBackgroundColor(r.getColor(R.color.data1E));
@@ -752,9 +840,8 @@ public class NightDutyActivity extends AppCompatActivity {
                     }
                     break;
                 }
-                default: {
-                    break;
-                }
+                default:{break;}
+
 
 
             }
@@ -762,15 +849,78 @@ public class NightDutyActivity extends AppCompatActivity {
 
             return view;
         }
-        public void showLostDialog(String room_name,String owner_name,String parcels_id,Boolean lost_status) {
-            DialogFragment dialogFragment = new Night_Duty_Lost_Dialog();
-            Bundle args = new Bundle();
-            args.putString("room_name", room_name);
-            args.putString("owner_name", owner_name);
-            args.putString("parcels_id", parcels_id);
-            args.putBoolean("lost_status", lost_status);
-            dialogFragment.setArguments(args);
-            dialogFragment.show(getSupportFragmentManager(), "Duty_Night_Dialog");
+    }
+
+
+    // 新入寮生リスト表示制御用クラス
+    class ListAdapterE extends ArrayAdapter<Data> {
+        private final LayoutInflater inflater;
+        // values/colors.xmlより設定値を取得するために利用。
+        private final Resources r;
+
+        public ListAdapterE(Context context, List<Data> objects) {
+            super(context, 0, objects);
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            r = context.getResources();
+
+        }
+
+        @Override
+        public View getView(final int position, View view, ViewGroup parent) {
+            Data item = getItem(position);
+            // layout/raw.xmlを紐付ける
+            if (view == null) {
+                view = inflater.inflate(R.layout.unused_outdated_nimotsufuda_raw, parent, false);
+            }
+            final Data data = this.getItem(position);
+            TextView tvData1A = view.findViewById(R.id.raw1);
+            tvData1A.setText(item.getRoomName());
+            TextView tvData2A = view.findViewById(R.id.raw2);
+            tvData2A.setText(item.getRyoseiName());
+            TextView tvData3A = view.findViewById(R.id.raw3);
+            tvData3A.setText(item.getParcelsAttribute());
+            TextView tvData4A = view.findViewById(R.id.raw4);
+            tvData3A.setText(item.getLostDateTime());
+            CheckBox checkBoxA = view.findViewById(R.id.parcelcheckbox);
+            checkBoxA.setOnCheckedChangeListener(null);
+            checkBoxA.setChecked(item.isChecked());
+            checkBoxA.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Data MyData = getItem(position);
+                    MyData.setChecked(isChecked);
+                }
+            });
+            if (data != null) {
+                //1列目は部屋番号
+                tvData1A.setText(data.getRoomName());
+                //2列目は名前
+                tvData2A.setText(data.getRyoseiName());
+                //3列目は荷物札の種類
+                tvData3A.setText(data.getParcelsAttribute());
+                if (data.getLostDateTime() == null) {
+                    tvData4A.setText("未チェック");
+                } else {
+                    tvData4A.setText(data.getLostDateTime());
+                }
+            }
+            //偶数行の場合の背景色を設定
+            if (position % 2 == 0) {
+                tvData1A.setBackgroundColor(r.getColor(R.color.data1E));
+                tvData2A.setBackgroundColor(r.getColor(R.color.data1E));
+                tvData3A.setBackgroundColor(r.getColor(R.color.data1E));
+                tvData4A.setBackgroundColor(r.getColor(R.color.data1E));
+                //checkBoxA.setBackgroundColor(r.getColor(R.color.data1A));
+            }
+            //奇数行の場合の背景色を設定
+            else {
+                tvData1A.setBackgroundColor(r.getColor(R.color.data2E));
+                tvData2A.setBackgroundColor(r.getColor(R.color.data2E));
+                tvData3A.setBackgroundColor(r.getColor(R.color.data2E));
+                tvData4A.setBackgroundColor(r.getColor(R.color.data2E));
+                // checkBoxA.setBackgroundColor(r.getColor(R.color.data2A));
+            }
+            return view;
         }
     }
 

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -101,12 +100,12 @@ public class MainActivity extends AppCompatActivity {
         RefreshListener listenerNimotsufuda = new RefreshListener();
         nimotsufuda.setOnClickListener(listenerNimotsufuda);
 
-        Button oldnote = findViewById(R.id.old_note);
+        ImageButton oldnote = findViewById(R.id.old_note);
         OldNoteListener oldnotelistener = new OldNoteListener();
         oldnote.setOnClickListener(oldnotelistener);
         //oldnote.setVisibility(View.GONE);
 
-        Button othersbutton = findViewById(R.id.others_button);
+        ImageButton othersbutton = findViewById(R.id.others_button);
         OthersButtonListener othersbuttonlistener = new OthersButtonListener();
         othersbutton.setOnClickListener(othersbuttonlistener);
 

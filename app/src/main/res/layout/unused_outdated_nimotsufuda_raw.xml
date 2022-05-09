@@ -64,22 +64,19 @@
         android:layout_marginBottom="@dimen/dp_s"
         android:singleLine="true"/>
 
-
-    <TextView
-        android:id="@+id/lost_status_text"
+    <ImageButton
+        android:id="@+id/is_found"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="4"
-        android:gravity="center"
-        android:text="荷物あり" />
-
-    <Switch
-        android:id="@+id/is_lost_switch"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_weight="6"
         app:srcCompat="@drawable/is_found"
         android:scaleType="fitCenter" />
-
+    <ImageButton
+        android:id="@+id/is_lost"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="6"
+        app:srcCompat="@drawable/is_lost"
+    android:scaleType="fitCenter" />
 
 </LinearLayout>
