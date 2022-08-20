@@ -620,9 +620,11 @@ public class NightDutyActivity extends AppCompatActivity {
                 is_lost.setText("紛失中");
             } else if (data.getIs_lost() == 10) {//ボタンを無効化し、紛失状況を表示するだけ
                 is_lost_switch.setEnabled(false);
+                is_lost_switch.setChecked(false);
                 is_lost.setText("荷物あり");
             } else if (data.getIs_lost() == 11) {//ボタンを無効化し、紛失状況を表示するだけ
-                is_lost_switch.setEnabled(true);
+                is_lost_switch.setEnabled(false);
+                is_lost_switch.setChecked(true);
                 is_lost.setText("紛失中");
             } else {
 
