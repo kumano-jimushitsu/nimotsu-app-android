@@ -17,6 +17,7 @@
         android:roundIcon="@drawable/pokke_logo"
         android:screenOrientation="landscape"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Top">
         <activity
             android:name=".ui.login.LoginOthersActivity"
@@ -34,6 +35,9 @@
             android:exported="true" />
         <activity
             android:name=".NightDutyActivity"
+            android:exported="true" />
+        <activity
+            android:name=".TwoCheckBoxesNightDutyActivity"
             android:exported="true" />
         <activity
             android:name=".UnusedNightDutyActivity"

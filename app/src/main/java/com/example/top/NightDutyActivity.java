@@ -161,7 +161,6 @@ public class NightDutyActivity extends AppCompatActivity {
             blockCursor.moveToFirst();
             block_id = blockCursor.getInt(blockCursor.getColumnIndex("block_id"));
             blockCursor.close();
-
             roomName = cursor.getString(cursor.getColumnIndex("owner_room_name"));
             ryoseiName = cursor.getString(cursor.getColumnIndex("owner_ryosei_name"));
             parcelsUid = cursor.getString(cursor.getColumnIndex("uid"));

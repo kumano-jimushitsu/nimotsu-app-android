@@ -38,7 +38,8 @@
     <string name="title2">名前</string>
     <string name="title3">札</string>
     <string name="title4">最終確認日時</string>
-    <string name="title5">✓</string>
+    <string name="title5">荷物あり</string>
+    <string name="title6">荷物なし</string>
     <string name="a_tou">A棟</string>
     <string name="b_tou">B棟</string>
     <string name="c_tou">C棟</string>

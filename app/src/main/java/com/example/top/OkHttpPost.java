@@ -19,7 +19,7 @@ public class OkHttpPost extends AsyncTask<String, String, String> {
     String json;
     //String url = "http://192.168.11.10:8080";
     //POKKE_LANに繋がれたPCのipアドレス
-    String url = "http://192.168.0.100:8080";
+    String url = "http://192.168.100.23:8080";
 
     Context context;
     Handler handler;

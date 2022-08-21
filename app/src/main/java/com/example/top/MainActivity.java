@@ -507,7 +507,7 @@ public class MainActivity extends AppCompatActivity {
                 touchsound.playsounderror();
             } else {
                 Toast.makeText(getMainActivityContext(), "Now Loading...", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(MainActivity.this, NightDutyActivity.class);
+                Intent intent = new Intent(MainActivity.this, TwoCheckBoxesNightDutyActivity.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 //intent.putExtra("Jimuto_name", jimuto_name);
@@ -667,7 +667,7 @@ public class MainActivity extends AppCompatActivity {
             //String json = getJsonFromDatabase();
             //一旦一度に同期するのは5つ分と決めるが、後から変えられるように作る
             //allaylistにuidを格納する
-            int uids_per_one_sync = 5;
+            int uids_per_one_sync = 50;
             boolean onemore = true;
 
             while (onemore) {//PC側にデータが残っているorタブレット側にデータが残っている限り回り続けるwhile
