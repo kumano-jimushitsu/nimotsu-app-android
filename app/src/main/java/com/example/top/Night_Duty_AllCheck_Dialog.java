@@ -49,7 +49,7 @@ public class Night_Duty_AllCheck_Dialog extends DialogFragment {
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("泊事務当番")
-                .setMessage("チェックされていない荷物があります。荷物確認を実行してもよろしいでしょうか？")
+                .setMessage("荷物確認を実行してもよろしいでしょうか？")
                 .setPositiveButton("荷物確認をする", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // このボタンを押した時の処理を書きます。

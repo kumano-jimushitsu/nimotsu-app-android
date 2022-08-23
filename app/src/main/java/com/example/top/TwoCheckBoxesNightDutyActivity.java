@@ -24,6 +24,8 @@ import java.text.SimpleDateFormat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.top.ClickListener.OnOneClickListener;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -212,6 +214,31 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
         event_refresh_intent.putExtra("EventRefresh", true);
         setResult(RESULT_OK, event_refresh_intent);
         finish();
+    }
+
+    class UpdateParcelTable extends OnOneClickListener {
+        @Override
+        public void onOneClick(View view){
+            touchsound.playsoundone();
+            List<TwoCheckBoxesNightDutyActivity.Data> joinedDataList = dataListA;
+            joinedDataList.addAll(dataListB);
+            joinedDataList.addAll(dataListC);
+            joinedDataList.addAll(dataListD);
+
+
+            this.showButtomDialog(view, joinedDataList);
+        }
+
+        public void showButtomDialog(View view, List<Data> dataAll) {
+            DialogFragment dialogFragment = new Night_Duty_AllCheck_Dialog();
+            Bundle args = new Bundle();
+            args.putString("register_staff_room", staff_room);
+            args.putString("register_staff_name", staff_ryosei);
+            args.putString("register_staff_id", staff_id);
+            args.putStringArrayList("dataAll", dataAll);
+            dialogFragment.setArguments(args);
+            dialogFragment.show(getSupportFragmentManager(), "Duty_Night_Dialog");
+        }
     }
 
 

@@ -152,7 +152,7 @@
                         <TextView
                             android:id="@+id/titleA4"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/dp_s"
                             android:layout_marginBottom="@dimen/dp_s"
                             android:layout_weight="9"
@@ -166,7 +166,7 @@
                         <TextView
                             android:id="@+id/titleA5"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/dp_s"
                             android:layout_marginBottom="@dimen/dp_s"
                             android:background="@color/titleA"
@@ -174,23 +174,23 @@
                             android:padding="@dimen/dp_m"
                             android:layout_weight="4"
                             android:text="@string/title5"
-                            android:textSize="@dimen/sp_m" />
+                            android:textSize="@dimen/sp_s" />
                         <TextView
                             android:id="@+id/titleA6"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/dp_s"
                             android:layout_marginBottom="@dimen/dp_s"
                             android:background="@color/titleA"
                             android:gravity="center"
                             android:padding="@dimen/dp_m"
                             android:layout_weight="4"
-                            android:text="@string/title5"
-                            android:textSize="@dimen/sp_m" />
+                            android:text="荷物なし"
+                            android:textSize="@dimen/sp_s" />
                         <TextView
                             android:id="@+id/titleA7"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/dp_s"
                             android:layout_marginBottom="@dimen/dp_s"
                             android:background="@color/titleA"
@@ -294,19 +294,31 @@
                         <TextView
                             android:id="@+id/titleB5"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/dp_s"
                             android:layout_marginBottom="@dimen/dp_s"
                             android:background="@color/titleB"
                             android:gravity="center"
                             android:padding="@dimen/dp_m"
-                            android:layout_weight="2"
+                            android:layout_weight="4"
                             android:text="@string/title5"
-                            android:textSize="@dimen/sp_m" />
+                            android:textSize="@dimen/sp_s" />
                         <TextView
                             android:id="@+id/titleB6"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="@dimen/dp_s"
+                            android:layout_marginBottom="@dimen/dp_s"
+                            android:background="@color/titleB"
+                            android:gravity="center"
+                            android:padding="@dimen/dp_m"
+                            android:layout_weight="4"
+                            android:text="荷物なし"
+                            android:textSize="@dimen/sp_s" />
+                        <TextView
+                            android:id="@+id/titleB7"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/dp_s"
                             android:layout_marginBottom="@dimen/dp_s"
                             android:background="@color/titleB"
@@ -407,17 +419,29 @@
                         <TextView
                             android:id="@+id/titleC5"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/dp_s"
                             android:layout_marginBottom="@dimen/dp_s"
                             android:background="@color/titleC"
                             android:gravity="center"
                             android:padding="@dimen/dp_m"
-                            android:layout_weight="2"
+                            android:layout_weight="4"
                             android:text="@string/title5"
-                            android:textSize="@dimen/sp_m" />
+                            android:textSize="@dimen/sp_s" />
                         <TextView
                             android:id="@+id/titleC6"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="@dimen/dp_s"
+                            android:layout_marginBottom="@dimen/dp_s"
+                            android:background="@color/titleC"
+                            android:gravity="center"
+                            android:padding="@dimen/dp_m"
+                            android:layout_weight="4"
+                            android:text="荷物なし"
+                            android:textSize="@dimen/sp_s" />
+                        <TextView
+                            android:id="@+id/titleC7"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/dp_s"
@@ -520,21 +544,32 @@
                             android:text="@string/title4"
                             android:textSize="@dimen/sp_m" />
 
-
                         <TextView
                             android:id="@+id/titleD5"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/dp_s"
                             android:layout_marginBottom="@dimen/dp_s"
                             android:background="@color/titleD"
                             android:gravity="center"
                             android:padding="@dimen/dp_m"
-                            android:layout_weight="2"
+                            android:layout_weight="4"
                             android:text="@string/title5"
-                            android:textSize="@dimen/sp_m" />
+                            android:textSize="@dimen/sp_s" />
                         <TextView
                             android:id="@+id/titleD6"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="@dimen/dp_s"
+                            android:layout_marginBottom="@dimen/dp_s"
+                            android:background="@color/titleD"
+                            android:gravity="center"
+                            android:padding="@dimen/dp_m"
+                            android:layout_weight="4"
+                            android:text="荷物なし"
+                            android:textSize="@dimen/sp_s" />
+                        <TextView
+                            android:id="@+id/titleD7"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/dp_s"
