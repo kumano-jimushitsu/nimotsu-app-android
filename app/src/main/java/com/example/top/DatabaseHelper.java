@@ -402,13 +402,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // 現在日時情報で初期化されたインスタンスの生成
         Date dateObj = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String string_register_time = format.format(dateObj);
-        String sql = "UPDATE parcels SET " + " lost_datetime =" + "'" + string_register_time + "'" + ", sharing_status =10 WHERE uid ='" + parcels_uid + "'";
+        String string_update_time = format.format(dateObj);
+        String sql = "UPDATE parcels SET " + " lost_datetime =" + "'" + string_update_time + "'" + ", sharing_status =10 WHERE uid ='" + parcels_uid + "'";
         db.execSQL(sql);
     }
 
-    public void is_lost_updater(SQLiteDatabase db, String parcels_uid,int value) {
-        String sql = "UPDATE parcels SET " + " is_lost =" + "'" + value + "'" + ", sharing_status =10 WHERE uid ='" + parcels_uid + "'";
+    public void lost_to_lost_updater(SQLiteDatabase db, String parcels_uid) {
+        String sql = "UPDATE parcels SET " + " is_lost =" + "'" + "1" + "'" + ", sharing_status =10 WHERE uid ='" + parcels_uid + "'";
+        db.execSQL(sql);
+    }
+
+    public void exist_to_lost_updater(SQLiteDatabase db, String parcels_uid) {
+        // 現在日時情報で初期化されたインスタンスの生成
+        Date dateObj = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String string_update_time = format.format(dateObj);
+        String sql = "UPDATE parcels SET " + " lost_datetime =" + "'" + string_update_time + "', " + " is_lost =" + "'" + "1" + "'" + ", sharing_status =10 WHERE uid ='" + parcels_uid + "'";
+        db.execSQL(sql);
+    }
+
+    public void exist_updater(SQLiteDatabase db, String parcels_uid) {
+        // 現在日時情報で初期化されたインスタンスの生成
+        Date dateObj = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String string_update_time = format.format(dateObj);
+        String sql = "UPDATE parcels SET " + " lost_datetime =" + "'" + string_update_time + "'," + " is_lost =" + "'" + "0" + "'" + ", sharing_status =10 WHERE uid ='" + parcels_uid + "'";
         db.execSQL(sql);
     }
 
