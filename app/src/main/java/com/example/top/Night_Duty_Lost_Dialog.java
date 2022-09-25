@@ -35,7 +35,7 @@ public class Night_Duty_Lost_Dialog extends DialogFragment {
         SQLiteDatabase db = _helper.getWritableDatabase();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if(lost_status){
-            _helper.is_lost_updater(db,parcels_id,1 );
+            //_helper.is_lost_updater(db,parcels_id);
             db.close();
 
             builder.setTitle("荷物紛失")
@@ -46,7 +46,7 @@ public class Night_Duty_Lost_Dialog extends DialogFragment {
                         }
                     });
         } else{
-            _helper.is_lost_updater(db,parcels_id,0 );
+            //_helper.is_lost_updater(db,parcels_id);
             db.close();
             builder.setTitle("荷物発見")
                     .setMessage(roomName +" " + ownerName + "の荷物を未紛失扱いにしました。")

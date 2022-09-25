@@ -696,7 +696,8 @@ public class UnusedNightDutyActivity extends AppCompatActivity {
                     is_lostButton.setVisibility(View.VISIBLE);
                     Data MyData =getItem(position);
                     SQLiteDatabase db = _helper.getWritableDatabase();
-                    _helper.is_lost_updater(db,MyData.getParcelsUid(),1);
+                    //databasehelperの変更に伴い削除
+                    //_helper.is_lost_updater(db,MyData.getParcelsUid(),1);
 
                 }
             });
@@ -707,7 +708,8 @@ public class UnusedNightDutyActivity extends AppCompatActivity {
                     is_lostButton.setVisibility(View.GONE);
                     SQLiteDatabase db = _helper.getWritableDatabase();
                     Data MyData =getItem(position);
-                    _helper.is_lost_updater(db,MyData.getParcelsUid(),0);
+                    //databasehelperの変更に伴い削除
+                    //_helper.is_lost_updater(db,MyData.getParcelsUid(),0);
                 }
             });
             // 0現物あり(荷物確認中)  1紛失中(荷物確認中) 10現物あり(札確認中)　11紛失中(札確認中)

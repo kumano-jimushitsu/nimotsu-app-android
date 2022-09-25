@@ -48,11 +48,19 @@
 
             </LinearLayout>
 
+            <Space
+                android:layout_width="15dp"
+                android:layout_height="wrap_content" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center_vertical">
+
+                <Space
+                    android:layout_width="15dp"
+                    android:layout_height="10dp" />
 
                 <Button
                     android:id="@+id/tomari_result_show_button_1"
@@ -174,7 +182,7 @@
                             android:padding="@dimen/dp_m"
                             android:layout_weight="4"
                             android:text="@string/title5"
-                            android:textSize="@dimen/sp_s" />
+                            android:textSize="14sp" />
                         <TextView
                             android:id="@+id/titleA6"
                             android:layout_width="0dp"
@@ -186,20 +194,7 @@
                             android:padding="@dimen/dp_m"
                             android:layout_weight="4"
                             android:text="荷物なし"
-                            android:textSize="@dimen/sp_s" />
-                        <TextView
-                            android:id="@+id/titleA7"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="@dimen/dp_s"
-                            android:layout_marginBottom="@dimen/dp_s"
-                            android:background="@color/titleA"
-                            android:gravity="center"
-                            android:padding="@dimen/dp_m"
-                            android:layout_weight="6"
-                            android:text="紛失"
-                            android:textSize="@dimen/sp_m" />
-
+                            android:textSize="14sp" />
 
                     </LinearLayout>
 
@@ -302,7 +297,7 @@
                             android:padding="@dimen/dp_m"
                             android:layout_weight="4"
                             android:text="@string/title5"
-                            android:textSize="@dimen/sp_s" />
+                            android:textSize="14sp" />
                         <TextView
                             android:id="@+id/titleB6"
                             android:layout_width="0dp"
@@ -314,19 +309,7 @@
                             android:padding="@dimen/dp_m"
                             android:layout_weight="4"
                             android:text="荷物なし"
-                            android:textSize="@dimen/sp_s" />
-                        <TextView
-                            android:id="@+id/titleB7"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="@dimen/dp_s"
-                            android:layout_marginBottom="@dimen/dp_s"
-                            android:background="@color/titleB"
-                            android:gravity="center"
-                            android:padding="@dimen/dp_m"
-                            android:layout_weight="6"
-                            android:text="紛失"
-                            android:textSize="@dimen/sp_m" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <ListView
@@ -427,7 +410,7 @@
                             android:padding="@dimen/dp_m"
                             android:layout_weight="4"
                             android:text="@string/title5"
-                            android:textSize="@dimen/sp_s" />
+                            android:textSize="14sp" />
                         <TextView
                             android:id="@+id/titleC6"
                             android:layout_width="0dp"
@@ -439,19 +422,7 @@
                             android:padding="@dimen/dp_m"
                             android:layout_weight="4"
                             android:text="荷物なし"
-                            android:textSize="@dimen/sp_s" />
-                        <TextView
-                            android:id="@+id/titleC7"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/dp_s"
-                            android:layout_marginBottom="@dimen/dp_s"
-                            android:background="@color/titleC"
-                            android:gravity="center"
-                            android:padding="@dimen/dp_m"
-                            android:layout_weight="6"
-                            android:text="紛失"
-                            android:textSize="@dimen/sp_m" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
 
@@ -555,7 +526,7 @@
                             android:padding="@dimen/dp_m"
                             android:layout_weight="4"
                             android:text="@string/title5"
-                            android:textSize="@dimen/sp_s" />
+                            android:textSize="14sp" />
                         <TextView
                             android:id="@+id/titleD6"
                             android:layout_width="0dp"
@@ -567,19 +538,7 @@
                             android:padding="@dimen/dp_m"
                             android:layout_weight="4"
                             android:text="荷物なし"
-                            android:textSize="@dimen/sp_s" />
-                        <TextView
-                            android:id="@+id/titleD7"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/dp_s"
-                            android:layout_marginBottom="@dimen/dp_s"
-                            android:background="@color/titleD"
-                            android:gravity="center"
-                            android:padding="@dimen/dp_m"
-                            android:layout_weight="6"
-                            android:text="紛失"
-                            android:textSize="@dimen/sp_m" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
 

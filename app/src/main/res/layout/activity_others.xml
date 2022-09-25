@@ -97,6 +97,33 @@
                 android:layout_height="wrap_content"
                 android:text="set_event_sharing_status30"
                 app:backgroundTint="#ff2222" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="409dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="80dp"
+            android:orientation="vertical">
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:breakStrategy="simple"
+                android:text="テスト用の寮生を追加できます開発者以外基本的に使わないでください。" />
+
+
+            <Button
+                android:id="@+id/add_test_ryosei"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="addtestryosei"
+                app:backgroundTint="#ff22ff" />
         </LinearLayout>
 
     </LinearLayout>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -56,6 +57,11 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
     public ListView listViewC;
     public ListView listViewD;
 
+    public ListAdapter adapterA;
+    public ListAdapter adapterB;
+    public ListAdapter adapterC;
+    public ListAdapter adapterD;
+
     private TouchSound touchsound;
     private DatabaseHelper _helper;
 
@@ -95,6 +101,12 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
         explain_sub = findViewById(R.id.tomari_explanation_2);
         button_phase1 = findViewById(R.id.tomari_result_show_button_1);//現物確認ボタン
         button_phase2 = findViewById(R.id.tomari_result_show_button_2);//札確認ボタン
+        button_phase2.setVisibility(View.GONE);
+        UpdateParcelTableListener updateParcelListener = new UpdateParcelTableListener();
+        button_phase1.setOnClickListener(updateParcelListener);
+        EndNightDutyListener endNightDutyListener = new EndNightDutyListener();
+        button_phase2.setOnClickListener(endNightDutyListener);
+
         //説明文とボタン部分を指定
 
         import_parcels_data();
@@ -159,14 +171,19 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
 
 
             lostdatetime = cursor.getString(cursor.getColumnIndex("lost_datetime"));
-            onesParcels = _helper.nimotsuCountOfRyosei(db, ryoseiUid);
             TwoCheckBoxesNightDutyActivity.Data data = new TwoCheckBoxesNightDutyActivity.Data();
-            data.setParcelsAttribute(placement);
-            data.setRoomName(roomName);
-            data.setRyoseiName(ryoseiName);
-            data.setParcelUid(parcelsUid);
-            data.setLostDateTime(lostdatetime);//lost_datetimeに最終確認できた時間を入れている　カラム名の変更が手間だったため
-            data.setExistChecked(false);
+            data.parcelsAttribute = placement;
+            data.roomName = roomName;
+            data.ryoseiName = ryoseiName;
+            data.parcelsUid = parcelsUid;
+
+            if(is_lost == 0) {
+                data.previousIsLost = false;
+                data.setLostDateTime(lostdatetime, false);//lost_datetimeに最終確認できた時間を入れている　カラム名の変更が手間だったため
+            }else{
+                data.previousIsLost = true;
+                data.setLostDateTime(lostdatetime, true);//lost_datetimeに最終確認できた時間を入れている　カラム名の変更が手間だったため
+            }
 
             //ブロックごとに仕分けをする。
             if (block_id >= 1 && block_id < 5) {
@@ -186,10 +203,10 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
     public void showListView(){
 
         // リストにサンプル用のデータを受け渡す
-        ListAdapter adapterA = new ListAdapter(this, dataListA, "A");
-        ListAdapter adapterB = new ListAdapter(this, dataListB, "B");
-        ListAdapter adapterC = new ListAdapter(this, dataListC, "C");
-        ListAdapter adapterD = new ListAdapter(this, dataListD, "D");
+        adapterA = new ListAdapter(this, dataListA, "A");
+        adapterB = new ListAdapter(this, dataListB, "B");
+        adapterC = new ListAdapter(this, dataListC, "C");
+        adapterD = new ListAdapter(this, dataListD, "D");
         listViewA.setAdapter(adapterA);
         listViewB.setAdapter(adapterB);
         listViewC.setAdapter(adapterC);
@@ -216,7 +233,80 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
         finish();
     }
 
-    class UpdateParcelTable extends OnOneClickListener {
+    public void onReturnValue(Boolean result) {
+        if(result){
+            List<Data> joinedDataList = dataListA;
+            joinedDataList.addAll(dataListB);
+            joinedDataList.addAll(dataListC);
+            joinedDataList.addAll(dataListD);
+            _helper = new DatabaseHelper(TwoCheckBoxesNightDutyActivity.this);
+            SQLiteDatabase db = _helper.getWritableDatabase();
+            for(int i=0; i < joinedDataList.size() ; i++){
+                if(joinedDataList.get(i).existCheckdata){
+                    //確認日時を更新し、荷物の状態を0にする。
+                    _helper.exist_updater(db, joinedDataList.get(i).parcelsUid);
+                }
+                if(joinedDataList.get(i).lostCheckdata){
+                    if(joinedDataList.get(i).previousIsLost){
+                        //何もしない
+                    }else{
+                        //確認日時を更新し、荷物の状態を1にする。
+                        _helper.lost_updater(db, joinedDataList.get(i).parcelsUid);
+                    }
+                }
+            }
+            _helper.close();
+
+            findViewById(R.id.titleA6).setVisibility(View.GONE);
+            findViewById(R.id.titleB6).setVisibility(View.GONE);
+            findViewById(R.id.titleC6).setVisibility(View.GONE);
+            findViewById(R.id.titleD6).setVisibility(View.GONE);
+
+            TextView titleA5 = findViewById(R.id.titleA5);
+            titleA5.setText("荷物札");
+            TextView titleB5 = findViewById(R.id.titleB5);
+            titleB5.setText("荷物札");
+            TextView titleC5 = findViewById(R.id.titleC5);
+            titleC5.setText("荷物札");
+            TextView titleD5 = findViewById(R.id.titleD5);
+            titleD5.setText("荷物札");
+
+            for(int i=0; i<listViewA.getChildCount(); i++) {
+                CheckBox fudaCheckBox = listViewA.getChildAt(i).findViewById(R.id.parcel_exist_checkbox);
+                fudaCheckBox.setOnCheckedChangeListener(null);
+                fudaCheckBox.setChecked(false);
+                listViewA.getChildAt(i).findViewById(R.id.parcel_lost_checkbox).setVisibility(View.GONE);
+                listViewA.getChildAt(i).findViewById(R.id.space).setVisibility(View.GONE);
+            }for(int i=0; i<listViewB.getChildCount(); i++) {
+                CheckBox fudaCheckBox = listViewB.getChildAt(i).findViewById(R.id.parcel_exist_checkbox);
+                fudaCheckBox.setOnCheckedChangeListener(null);
+                fudaCheckBox.setChecked(false);
+                listViewB.getChildAt(i).findViewById(R.id.parcel_lost_checkbox).setVisibility(View.GONE);
+                listViewB.getChildAt(i).findViewById(R.id.space).setVisibility(View.GONE);
+            }for(int i=0; i<listViewC.getChildCount(); i++) {
+                CheckBox fudaCheckBox = listViewC.getChildAt(i).findViewById(R.id.parcel_exist_checkbox);
+                fudaCheckBox.setOnCheckedChangeListener(null);
+                fudaCheckBox.setChecked(false);
+                listViewC.getChildAt(i).findViewById(R.id.parcel_lost_checkbox).setVisibility(View.GONE);
+                listViewC.getChildAt(i).findViewById(R.id.space).setVisibility(View.GONE);
+            }for(int i=0; i<listViewD.getChildCount(); i++) {
+                CheckBox fudaCheckBox = listViewD.getChildAt(i).findViewById(R.id.parcel_exist_checkbox);
+                fudaCheckBox.setOnCheckedChangeListener(null);
+                fudaCheckBox.setChecked(false);
+                listViewD.getChildAt(i).findViewById(R.id.parcel_lost_checkbox).setVisibility(View.GONE);
+                listViewD.getChildAt(i).findViewById(R.id.space).setVisibility(View.GONE);
+            }
+
+            button_phase1.setVisibility(View.GONE);
+            button_phase2.setVisibility(View.VISIBLE);
+            title.setText("泊まり事務当ー②荷物札確認");
+            explain_sub.setText(getString(R.string.night_duty_2_explanation));
+
+        }
+    }
+
+
+    public class UpdateParcelTableListener  extends OnOneClickListener {
         @Override
         public void onOneClick(View view){
             touchsound.playsoundone();
@@ -224,20 +314,24 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
             joinedDataList.addAll(dataListB);
             joinedDataList.addAll(dataListC);
             joinedDataList.addAll(dataListD);
-
-
-            this.showButtomDialog(view, joinedDataList);
+            this.showButtomDialog(view);
         }
 
-        public void showButtomDialog(View view, List<Data> dataAll) {
-            DialogFragment dialogFragment = new Night_Duty_AllCheck_Dialog();
+        public void showButtomDialog(View view) {
+            DialogFragment dialogFragment = new Night_Duty_Dialog();
             Bundle args = new Bundle();
-            args.putString("register_staff_room", staff_room);
-            args.putString("register_staff_name", staff_ryosei);
-            args.putString("register_staff_id", staff_id);
-            args.putStringArrayList("dataAll", dataAll);
             dialogFragment.setArguments(args);
-            dialogFragment.show(getSupportFragmentManager(), "Duty_Night_Dialog");
+            dialogFragment.show(getSupportFragmentManager(), "Night_Duty_Dialog");
+        }
+    }
+
+    public class EndNightDutyListener extends OnOneClickListener{
+        @Override
+        public void onOneClick(View view){
+            Intent event_refresh_intent = new Intent();
+            event_refresh_intent.putExtra("EventRefresh", true);
+            setResult(RESULT_OK, event_refresh_intent);
+            finish();
         }
     }
 
@@ -249,97 +343,28 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
         private String parcelsAttribute;
         private String parcelsUid;
         private String lostDateTime;
-        private Boolean exsitCheckdata = false;
+        private Boolean previousIsLost;
+        private Boolean existCheckdata = false;
         private Boolean lostCheckdata = false;
         private String note;
-        private int is_lost;
-        private int is_checked;
-        //0 チェックなし 1現物あり 2現物なし
         private String show_lost_datetime;
         //外部に出力する値。listviewの値を保持するために一時的に保持する。
 
-        public void setParcelUid(String uid) {
-            this.parcelsUid = uid;
-        }
-
-        public void setExistChecked(Boolean b) {
-            exsitCheckdata = b;
-        }
-
-        public void setLostChecked(Boolean b) {
-            lostCheckdata = b;
-        }
-
-        public String getRoomName() {
-            return roomName;
-        }
-
-        public void setRoomName(String room) {
-            this.roomName = room;
-        }
-
-        public String getRyoseiName() {
-            return ryoseiName;
-        }
-
-        public int getIs_lost() {
-            return is_lost;
-        }
-
-        public void setRyoseiName(String ryosei) {
-            this.ryoseiName = ryosei;
-        }
-
-        public String getNote() {
-            return note;
-        }
-
-        public String getParcelsAttribute() {
-            return parcelsAttribute;
-        }
-
-        public void setParcelsAttribute(String parcels) {
-            this.parcelsAttribute = parcels;
-        }
-
-        public void setIs_lost(int islost) {
-            this.is_lost = islost;
-        }
-
-        public String getParcelsUid() {
-            return parcelsUid;
-        }
-
-        public String getLostDateTime() {
-            return lostDateTime;
-        }
-
-        public void setNote(String note) {
-            this.note = note;
-        }
-
-        public void setLostDateTime(String lostDateTime) {
+        public void setLostDateTime(String lostDateTime,boolean lost_status) {
             if (lostDateTime != null) {
-                this.lostDateTime = lostDateTime.replace('-', '/').substring(5, 10) + " 確認済み";
+                if(lost_status) {
+                    this.lostDateTime = lostDateTime.replace('-', '/').substring(5, 10) + "紛失";
+                }else{
+
+                    this.lostDateTime = lostDateTime.replace('-', '/').substring(5, 10) + " 確認済み";
+                }
             }else{
                 this.lostDateTime = "未チェック";
             }
             show_lost_datetime = this.lostDateTime;
         }
 
-        public void setShowLostDatetime(String s){
-            show_lost_datetime = s;
-        }
-        public String getShowlostdatetime(){
-            return show_lost_datetime;
-        }
 
-        public Boolean existIsChecked() {
-            return exsitCheckdata;
-        }
-        public Boolean lostIsChecked() {
-            return lostCheckdata;
-        }
     }
 
     // リスト表示制御用クラス
@@ -355,44 +380,44 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
             r = context.getResources();
             this.building = building;
         }
-
         @Override
         public View getView(final int position, View view, ViewGroup parent) {
-
             // layout/raw.xmlを紐付ける
             if (view == null) {
                 view = inflater.inflate(R.layout.outdated_twocheckboxes_nimotsufuda_raw, parent, false);
             }
             final Data data = this.getItem(position);
             TextView tvData1 = view.findViewById(R.id.raw1);
-            tvData1.setText(data.getRoomName());
+            tvData1.setText(data.roomName);
             TextView tvData2 = view.findViewById(R.id.raw2);
-            tvData2.setText(data.getRyoseiName());
+            tvData2.setText(data.ryoseiName);
             TextView tvData3 = view.findViewById(R.id.raw3);
-            tvData3.setText(data.getParcelsAttribute());
+            tvData3.setText(data.parcelsAttribute);
             TextView tvData4 = view.findViewById(R.id.raw4);
-            tvData4.setText(data.getShowlostdatetime());
+            tvData4.setText(data.lostDateTime);
             CheckBox existCheckBox = view.findViewById(R.id.parcel_exist_checkbox);
             existCheckBox.setOnCheckedChangeListener(null);
-            existCheckBox.setChecked(data.existIsChecked());
+            existCheckBox.setChecked(data.existCheckdata);
             CheckBox lostCheckBox = view.findViewById(R.id.parcel_lost_checkbox);
             lostCheckBox.setOnCheckedChangeListener(null);
-            lostCheckBox.setChecked(data.lostIsChecked());
+            lostCheckBox.setChecked(data.lostCheckdata);
             existCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked){
                         tvData4.setText(today+"現物あり");
-                        data.setShowLostDatetime(today+"現物あり");
-                        data.setExistChecked(true);
-                        data.setLostChecked(false);
+                        data.show_lost_datetime = today + "現物あり";
+                        tvData4.setShadowLayer(1.5f,1f,1f, Color.RED);
+                        data.existCheckdata = true;
+                        data.lostCheckdata = false;
                         lostCheckBox.setChecked(false);
                     }else{
                         if(data.lostCheckdata == false) {
-                            data.setShowLostDatetime(data.lostDateTime);
+                            data.show_lost_datetime = data.lostDateTime;
                             tvData4.setText(data.lostDateTime);
+                            tvData4.setShadowLayer(0f,0f,0f, Color.BLACK);
                         }
-                        data.setExistChecked(false);
+                        data.existCheckdata = false;
                     }
                 }
             });
@@ -400,30 +425,33 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked){
-                        tvData4.setText(today+"紛失");
-                        data.setShowLostDatetime(today+"紛失");
-                        data.setExistChecked(false);
-                        data.setLostChecked(true);
-                        existCheckBox.setChecked(false);
+                        if(data.previousIsLost == true){
+                            //何もしない
+                        }else {
+                            tvData4.setText(today + "紛失");
+                            data.show_lost_datetime = today + "紛失";
+                            tvData4.setShadowLayer(1.5f, 1f, 1f, Color.RED);
+                            data.existCheckdata = false;
+                            data.lostCheckdata = true;
+                            existCheckBox.setChecked(false);
+                        }
                     }else{
-                        if(data.exsitCheckdata == false) {
-                            data.setShowLostDatetime(data.lostDateTime);
+                        if(data.existCheckdata == false) {
+                            data.show_lost_datetime = data.lostDateTime;
                             tvData4.setText(data.lostDateTime);
+                            tvData4.setShadowLayer(0f,0f,0f, Color.BLACK);
                         };
-                        data.setLostChecked(false);
+                        data.lostCheckdata = false;
                     }
                 }
             });
-            TextView is_lost = view.findViewById(R.id.lost_status_text);
-
-
             if (data != null) {
                 //1列目は部屋番号
-                tvData1.setText(data.getRoomName());
+                tvData1.setText(data.roomName);
                 //2列目は名前
-                tvData2.setText(data.getRyoseiName());
+                tvData2.setText(data.ryoseiName);
                 //3列目は荷物札の種類
-                tvData3.setText(data.getParcelsAttribute());
+                tvData3.setText(data.parcelsAttribute);
             }
             switch (building) {
                 case "A": {
@@ -526,22 +554,8 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
 
 
             }
-
-
             return view;
         }
-        public void showLostDialog(String room_name,String owner_name,String parcels_id,Boolean lost_status) {
-            DialogFragment dialogFragment = new Night_Duty_Lost_Dialog();
-            Bundle args = new Bundle();
-            args.putString("room_name", room_name);
-            args.putString("owner_name", owner_name);
-            args.putString("parcels_id", parcels_id);
-            args.putBoolean("lost_status", lost_status);
-            dialogFragment.setArguments(args);
-            dialogFragment.show(getSupportFragmentManager(), "Duty_Night_Dialog");
-        }
-
-
 
     }
 

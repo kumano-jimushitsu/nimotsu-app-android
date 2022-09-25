@@ -25,6 +25,8 @@ public class OthersActivity extends AppCompatActivity {
     private Button events30button;
     private Button All30button;
 
+    private Button addtestryoseibutton;
+
 
     private DatabaseHelper _helper;
     private SQLiteDatabase db;
@@ -57,6 +59,12 @@ public class OthersActivity extends AppCompatActivity {
         ryosei30button.setOnClickListener(listener30);
         parcels30button.setOnClickListener(listener30);
         events30button.setOnClickListener(listener30);
+
+        addtestryoseibutton = findViewById(R.id.add_test_ryosei);
+        addTestRyoseiListener testryoseilistener = new addTestRyoseiListener();
+        addtestryoseibutton.setOnClickListener(testryoseilistener);
+
+
     }
 
     private class set10Listener extends OnOneClickListener {
@@ -124,6 +132,18 @@ public class OthersActivity extends AppCompatActivity {
                 }
             }).show();
 
+        }
+
+
+    }
+
+    private class addTestRyoseiListener extends OnOneClickListener {
+        @Override
+        public void onOneClick(View view) {
+            _helper = new DatabaseHelper(OthersActivity.this);
+            SQLiteDatabase db = _helper.getWritableDatabase();
+            _helper.add_test_ryosei(db);
+        _helper.close();
         }
     }
 

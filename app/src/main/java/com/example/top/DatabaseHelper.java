@@ -412,7 +412,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
     }
 
-    public void exist_to_lost_updater(SQLiteDatabase db, String parcels_uid) {
+    public void lost_updater(SQLiteDatabase db, String parcels_uid) {
         // 現在日時情報で初期化されたインスタンスの生成
         Date dateObj = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -430,8 +430,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
     }
 
-    public void event_add_night_duty(SQLiteDatabase db, String staffid, String staffroom, String staffname) {
-
+    public int get_is_lost(SQLiteDatabase db, String parcels_uid){
+        String sql = "SELECT is_lost FROM parcels where uid='" + parcels_uid + "'";
+        // SQLの実行。
+        Cursor cursor = db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        int is_lost = cursor.getInt(cursor.getColumnIndex("is_lost"));
+        cursor.close();
+        return is_lost;
     }
 
     public int check_isFinished(SQLiteDatabase db, String event_id) {
@@ -845,6 +851,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void identify_event(SQLiteDatabase db, String ryosei_id) {
         String sql = getSqlInsertEvent(db, ryosei_id, "20");
+        db.execSQL(sql);
+    }
+
+    public void add_test_ryosei(SQLiteDatabase db){
+        String sql = "INSERT into ryosei(uid, room_name, ryosei_name,sharing_status,block_id) values('"+UUID.randomUUID().toString()+"', '事務室', 'テスト 君', '30', '10');";
         db.execSQL(sql);
     }
 
