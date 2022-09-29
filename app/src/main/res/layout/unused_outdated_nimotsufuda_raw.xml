@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/raw1"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_weight="3"
+        android:singleLine="true"
+        android:gravity="center|bottom"
+        android:layout_marginRight="@dimen/dp_s"
+        android:layout_marginBottom="@dimen/dp_s"
+        android:padding="@dimen/dp_s"
+        android:textSize="@dimen/sp_m" />
+
+    <TextView
+        android:id="@+id/raw2"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_weight="9"
+        android:singleLine="true"
+        android:gravity="center|bottom"
+        android:layout_marginRight="@dimen/dp_s"
+        android:layout_marginBottom="@dimen/dp_s"
+        android:padding="@dimen/dp_s"
+        android:textSize="@dimen/sp_m" />
+
+    <TextView
+        android:id="@+id/raw3"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_weight="3.1"
+        android:singleLine="true"
+        android:gravity="center|bottom"
+        android:layout_marginRight="@dimen/dp_s"
+        android:layout_marginBottom="@dimen/dp_s"
+        android:padding="@dimen/dp_s"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/raw4"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="@dimen/dp_s"
+        android:layout_marginBottom="@dimen/dp_s"
+        android:layout_weight="9"
+        android:gravity="center|bottom"
+        android:padding="@dimen/dp_s"
+        android:singleLine="true"
+        android:textSize="@dimen/sp_m" />
+
+    <CheckBox
+        android:id="@+id/parcelcheckbox"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="@dimen/dp_s"
+        android:layout_weight="2"
+        android:layout_marginRight="@dimen/dp_s"
+        android:layout_marginBottom="@dimen/dp_s"
+        android:singleLine="true"/>
+
+    <ImageButton
+        android:id="@+id/is_found"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="6"
+        app:srcCompat="@drawable/is_found"
+        android:scaleType="fitCenter" />
+    <ImageButton
+        android:id="@+id/is_lost"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="6"
+        app:srcCompat="@drawable/is_lost"
+    android:scaleType="fitCenter" />
+
+</LinearLayout>

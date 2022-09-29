@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:splitMotionEvents="false"
     tools:context=".MainActivity">
 
     <!-- ヘッダ -->
@@ -36,7 +35,7 @@
 
             <Space
                 android:layout_width="wrap_content"
-                android:layout_height="40dp" />
+                android:layout_height="20dp" />
 
             <ImageButton
                 android:id="@+id/image_button_register"
@@ -47,7 +46,7 @@
 
             <Space
                 android:layout_width="wrap_content"
-                android:layout_height="40dp" />
+                android:layout_height="20dp" />
 
             <ImageButton
                 android:id="@+id/image_button_release"
@@ -58,7 +57,7 @@
 
             <Space
                 android:layout_width="wrap_content"
-                android:layout_height="40dp" />
+                android:layout_height="10dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,7 +67,7 @@
                 <ImageButton
                     android:id="@+id/qr_scanner"
                     android:layout_width="289dp"
-                    android:layout_height="105dp"
+                    android:layout_height="95dp"
                     android:background="@drawable/qr_re"
                     android:contentDescription="QRコードで荷物を引き渡します"
                     tools:ignore="SpeakableTextPresentCheck" />
@@ -76,10 +75,45 @@
                 <ImageButton
                     android:id="@+id/duty_night_button"
                     android:layout_width="254dp"
-                    android:layout_height="105dp"
+                    android:layout_height="95dp"
                     android:background="@drawable/tomari_jimuto_re"
                     android:contentDescription="泊まり事務当モードに移行します"
                     tools:ignore="SpeakableTextPresentCheck" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/old_note"
+                    android:layout_width="289dp"
+                    android:layout_height="95dp"
+                    android:scaleType="fitXY"
+                    tools:ignore="SpeakableTextPresentCheck"
+                    android:background="@null"
+                    app:srcCompat="@drawable/rireki_button_image" />
+
+                <Space
+                    android:layout_width="2dp"
+                    android:layout_height="2dp"/>
+
+
+
+                <ImageButton
+                    android:id="@+id/others_button"
+                    android:layout_width="254dp"
+                    android:layout_height="95dp"
+                    android:scaleType="fitXY"
+                    tools:ignore="SpeakableTextPresentCheck"
+                    android:background="@null"
+                    app:srcCompat="@drawable/others_button_image" />
 
             </LinearLayout>
 

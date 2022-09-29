@@ -54,7 +54,7 @@ public class ReleaseDialog extends DialogFragment {
         cursor.moveToFirst();
         release_staff_room = cursor.getString(cursor.getColumnIndex("room_name"));
         release_staff_name = cursor.getString(cursor.getColumnIndex("ryosei_name"));
-
+        cursor.close();
 
         List<Map<String, String>> choices = _helper.nimotsuCountOfRyosei(db, owner_ryosei_id);
         //↑チェックリストの中身とか文面もここで作っている
@@ -93,7 +93,7 @@ public class ReleaseDialog extends DialogFragment {
                     touchsound.playsounderror();
                 }
             }
-        }).setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+        }).setNeutralButton("キャンセル", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 cancel = true;
             }

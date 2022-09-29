@@ -38,20 +38,41 @@
     <string name="title2">名前</string>
     <string name="title3">札</string>
     <string name="title4">最終確認日時</string>
-    <string name="title5">✓</string>
+    <string name="title5">荷物あり</string>
+    <string name="title6">荷物なし</string>
     <string name="a_tou">A棟</string>
     <string name="b_tou">B棟</string>
     <string name="c_tou">C棟</string>
     <string name="others_parcels_titile">その他荷物受取</string>
     <string name="rinji_capacity">臨キャパ</string>
+    <string name="freshmen">新入寮生</string>
     <string name="night_duty_title">泊まり事務当</string>
     <string name="night_duty_short">"荷物確認をしました。表示に沿って荷物札チェックをしてください。"</string>
     <string name="night_duty_explanation">泊まり事務当番では、①荷物の現物確認、②荷物の札確認を行います。</string>
-    <string name="night_duty_1_explanation">現在の画面は①荷物の現物確認です。荷物の現物が確認出来たら、リストにチェックを入れてください。\n事務室にあるすべての荷物についてチェックを入れたら、「①現物確認終了」ボタンを押してください。</string>
+    <string name="night_duty_1_explanation">現在の画面は①荷物の現物確認です。荷物の現物が事務室にあるか確認出来たら、リストにチェックを入れてください。\n事務室にあるすべての荷物についてチェックを入れたら、「①現物確認終了」ボタンを押してください。
+    もし荷物を探しても見つからない場合は「荷物なし」のチェックボックスにチェックを入れてください。</string>
     <string name="night_duty_2_explanation">現在の画面は②荷物の札確認です。\n掛札がかかっていることを確認し、リストにチェックを入れてください。\nリストのすべての荷物についてチェックを入れたら、「②札確認終了」ボタンを押してください。</string>
-
 
 
     <string name="copyright">Copyright © 2022 Kumano Dormitory IT Section</string>
 
+
+    <string-array name="oldnote_buildinfs_list">
+
+        <item>ALL</item>
+        <item>A棟</item>
+        <item>B棟</item>
+        <item>C棟</item>
+        <item>臨時キャパ</item>
+    </string-array>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="title_activity_login_others">LoginOthersActivity</string>
 </resources>

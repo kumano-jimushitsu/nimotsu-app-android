@@ -44,7 +44,7 @@ public class ReleaseQRDialog extends DialogFragment {
         Cursor cursor;
         String sql;
 
-        sql = "select room_name, ryosei_name from ryosei where uid ='"+ owner_ryosei_id + "'";
+        sql = "select room_name, ryosei_name,status from ryosei where uid ='" + owner_ryosei_id + "'";
         cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
         owner_ryosei_room=cursor.getString(cursor.getColumnIndex("room_name"));
@@ -54,8 +54,8 @@ public class ReleaseQRDialog extends DialogFragment {
         cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
         release_staff_room=cursor.getString(cursor.getColumnIndex("room_name"));
-        release_staff_name=cursor.getString(cursor.getColumnIndex("ryosei_name"));
-
+        release_staff_name = cursor.getString(cursor.getColumnIndex("ryosei_name"));
+        cursor.close();
         List<Map<String,String>> choices = _helper.nimotsuCountOfRyosei(db,owner_ryosei_id);
         String[] rabellist = new String[choices.size()];
         String[] idlist = new String[choices.size()];
@@ -84,14 +84,15 @@ public class ReleaseQRDialog extends DialogFragment {
                             Toast.makeText(getActivity(), owner_ryosei_room + " " + owner_ryosei_name + "の荷物を" + String.valueOf(nimotsu_count_sametime) + "個、引き渡しました", Toast.LENGTH_SHORT).show();
                             //荷物引き渡しページを閉じさせる。
                             //呼び出し元のフラグメントに結果を返す
-                        }else{
+                            MainActivity callingActivity = (MainActivity) getActivity();
+                            callingActivity.eventLogshow();//履歴の更新
+                        } else {
                             touchsound.playsounderror();
                             cancel = false;
                             Toast.makeText(getActivity(), "チェックがされていません。", Toast.LENGTH_SHORT).show();
                         }
                     }
-                })
-                .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+                }).setNeutralButton("キャンセル", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 cancel = true;
             }

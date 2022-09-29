@@ -28,8 +28,7 @@ public class ProxyChangeDialog extends DialogFragment {
                 callingActivity.onReturnValue(proxy_ryosei_room, proxy_ryosei_id);
 
             }
-        })
-                .setNegativeButton("キャンセル", null);
+        }).setNeutralButton("キャンセル", null);
 
         insert_parcels_shearingstatus();
         update_ryosei_shearingstatus();

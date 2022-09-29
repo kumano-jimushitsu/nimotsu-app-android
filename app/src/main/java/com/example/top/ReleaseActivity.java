@@ -65,6 +65,8 @@ public class ReleaseActivity extends AppCompatActivity {
     private boolean proxy_check = false;
     public  TouchSound touchsound;
     private static Context context;
+    public Cursor cursor_parcels_count;
+    public Switch proxySwitch;
     //private ConstraintLayout double_buttoned_register;
 
     public static Context getReceiveActivityContext() {
@@ -101,14 +103,14 @@ public class ReleaseActivity extends AppCompatActivity {
         get_room(" ");
         Collections.sort(show_room);
         show_room();
-        this.show_block_ryosei(null);//nullを渡すと全寮生を表示
+        show_all_ryosei();//nullを渡すと全寮生を表示
         ListView blocklistListener = findViewById(R.id.release_block_list);
         blocklistListener.setOnItemClickListener(new ReleaseActivity.ListBlockClickListener());
         ListView roomlistListener = findViewById(R.id.release_room_list);
         roomlistListener.setOnItemClickListener(new ReleaseActivity.ListRoomClickListener());
         ImageButton ryosei_search_button = findViewById(R.id.release_search_ryosei_name_button);
         ryosei_search_button.setOnClickListener(new ReleaseActivity.RyoseiSearchListener());
-        Switch proxySwitch = findViewById(R.id.proxy_switch);
+        proxySwitch = findViewById(R.id.proxy_switch);
         proxySwitch.setOnCheckedChangeListener(new ReleaseActivity.ProxySwitchListener());
 
         proxy_room_name_text = findViewById(R.id.proxy_textview);
@@ -181,67 +183,13 @@ public class ReleaseActivity extends AppCompatActivity {
 
      */
 
-    public void show_block_ryosei(String block) {
+    public void show_all_ryosei() {
         show_list.clear();
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         SQLiteDatabase db = _helper.getWritableDatabase();
         String sql;
         // 主キーによる検索SQL文字列の用意。
-        if (block == null) {
-            sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei WHERE parcels_current_count > 0 order by room_name asc;";
-        } else {
-            sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND block_id = '" + block_to_id(block) + "'order by room_name asc;";
-        }// SQLの実行。
-        Cursor cursor = db.rawQuery(sql, null);
-        //ブロックの寮生を検索しArrayListに追加
-        while (cursor.moveToNext()) {
-            Map<String, String> ryosei_raw = new HashMap<>();
-            // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
-            String note = "";
-            String ryosei_id = "";
-            // カラムのインデックス値を取得。
-            int idNote = cursor.getColumnIndex("uid");
-            // カラムのインデックス値を元に実際のデータを取得。
-            ryosei_id = cursor.getString(idNote);
-            ryosei_raw.put("id", cursor.getString(idNote));
-            // カラムのインデックス値を取得。
-            int roomNameNote = cursor.getColumnIndex("room_name");
-            // カラムのインデックス値を元に実際のデータを取得。
-            note += cursor.getString(roomNameNote);
-            note += " ";
-            int ryouseiNote = cursor.getColumnIndex("ryosei_name");
-            note += cursor.getString(ryouseiNote);
-            ryosei_raw.put("room_name", note);
-            int index_parcels_current_count = cursor.getColumnIndex("parcels_current_count");
-            int parcels_count = cursor.getInt(index_parcels_current_count);
-            ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count));
-            blocks_roomname_name.add(note);
-            blocks_ryosei_id.add(ryosei_id);
-            ryosei_parcels_count.add(parcels_count);
-            show_list.add(ryosei_raw);
-
-        }
-        // リスト項目とListViewを対応付けるArrayAdapterを用意する
-        SimpleAdapter blocktoryoseiadapter = new SimpleAdapter
-                (this,
-                        show_list,
-                        android.R.layout.simple_list_item_2,
-                        from,
-                        to);
-        // ListViewにArrayAdapterを設定する
-        ListView listView = findViewById(R.id.release_ryosei_list);
-        listView.setAdapter(blocktoryoseiadapter);
-        ListView listListener = findViewById(R.id.release_ryosei_list);
-        listListener.setOnItemClickListener(new ReleaseActivity.ListRyoseiClickListener());
-        _helper.close();
-    }
-
-    public void show_room_ryosei(String room) {
-        show_list.clear();
-        // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
-        SQLiteDatabase db = _helper.getWritableDatabase();
-        // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT uid, room_name, ryosei_name, parcels_current_count FROM ryosei WHERE parcels_current_count > 0 AND room_name = '" + room + "'order by room_name asc;";
+        sql = "SELECT uid, room_name, ryosei_name FROM ryosei  order by room_name asc;";
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -263,14 +211,144 @@ public class ReleaseActivity extends AppCompatActivity {
             int ryouseiNote = cursor.getColumnIndex("ryosei_name");
             note += cursor.getString(ryouseiNote);
             ryosei_raw.put("room_name", note);
-            int index_parcels_current_count = cursor.getColumnIndex("parcels_current_count");
-            int parcels_count = cursor.getInt(index_parcels_current_count);
+            //int index_parcels_current_count = cursor.getColumnIndex("parcels_current_count");
+            //int parcels_count = cursor.getInt(index_parcels_current_count);
+            //ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count));
+
+            //parcelsテーブルからIDで荷物を検索
+            //String sql_parcels_count = "select count(*) from parcels where owner_uid ='" + ryosei_id + "' AND is_released = 0 AND is_deleted = 0;";
+            //cursor_parcels_count = db.rawQuery(sql_parcels_count, null);
+            //cursor_parcels_count.moveToFirst();
+            //int parcels_count = cursor_parcels_count.getInt(0);
+            //ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count));
+            //cursor_parcels_count.close();
+            blocks_roomname_name.add(note);
+            blocks_ryosei_id.add(ryosei_id);
+            //ryosei_parcels_count.add(parcels_count);
+            show_list.add(ryosei_raw);
+        }
+        cursor.close();
+        // リスト項目とListViewを対応付けるArrayAdapterを用意する
+        SimpleAdapter blocktoryoseiadapter = new SimpleAdapter
+                (this,
+                        show_list,
+                        android.R.layout.simple_list_item_2,
+                        from,
+                        to);
+        // ListViewにArrayAdapterを設定する
+        ListView listView = findViewById(R.id.release_ryosei_list);
+        listView.setAdapter(blocktoryoseiadapter);
+        ListView listListener = findViewById(R.id.release_ryosei_list);
+        listListener.setOnItemClickListener(new ReleaseActivity.ListRyoseiClickListener());
+        _helper.close();
+    }
+
+    public void show_block_ryosei(String block) {
+        show_list.clear();
+        // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
+        SQLiteDatabase db = _helper.getWritableDatabase();
+        String sql;
+        // 主キーによる検索SQL文字列の用意。
+        sql = "SELECT uid, room_name, ryosei_name FROM ryosei WHERE  block_id = '" + block_to_id(block) + "'order by room_name asc;";
+        // SQLの実行。
+        Cursor cursor = db.rawQuery(sql, null);
+        //ブロックの寮生を検索しArrayListに追加
+        while (cursor.moveToNext()) {
+            Map<String, String> ryosei_raw = new HashMap<>();
+            // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
+            String note = "";
+            String ryosei_id = "";
+            // カラムのインデックス値を取得。
+            int idNote = cursor.getColumnIndex("uid");
+            // カラムのインデックス値を元に実際のデータを取得。
+            ryosei_id = cursor.getString(idNote);
+            ryosei_raw.put("id", cursor.getString(idNote));
+            // カラムのインデックス値を取得。
+            int roomNameNote = cursor.getColumnIndex("room_name");
+            // カラムのインデックス値を元に実際のデータを取得。
+            note += cursor.getString(roomNameNote);
+            note += " ";
+            int ryouseiNote = cursor.getColumnIndex("ryosei_name");
+            note += cursor.getString(ryouseiNote);
+            ryosei_raw.put("room_name", note);
+            //int index_parcels_current_count = cursor.getColumnIndex("parcels_current_count");
+            //int parcels_count = cursor.getInt(index_parcels_current_count);
+            //ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count));
+
+            //parcelsテーブルからIDで荷物を検索
+            String sql_parcels_count = "select count(*) from parcels where owner_uid ='" + ryosei_id + "' AND is_released = 0 AND is_deleted = 0;";
+            cursor_parcels_count = db.rawQuery(sql_parcels_count, null);
+            cursor_parcels_count.moveToFirst();
+            int parcels_count = cursor_parcels_count.getInt(0);
             ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count));
+            cursor_parcels_count.close();
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
             ryosei_parcels_count.add(parcels_count);
             show_list.add(ryosei_raw);
         }
+        cursor.close();
+        // リスト項目とListViewを対応付けるArrayAdapterを用意する
+        SimpleAdapter blocktoryoseiadapter = new SimpleAdapter
+                (this,
+                        show_list,
+                        android.R.layout.simple_list_item_2,
+                        from,
+                        to);
+        // ListViewにArrayAdapterを設定する
+        ListView listView = findViewById(R.id.release_ryosei_list);
+        listView.setAdapter(blocktoryoseiadapter);
+        ListView listListener = findViewById(R.id.release_ryosei_list);
+        listListener.setOnItemClickListener(new ReleaseActivity.ListRyoseiClickListener());
+        _helper.close();
+    }
+
+    public void show_room_ryosei(String room) {
+        show_list.clear();
+        // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
+        SQLiteDatabase db = _helper.getWritableDatabase();
+        // 主キーによる検索SQL文字列の用意。
+        String sql = "SELECT uid, room_name, ryosei_name FROM ryosei WHERE room_name = '" + room + "'order by room_name asc;";
+        // SQLの実行。
+        Cursor cursor = db.rawQuery(sql, null);
+        //ブロックの寮生を検索しArrayListに追加
+        while (cursor.moveToNext()) {
+            Map<String, String> ryosei_raw = new HashMap<>();
+            // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
+            String note = "";
+            String ryosei_id = "";
+            // カラムのインデックス値を取得。
+            int idNote = cursor.getColumnIndex("uid");
+            // カラムのインデックス値を元に実際のデータを取得。
+            ryosei_id = cursor.getString(idNote);
+            ryosei_raw.put("id", cursor.getString(idNote));
+            // カラムのインデックス値を取得。
+            int roomNameNote = cursor.getColumnIndex("room_name");
+            // カラムのインデックス値を元に実際のデータを取得。
+            note += cursor.getString(roomNameNote);
+            note += " ";
+            int ryouseiNote = cursor.getColumnIndex("ryosei_name");
+            note += cursor.getString(ryouseiNote);
+            ryosei_raw.put("room_name", note);
+            //従来の荷物カウントを削除
+            //int index_parcels_current_count = cursor.getColumnIndex("parcels_current_count");
+            //int parcels_count = cursor.getInt(index_parcels_current_count);
+            //ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count));
+
+            //parcelsテーブルからIDで荷物を検索
+            String sql_parcels_count = "select count(*) from parcels where owner_uid ='" + ryosei_id + "' AND is_released = 0 AND is_deleted = 0;";
+            cursor_parcels_count = db.rawQuery(sql_parcels_count, null);
+            cursor_parcels_count.moveToFirst();
+            int parcels_count = cursor_parcels_count.getInt(0);
+            ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count));
+            cursor_parcels_count.close();
+
+            blocks_roomname_name.add(note);
+            blocks_ryosei_id.add(ryosei_id);
+            //ryosei_parcels_count.add(parcels_count);
+            show_list.add(ryosei_raw);
+        }
+        cursor.close();
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter roomtoryoseiadapter = new SimpleAdapter
                 (this,
@@ -332,9 +410,9 @@ public class ReleaseActivity extends AppCompatActivity {
         // 主キーによる検索SQL文字列の用意。
         String sql;
         if (block_to_id(block) == 0) {
-            sql = "SELECT DISTINCT room_name FROM ryosei where parcels_current_count > 0 order by room_name asc;";
+            sql = "SELECT DISTINCT room_name FROM ryosei  order by room_name asc;";
         } else {
-            sql = "SELECT DISTINCT room_name FROM ryosei WHERE parcels_current_count > 0 AND block_id = '" + block_to_id(block) + "'order by room_name asc;";
+            sql = "SELECT DISTINCT room_name FROM ryosei  WHERE block_id = '" + block_to_id(block) + "'order by room_name asc;";
         }
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
@@ -350,6 +428,7 @@ public class ReleaseActivity extends AppCompatActivity {
             room_raw.clear();
         }
 
+        cursor.close();
         _helper.close();
     }
 
@@ -406,10 +485,15 @@ public class ReleaseActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, intent);
         switch (requestCode) {
             case PROXYCHANGE_ACTIVITY:
-                proxy_id_Str = intent.getStringExtra("Proxy_id");
-                proxy_room_Str = intent.getStringExtra("Proxy_room");
-                //proxy_name_Str = intent.getStringExtra("Proxy_name");
-                proxy_room_name_text.setText("代理人: " + proxy_room_Str);
+                if(intent.getBooleanExtra("set_proxy",false)){
+                    proxy_id_Str = intent.getStringExtra("Proxy_id");
+                    proxy_room_Str = intent.getStringExtra("Proxy_room");
+                    proxy_room_name_text.setText("代理人: " + proxy_room_Str);
+                }else{
+                    proxy_check = false;
+                    proxySwitch.setChecked(false);
+                    proxy_room_name_text.setVisibility(View.GONE);
+                }
             default:
         }
     }
@@ -419,11 +503,7 @@ public class ReleaseActivity extends AppCompatActivity {
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         SQLiteDatabase db = _helper.getWritableDatabase();
         // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count  FROM ryosei WHERE " +
-                "ryosei_name LIKE '%" + name + "%' " +
-                "OR ryosei_name_kana LIKE '%" + name + "%' " +
-                "OR ryosei_name_alphabet LIKE '%" + name + "%' " +
-                "OR room_name LIKE '%" + name + "%' ";
+        String sql = "SELECT uid, room_name, ryosei_name,ryoei_status  FROM ryosei WHERE " + "ryosei_name LIKE '%" + name + "%' " + "OR ryosei_name_kana LIKE '%" + name + "%' " + "OR ryosei_name_alphabet LIKE '%" + name + "%' " + "OR room_name LIKE '%" + name + "%' ";
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -445,15 +525,30 @@ public class ReleaseActivity extends AppCompatActivity {
             note += " ";
             int ryouseiNote = cursor.getColumnIndex("ryosei_name");
             note += cursor.getString(ryouseiNote);
+
+            int status = cursor.getInt(cursor.getColumnIndex("status"));
+            if(status== 10){
+                note += "  退寮済み";
+            }
+
             ryosei_raw.put("room_name", note);
-            int index_parcels_current_count = cursor.getColumnIndex("parcels_current_count");
-            int parcels_count = cursor.getInt(index_parcels_current_count);
-            ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count));
+            //int index_parcels_current_count = cursor.getColumnIndex("parcels_current_count");
+            //int parcels_count = cursor.getInt(index_parcels_current_count);
+            //ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count));
+
+            //parcelsテーブルからIDで荷物を検索
+            //String sql_parcels_count = "select count(*) from parcels where owner_uid ='" + ryosei_id + "' AND is_released = 0 AND is_deleted = 0;";
+            //cursor_parcels_count = db.rawQuery(sql_parcels_count, null);
+            //cursor_parcels_count.moveToFirst();
+            //int parcels_count = cursor_parcels_count.getInt(0);
+            //ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count));
+            //cursor_parcels_count.close();
+
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
             show_ryosei.add(ryosei_raw);
-
         }
+        cursor.close();
 
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter adapter = new SimpleAdapter
@@ -544,7 +639,7 @@ public class ReleaseActivity extends AppCompatActivity {
             String input_name = input.getText().toString();
             input_name = input_name.replaceAll("　", "").replaceAll(" ", "");
             input_name = Normalizer.normalize(input_name, Normalizer.Form.NFKC);
-            Pattern p = Pattern.compile("([0-9A-zぁ-んァ-ヶｱ-ﾝ\\u4E00-\\u9FFF\\u3005-\\u3007]+)"
+            Pattern p = Pattern.compile("([0-9A-zぁ-ゖァ-ヶｱ-ﾝ\\u4E00-\\u9FFF\\u3005-\\u3007]+)"
                     // + " \\p{InHiragana}|" + " \\p{InKatakana}|"
                     // + " \\p{InCJKUnifiedIdeographs}+)"
                     , Pattern.COMMENTS);
@@ -570,9 +665,23 @@ public class ReleaseActivity extends AppCompatActivity {
             Map<String, String> item = (Map) parent.getItemAtPosition(position);
             //音声再生
             touchsound.releasecursorryosei();
+            Integer parcels_count = null;
+
+            // show_all_ryosei()で表示されたところはViewにparcels_current_countが設定されていない
+            if (item.get("parcels_current_count") == null) {
+                SQLiteDatabase db_to_get_parcels_count = _helper.getWritableDatabase();
+                String sql_parcels_count = "select count(*) from parcels where owner_uid ='" + item.get("id") + "' AND is_released = 0 AND is_deleted = 0;";
+                cursor_parcels_count = db_to_get_parcels_count.rawQuery(sql_parcels_count, null);
+                cursor_parcels_count.moveToFirst();
+                parcels_count = cursor_parcels_count.getInt(0);
+                cursor_parcels_count.close();
+            } else {
+                parcels_count = Integer.parseInt(item.get("parcels_current_count"));
+            }
+
             //代理受け取りモード
             if (proxy_check) {
-                if (Integer.parseInt(item.get("parcels_current_count")) == 0) {
+                if (parcels_count == 0) {
                     String show = item.get("room_name") + "には現在荷物が一つも登録されていません。";
                     Toast.makeText(ReleaseActivity.this, show, Toast.LENGTH_LONG).show();
                 } else if (proxy_id_Str == null) {
@@ -580,12 +689,12 @@ public class ReleaseActivity extends AppCompatActivity {
                 } else {
                     this.showProxyDialog(view, item.get("room_name"), item.get("id"), proxy_id_Str, proxy_room_Str, proxy_name_Str);
                     this.showIDCheckDialog(view);
-
                 }
             }
+
             //通常受け取りモード
             else {
-                if (Integer.parseInt(item.get("parcels_current_count")) == 0) {
+                if (parcels_count == 0) {
                     String show = item.get("room_name") + "には現在荷物が一つも登録されていません。";
                     Toast.makeText(ReleaseActivity.this, show, Toast.LENGTH_LONG).show();
                 } else {
@@ -593,6 +702,7 @@ public class ReleaseActivity extends AppCompatActivity {
                     this.showIDCheckDialog(view);
                 }
             }
+
         }
 
         public void showDialog(View view, String owner_room_name, String owner_id) {

@@ -1,6 +1,7 @@
 package com.example.top;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,12 +9,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -51,6 +54,11 @@ public class MainActivity extends AppCompatActivity {
     public static Context getMainActivityContext() {
         return MainActivity.context;
     }
+
+    public void eventRefresher() {
+        eventLogshow();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +100,15 @@ public class MainActivity extends AppCompatActivity {
         RefreshListener listenerNimotsufuda = new RefreshListener();
         nimotsufuda.setOnClickListener(listenerNimotsufuda);
 
+        ImageButton oldnote = findViewById(R.id.old_note);
+        OldNoteListener oldnotelistener = new OldNoteListener();
+        oldnote.setOnClickListener(oldnotelistener);
+        //oldnote.setVisibility(View.GONE);
+
+        ImageButton othersbutton = findViewById(R.id.others_button);
+        OthersButtonListener othersbuttonlistener = new OthersButtonListener();
+        othersbutton.setOnClickListener(othersbuttonlistener);
+
         //   ButteryChecker butterychecker = new ButteryChecker();
         // Listenerを設定
         //  butterychecker.setListener(createListener());
@@ -112,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         TextView jimuto_name = findViewById(R.id.main_jimuto_show);
         jimuto_room = _helper.jimuto_at_oncreate(db);
         jimuto_name.setText(jimuto_room);
-        jimuto_id=_helper.jimuto_id_at_oncreate(db);
+        jimuto_id = _helper.jimuto_id_at_oncreate(db);
 
     }
 
@@ -131,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void event_delete_failed_toast(){
+    public void event_delete_failed_toast() {
 
         Toast.makeText(this, "5分経過しているため削除できませんでした。", Toast.LENGTH_SHORT).show();
     }
@@ -181,6 +198,10 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 12:
                     text += "泊まり事務当モード終了     ";
+                    break;
+                case 20:
+                    text += "本人確認完了     ";
+                    break;
             }
             text += cursor.getString(cursor.getColumnIndex("room_name"));
             text += "    ";
@@ -190,15 +211,9 @@ public class MainActivity extends AppCompatActivity {
             event_raw.put("id", event_id);
             event_raw.put("text", text);
             show_eventlist.add(event_raw);
-
         }
-        SimpleAdapter adapter = new SimpleAdapter(
-                this,
-                show_eventlist,
-                android.R.layout.simple_list_item_1,
-                from,
-                to
-        );
+        cursor.close();
+        SimpleAdapter adapter = new SimpleAdapter(this, show_eventlist, android.R.layout.simple_list_item_1, from, to);
         ListView listView = findViewById(R.id.event_show);
         listView.setAdapter(adapter);
         ListView listListener = findViewById(R.id.event_show);
@@ -247,8 +262,41 @@ public class MainActivity extends AppCompatActivity {
             String owner_ryosei_name = "";
             String owner_room_name = "";
             int fragile = 0;
-            if (cursor.getCount() == 0) {//QRコードがデータベースにない場合
-                this.showMyDialog(null, getString(R.string.error), getString(R.string.qr_no_qr), getString(R.string.ok), "");
+            if (cursor.getCount() == 0) {//QRコードがparcelsテーブルにない場合
+                //uuidがryoseiテーブルにある場合は本人確認
+                String identify_sql = "SELECT uid, room_name, ryosei_name,status FROM ryosei WHERE uid ='" + qr_uuid + "'";
+                Cursor identify_cursor = db.rawQuery(identify_sql, null);
+                if (identify_cursor.getCount() == 0) {
+                    if (qr_uuid == null) {
+
+                    } else if (qr_uuid.indexOf("発送") == -1) {
+                        this.showMyDialog(null, getString(R.string.error), getString(R.string.qr_no_qr), getString(R.string.ok), "");
+                    } else {
+                        this.showMyDialog(null, "持ち主", qr_uuid, getString(R.string.ok), "");
+                    }
+                } else if (identify_cursor.getCount() == 1) {
+                    identify_cursor.moveToFirst();
+                    String identify_uid = identify_cursor.getString(identify_cursor.getColumnIndex("uid"));
+                    String identify_name = identify_cursor.getString(identify_cursor.getColumnIndex("ryosei_name"));
+                    String identify_room = identify_cursor.getString(identify_cursor.getColumnIndex("room_name"));
+                    int identify_status = identify_cursor.getInt(identify_cursor.getColumnIndex("status"));
+                    if (identify_status == 1) {
+                        this.showMyDialog(null, "確認済み", "すでに本人確認が済んでおります。", getString(R.string.ok), "");
+                    } else if (identify_status == 5) {
+                        MainActivity.context = getApplicationContext();
+                        DialogFragment dialogFragment = new IdentifyDialog();
+                        Bundle args = new Bundle();
+                        args.putString("id", identify_uid);
+                        args.putString("room", identify_room);
+                        args.putString("name", identify_name);
+                        dialogFragment.setArguments(args);
+                        dialogFragment.show(getSupportFragmentManager(), "identify_dialog");
+                    } else {
+                        this.showMyDialog(null, "えっ。。。", "どうしよこの場合、、、詳しい人呼んで", getString(R.string.ok), "");
+                    }
+                } else {
+                    this.showMyDialog(null, getString(R.string.error), "寮生が重複登録されてる場合があります。開発者に連絡してください。", getString(R.string.ok), "");
+                }
             } else if (cursor.getCount() == 1) {//QRコードがデータベースに一つある場合
                 while (cursor.moveToNext()) {
                     uid = cursor.getString(cursor.getColumnIndex("owner_uid"));
@@ -290,13 +338,13 @@ public class MainActivity extends AppCompatActivity {
         dialogFragment.show(getSupportFragmentManager(), "Nimotsu_Register_Dialog");
     }
 
-    public void showMyDialog(View view, String title, String mainText, String positiveButton, String negativeButton) {
+    public void showMyDialog(View view, String title, String mainText, String positiveButton, String neutralButton) {
         DialogFragment dialogFragment = new myDialog();
 
 
         Bundle args = new Bundle();
         args.putString("positivebutton", positiveButton);
-        args.putString("negativebutton", negativeButton);
+        args.putString("neutralbutton", neutralButton);
         args.putString("title", title);
         args.putString("maintext", mainText);
         dialogFragment.setArguments(args);
@@ -335,11 +383,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        public void showMyDialog(View view, String title, String mainText, String positiveButton, String negativeButton) {
+        public void showMyDialog(View view, String title, String mainText, String positiveButton, String neutralButton) {
             DialogFragment dialogFragment = new myDialog();
             Bundle args = new Bundle();
             args.putString("positivebutton", positiveButton);
-            args.putString("negativebutton", negativeButton);
+            args.putString("neutralbutton", neutralButton);
             args.putString("title", title);
             args.putString("maintext", mainText);
             dialogFragment.setArguments(args);
@@ -370,11 +418,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        public void showMyDialog(View view, String title, String mainText, String positiveButton, String negativeButton) {
+        public void showMyDialog(View view, String title, String mainText, String positiveButton, String neutralButton) {
             DialogFragment dialogFragment = new myDialog();
             Bundle args = new Bundle();
             args.putString("positivebutton", positiveButton);
-            args.putString("negativebutton", negativeButton);
+            args.putString("neutralbutton", neutralButton);
             args.putString("title", title);
             args.putString("maintext", mainText);
             dialogFragment.setArguments(args);
@@ -405,11 +453,11 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        public void showMyDialog(View view, String title, String mainText, String positiveButton, String negativeButton) {
+        public void showMyDialog(View view, String title, String mainText, String positiveButton, String neutralButton) {
             DialogFragment dialogFragment = new myDialog();
             Bundle args = new Bundle();
             args.putString("positivebutton", positiveButton);
-            args.putString("negativebutton", negativeButton);
+            args.putString("neutralbutton", neutralButton);
             args.putString("title", title);
             args.putString("maintext", mainText);
             dialogFragment.setArguments(args);
@@ -458,7 +506,8 @@ public class MainActivity extends AppCompatActivity {
                 this.showMyDialog(null, getString(R.string.main_not_selected_staff), "", getString(R.string.ok), "");
                 touchsound.playsounderror();
             } else {
-                Intent intent = new Intent(MainActivity.this, NightDutyActivity.class);
+                Toast.makeText(getMainActivityContext(), "Now Loading...", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, TwoCheckBoxesNightDutyActivity.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 //intent.putExtra("Jimuto_name", jimuto_name);
@@ -468,11 +517,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        public void showMyDialog(View view, String title, String mainText, String positiveButton, String negativeButton) {
+        public void showMyDialog(View view, String title, String mainText, String positiveButton, String neutralButton) {
             DialogFragment dialogFragment = new myDialog();
             Bundle args = new Bundle();
             args.putString("positivebutton", positiveButton);
-            args.putString("negativebutton", negativeButton);
+            args.putString("neutralbutton", neutralButton);
             args.putString("title", title);
             args.putString("maintext", mainText);
             dialogFragment.setArguments(args);
@@ -513,8 +562,7 @@ public class MainActivity extends AppCompatActivity {
             //TextView configshow = findViewById(R.id.showText);
             //configshow.setText(item.get("id"));
             item.get("id");
-            String sql = "SELECT uid, created_at, event_type,ryosei_uid, parcel_uid, room_name, ryosei_name, target_event_uid FROM parcel_event WHERE uid = '" +
-                    item.get("id") + "'";
+            String sql = "SELECT uid, created_at, event_type,ryosei_uid, parcel_uid, room_name, ryosei_name, target_event_uid FROM parcel_event WHERE uid = '" + item.get("id") + "'";
             Cursor cursor = db.rawQuery(sql, null);
             while (cursor.moveToNext()) {
                 event_id = cursor.getString(cursor.getColumnIndex("uid"));
@@ -526,6 +574,7 @@ public class MainActivity extends AppCompatActivity {
                 target_event_uid = cursor.getString(cursor.getColumnIndex("target_event_uid"));
                 ryosei_uid = cursor.getString(cursor.getColumnIndex("ryosei_uid"));
             }
+            cursor.close();
 
             if (event_id == "") {
                 return;
@@ -546,6 +595,40 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private class OldNoteListener extends OnOneClickListener {
+        @Override
+        public void onOneClick(View view) {
+            Intent intent = new Intent(MainActivity.this, OldNoteActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private class OthersButtonListener extends OnOneClickListener{
+        @Override
+        public void onOneClick(View view){
+            final EditText editText = new EditText(MainActivity.this);
+            editText.setHint("enter password");
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("管理用画面")
+                    .setMessage("パスワードを入力してください。")
+                    .setView(editText)
+                    .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String input = editText.getText().toString();
+                            if(input.equals("PassworD")) {
+                                Toast.makeText(MainActivity.this, editText.getText(), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(MainActivity.this, OthersActivity.class);
+                                startActivity(intent);
+                            }else{
+                                Toast.makeText(MainActivity.this, "パスワードが違います。", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .show();
+        }
     }
 
     public class HttpTask {
@@ -583,7 +666,7 @@ public class MainActivity extends AppCompatActivity {
             //String json = getJsonFromDatabase();
             //一旦一度に同期するのは5つ分と決めるが、後から変えられるように作る
             //allaylistにuidを格納する
-            int uids_per_one_sync = 5;
+            int uids_per_one_sync = 50;
             boolean onemore = true;
 
             while (onemore) {//PC側にデータが残っているorタブレット側にデータが残っている限り回り続けるwhile
@@ -619,7 +702,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                 }
-                if (c == 1000) return;
+                if (c == 1000)
+                    return;
 
             }
         }

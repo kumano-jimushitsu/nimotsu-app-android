@@ -54,7 +54,7 @@ public class ReleaseProxyActivity extends AppCompatActivity {
     private String proxy_id = null;
     private static final int PROXYCHANGE_ACTIVITY = 2001;
     private ConstraintLayout double_proxy_change;
-
+    public Cursor all_cursor;//ここに荷物のある全ての寮生を入れる。
 
 
     @Override
@@ -140,8 +140,8 @@ public class ReleaseProxyActivity extends AppCompatActivity {
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
             show_list.add(ryosei_raw);
-
         }
+        cursor.close();
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter adapter = new SimpleAdapter
                 (this,
@@ -163,39 +163,43 @@ public class ReleaseProxyActivity extends AppCompatActivity {
         SQLiteDatabase db = _helper.getWritableDatabase();
         String sql;
         // 主キーによる検索SQL文字列の用意。
-        if (block == null){
-            sql = "SELECT uid, room_name, ryosei_name,parcels_current_count FROM ryosei order by room_name asc;";
-        }else {
-            sql = "SELECT uid, room_name, ryosei_name ,parcels_current_count FROM ryosei WHERE block_id = '" + block_to_id(block) + "' order by room_name asc;";
+        if (block == null) {
+            sql = "SELECT uid, room_name, ryosei_name FROM ryosei order by room_name asc;";
+        } else {
+            sql = "SELECT uid, room_name, ryosei_name FROM ryosei WHERE block_id = '" + block_to_id(block) + "' order by room_name asc;";
         }// SQLの実行。
-        Cursor cursor = db.rawQuery(sql, null);
+        all_cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
-        while(cursor.moveToNext()) {
-            Map<String,String> ryosei_raw = new HashMap<>();
+        while (all_cursor.moveToNext()) {
+            Map<String, String> ryosei_raw = new HashMap<>();
             // データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意。
             String note = "";
             String ryosei_id = "";
             // カラムのインデックス値を取得。
-            int idNote = cursor.getColumnIndex("uid");
+            int idNote = all_cursor.getColumnIndex("uid");
             // カラムのインデックス値を元に実際のデータを取得。
-            ryosei_id = cursor.getString(idNote);
-            ryosei_raw.put("id",cursor.getString(idNote));
+            ryosei_id = all_cursor.getString(idNote);
+            ryosei_raw.put("id", all_cursor.getString(idNote));
             // カラムのインデックス値を取得。
-            int roomNameNote = cursor.getColumnIndex("room_name");
+            int roomNameNote = all_cursor.getColumnIndex("room_name");
             // カラムのインデックス値を元に実際のデータを取得。
-            note += cursor.getString(roomNameNote);
+            note += all_cursor.getString(roomNameNote);
             note += " ";
-            int ryouseiNote = cursor.getColumnIndex("ryosei_name");
-            note += cursor.getString(ryouseiNote);
-            ryosei_raw.put("room_name",note);
-            int index_parcels_current_count = cursor.getColumnIndex("parcels_current_count");
-            int parcels_count = cursor.getInt(index_parcels_current_count);
-            ryosei_raw.put("parcels_current_count",String.valueOf(parcels_count));
+            int ryouseiNote = all_cursor.getColumnIndex("ryosei_name");
+            note += all_cursor.getString(ryouseiNote);
+            ryosei_raw.put("room_name", note);
+            //従来の荷物カウントを削除
+            //int index_parcels_current_count = all_cursor.getColumnIndex("parcels_current_count");
+            //int parcels_count = all_cursor.getInt(index_parcels_current_count);
+            //parcelsテーブルからIDで荷物を検索
+            //String sql_parcels_count = "select count(uid) from parcels where owner_uid ='" + ryosei_id + "' AND is_released = 1;";
+            //Cursor parcels_count = db.rawQuery(sql_parcels_count, null);
+            //ryosei_raw.put("parcels_current_count", String.valueOf(parcels_count.getInt(0)));
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
             show_list.add(ryosei_raw);
-
         }
+        all_cursor.close();
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter blocktoryoseiadapter = new SimpleAdapter
                 (this,
@@ -246,6 +250,7 @@ public class ReleaseProxyActivity extends AppCompatActivity {
             blocks_ryosei_id.add(ryosei_id);
             show_list.add(ryosei_raw);
         }
+        cursor.close();
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter roomtoryoseiadapter = new SimpleAdapter
                 (this,
@@ -316,6 +321,7 @@ public class ReleaseProxyActivity extends AppCompatActivity {
             show_room.add(cursor.getString(roomNameNote));
             room_raw.clear();
         }
+        cursor.close();
     }
     public int block_to_id(String block){
         int id = 0;
@@ -400,8 +406,8 @@ public class ReleaseProxyActivity extends AppCompatActivity {
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
             show_ryosei.add(ryosei_raw);
-
         }
+        cursor.close();
 
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
         SimpleAdapter blocktoryoseiadapter = new SimpleAdapter
@@ -442,11 +448,15 @@ public class ReleaseProxyActivity extends AppCompatActivity {
         if(keyCode == KeyEvent.KEYCODE_BACK) {
             Intent proxy_intent = new Intent();
             if (proxy_id == null){
-                Toast.makeText(ReleaseProxyActivity.this, "代理人を選択してください。", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReleaseProxyActivity.this, "代理人が選択されませんでした。。", Toast.LENGTH_SHORT).show();
+                proxy_intent.putExtra("set_proxy",false);
+                setResult(RESULT_OK,proxy_intent);
+                finish();
             }else{
                 String[] newStr = proxy_room_name.split("\\s+");
                 String proxy_room = newStr[0];
                 String proxy_name = newStr[1];
+                proxy_intent.putExtra("set_proxy",true);
                 proxy_intent.putExtra("Proxy_room", proxy_room);
                 proxy_intent.putExtra("Proxy_name", proxy_name);
                 proxy_intent.putExtra("Proxy_id", proxy_id);
@@ -460,11 +470,15 @@ public class ReleaseProxyActivity extends AppCompatActivity {
     public void onBackButtonClick(View view){
         Intent proxy_intent = new Intent();
         if (proxy_id == null){
-            Toast.makeText(ReleaseProxyActivity.this, "代理人を選択してください。", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ReleaseProxyActivity.this, "代理人が選択されませんでした。。", Toast.LENGTH_SHORT).show();
+            proxy_intent.putExtra("set_proxy",false);
+            setResult(RESULT_OK,proxy_intent);
+            finish();
         }else{
             String[] newStr = proxy_room_name.split("\\s+");
             String proxy_room = newStr[0];
             String proxy_name = newStr[1];
+            proxy_intent.putExtra("set_proxy",true);
             proxy_intent.putExtra("Proxy_room", proxy_room);
             proxy_intent.putExtra("Proxy_name", proxy_name);
             proxy_intent.putExtra("Proxy_id", proxy_id);
@@ -479,6 +493,7 @@ public class ReleaseProxyActivity extends AppCompatActivity {
         proxy_room_name = value;
         proxy_id = id;
         Intent proxy_intent = new Intent();
+        proxy_intent.putExtra("set_proxy",true);
         proxy_intent.putExtra("Proxy_id", proxy_id);
         proxy_intent.putExtra("Proxy_room", proxy_room_name);
         setResult(RESULT_OK,proxy_intent);
@@ -494,9 +509,9 @@ public class ReleaseProxyActivity extends AppCompatActivity {
             String input_name = input.getText().toString();
             input_name = input_name.replaceAll("　", "").replaceAll(" ", "");
             input_name = Normalizer.normalize(input_name, Normalizer.Form.NFKC);
-            Pattern p = Pattern.compile("([0-9A-zぁ-んァ-ヶｱ-ﾝ\\u4E00-\\u9FFF\\u3005-\\u3007]+)"
-                   // + " \\p{InHiragana}|" + " \\p{InKatakana}|"
-                   // + " \\p{InCJKUnifiedIdeographs}+)"
+            Pattern p = Pattern.compile("([0-9A-zぁ-ゖァ-ヶｱ-ﾝ\\u4E00-\\u9FFF\\u3005-\\u3007]+)"
+                    // + " \\p{InHiragana}|" + " \\p{InKatakana}|"
+                    // + " \\p{InCJKUnifiedIdeographs}+)"
                     , Pattern.COMMENTS);
             //if(input_name.matches( "^[A-zぁ-んァ-ヶｱ-ﾝﾞﾟ\u4E00-\u9FFF\u3005-\u3007]*$") ) {
             if(p.matcher(input_name).matches()) {

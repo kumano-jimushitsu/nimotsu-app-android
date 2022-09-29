@@ -77,19 +77,34 @@ public class Delete_Event_Dialog extends DialogFragment {
                 message += "\r\n";
 
                 message += "　・荷物の種類　：";//{"普通", "冷蔵", "冷凍","大型","不在票","その他"};
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 0)
-                    message += "一般";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 1)
-                    message += "冷蔵";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 2)
-                    message += "冷凍";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 3)
-                    message += "大型";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 4)
-                    message += "不在表";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 5) {
-                    message += "その他 memo:" + cursor.getString(cursor.getColumnIndex("note"));
+                switch (cursor.getInt(cursor.getColumnIndex("placement"))) {
+                    case 0:
+                        message += "一般";
+                        break;
+                    case 1:
+                        message += "冷蔵";
+                        break;
+                    case 2:
+                        message += "冷凍";
+                        break;
+                    case 3:
+                        message += "大型";
+                        break;
+                    case 4:
+                        message += "不在票";
+                        break;
+                    case 5:
+                        message += "その他 memo:" + cursor.getString(cursor.getColumnIndex("note"));
+                        break;
+                    case 6:
+                        message += "新入寮生(面接番号:" + cursor.getString(cursor.getColumnIndex("note")) + ")";
+                        break;
+                    default:
+                        message += "unknown";
+                        break;
                 }
+
+                cursor.close();
                 break;
             case "2"://引渡
                 message = "寮生に荷物を引き渡しました。";
@@ -108,18 +123,31 @@ public class Delete_Event_Dialog extends DialogFragment {
                 message += "\r\n";
 
                 message += "　・荷物の種類　：";//{"普通", "冷蔵", "冷凍","大型","不在票","その他"};
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 0)
-                    message += "一般";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 1)
-                    message += "冷蔵";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 2)
-                    message += "冷凍";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 3)
-                    message += "大型";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 4)
-                    message += "不在表";
-                if (cursor.getInt(cursor.getColumnIndex("placement")) == 5) {
-                    message += "その他 memo:" + cursor.getString(cursor.getColumnIndex("note"));
+                switch (cursor.getInt(cursor.getColumnIndex("placement"))) {
+                    case 0:
+                        message += "一般";
+                        break;
+                    case 1:
+                        message += "冷蔵";
+                        break;
+                    case 2:
+                        message += "冷凍";
+                        break;
+                    case 3:
+                        message += "大型";
+                        break;
+                    case 4:
+                        message += "不在票";
+                        break;
+                    case 5:
+                        message += "その他 memo:" + cursor.getString(cursor.getColumnIndex("note"));
+                        break;
+                    case 6:
+                        message += "新入寮生(面接番号:" + cursor.getString(cursor.getColumnIndex("note")) + ")";
+                        break;
+                    default:
+                        message += "unknown";
+                        break;
                 }
                 if (cursor.getString(cursor.getColumnIndex("release_agent_uid")) != null) {
                     sql = "select room_name, ryosei_name from ryosei where uid ='" + cursor.getString(cursor.getColumnIndex("release_agent_uid")) + "';";
@@ -128,6 +156,7 @@ public class Delete_Event_Dialog extends DialogFragment {
                     message += "\r\n　・代理　　：" + cursor.getString(cursor.getColumnIndex("room_name")) + "　" + cursor.getString(cursor.getColumnIndex("ryosei_name"));
                 }
 
+                cursor.close();
                 break;
             case "10"://事務当交代
                 message = "事務当番交代　";
@@ -142,6 +171,8 @@ public class Delete_Event_Dialog extends DialogFragment {
                     message += "→";
                 }
 
+                cursor.close();
+
                 //指定されたイベントで交替した事務当を取得
                 message += getJimutoAtEvent(db, event_id);
                 break;
@@ -150,6 +181,12 @@ public class Delete_Event_Dialog extends DialogFragment {
                 break;
             case "12": // 泊まり事務当モード終了
                 message = "泊まり事務当モード終了　" + getJimutoAtEvent(db, event_id);
+                break;
+            case "20": // 本人確認完了
+                sql = "select ryosei_name from ryosei where uid ='" + ryosei_id + "'";
+                cursor = db.rawQuery(sql, null);
+                cursor.moveToFirst();
+                message = "本人確認完了　" + cursor.getString(cursor.getColumnIndex("ryosei_name")) + "　5分後に登録完了通知が来ます。";
                 break;
             default:
                 message = "unknown event type";
@@ -186,7 +223,9 @@ public class Delete_Event_Dialog extends DialogFragment {
                     }
                 });
             }
-            //.setNegativeButton("確認終了　", null);
+            //.setNeutralButton("確認終了　", null);
+
+            cursor.close();
         }
         return builder.create();
     }
@@ -224,7 +263,9 @@ public class Delete_Event_Dialog extends DialogFragment {
         String sql = "SELECT uid, room_name, ryosei_name FROM parcel_event where uid ='" + event_id + "';";
         Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
-        return cursor.getString(cursor.getColumnIndex("room_name")) + "" + cursor.getString(cursor.getColumnIndex("ryosei_name"));
+        String getjimutoatevent = cursor.getString(cursor.getColumnIndex("room_name")) + "" + cursor.getString(cursor.getColumnIndex("ryosei_name"));
+        cursor.close();
+        return getjimutoatevent;
     }
 
 }

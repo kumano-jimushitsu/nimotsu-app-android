@@ -55,11 +55,9 @@ public class RegisterDialog extends DialogFragment {
         cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
         register_staff_room=cursor.getString(cursor.getColumnIndex("room_name"));
-        register_staff_name=cursor.getString(cursor.getColumnIndex("ryosei_name"));
-
-
-        String[] choices = {"普通", "冷蔵", "冷凍","大型","不在票","その他"};
-        boolean[] choicesChecked = {true, false, false, false, false,false};
+        register_staff_name = cursor.getString(cursor.getColumnIndex("ryosei_name"));
+        cursor.close();
+        String[] choices = {"普通", "冷蔵", "冷凍", "大型", "不在票", "その他", "新入寮生"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(owner_ryosei_room+" "+
@@ -67,13 +65,7 @@ public class RegisterDialog extends DialogFragment {
                 .setPositiveButton("受け取り", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // このボタンを押した時の処理を書きます。
-                        if(placement != 5){
-                        _helper = new com.example.top.DatabaseHelper(requireContext());
-                        SQLiteDatabase db = _helper.getWritableDatabase();
-                        _helper.register(db,owner_ryosei_id,
-                          register_staff_id,register_staff_room,register_staff_name,placement,"");
-                        _helper.close();}
-                        else{
+                        if (placement == 5) {//その他の荷物
                             Intent others_intent = new Intent(getActivity(), RegisterOthersActivity.class);
                             others_intent.putExtra("Jimuto_id", register_staff_id);
                             others_intent.putExtra("Jimuto_room", register_staff_room);
@@ -83,22 +75,35 @@ public class RegisterDialog extends DialogFragment {
                             others_intent.putExtra("Owner_name", owner_ryosei_name);
                             others_intent.putExtra("placement", String.valueOf(placement));
                             startActivity(others_intent);
+                        } else if (placement == 6) {//新入寮生
+                            Intent others_intent = new Intent(getActivity(), RegisterFreshMenParcelsActivity.class);
+                            others_intent.putExtra("Jimuto_id", register_staff_id);
+                            others_intent.putExtra("Jimuto_room", register_staff_room);
+                            others_intent.putExtra("Jimuto_name", register_staff_name);
+                            others_intent.putExtra("Owner_id", owner_ryosei_id);
+                            others_intent.putExtra("Owner_room", owner_ryosei_room);
+                            others_intent.putExtra("Owner_name", owner_ryosei_name);
+                            others_intent.putExtra("placement", String.valueOf(placement));
+                            startActivity(others_intent);
+                        } else {//それ以外の普通,冷蔵,冷凍...の荷物
+                            _helper = new com.example.top.DatabaseHelper(requireContext());
+                            SQLiteDatabase db = _helper.getWritableDatabase();
+                            _helper.register(db, owner_ryosei_id, register_staff_id, register_staff_room, register_staff_name, placement, "");
+                            _helper.close();
                         }
 
 
-                        if(placement != 5) {
-                            String show = "事務当番" + register_staff_room + register_staff_name + "が" + owner_ryosei_room + " " +
-                                    owner_ryosei_name + "に荷物を受け取りしました。";
+                        if (placement != 5 && placement != 6) {
+                            String show = "事務当番" + register_staff_room + register_staff_name + "が" + owner_ryosei_room + " " + owner_ryosei_name + "に荷物を受け取りしました。";
                             touchsound.playsoundone();
                             Toast.makeText(getActivity(), show, Toast.LENGTH_LONG).show();
                         }
-//                        insert_parcels_shearingstatus();
-//                        update_ryosei_shearingstatus();
-//                        insert_event_shearingstatus();
+                        //                        insert_parcels_shearingstatus();
+                        //                        update_ryosei_shearingstatus();
+                        //                        insert_event_shearingstatus();
 
                     }
-                })
-                .setNegativeButton("キャンセル", null)
+                }).setNeutralButton("キャンセル", null)
                 .setSingleChoiceItems(choices, 0, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
