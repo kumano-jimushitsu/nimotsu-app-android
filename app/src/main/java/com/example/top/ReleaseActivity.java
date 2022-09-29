@@ -66,6 +66,7 @@ public class ReleaseActivity extends AppCompatActivity {
     public  TouchSound touchsound;
     private static Context context;
     public Cursor cursor_parcels_count;
+    public Switch proxySwitch;
     //private ConstraintLayout double_buttoned_register;
 
     public static Context getReceiveActivityContext() {
@@ -109,7 +110,7 @@ public class ReleaseActivity extends AppCompatActivity {
         roomlistListener.setOnItemClickListener(new ReleaseActivity.ListRoomClickListener());
         ImageButton ryosei_search_button = findViewById(R.id.release_search_ryosei_name_button);
         ryosei_search_button.setOnClickListener(new ReleaseActivity.RyoseiSearchListener());
-        Switch proxySwitch = findViewById(R.id.proxy_switch);
+        proxySwitch = findViewById(R.id.proxy_switch);
         proxySwitch.setOnCheckedChangeListener(new ReleaseActivity.ProxySwitchListener());
 
         proxy_room_name_text = findViewById(R.id.proxy_textview);
@@ -484,10 +485,15 @@ public class ReleaseActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, intent);
         switch (requestCode) {
             case PROXYCHANGE_ACTIVITY:
-                proxy_id_Str = intent.getStringExtra("Proxy_id");
-                proxy_room_Str = intent.getStringExtra("Proxy_room");
-                //proxy_name_Str = intent.getStringExtra("Proxy_name");
-                proxy_room_name_text.setText("代理人: " + proxy_room_Str);
+                if(intent.getBooleanExtra("set_proxy",false)){
+                    proxy_id_Str = intent.getStringExtra("Proxy_id");
+                    proxy_room_Str = intent.getStringExtra("Proxy_room");
+                    proxy_room_name_text.setText("代理人: " + proxy_room_Str);
+                }else{
+                    proxy_check = false;
+                    proxySwitch.setChecked(false);
+                    proxy_room_name_text.setVisibility(View.GONE);
+                }
             default:
         }
     }
@@ -497,7 +503,7 @@ public class ReleaseActivity extends AppCompatActivity {
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         SQLiteDatabase db = _helper.getWritableDatabase();
         // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT uid, room_name, ryosei_name  FROM ryosei WHERE " + "ryosei_name LIKE '%" + name + "%' " + "OR ryosei_name_kana LIKE '%" + name + "%' " + "OR ryosei_name_alphabet LIKE '%" + name + "%' " + "OR room_name LIKE '%" + name + "%' ";
+        String sql = "SELECT uid, room_name, ryosei_name,ryoei_status  FROM ryosei WHERE " + "ryosei_name LIKE '%" + name + "%' " + "OR ryosei_name_kana LIKE '%" + name + "%' " + "OR ryosei_name_alphabet LIKE '%" + name + "%' " + "OR room_name LIKE '%" + name + "%' ";
         // SQLの実行。
         Cursor cursor = db.rawQuery(sql, null);
         //ブロックの寮生を検索しArrayListに追加
@@ -519,6 +525,12 @@ public class ReleaseActivity extends AppCompatActivity {
             note += " ";
             int ryouseiNote = cursor.getColumnIndex("ryosei_name");
             note += cursor.getString(ryouseiNote);
+
+            int status = cursor.getInt(cursor.getColumnIndex("status"));
+            if(status== 10){
+                note += "  退寮済み";
+            }
+
             ryosei_raw.put("room_name", note);
             //int index_parcels_current_count = cursor.getColumnIndex("parcels_current_count");
             //int parcels_count = cursor.getInt(index_parcels_current_count);

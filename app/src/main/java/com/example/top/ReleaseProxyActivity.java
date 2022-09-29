@@ -448,11 +448,15 @@ public class ReleaseProxyActivity extends AppCompatActivity {
         if(keyCode == KeyEvent.KEYCODE_BACK) {
             Intent proxy_intent = new Intent();
             if (proxy_id == null){
-                Toast.makeText(ReleaseProxyActivity.this, "代理人を選択してください。", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReleaseProxyActivity.this, "代理人が選択されませんでした。。", Toast.LENGTH_SHORT).show();
+                proxy_intent.putExtra("set_proxy",false);
+                setResult(RESULT_OK,proxy_intent);
+                finish();
             }else{
                 String[] newStr = proxy_room_name.split("\\s+");
                 String proxy_room = newStr[0];
                 String proxy_name = newStr[1];
+                proxy_intent.putExtra("set_proxy",true);
                 proxy_intent.putExtra("Proxy_room", proxy_room);
                 proxy_intent.putExtra("Proxy_name", proxy_name);
                 proxy_intent.putExtra("Proxy_id", proxy_id);
@@ -466,11 +470,15 @@ public class ReleaseProxyActivity extends AppCompatActivity {
     public void onBackButtonClick(View view){
         Intent proxy_intent = new Intent();
         if (proxy_id == null){
-            Toast.makeText(ReleaseProxyActivity.this, "代理人を選択してください。", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ReleaseProxyActivity.this, "代理人が選択されませんでした。。", Toast.LENGTH_SHORT).show();
+            proxy_intent.putExtra("set_proxy",false);
+            setResult(RESULT_OK,proxy_intent);
+            finish();
         }else{
             String[] newStr = proxy_room_name.split("\\s+");
             String proxy_room = newStr[0];
             String proxy_name = newStr[1];
+            proxy_intent.putExtra("set_proxy",true);
             proxy_intent.putExtra("Proxy_room", proxy_room);
             proxy_intent.putExtra("Proxy_name", proxy_name);
             proxy_intent.putExtra("Proxy_id", proxy_id);
@@ -485,6 +493,7 @@ public class ReleaseProxyActivity extends AppCompatActivity {
         proxy_room_name = value;
         proxy_id = id;
         Intent proxy_intent = new Intent();
+        proxy_intent.putExtra("set_proxy",true);
         proxy_intent.putExtra("Proxy_id", proxy_id);
         proxy_intent.putExtra("Proxy_room", proxy_room_name);
         setResult(RESULT_OK,proxy_intent);

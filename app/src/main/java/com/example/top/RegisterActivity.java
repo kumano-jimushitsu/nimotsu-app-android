@@ -273,7 +273,7 @@ public class RegisterActivity extends AppCompatActivity {
         // データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得。
         SQLiteDatabase db = _helper.getWritableDatabase();
         // 主キーによる検索SQL文字列の用意。
-        String sql = "SELECT uid, room_name, ryosei_name FROM ryosei WHERE " +
+        String sql = "SELECT uid, room_name, ryosei_name, status FROM ryosei WHERE " +
                 "ryosei_name LIKE '%" + name + "%' " +
                 "OR ryosei_name_kana LIKE '%" + name + "%' " +
                 "OR ryosei_name_alphabet LIKE '%" + name + "%' " +
@@ -298,6 +298,12 @@ public class RegisterActivity extends AppCompatActivity {
             note += " ";
             int ryouseiNote = cursor.getColumnIndex("ryosei_name");
             note += cursor.getString(ryouseiNote);
+
+            int status = cursor.getInt(cursor.getColumnIndex("status"));
+            if(status== 10){
+                note += "  退寮済み";
+            }
+
             ryosei_raw.put("room_name", note);
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
@@ -414,8 +420,12 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         public void onOneItemClick(AdapterView<?> parent, View view, int position, long id) {
             Map<String, String> item = (Map) parent.getItemAtPosition(position);
-            this.showDialog(view, item.get("room_name"), item.get("id"));
-            touchsound.registercursorryosei();
+            if(item.get("room_name").contains("退寮済み")){
+                Toast.makeText(RegisterActivity.this, "退寮生に荷物は登録できません。", Toast.LENGTH_SHORT).show();
+            }else{
+                this.showDialog(view, item.get("room_name"), item.get("id"));
+                touchsound.registercursorryosei();
+            }
         }
 
         public void showDialog(View view, String owner_room_name, String owner_id) {

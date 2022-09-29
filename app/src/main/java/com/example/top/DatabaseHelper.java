@@ -855,7 +855,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void add_test_ryosei(SQLiteDatabase db){
-        String sql = "INSERT into ryosei(uid, room_name, ryosei_name,sharing_status,block_id) values('"+UUID.randomUUID().toString()+"', '事務室', 'テスト 君', '30', '10');";
+        String sql = "INSERT into ryosei(uid, room_name, ryosei_name,sharing_status,block_id) values('"+UUID.randomUUID().toString()+"', '事務室', 'テスト 1', '30', '10');";
         db.execSQL(sql);
     }
 
