@@ -17,9 +17,9 @@ import okhttp3.Response;
 
 public class OkHttpPost extends AsyncTask<String, String, String> {
     String json;
-    String url = "http://192.168.11.10:8080";
+    String url = "http://192.168.0.100:8080";
     //POKKE_LANに繋がれたPCのipアドレス
-    //String url = "http://192.168.100.23:8080";
+    //String url = "http://192.168.100.82:8080";
     //A3LANから通信する場合
 
     Context context;
@@ -85,6 +85,8 @@ public class OkHttpPost extends AsyncTask<String, String, String> {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }finally {
+
         }
     }
 

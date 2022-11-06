@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Space;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -65,6 +66,8 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
     private TouchSound touchsound;
     private DatabaseHelper _helper;
 
+    public int kakunin_pahse = 0;
+
 
 
     @Override
@@ -112,6 +115,7 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
         import_parcels_data();
         showListView();
         ActivityHelper.enableTransparentFooter(this);
+
     }
 
 
@@ -202,7 +206,7 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
 
     public void showListView(){
 
-        // リストにサンプル用のデータを受け渡す
+        // リストに荷物ののデータを受け渡す
         adapterA = new ListAdapter(this, dataListA, "A");
         adapterB = new ListAdapter(this, dataListB, "B");
         adapterC = new ListAdapter(this, dataListC, "C");
@@ -235,18 +239,20 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
 
     public void onReturnValue(Boolean result) {
         if(result){
-            List<Data> joinedDataList = dataListA;
+            kakunin_pahse = 1;
+            List<Data> joinedDataList = new ArrayList<Data>();
+            joinedDataList.addAll(dataListA);
             joinedDataList.addAll(dataListB);
             joinedDataList.addAll(dataListC);
             joinedDataList.addAll(dataListD);
             _helper = new DatabaseHelper(TwoCheckBoxesNightDutyActivity.this);
             SQLiteDatabase db = _helper.getWritableDatabase();
             for(int i=0; i < joinedDataList.size() ; i++){
-                if(joinedDataList.get(i).existCheckdata){
+                if(joinedDataList.get(i).existCheckboxdata){
                     //確認日時を更新し、荷物の状態を0にする。
                     _helper.exist_updater(db, joinedDataList.get(i).parcelsUid);
                 }
-                if(joinedDataList.get(i).lostCheckdata){
+                if(joinedDataList.get(i).lostCheckboxdata){
                     if(joinedDataList.get(i).previousIsLost){
                         //何もしない
                     }else{
@@ -271,32 +277,7 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
             TextView titleD5 = findViewById(R.id.titleD5);
             titleD5.setText("荷物札");
 
-            for(int i=0; i<listViewA.getChildCount(); i++) {
-                CheckBox fudaCheckBox = listViewA.getChildAt(i).findViewById(R.id.parcel_exist_checkbox);
-                fudaCheckBox.setOnCheckedChangeListener(null);
-                fudaCheckBox.setChecked(false);
-                listViewA.getChildAt(i).findViewById(R.id.parcel_lost_checkbox).setVisibility(View.GONE);
-                listViewA.getChildAt(i).findViewById(R.id.space).setVisibility(View.GONE);
-            }for(int i=0; i<listViewB.getChildCount(); i++) {
-                CheckBox fudaCheckBox = listViewB.getChildAt(i).findViewById(R.id.parcel_exist_checkbox);
-                fudaCheckBox.setOnCheckedChangeListener(null);
-                fudaCheckBox.setChecked(false);
-                listViewB.getChildAt(i).findViewById(R.id.parcel_lost_checkbox).setVisibility(View.GONE);
-                listViewB.getChildAt(i).findViewById(R.id.space).setVisibility(View.GONE);
-            }for(int i=0; i<listViewC.getChildCount(); i++) {
-                CheckBox fudaCheckBox = listViewC.getChildAt(i).findViewById(R.id.parcel_exist_checkbox);
-                fudaCheckBox.setOnCheckedChangeListener(null);
-                fudaCheckBox.setChecked(false);
-                listViewC.getChildAt(i).findViewById(R.id.parcel_lost_checkbox).setVisibility(View.GONE);
-                listViewC.getChildAt(i).findViewById(R.id.space).setVisibility(View.GONE);
-            }for(int i=0; i<listViewD.getChildCount(); i++) {
-                CheckBox fudaCheckBox = listViewD.getChildAt(i).findViewById(R.id.parcel_exist_checkbox);
-                fudaCheckBox.setOnCheckedChangeListener(null);
-                fudaCheckBox.setChecked(false);
-                listViewD.getChildAt(i).findViewById(R.id.parcel_lost_checkbox).setVisibility(View.GONE);
-                listViewD.getChildAt(i).findViewById(R.id.space).setVisibility(View.GONE);
-            }
-
+            showListView();
             button_phase1.setVisibility(View.GONE);
             button_phase2.setVisibility(View.VISIBLE);
             title.setText("泊まり事務当ー②荷物札確認");
@@ -310,7 +291,8 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
         @Override
         public void onOneClick(View view){
             touchsound.playsoundone();
-            List<TwoCheckBoxesNightDutyActivity.Data> joinedDataList = dataListA;
+            List<TwoCheckBoxesNightDutyActivity.Data> joinedDataList = new ArrayList<Data>();
+            joinedDataList.addAll(dataListA);
             joinedDataList.addAll(dataListB);
             joinedDataList.addAll(dataListC);
             joinedDataList.addAll(dataListD);
@@ -344,8 +326,9 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
         private String parcelsUid;
         private String lostDateTime;
         private Boolean previousIsLost;
-        private Boolean existCheckdata = false;
-        private Boolean lostCheckdata = false;
+        private Boolean existCheckboxdata = false;
+        private Boolean lostCheckboxdata = false;
+        private Boolean fudaCheckboxdata = false;
         private String note;
         private String show_lost_datetime;
         //外部に出力する値。listviewの値を保持するために一時的に保持する。
@@ -394,13 +377,22 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
             TextView tvData3 = view.findViewById(R.id.raw3);
             tvData3.setText(data.parcelsAttribute);
             TextView tvData4 = view.findViewById(R.id.raw4);
-            tvData4.setText(data.lostDateTime);
+            if(data.existCheckboxdata || data.lostCheckboxdata){
+                tvData4.setText(data.show_lost_datetime);
+                tvData4.setShadowLayer(1.5f,1f,1f, Color.RED);
+            }else{
+                tvData4.setText(data.lostDateTime);
+                tvData4.setShadowLayer(0f,0f,0f, Color.BLACK);
+            }
             CheckBox existCheckBox = view.findViewById(R.id.parcel_exist_checkbox);
             existCheckBox.setOnCheckedChangeListener(null);
-            existCheckBox.setChecked(data.existCheckdata);
+            existCheckBox.setChecked(data.existCheckboxdata);
             CheckBox lostCheckBox = view.findViewById(R.id.parcel_lost_checkbox);
             lostCheckBox.setOnCheckedChangeListener(null);
-            lostCheckBox.setChecked(data.lostCheckdata);
+            lostCheckBox.setChecked(data.lostCheckboxdata);
+            CheckBox fudaCheckBox = view.findViewById(R.id.parcel_nimotsufuda_checkbox);
+            fudaCheckBox.setOnCheckedChangeListener(null);
+            fudaCheckBox.setChecked(data.fudaCheckboxdata);
             existCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -408,16 +400,16 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
                         tvData4.setText(today+"現物あり");
                         data.show_lost_datetime = today + "現物あり";
                         tvData4.setShadowLayer(1.5f,1f,1f, Color.RED);
-                        data.existCheckdata = true;
-                        data.lostCheckdata = false;
+                        data.existCheckboxdata = true;
+                        data.lostCheckboxdata = false;
                         lostCheckBox.setChecked(false);
                     }else{
-                        if(data.lostCheckdata == false) {
+                        if(data.lostCheckboxdata == false) {
                             data.show_lost_datetime = data.lostDateTime;
                             tvData4.setText(data.lostDateTime);
                             tvData4.setShadowLayer(0f,0f,0f, Color.BLACK);
                         }
-                        data.existCheckdata = false;
+                        data.existCheckboxdata = false;
                     }
                 }
             });
@@ -426,25 +418,45 @@ public class TwoCheckBoxesNightDutyActivity extends AppCompatActivity{
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked){
                         if(data.previousIsLost == true){
-                            //何もしない
+                            existCheckBox.setChecked(false);
+                            data.existCheckboxdata = false;
+                            data.lostCheckboxdata = true;
+                            tvData4.setShadowLayer(1.5f, 1f, 1f, Color.RED);
                         }else {
                             tvData4.setText(today + "紛失");
                             data.show_lost_datetime = today + "紛失";
                             tvData4.setShadowLayer(1.5f, 1f, 1f, Color.RED);
-                            data.existCheckdata = false;
-                            data.lostCheckdata = true;
+                            data.existCheckboxdata = false;
+                            data.lostCheckboxdata = true;
                             existCheckBox.setChecked(false);
                         }
                     }else{
-                        if(data.existCheckdata == false) {
+                        if(data.existCheckboxdata == false) {
                             data.show_lost_datetime = data.lostDateTime;
                             tvData4.setText(data.lostDateTime);
                             tvData4.setShadowLayer(0f,0f,0f, Color.BLACK);
                         };
-                        data.lostCheckdata = false;
+                        data.lostCheckboxdata = false;
                     }
                 }
             });
+            fudaCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    data.fudaCheckboxdata = isChecked;
+                }
+            });
+            Space space = view.findViewById(R.id.space);
+            if (kakunin_pahse == 0){
+                fudaCheckBox.setVisibility(View.GONE);
+            }else{
+                existCheckBox.setVisibility(View.GONE);
+                lostCheckBox.setVisibility(View.GONE);
+                space.setVisibility(View.GONE);
+                fudaCheckBox.setVisibility(View.VISIBLE);
+            }
+
+
             if (data != null) {
                 //1列目は部屋番号
                 tvData1.setText(data.roomName);

@@ -88,4 +88,15 @@
         android:scaleY="1.30"/>
 
 
+    <CheckBox
+        android:id="@+id/parcel_nimotsufuda_checkbox"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:padding="@dimen/dp_s"
+        android:layout_weight="2.65"
+        android:singleLine="true"
+        android:scaleX="1.30"
+        android:scaleY="1.30"/>
+
 </LinearLayout>

@@ -146,6 +146,7 @@ public class JimutoChangeActivity extends AppCompatActivity {
         listListener.setOnItemClickListener(new JimutoChangeActivity.ListRyoseiClickListener());
         get_room(block);
         show_room();
+        db.close();
         _helper.close();
     }
 
@@ -197,6 +198,7 @@ public class JimutoChangeActivity extends AppCompatActivity {
         ListView listListener = findViewById(R.id.double_jimuto_change_ryosei_list);
         listListener.setOnItemClickListener(new JimutoChangeActivity.ListRyoseiClickListener());
         cursor.close();
+        db.close();
     }
 
     public void show_block() {
@@ -259,6 +261,8 @@ public class JimutoChangeActivity extends AppCompatActivity {
             room_raw.clear();
         }
         cursor.close();
+        db.close();
+        _helper.close();
     }
 
     public int block_to_id(String block) {
@@ -350,6 +354,7 @@ public class JimutoChangeActivity extends AppCompatActivity {
             blocks_ryosei_id.add(ryosei_id);
             show_ryosei.add(ryosei_raw);
         }
+        db.close();
         cursor.close();
 
         // リスト項目とListViewを対応付けるArrayAdapterを用意する

@@ -285,7 +285,9 @@ public class ReleaseActivity extends AppCompatActivity {
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
             ryosei_parcels_count.add(parcels_count);
-            show_list.add(ryosei_raw);
+            if (parcels_count >= 1) {
+                show_list.add(ryosei_raw);
+            }
         }
         cursor.close();
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
@@ -346,7 +348,9 @@ public class ReleaseActivity extends AppCompatActivity {
             blocks_roomname_name.add(note);
             blocks_ryosei_id.add(ryosei_id);
             //ryosei_parcels_count.add(parcels_count);
-            show_list.add(ryosei_raw);
+            if (parcels_count >= 1) {
+                show_list.add(ryosei_raw);
+            }
         }
         cursor.close();
         // リスト項目とListViewを対応付けるArrayAdapterを用意する
