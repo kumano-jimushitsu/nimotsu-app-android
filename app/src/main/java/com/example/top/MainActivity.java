@@ -405,17 +405,17 @@ public class MainActivity extends AppCompatActivity {
             new HttpTask(null, "parcel_event", "create").execute();
 
             //同期処理部分ここまで
-            if (jimuto_id == null) {
+            //if (jimuto_id == null) {
                 this.showMyDialog(null, getString(R.string.main_not_selected_staff), "", getString(R.string.ok), "");
                 touchsound.playsounderror();
-            } else {
+            //} else {
                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                 intent.putExtra("Jimuto_id", jimuto_id);
                 intent.putExtra("Jimuto_room", jimuto_room);
                 //intent.putExtra("Jimuto_name", jimuto_name);
                 startActivityForResult(intent, EVENT_REFRESH_ACTIVITY);
                 touchsound.playsoundtransition();
-            }
+            //}
         }
 
         public void showMyDialog(View view, String title, String mainText, String positiveButton, String neutralButton) {
@@ -643,6 +643,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void execute() {
+
             HttpListener httpListener = new HttpListener(result, table, method);
             ExecutorService executorService = Executors.newSingleThreadExecutor();
             executorService.submit(httpListener);

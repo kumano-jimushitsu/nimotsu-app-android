@@ -54,7 +54,7 @@
     <string name="night_duty_2_explanation">現在の画面は②荷物の札確認です。\n掛札がかかっていることを確認し、リストにチェックを入れてください。\nリストのすべての荷物についてチェックを入れたら、「②札確認終了」ボタンを押してください。</string>
 
 
-    <string name="copyright">Copyright © 2022 Kumano Dormitory IT Section</string>
+    <string name="copyright">Copyright © 2024 Kumano Dormitory IT Section</string>
 
 
     <string-array name="oldnote_buildinfs_list">
