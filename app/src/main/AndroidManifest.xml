@@ -17,11 +17,8 @@
         android:roundIcon="@drawable/pokke_logo"
         android:screenOrientation="landscape"
         android:supportsRtl="true"
-<<<<<<< Updated upstream
-        android:usesCleartextTraffic="true"
-=======
         android:networkSecurityConfig="@xml/network_security_config"
->>>>>>> Stashed changes
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Top">
         <activity
             android:name=".ui.login.LoginOthersActivity"
